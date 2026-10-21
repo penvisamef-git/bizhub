@@ -1,0 +1,1145 @@
+/* Debt Book: owner dashboard, staff app (/debt/<key>) and the customer's statement (/d/<token>) */
+.dk-page,
+.dk-st-page {
+  --dk-debt: #dc2626;
+  --dk-debt-soft: color-mix(in srgb, #dc2626 10%, transparent);
+  --dk-pay: #059669;
+  --dk-pay-soft: color-mix(in srgb, #059669 11%, transparent);
+  --dk-warn: #d97706;
+  --dk-warn-soft: color-mix(in srgb, #d97706 13%, transparent);
+}
+
+/* ---------- tiles ---------- */
+.dk-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.dk-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 16px 18px;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  border: 1px solid transparent;
+  min-width: 0;
+}
+button.dk-tile {
+  cursor: pointer;
+}
+.dk-tile > svg {
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.dk-tile small {
+  color: var(--muted);
+  font-size: 13px;
+}
+.dk-tile b {
+  font-size: 22px;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.dk-tile span {
+  font-size: 12px;
+}
+.dk-tile.t-owed > svg,
+.dk-tile.t-owed b {
+  color: var(--dk-debt);
+}
+.dk-tile.t-paid > svg,
+.dk-tile.t-paid b {
+  color: var(--dk-pay);
+}
+.dk-tile.t-late.hot {
+  border-color: color-mix(in srgb, var(--dk-debt) 35%, transparent);
+  background: var(--dk-debt-soft);
+}
+.dk-tile.t-late.hot > svg,
+.dk-tile.t-late.hot b {
+  color: var(--dk-debt);
+}
+
+/* ---------- search bar + filters ---------- */
+.dk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.dk-search {
+  flex: 1 1 260px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--muted);
+}
+.dk-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+}
+a.md-btn {
+  text-decoration: none;
+}
+.dk-sort {
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 10px;
+}
+.dk-filters {
+  flex-basis: 100%;
+}
+.dk-filters small {
+  background: var(--dk-debt);
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 0 6px;
+  margin-left: 4px;
+  opacity: 1 !important;
+}
+.dk-note-full {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 13px;
+  color: var(--dk-warn);
+}
+
+/* ---------- people list ---------- */
+.dk-people {
+  padding: 6px;
+}
+.dk-people ul,
+.dk-lines ul,
+.dk-staff ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dk-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 12px;
+  padding-right: 8px;
+}
+.dk-row + .dk-row {
+  border-top: 1px solid var(--line);
+}
+.dk-row:hover {
+  background: var(--bg2);
+}
+.dk-row-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 10px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.dk-row-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-row-name b {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dk-row-name small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dk-row-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  text-align: right;
+}
+.dk-row-right b {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dk-row-right b.owing {
+  color: var(--dk-debt);
+}
+.dk-row-right b.clear {
+  color: var(--muted);
+  font-weight: 500;
+}
+.dk-row-acts {
+  display: flex;
+  gap: 6px;
+}
+.dk-mini {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.dk-mini.debt {
+  color: var(--dk-debt);
+}
+.dk-mini.pay {
+  color: var(--dk-pay);
+}
+.dk-mini.debt:hover {
+  background: var(--dk-debt-soft);
+}
+.dk-mini.pay:hover {
+  background: var(--dk-pay-soft);
+}
+.dk-mini:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.dk-avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f97316, #e11d48);
+}
+.dk-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.dk-chip.late {
+  background: var(--dk-debt-soft);
+  color: var(--dk-debt);
+}
+.dk-chip.soon {
+  background: var(--dk-warn-soft);
+  color: var(--dk-warn);
+}
+.dk-chip.ok {
+  background: var(--dk-pay-soft);
+  color: var(--dk-pay);
+}
+.dk-empty,
+.dk-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+.dk-more {
+  display: flex;
+  margin: 10px auto 4px;
+}
+
+/* ---------- one customer ---------- */
+.dk-back {
+  align-self: flex-start;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+.dk-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dk-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.dk-photo {
+  position: relative;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.dk-photo:disabled {
+  cursor: default;
+}
+.dk-photo-ic {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.dk-hero-name {
+  flex: 1;
+  min-width: 0;
+}
+.dk-hero-name h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+.dk-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.dk-hero-meta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: inherit;
+  text-decoration: none;
+}
+.dk-hero-meta a:hover {
+  color: var(--brand);
+}
+.dk-note {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+.dk-balance {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--bg2);
+}
+.dk-hero.owing .dk-balance {
+  background: var(--dk-debt-soft);
+}
+.dk-hero.clear .dk-balance {
+  background: var(--dk-pay-soft);
+}
+.dk-balance-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+.dk-balance b {
+  font-size: clamp(26px, 5vw, 36px);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.dk-hero.owing .dk-balance b {
+  color: var(--dk-debt);
+}
+.dk-hero.clear .dk-balance b {
+  color: var(--dk-pay);
+}
+.dk-balance-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.dk-hero-acts {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+}
+.dk-btn-debt.md-btn-primary {
+  background: var(--dk-debt);
+  border-color: var(--dk-debt);
+}
+.dk-btn-pay.md-btn-primary {
+  background: var(--dk-pay);
+  border-color: var(--dk-pay);
+}
+.dk-btn-debt.md-btn-primary:hover:not(:disabled),
+.dk-btn-pay.md-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.07);
+}
+.dk-link {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.dk-link > div:first-child {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+.dk-link b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dk-link p {
+  margin: 4px 0 8px;
+  font-size: 13px;
+}
+.dk-link code {
+  display: block;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--bg2);
+  overflow-wrap: anywhere;
+}
+.dk-link-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dk-tg-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-top: 10px;
+}
+.dk-lines h3,
+.dk-h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}
+.dk-lines .wst-chips {
+  margin-bottom: 10px;
+}
+.dk-lines li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 4px;
+}
+.dk-lines li + li {
+  border-top: 1px solid var(--line);
+}
+.dk-line-ic {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+.k-debt .dk-line-ic {
+  background: var(--dk-debt-soft);
+  color: var(--dk-debt);
+}
+.k-pay .dk-line-ic {
+  background: var(--dk-pay-soft);
+  color: var(--dk-pay);
+}
+.dk-line-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-line-main b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dk-line-amt {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.k-debt .dk-line-amt {
+  color: var(--dk-debt);
+}
+.k-pay .dk-line-amt {
+  color: var(--dk-pay);
+}
+.dk-lines li.void {
+  opacity: 0.55;
+}
+.dk-lines li.void .dk-line-amt {
+  text-decoration: line-through;
+}
+.dk-line-acts {
+  display: flex;
+  gap: 2px;
+}
+.dk-linkish {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--brand);
+  cursor: pointer;
+}
+.dk-danger {
+  align-self: flex-start;
+  color: #dc2626;
+}
+
+/* ---------- forms + modals ---------- */
+.dk-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.dk-form label,
+.dk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.dk-form .wide {
+  grid-column: 1 / -1;
+}
+.dk-form input,
+.dk-form select,
+.dk-form textarea,
+.dk-field input,
+.dk-entry textarea,
+.dk-remind textarea,
+.dk-import textarea,
+.dk-reason {
+  font: inherit;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.dk-form textarea,
+.dk-remind textarea,
+.dk-import textarea {
+  resize: vertical;
+}
+.dk-fs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
+  margin: 0;
+}
+.dk-fs legend {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+.dk-fs small {
+  grid-column: 1 / -1;
+  font-weight: 400;
+}
+.dk-err {
+  color: #dc2626;
+  margin: 0;
+  font-size: 14px;
+}
+.dk-ok {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--dk-pay);
+  font-weight: 600;
+}
+.dk-ask {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.dk-reason {
+  margin-top: 12px;
+}
+.dk-seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 12px;
+  background: var(--bg2);
+}
+.dk-seg button {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 7px 16px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.dk-seg button.on {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.dk-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dk-entry > .dk-seg {
+  align-self: stretch;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.dk-amount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--dk-debt-soft);
+}
+.dk-amount.k-pay {
+  background: var(--dk-pay-soft);
+}
+.dk-amount input {
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: center;
+  font: inherit;
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--dk-debt);
+  outline: none;
+  font-variant-numeric: tabular-nums;
+}
+.dk-amount.k-pay input {
+  color: var(--dk-pay);
+}
+.dk-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.dk-amount .dk-quick {
+  justify-content: center;
+}
+.dk-quick button {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.dk-quick button.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+}
+.dk-quick input[type="date"] {
+  width: auto;
+  padding: 5px 8px;
+  font-size: 13px;
+}
+.dk-date input {
+  max-width: 220px;
+}
+.dk-receipt {
+  display: grid;
+  place-items: center;
+  min-height: 200px;
+}
+.dk-receipt img {
+  width: min(360px, 100%);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--line);
+}
+.md-btn.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.dk-remind {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dk-remind p {
+  margin: 0;
+}
+.dk-remind-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dk-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.dk-settings .dk-form {
+  width: 100%;
+}
+.dk-preview {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg2);
+}
+.dk-preview small {
+  font-weight: 700;
+  color: var(--muted);
+}
+.dk-preview p {
+  margin: 4px 0 0;
+  font-weight: 400;
+  white-space: pre-wrap;
+}
+.dk-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dk-staff li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 2px;
+}
+.dk-staff li + li {
+  border-top: 1px solid var(--line);
+}
+.dk-pin-input {
+  font-size: 24px !important;
+  letter-spacing: 0.5em;
+  text-align: center;
+  max-width: 200px;
+}
+.dk-export {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.dk-import {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dk-import p {
+  margin: 0;
+}
+.dk-import-table {
+  overflow-x: auto;
+}
+.dk-import-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.dk-import-table th,
+.dk-import-table td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.dk-lang {
+  border: 1px solid var(--line, #e5e7eb);
+  background: var(--card, #fff);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* ---------- staff app ---------- */
+.dk-staff-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: var(--bg2, #f4f5f7);
+}
+.dk-pinbox {
+  position: relative;
+  width: min(380px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 30px 24px;
+  text-align: center;
+}
+.dk-pinbox .dk-lang {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+.dk-pinbox h2 {
+  margin: 4px 0 0;
+}
+.dk-pinbox p {
+  margin: 0;
+}
+.dk-pin-logo {
+  width: 64px;
+  height: 64px;
+}
+.dk-dots {
+  display: flex;
+  gap: 14px;
+  margin: 10px 0 4px;
+}
+.dk-dots i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--ink, #111);
+}
+.dk-dots i.on {
+  background: var(--ink, #111);
+}
+.dk-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  gap: 12px;
+  margin-top: 8px;
+}
+.dk-pad button {
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--line, #e5e7eb);
+  background: var(--card, #fff);
+  color: var(--ink, #111);
+  font: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.dk-pad button:active {
+  background: var(--bg2, #f1f1f1);
+}
+.dk-staff-app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 14px 14px 40px;
+}
+.dk-staff-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.dk-staff-top > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-staff-top .rs-logo {
+  width: 44px;
+  height: 44px;
+}
+
+/* ---------- the customer's statement ---------- */
+.dk-st-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 14px 40px;
+  background: linear-gradient(180deg, #fff7ed, #f8fafc 320px);
+  font-family: "Kantumruy Pro", system-ui, sans-serif;
+  color: #0f172a;
+}
+.dk-st-card {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 24px 60px -36px rgba(15, 23, 42, 0.45);
+  overflow: hidden;
+}
+.dk-st-off {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 40px 24px;
+  color: #475569;
+}
+.dk-st-off h1 {
+  font-size: 20px;
+  margin: 6px 0 0;
+  color: #0f172a;
+}
+.dk-st-shop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #eef0f3;
+}
+.dk-st-shop > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-st-shop b {
+  font-size: 17px;
+}
+.dk-st-shop small {
+  color: #64748b;
+}
+.dk-st-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: #fff1e6;
+  color: #ea580c;
+  flex-shrink: 0;
+}
+.dk-st-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dk-st-balance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  padding: 26px 20px 22px;
+}
+.dk-st-balance small {
+  color: #64748b;
+  font-size: 13px;
+}
+.dk-st-balance span {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #475569;
+}
+.dk-st-balance b {
+  font-size: clamp(32px, 9vw, 44px);
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+  color: var(--dk-debt);
+}
+.dk-st-balance em {
+  font-style: normal;
+  color: #64748b;
+  font-size: 13px;
+}
+.dk-st-balance.late {
+  background: var(--dk-debt-soft);
+}
+.dk-st-due {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #fff;
+  font-weight: 700;
+  font-size: 14px;
+}
+.dk-st-balance.late .dk-st-due {
+  color: var(--dk-debt);
+}
+.dk-st-balance.owing .dk-st-due {
+  background: var(--dk-warn-soft);
+  color: var(--dk-warn);
+}
+.dk-st-clear {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--dk-pay);
+}
+.dk-st-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 0 20px 18px;
+}
+.dk-st-tg,
+.dk-st-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+.dk-st-tg {
+  background: #229ed9;
+  color: #fff;
+}
+.dk-st-tg.on {
+  background: #e7f6fd;
+  color: #0b7bb0;
+}
+.dk-st-call {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+.dk-st-lines {
+  border-top: 1px solid #eef0f3;
+  padding: 16px 20px 8px;
+}
+.dk-st-lines h2 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+.dk-st-lines ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dk-st-lines li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+}
+.dk-st-lines li + li {
+  border-top: 1px solid #f1f3f6;
+}
+.dk-st-lines li > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.dk-st-lines li b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.dk-st-lines li small,
+.dk-st-muted {
+  color: #64748b;
+  font-size: 13px;
+}
+.dk-st-amt {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.k-debt .dk-st-amt {
+  color: var(--dk-debt);
+}
+.k-pay .dk-st-amt {
+  color: var(--dk-pay);
+}
+.dk-st-made {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+/* ---------- phones ---------- */
+@media (max-width: 900px) {
+  .dk-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .dk-tile b {
+    font-size: 18px;
+  }
+  .dk-form,
+  .dk-fs {
+    grid-template-columns: 1fr;
+  }
+  .dk-hero-acts {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dk-hero-acts > :last-child {
+    grid-column: 1 / -1;
+  }
+  .dk-row-acts {
+    display: none;
+  }
+  .dk-row {
+    padding-right: 0;
+  }
+  .dk-pad {
+    grid-template-columns: repeat(3, 64px);
+  }
+  .dk-pad button {
+    height: 64px;
+  }
+}

@@ -1,0 +1,1158 @@
+/* Public page themes for Digital Note (/n/<token>, /n/g/<token>) — .np-th-<key> on the page root (.np-page).
+   The accent comes from --np-accent (the owner's colour or the theme's own). Default = the base look in notepage.css.
+   Every theme sets the page tokens (--card --ink --muted --line --bg2 --chip), the background, the card, the fonts,
+   headings, buttons, reply bubbles, checkboxes, quotes and the top bar. */
+:where([class*="np-th-"]:not(.np-th-default)) {
+  --np-tint: color-mix(in srgb, var(--np-accent) 10%, var(--card));
+  --np-wash: color-mix(in srgb, var(--np-accent) 16%, var(--card));
+}
+:where([class*="np-th-"]:not(.np-th-default)) .np-note {
+  background: var(--card) !important;
+}
+:where([class*="np-th-"]:not(.np-th-default)) .np-top {
+  background: color-mix(in srgb, var(--card) 86%, transparent);
+  border-bottom-color: var(--line);
+}
+:where([class*="np-th-"]:not(.np-th-default)) .np-icon,
+:where([class*="np-th-"]:not(.np-th-default)) .np-lang,
+:where([class*="np-th-"]:not(.np-th-default)) .np-me {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--line);
+}
+:where([class*="np-th-"]:not(.np-th-default)) .np-entry-body {
+  background: color-mix(in srgb, var(--ink) 5%, var(--card));
+}
+:where([class*="np-th-"]:not(.np-th-default)) .np-made {
+  color: var(--muted);
+}
+
+/* 1 · Paper — a warm sheet on a desk, serif titles */
+.np-th-paper {
+  --card: #fffdf7;
+  --ink: #2a251d;
+  --muted: #7a7062;
+  --line: #e7e0cf;
+  --bg2: #f1ece1;
+  --chip: #f3eee2;
+  background: radial-gradient(rgba(120, 100, 60, 0.07) 1px, transparent 1.4px) 0 0 / 6px 6px, linear-gradient(#f3eee3, #ebe4d6) !important;
+}
+.np-th-paper .np-card {
+  border-radius: 6px;
+  border: 1px solid #e6dfcd;
+  box-shadow: 0 1px 0 #fff inset, 0 2px 0 #e2dac6, 0 22px 40px -28px rgba(70, 50, 20, 0.5);
+}
+.np-th-paper .np-note {
+  border-top: 0;
+  box-shadow: 0 0 0 1px #e6dfcd, 4px 4px 0 #ece5d5, 8px 8px 0 #e3dbc8, 0 30px 50px -30px rgba(70, 50, 20, 0.5);
+}
+.np-th-paper .np-title,
+.np-th-paper .nb-view h2,
+.np-th-paper .np-ghero h1 {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.np-th-paper .nb-view blockquote {
+  border-left: 0;
+  font-family: Georgia, serif;
+  font-size: 1.1em;
+  padding-left: 0;
+  color: var(--ink);
+}
+.np-th-paper .nb-view blockquote::before {
+  content: "“";
+  color: var(--np-accent);
+  font-size: 2em;
+  line-height: 0;
+  vertical-align: -0.35em;
+  margin-right: 4px;
+}
+.np-th-paper .np-btn {
+  border-radius: 6px;
+  box-shadow: 0 3px 0 var(--acc-dark, #333);
+}
+
+/* 2 · Linen — woven cloth, soft and calm */
+.np-th-linen {
+  --card: #faf6ef;
+  --ink: #3a3128;
+  --muted: #85786a;
+  --line: #e4dacb;
+  --bg2: #efe7da;
+  --chip: #f0e8dc;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif;
+  background:
+    repeating-linear-gradient(0deg, rgba(110, 90, 60, 0.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(110, 90, 60, 0.05) 0 1px, transparent 1px 4px),
+    #ece3d4 !important;
+}
+.np-th-linen .np-card {
+  border-radius: 22px;
+  border: 1px solid #e2d7c5;
+  box-shadow: 0 20px 44px -30px rgba(90, 60, 20, 0.45);
+}
+.np-th-linen .np-note {
+  border-top: 0;
+  outline: 1px dashed color-mix(in srgb, var(--np-accent) 45%, transparent);
+  outline-offset: -10px;
+}
+.np-th-linen .np-title {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  font-style: italic;
+  font-weight: 600;
+}
+.np-th-linen .nb-box {
+  border-radius: 50%;
+}
+.np-th-linen .np-entry-body {
+  border-radius: 18px;
+}
+
+/* 3 · Notebook — ruled lines and a red margin */
+.np-th-notebook {
+  --card: #ffffff;
+  --ink: #1f2a44;
+  --muted: #67708a;
+  --line: #d9e3f2;
+  --bg2: #e9eef6;
+  --chip: #eef3fb;
+  background: linear-gradient(135deg, #e7edf6, #dfe7f3) !important;
+}
+.np-th-notebook .np-note {
+  border-top: 0;
+  border-radius: 4px 14px 14px 4px;
+  padding-left: 54px !important;
+  background:
+    linear-gradient(90deg, transparent 38px, rgba(229, 72, 77, 0.55) 38px 40px, transparent 40px),
+    repeating-linear-gradient(180deg, #fff 0 31px, #c9d8ef 31px 32px) !important;
+  background-position: 0 0, 0 10px !important;
+  box-shadow: -6px 0 0 -2px #cfd9e8, 0 18px 40px -28px rgba(30, 50, 90, 0.5);
+}
+.np-th-notebook .np-note .nb-view {
+  line-height: 32px;
+}
+.np-th-notebook .np-card:not(.np-note) {
+  border-radius: 14px;
+}
+.np-th-notebook .np-title {
+  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", "Kantumruy Pro", cursive;
+  font-weight: 700;
+  color: #1d3a8a;
+}
+.np-th-notebook .nb-box {
+  border-radius: 3px;
+  border-color: #1d3a8a;
+}
+.np-th-notebook .nb-row.done .nb-box,
+.np-th-notebook .nb-ck.done .nb-box {
+  background: #1d3a8a;
+  border-color: #1d3a8a;
+}
+@media (max-width: 640px) {
+  .np-th-notebook .np-note {
+    padding-left: 50px !important;
+  }
+}
+
+/* 4 · Chalkboard — chalk on a green board */
+.np-th-chalk {
+  --card: #2b4437;
+  --ink: #f2f0e6;
+  --muted: #b9c7bb;
+  --line: rgba(255, 255, 255, 0.16);
+  --bg2: #21362b;
+  --chip: rgba(255, 255, 255, 0.08);
+  font-family: "Chalkboard SE", "Comic Sans MS", "Marker Felt", "Kantumruy Pro", cursive;
+  background:
+    radial-gradient(800px 300px at 20% 0%, rgba(255, 255, 255, 0.07), transparent),
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    #1d3127 !important;
+}
+.np-th-chalk .np-card {
+  border-radius: 10px;
+  border: 10px solid #7a5534;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35), 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+}
+.np-th-chalk .np-note {
+  border-top: 10px solid #7a5534;
+}
+.np-th-chalk .np-title,
+.np-th-chalk .nb-view h2 {
+  color: #fff;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+  text-decoration: underline wavy color-mix(in srgb, var(--np-accent) 80%, transparent) 2px;
+  text-underline-offset: 6px;
+}
+.np-th-chalk .nb-box {
+  border-color: rgba(255, 255, 255, 0.7);
+  border-style: dashed;
+}
+.np-th-chalk .np-btn {
+  background: transparent;
+  color: var(--np-accent);
+  border: 2px dashed var(--np-accent);
+  box-shadow: none;
+}
+.np-th-chalk .np-entry-body {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+}
+.np-th-chalk input,
+.np-th-chalk textarea {
+  color: var(--ink);
+}
+
+/* 5 · Midnight — deep blue night, soft glow */
+.np-th-midnight {
+  --card: #141a2f;
+  --ink: #e9ecff;
+  --muted: #9aa3c7;
+  --line: #262e4c;
+  --bg2: #0b1020;
+  --chip: #1d2440;
+  background:
+    radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 12%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 60%, #cfd6ff, transparent),
+    radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+    radial-gradient(900px 500px at 80% -10%, color-mix(in srgb, var(--np-accent) 35%, transparent), transparent 70%),
+    #0b1020 !important;
+}
+.np-th-midnight .np-card {
+  border-radius: 22px;
+  border: 1px solid #262e4c;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02), 0 30px 80px -30px color-mix(in srgb, var(--np-accent) 60%, #000);
+}
+.np-th-midnight .np-note {
+  border-top: 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--np-accent) 14%, #141a2f), #141a2f 200px) !important;
+}
+.np-th-midnight .np-title {
+  background: linear-gradient(90deg, #fff, color-mix(in srgb, var(--np-accent) 60%, #fff));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.np-th-midnight .np-btn {
+  box-shadow: 0 0 24px -4px var(--np-accent);
+}
+.np-th-midnight input,
+.np-th-midnight textarea {
+  color: var(--ink);
+}
+
+/* 6 · Ocean — waves and frosted cards */
+.np-th-ocean {
+  --card: rgba(255, 255, 255, 0.9);
+  --ink: #0b2a3a;
+  --muted: #4b6a7a;
+  --line: rgba(14, 116, 144, 0.18);
+  --bg2: #dff3fa;
+  --chip: rgba(14, 116, 144, 0.08);
+  background:
+    radial-gradient(120% 60% at 50% 120%, color-mix(in srgb, var(--np-accent) 55%, #0369a1), transparent 70%),
+    linear-gradient(180deg, #e0f4fb 0%, #bde6f5 55%, #7cc8e6 100%) !important;
+  background-attachment: fixed !important;
+}
+.np-th-ocean .np-card {
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 30px 60px -36px rgba(3, 60, 90, 0.6);
+}
+.np-th-ocean .np-note {
+  border-top: 0;
+  border-bottom: 6px solid var(--np-accent);
+}
+.np-th-ocean .np-title {
+  font-weight: 800;
+  color: #064663;
+}
+.np-th-ocean .np-entry-body {
+  border-radius: 20px 20px 20px 6px;
+}
+.np-th-ocean .nb-box {
+  border-radius: 50%;
+}
+
+/* 7 · Forest — pine dark green with a light leaf card */
+.np-th-forest {
+  --card: #f4f1e6;
+  --ink: #1d2b1f;
+  --muted: #5d6d5c;
+  --line: #d9dccb;
+  --bg2: #0f2418;
+  --chip: #e8e6d6;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%) 0 0 / 34px 34px,
+    linear-gradient(200deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%) 0 0 / 34px 34px,
+    linear-gradient(180deg, #13301f, #0b1d12) !important;
+}
+.np-th-forest .np-top {
+  background: rgba(11, 29, 18, 0.82) !important;
+  color: #e8f0e2;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+}
+.np-th-forest .np-made,
+.np-th-forest .np-sub {
+  color: #b9c9b6 !important;
+}
+.np-th-forest .np-card {
+  border-radius: 30px 6px 30px 6px;
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.7);
+}
+.np-th-forest .np-note {
+  border-top: 0;
+  border-left: 8px solid var(--np-accent);
+}
+.np-th-forest .np-title {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  color: #1f4d2c;
+}
+.np-th-forest .nb-box {
+  border-radius: 6px 0 6px 0;
+}
+
+/* 8 · Sunset — warm gradient sky */
+.np-th-sunset {
+  --card: #fffaf6;
+  --ink: #3b1d1d;
+  --muted: #8a5d58;
+  --line: #f3d9cd;
+  --bg2: #ffe7d6;
+  --chip: #fdeee6;
+  background: linear-gradient(170deg, #ffb36b 0%, #ff7a7a 40%, #b45cc9 85%) !important;
+  background-attachment: fixed !important;
+}
+.np-th-sunset .np-top {
+  background: rgba(255, 250, 246, 0.25) !important;
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.3) !important;
+}
+.np-th-sunset .np-made {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.np-th-sunset .np-card {
+  border-radius: 26px;
+  box-shadow: 0 30px 60px -30px rgba(80, 10, 40, 0.6);
+}
+.np-th-sunset .np-note {
+  border-top: 0;
+}
+.np-th-sunset .np-title {
+  background: linear-gradient(90deg, #f97316, #e11d48, #9333ea);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+}
+.np-th-sunset .np-btn {
+  background: linear-gradient(90deg, #f97316, #e11d48);
+}
+
+/* 9 · Lotus — pink petals, gentle serif */
+.np-th-lotus {
+  --card: #ffffff;
+  --ink: #3d1f2c;
+  --muted: #8d6678;
+  --line: #f6d7e2;
+  --bg2: #fdf0f4;
+  --chip: #fdeaf1;
+  background:
+    radial-gradient(60px 30px at 10% 20%, rgba(244, 114, 182, 0.18), transparent),
+    radial-gradient(80px 40px at 90% 40%, rgba(244, 114, 182, 0.14), transparent),
+    radial-gradient(70px 35px at 30% 85%, rgba(34, 197, 94, 0.1), transparent),
+    linear-gradient(180deg, #fdf1f5, #fbe3ec) !important;
+}
+.np-th-lotus .np-card {
+  border-radius: 32px;
+  border: 1px solid #f6d7e2;
+  box-shadow: 0 24px 50px -30px rgba(190, 24, 93, 0.45);
+}
+.np-th-lotus .np-note {
+  border-top: 0;
+  padding-top: 30px !important;
+}
+.np-th-lotus .np-note::before {
+  content: "🪷";
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.np-th-lotus .np-title {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  text-align: center;
+  color: color-mix(in srgb, var(--np-accent) 70%, #3d1f2c);
+}
+.np-th-lotus .np-updated {
+  justify-content: center;
+}
+.np-th-lotus .nb-box {
+  border-radius: 50% 50% 50% 0;
+}
+.np-th-lotus .np-entry-body {
+  border-radius: 22px;
+}
+
+/* 10 · Angkor Stone — sandstone blocks, carved frame (generic texture) */
+.np-th-temple {
+  --card: #efe3cc;
+  --ink: #3b2b17;
+  --muted: #7a6446;
+  --line: #d7c3a0;
+  --bg2: #cdb48b;
+  --chip: #e5d5b7;
+  background:
+    linear-gradient(rgba(90, 60, 20, 0.18) 2px, transparent 2px) 0 0 / 100% 44px,
+    linear-gradient(90deg, rgba(90, 60, 20, 0.18) 2px, transparent 2px) 0 0 / 88px 44px,
+    radial-gradient(rgba(90, 60, 20, 0.1) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    linear-gradient(180deg, #d5bd93, #c3a679) !important;
+}
+.np-th-temple .np-card {
+  border-radius: 4px;
+  border: 3px double #9a7a4a;
+  box-shadow: 0 0 0 6px #e5d5b7, 0 0 0 8px #9a7a4a, 0 26px 50px -24px rgba(60, 35, 10, 0.6);
+}
+.np-th-temple .np-note {
+  border-top: 3px double #9a7a4a;
+}
+.np-th-temple .np-main {
+  gap: 30px;
+}
+.np-th-temple .np-title,
+.np-th-temple .nb-view h2 {
+  font-family: "Trajan Pro", Georgia, "Kantumruy Pro", serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5a3d17;
+}
+.np-th-temple :lang(km) .np-title,
+:lang(km) .np-th-temple .np-title {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.np-th-temple .np-btn {
+  border-radius: 4px;
+  background: #6b4a1f;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+.np-th-temple .nb-box {
+  border-radius: 2px;
+  transform: rotate(45deg) scale(0.85);
+}
+
+/* 11 · Mango — bright yellow, bold and playful */
+.np-th-mango {
+  --card: #ffffff;
+  --ink: #1b1400;
+  --muted: #6b5a20;
+  --line: #1b1400;
+  --bg2: #ffd54a;
+  --chip: #fff3c4;
+  background: radial-gradient(rgba(255, 255, 255, 0.45) 3px, transparent 3.5px) 0 0 / 26px 26px, #ffcf3a !important;
+}
+.np-th-mango .np-top {
+  background: #ffcf3a !important;
+  border-bottom: 2px solid #1b1400 !important;
+}
+.np-th-mango .np-card {
+  border-radius: 24px;
+  border: 2.5px solid #1b1400;
+  box-shadow: 6px 6px 0 #1b1400;
+}
+.np-th-mango .np-note {
+  border-top: 2.5px solid #1b1400;
+}
+.np-th-mango .np-title {
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.np-th-mango .np-btn {
+  background: #1b1400;
+  color: #ffcf3a;
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 var(--np-accent);
+}
+.np-th-mango .nb-box {
+  border: 2.5px solid #1b1400;
+  border-radius: 7px;
+}
+.np-th-mango .np-entry-body {
+  border: 2px solid #1b1400;
+  background: #fff8dc !important;
+}
+.np-th-mango .np-icon,
+.np-th-mango .np-lang,
+.np-th-mango .np-me {
+  border-width: 2px;
+}
+
+/* 12 · Mint — clean, light and fresh */
+.np-th-mint {
+  --card: #ffffff;
+  --ink: #0f2e25;
+  --muted: #5b7b70;
+  --line: #cdeee2;
+  --bg2: #eafbf4;
+  --chip: #e3f7ef;
+  background: linear-gradient(180deg, #e9fbf3 0, #f6fffb 420px) !important;
+}
+.np-th-mint .np-card {
+  border-radius: 20px;
+  border: 1.5px solid #cdeee2;
+  box-shadow: none;
+}
+.np-th-mint .np-note {
+  border-top: 0;
+  box-shadow: 0 0 0 6px #dff7ee;
+}
+.np-th-mint .np-title {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.np-th-mint .np-title::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 5px;
+  border-radius: 5px;
+  margin-top: 12px;
+  background: var(--np-accent);
+}
+.np-th-mint .np-entry-body {
+  background: #f1fbf7 !important;
+  border: 1px solid #d6f1e6;
+  border-radius: 14px;
+}
+
+/* 13 · Lavender — lilac haze, italic serif */
+.np-th-lavender {
+  --card: #fcfaff;
+  --ink: #2c2240;
+  --muted: #7d7196;
+  --line: #e7def7;
+  --bg2: #f1ebfb;
+  --chip: #efe8fb;
+  background: radial-gradient(700px 400px at 0% 0%, #e7dcfb, transparent 70%), radial-gradient(700px 400px at 100% 100%, #fbe3f3, transparent 70%), #f5f0fc !important;
+  background-attachment: fixed !important;
+}
+.np-th-lavender .np-card {
+  border-radius: 28px;
+  border: 1px solid #e7def7;
+  box-shadow: 0 30px 60px -40px rgba(91, 33, 182, 0.5);
+}
+.np-th-lavender .np-note {
+  border-top: 0;
+}
+.np-th-lavender .np-title,
+.np-th-lavender .nb-view h2 {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--np-accent) 60%, #2c2240);
+}
+.np-th-lavender .np-btn {
+  background: linear-gradient(135deg, var(--np-accent), color-mix(in srgb, var(--np-accent) 50%, #ec4899));
+}
+.np-th-lavender .nb-view blockquote {
+  border-left: 0;
+  text-align: center;
+  font-family: Georgia, serif;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+/* 14 · Coffee — dark roast with a cream card */
+.np-th-coffee {
+  --card: #f6ecdf;
+  --ink: #3a2619;
+  --muted: #86684f;
+  --line: #e2d1bc;
+  --bg2: #3b2a20;
+  --chip: #ecdcc8;
+  background: radial-gradient(600px 300px at 50% -100px, rgba(255, 220, 180, 0.18), transparent 70%), linear-gradient(180deg, #4a3326, #2c1e16) !important;
+}
+.np-th-coffee .np-top {
+  background: rgba(44, 30, 22, 0.86) !important;
+  color: #f6ecdf;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+.np-th-coffee .np-made,
+.np-th-coffee .np-sub {
+  color: #d9c2a6 !important;
+}
+.np-th-coffee .np-card {
+  border-radius: 14px;
+  box-shadow: 0 22px 50px -20px rgba(0, 0, 0, 0.65);
+}
+.np-th-coffee .np-note {
+  border-top: 0;
+  background: radial-gradient(90px 90px at calc(100% - 46px) calc(100% - 46px), transparent 36px, rgba(120, 70, 30, 0.1) 37px 40px, transparent 41px), #f6ecdf !important;
+}
+.np-th-coffee .np-title {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  color: #5b3820;
+}
+.np-th-coffee .np-btn {
+  background: #6f4428;
+  border-radius: 10px;
+}
+
+/* 15 · Newsprint — a printed page, black rules */
+.np-th-newsprint {
+  --card: #fbfaf6;
+  --ink: #111111;
+  --muted: #555555;
+  --line: #cfcbc0;
+  --bg2: #e9e6de;
+  --chip: #f0ede5;
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  background: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1.2px) 0 0 / 4px 4px, #e9e6de !important;
+}
+.np-th-newsprint .np-card {
+  border-radius: 0;
+  border: 0;
+  border-top: 4px solid #111;
+  border-bottom: 1px solid #111;
+  box-shadow: 0 1px 0 #111 inset, 0 14px 30px -26px rgba(0, 0, 0, 0.6);
+}
+.np-th-newsprint .np-note {
+  border-top: 8px double #111;
+}
+.np-th-newsprint .np-title {
+  font-family: "Times New Roman", Times, "Kantumruy Pro", serif;
+  font-size: clamp(30px, 8vw, 46px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  border-bottom: 1px solid #111;
+  padding-bottom: 10px;
+}
+.np-th-newsprint .nb-view h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1em;
+  border-top: 1px solid #111;
+  padding-top: 8px;
+}
+:lang(km) .np-th-newsprint .nb-view h2 {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.np-th-newsprint .np-btn {
+  background: #111;
+  border-radius: 0;
+  box-shadow: none;
+}
+.np-th-newsprint .nb-box {
+  border-radius: 0;
+  border-color: #111;
+}
+.np-th-newsprint .np-entry-body {
+  border-radius: 0;
+  border-left: 3px solid #111;
+}
+
+/* 16 · Blueprint — white lines on blue, mono */
+.np-th-blueprint {
+  --card: #13467f;
+  --ink: #eaf4ff;
+  --muted: #a7c7ec;
+  --line: rgba(255, 255, 255, 0.25);
+  --bg2: #0f3b6d;
+  --chip: rgba(255, 255, 255, 0.08);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Kantumruy Pro", monospace;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px) 0 0 / 100px 100px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px) 0 0 / 100px 100px,
+    #0f3b6d !important;
+}
+.np-th-blueprint .np-card {
+  border-radius: 2px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.55);
+  box-shadow: none;
+  background: rgba(19, 70, 127, 0.9) !important;
+}
+.np-th-blueprint .np-note {
+  border-top: 1.5px dashed rgba(255, 255, 255, 0.55);
+}
+.np-th-blueprint .np-title {
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.np-th-blueprint .np-btn {
+  background: transparent;
+  border: 1.5px solid #eaf4ff;
+  border-radius: 2px;
+  color: #eaf4ff;
+  box-shadow: none;
+}
+.np-th-blueprint .nb-box {
+  border-radius: 0;
+  border-color: #eaf4ff;
+}
+.np-th-blueprint input,
+.np-th-blueprint textarea {
+  color: var(--ink);
+}
+
+/* 17 · Neon — glowing lines on black */
+.np-th-neon {
+  --card: #0f0d1a;
+  --ink: #f2f0ff;
+  --muted: #9b97b8;
+  --line: #2a2640;
+  --bg2: #07060d;
+  --chip: #1a1729;
+  background: radial-gradient(500px 300px at 10% 0%, color-mix(in srgb, var(--np-accent) 30%, transparent), transparent 70%), radial-gradient(500px 300px at 90% 100%, rgba(236, 72, 153, 0.25), transparent 70%), #07060d !important;
+  background-attachment: fixed !important;
+}
+.np-th-neon .np-card {
+  border-radius: 16px;
+  border: 1.5px solid var(--np-accent);
+  box-shadow: 0 0 18px -2px var(--np-accent), inset 0 0 20px -12px var(--np-accent);
+}
+.np-th-neon .np-note {
+  border-top: 1.5px solid var(--np-accent);
+}
+.np-th-neon .np-title,
+.np-th-neon .nb-view h2 {
+  color: #fff;
+  text-shadow: 0 0 6px var(--np-accent), 0 0 18px var(--np-accent);
+}
+.np-th-neon .np-btn {
+  background: transparent;
+  color: var(--np-accent);
+  border: 1.5px solid var(--np-accent);
+  box-shadow: 0 0 14px -2px var(--np-accent);
+  text-shadow: 0 0 6px var(--np-accent);
+}
+.np-th-neon .nb-box {
+  border-color: var(--np-accent);
+  box-shadow: 0 0 8px -2px var(--np-accent);
+}
+.np-th-neon input,
+.np-th-neon textarea {
+  color: var(--ink);
+}
+
+/* 18 · Glass — colour blobs behind frosted glass */
+.np-th-glass {
+  --card: rgba(255, 255, 255, 0.55);
+  --ink: #15172b;
+  --muted: #55597a;
+  --line: rgba(255, 255, 255, 0.7);
+  --bg2: #e9e7ff;
+  --chip: rgba(255, 255, 255, 0.5);
+  background:
+    radial-gradient(420px 320px at 15% 20%, color-mix(in srgb, var(--np-accent) 75%, transparent), transparent 70%),
+    radial-gradient(380px 300px at 85% 35%, rgba(236, 72, 153, 0.6), transparent 70%),
+    radial-gradient(420px 340px at 50% 95%, rgba(34, 211, 238, 0.55), transparent 70%),
+    #eef0ff !important;
+  background-attachment: fixed !important;
+}
+.np-th-glass .np-card {
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: 0 30px 60px -30px rgba(40, 30, 120, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.np-th-glass .np-note {
+  border-top: 0;
+  background: rgba(255, 255, 255, 0.55) !important;
+}
+.np-th-glass .np-top {
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+.np-th-glass .np-entry-body {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+/* 19 · Kraft — brown paper, stamps and string */
+.np-th-kraft {
+  --card: #e8d3ad;
+  --ink: #3a2612;
+  --muted: #7a5c3b;
+  --line: rgba(80, 50, 20, 0.28);
+  --bg2: #c9a878;
+  --chip: rgba(80, 50, 20, 0.08);
+  background: radial-gradient(rgba(90, 55, 20, 0.12) 1px, transparent 1.6px) 0 0 / 7px 7px, radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1.6px) 0 0 / 11px 11px, #cfae7e !important;
+}
+.np-th-kraft .np-card {
+  border-radius: 6px;
+  border: 2px dashed rgba(80, 50, 20, 0.45);
+  box-shadow: 0 16px 30px -22px rgba(60, 35, 10, 0.7);
+}
+.np-th-kraft .np-note {
+  border-top: 2px dashed rgba(80, 50, 20, 0.45);
+  position: relative;
+}
+.np-th-kraft .np-title {
+  font-family: "Courier New", ui-monospace, "Kantumruy Pro", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  border: 3px solid var(--np-accent);
+  color: var(--np-accent);
+  padding: 4px 12px;
+  transform: rotate(-1.5deg);
+}
+:lang(km) .np-th-kraft .np-title {
+  text-transform: none;
+}
+.np-th-kraft .np-btn {
+  background: #5a3a1a;
+  border-radius: 6px;
+}
+.np-th-kraft .nb-box {
+  border-radius: 3px;
+  border-color: #5a3a1a;
+}
+
+/* 20 · Sakura — falling blossoms */
+.np-th-sakura {
+  --card: #ffffff;
+  --ink: #3a1d2b;
+  --muted: #8f6a7c;
+  --line: #f8dbe7;
+  --bg2: #fff4f8;
+  --chip: #fdebf2;
+  background:
+    radial-gradient(7px 5px at 12% 18%, #f9a8d4, transparent),
+    radial-gradient(6px 4px at 32% 64%, #fbcfe8, transparent),
+    radial-gradient(8px 5px at 68% 22%, #f9a8d4, transparent),
+    radial-gradient(6px 4px at 86% 72%, #fbcfe8, transparent),
+    radial-gradient(5px 4px at 52% 88%, #f9a8d4, transparent),
+    linear-gradient(180deg, #fff5f9, #ffe8f1) !important;
+  background-size: 320px 320px, 320px 320px, 320px 320px, 320px 320px, 320px 320px, auto !important;
+}
+.np-th-sakura .np-card {
+  border-radius: 24px;
+  box-shadow: 0 20px 44px -30px rgba(219, 39, 119, 0.5);
+  border: 1px solid #f8dbe7;
+}
+.np-th-sakura .np-note {
+  border-top: 0;
+  background: radial-gradient(160px 100px at 100% 0, #ffe1ee, transparent 70%), #fff !important;
+}
+.np-th-sakura .np-title {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  font-weight: 600;
+}
+.np-th-sakura .nb-box {
+  border-radius: 50%;
+  border-color: #f472b6;
+}
+.np-th-sakura .np-entry-body {
+  border-radius: 18px 18px 18px 4px;
+  background: #fff1f6 !important;
+}
+
+/* 21 · Corporate — navy bar, crisp and square */
+.np-th-corporate {
+  --card: #ffffff;
+  --ink: #0f1a2e;
+  --muted: #5a6478;
+  --line: #e1e6ee;
+  --bg2: #eef2f7;
+  --chip: #f1f4f9;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, "Kantumruy Pro", sans-serif;
+  background: linear-gradient(180deg, #0f2a5e 0 180px, #eef2f7 180px) !important;
+}
+.np-th-corporate .np-top {
+  background: #0f2a5e !important;
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+.np-th-corporate .np-top .np-icon,
+.np-th-corporate .np-top .np-lang,
+.np-th-corporate .np-top .np-me {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.np-th-corporate .np-card {
+  border-radius: 8px;
+  border: 1px solid #e1e6ee;
+  box-shadow: 0 1px 2px rgba(15, 26, 46, 0.06), 0 12px 30px -20px rgba(15, 26, 46, 0.3);
+}
+.np-th-corporate .np-note {
+  border-top: 4px solid var(--np-accent);
+}
+.np-th-corporate .np-title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.np-th-corporate .nb-view h2 {
+  font-size: 1.05em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--np-accent);
+}
+:lang(km) .np-th-corporate .nb-view h2 {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.np-th-corporate .np-btn {
+  border-radius: 6px;
+  box-shadow: none;
+}
+.np-th-corporate .nb-box {
+  border-radius: 3px;
+}
+.np-th-corporate .np-entry-body {
+  border-radius: 6px;
+  border: 1px solid #e1e6ee;
+  background: #f8fafc !important;
+}
+
+/* 22 · School — exercise book, colourful and friendly */
+.np-th-school {
+  --card: #ffffff;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --bg2: #fef9e7;
+  --chip: #fef3c7;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Kantumruy Pro", sans-serif;
+  background: radial-gradient(#e7d9a8 1.2px, transparent 1.5px) 0 0 / 20px 20px, #fef9e7 !important;
+}
+.np-th-school .np-card {
+  border-radius: 20px;
+  border: 3px solid #1f2937;
+  box-shadow: 0 6px 0 #1f2937;
+}
+.np-th-school .np-note {
+  border-top: 3px solid #1f2937;
+  border-left: 14px solid var(--np-accent);
+}
+.np-th-school .np-title {
+  font-weight: 800;
+}
+.np-th-school .nb-view h2 {
+  display: inline-block;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #fde68a;
+}
+.np-th-school .nb-box {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #1f2937;
+  border-radius: 8px;
+}
+.np-th-school .np-btn {
+  border-radius: 14px;
+  border: 3px solid #1f2937;
+  box-shadow: 0 4px 0 #1f2937;
+}
+.np-th-school .np-entry-body {
+  border: 2px solid #1f2937;
+  border-radius: 16px;
+  background: #fff !important;
+}
+
+/* 23 · Wedding — ivory, gold frame, elegant serif */
+.np-th-wedding {
+  --card: #fffdf9;
+  --ink: #3a2e22;
+  --muted: #8a7a66;
+  --line: #eadfca;
+  --bg2: #f7f1e6;
+  --chip: #f5eedf;
+  background: radial-gradient(600px 400px at 50% 0, #fff, transparent 70%), #f5eee2 !important;
+}
+.np-th-wedding .np-card {
+  border-radius: 2px;
+  border: 1px solid #c9a96a;
+  box-shadow: 0 0 0 5px #fffdf9, 0 0 0 6px #c9a96a, 0 24px 50px -30px rgba(120, 90, 40, 0.5);
+}
+.np-th-wedding .np-main {
+  gap: 30px;
+  padding-top: 32px;
+}
+.np-th-wedding .np-note {
+  border-top: 1px solid #c9a96a;
+  text-align: center;
+}
+.np-th-wedding .np-note .nb-view {
+  text-align: center;
+}
+.np-th-wedding .np-note .nb-view ul {
+  display: inline-block;
+  text-align: left;
+}
+.np-th-wedding .np-title {
+  font-family: Didot, "Bodoni 72", "Playfair Display", Georgia, "Kantumruy Pro", serif;
+  font-weight: 400;
+  font-size: clamp(30px, 8vw, 44px);
+  letter-spacing: 0.02em;
+  color: #6b5225;
+}
+.np-th-wedding .np-title::after {
+  content: "❦";
+  display: block;
+  font-size: 20px;
+  color: #c9a96a;
+  margin-top: 6px;
+}
+.np-th-wedding .np-updated {
+  justify-content: center;
+}
+.np-th-wedding .nb-view h2 {
+  font-family: Georgia, "Kantumruy Pro", serif;
+  font-weight: 400;
+  font-style: italic;
+  color: #8a6a35;
+}
+.np-th-wedding .np-btn {
+  background: #b0894a;
+  border-radius: 2px;
+  letter-spacing: 0.06em;
+}
+.np-th-wedding .nb-box {
+  border-color: #c9a96a;
+  border-radius: 50%;
+}
+
+/* 24 · Festival — bold colours and confetti */
+.np-th-festival {
+  --card: #ffffff;
+  --ink: #26120d;
+  --muted: #7a5148;
+  --line: #f6d6c9;
+  --bg2: #ff5a3c;
+  --chip: #fff0e6;
+  background:
+    radial-gradient(4px 4px at 10% 10%, #ffd23f, transparent),
+    radial-gradient(5px 3px at 30% 40%, #3ec1ff, transparent),
+    radial-gradient(4px 4px at 70% 20%, #fff, transparent),
+    radial-gradient(5px 3px at 85% 60%, #7cff6b, transparent),
+    radial-gradient(4px 4px at 50% 80%, #ffd23f, transparent),
+    linear-gradient(135deg, #e11d48, #f97316 60%, #facc15) !important;
+  background-size: 180px 180px, 180px 180px, 180px 180px, 180px 180px, 180px 180px, auto !important;
+  background-attachment: fixed !important;
+}
+.np-th-festival .np-top {
+  background: rgba(38, 18, 13, 0.25) !important;
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.25) !important;
+}
+.np-th-festival .np-made {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.np-th-festival .np-card {
+  border-radius: 22px;
+  box-shadow: 0 10px 0 rgba(38, 18, 13, 0.18), 0 30px 60px -30px rgba(38, 18, 13, 0.6);
+}
+.np-th-festival .np-note {
+  border-top: 0;
+  background:
+    repeating-linear-gradient(90deg, #e11d48 0 24px, #f97316 24px 48px, #facc15 48px 72px, #16a34a 72px 96px, #2563eb 96px 120px) top / 100% 8px no-repeat,
+    #fff !important;
+  padding-top: 34px !important;
+}
+.np-th-festival .np-title {
+  font-weight: 900;
+  font-size: clamp(28px, 7.5vw, 40px);
+  color: #e11d48;
+}
+.np-th-festival .np-btn {
+  background: linear-gradient(90deg, #e11d48, #f97316);
+  border-radius: 14px;
+}
+.np-th-festival .nb-box {
+  border-radius: 8px;
+  border-color: #e11d48;
+}
+.np-th-festival .np-entry-body {
+  background: #fff4ea !important;
+  border-radius: 16px;
+}
+
+/* dark themes: the editor (edit level) and form fields stay readable */
+.np-th-chalk .nb-editor,
+.np-th-midnight .nb-editor,
+.np-th-blueprint .nb-editor,
+.np-th-neon .nb-editor {
+  --card: color-mix(in srgb, var(--bg2) 70%, #000);
+}
+
+/* ---------- mini previews (the Look picker) ---------- */
+.nt-th-mini {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  min-height: 0 !important;
+  padding: 10px 9px !important;
+  overflow: hidden;
+  font-size: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: inherit;
+}
+.nt-th-mini .np-card {
+  padding: 10px 10px 9px !important;
+  border-radius: 10px;
+}
+.nt-th-mini .np-note {
+  padding-left: 10px !important;
+}
+.nt-th-mini .np-title {
+  font-size: 13px !important;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+.nt-th-mini .np-title::after {
+  margin-top: 3px !important;
+  font-size: 10px !important;
+}
+.nt-th-mini .nb-view {
+  font-size: 9.5px;
+  line-height: 1.5 !important;
+}
+.nt-th-mini .nb-view p,
+.nt-th-mini .nb-view ul {
+  margin: 0 0 3px;
+}
+.nt-th-mini .nb-box {
+  width: 11px !important;
+  height: 11px !important;
+  border-width: 1.5px !important;
+}
+.nt-th-mini .nb-ck {
+  gap: 5px;
+  align-items: center;
+}
+.nt-th-mini .np-btn {
+  height: 20px;
+  padding: 0 10px;
+  font-size: 9px;
+  align-self: flex-start;
+  box-shadow: none !important;
+}
+.nt-th-mini .np-mini-reply {
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
+}
+.nt-th-mini .np-av {
+  width: 16px;
+  height: 16px;
+  font-size: 8px;
+}
+.nt-th-mini .np-entry-body {
+  padding: 4px 7px;
+  font-size: 9px;
+  border-radius: 3px 9px 9px 9px;
+}

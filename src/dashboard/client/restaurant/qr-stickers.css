@@ -1,0 +1,347 @@
+/* Table QR stickers: 11 looks (classic free, 10 paid). Sized in mm so they print true to size. */
+.qs {
+  --c: #e0581a;
+  width: 80mm;
+  box-sizing: border-box;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+  color: #111;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  break-inside: avoid;
+  position: relative;
+}
+.qs * {
+  box-sizing: border-box;
+}
+.qs-face {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5mm;
+  padding: 6mm 6mm 7mm;
+  background: #fff;
+  border: 0.6mm solid #111;
+  border-radius: 5mm;
+  text-align: center;
+}
+.qs-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5mm;
+  font-weight: 800;
+  font-size: 13pt;
+  line-height: 1.15;
+  z-index: 1;
+}
+.qs-top img {
+  width: 11mm;
+  height: 11mm;
+  object-fit: contain;
+  border-radius: 2mm;
+}
+.qs-word {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: -2mm;
+  z-index: 1;
+}
+.qs-table {
+  font-size: 30pt;
+  font-weight: 900;
+  line-height: 1;
+  z-index: 1;
+}
+.qs-qr {
+  width: 52mm;
+  height: 52mm;
+  padding: 2mm;
+  background: #fff;
+  z-index: 1;
+}
+.qs-qr img,
+.qs-qr-ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.qs-qr-ph {
+  background: repeating-linear-gradient(45deg, #ddd 0 3mm, #eee 3mm 6mm);
+}
+.qs-scan {
+  font-size: 9pt;
+  font-weight: 700;
+  z-index: 1;
+}
+.qs-deco {
+  display: none;
+}
+
+/* classic (free) */
+.qs-classic .qs-top {
+  color: var(--c);
+}
+
+/* minimal */
+.qs-minimal .qs-face {
+  border: 0.25mm solid #cfcfcf;
+  border-radius: 1.5mm;
+  padding: 9mm 7mm;
+  gap: 3mm;
+}
+.qs-minimal .qs-top {
+  font-weight: 600;
+  font-size: 11pt;
+  letter-spacing: 0.04em;
+}
+.qs-minimal .qs-table {
+  font-weight: 300;
+  font-size: 34pt;
+}
+.qs-minimal .qs-scan {
+  font-weight: 500;
+  color: #666;
+  border-top: 0.25mm solid #ddd;
+  padding-top: 3mm;
+  width: 100%;
+}
+
+/* colour block */
+.qs-block .qs-face {
+  background: var(--c);
+  border: 0;
+  border-radius: 6mm;
+  color: #fff;
+}
+.qs-block .qs-qr {
+  border-radius: 4mm;
+  padding: 3mm;
+}
+.qs-block .qs-scan {
+  background: rgba(0, 0, 0, 0.18);
+  padding: 1.5mm 4mm;
+  border-radius: 10mm;
+}
+
+/* table tent: two faces, top one upside down; fold on the dashed line */
+.qs-tent {
+  width: 80mm;
+}
+.qs-tent .qs-face {
+  border-radius: 0;
+  border-width: 0.4mm;
+}
+.qs-tent .qs-face:first-child {
+  border-bottom: 0.4mm dashed #999;
+}
+.qs-tent .qs-face + .qs-face {
+  border-top: 0;
+}
+.qs-tent .qs-flip {
+  transform: rotate(180deg);
+}
+.qs-tent .qs-top {
+  color: var(--c);
+}
+
+/* kraft café */
+.qs-kraft .qs-face {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.18) 0 1px, transparent 2px) 0 0 / 5mm 5mm,
+    #c9a27a;
+  border: 0;
+  border-radius: 2mm;
+  color: #3b2a20;
+}
+.qs-kraft .qs-deco {
+  display: block;
+  position: absolute;
+  top: 4mm;
+  right: 4mm;
+  width: 15mm;
+  height: 15mm;
+  border: 0.5mm dashed #3b2a20;
+  border-radius: 50%;
+  opacity: 0.45;
+}
+.qs-kraft .qs-top {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  font-style: italic;
+}
+.qs-kraft .qs-qr {
+  border: 0.5mm solid #3b2a20;
+}
+.qs-kraft .qs-scan {
+  font-family: Georgia, serif;
+}
+
+/* neon night */
+.qs-neon .qs-face {
+  background: #0b0b14;
+  color: #fff;
+  border: 0.6mm solid #ff2ea6;
+  box-shadow:
+    inset 0 0 0 1.4mm #0b0b14,
+    inset 0 0 0 1.8mm #25e2ff;
+  border-radius: 4mm;
+}
+.qs-neon .qs-table {
+  color: #ff2ea6;
+  text-shadow: 0 0 2mm rgba(255, 46, 166, 0.8);
+}
+.qs-neon .qs-top {
+  color: #25e2ff;
+}
+.qs-neon .qs-qr {
+  border-radius: 2mm;
+}
+
+/* black & gold */
+.qs-gold .qs-face {
+  background: #0e0d0b;
+  color: #f1e6cc;
+  border: 0;
+  border-radius: 0;
+  outline: 0.4mm solid #c9a45c;
+  outline-offset: -3mm;
+  padding: 9mm 8mm;
+}
+.qs-gold .qs-top,
+.qs-gold .qs-table {
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.qs-gold .qs-top {
+  color: #c9a45c;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+.qs-gold .qs-table {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.qs-gold .qs-qr {
+  border: 0.4mm solid #c9a45c;
+}
+
+/* bubbles */
+.qs-bubble .qs-face {
+  background:
+    radial-gradient(circle at 12% 15%, color-mix(in srgb, var(--c) 35%, #fff) 0 6mm, transparent 6.2mm), radial-gradient(circle at 92% 22%, #ffd84d 0 4mm, transparent 4.2mm),
+    radial-gradient(circle at 85% 88%, color-mix(in srgb, var(--c) 25%, #fff) 0 9mm, transparent 9.2mm), radial-gradient(circle at 8% 80%, #8be0ff 0 3.5mm, transparent 3.7mm), #fff;
+  border: 0.8mm solid var(--c);
+  border-radius: 12mm;
+}
+.qs-bubble .qs-table {
+  color: var(--c);
+}
+.qs-bubble .qs-qr {
+  border-radius: 6mm;
+  border: 0.6mm dashed var(--c);
+}
+.qs-bubble .qs-scan {
+  background: var(--c);
+  color: #fff;
+  padding: 1.5mm 5mm;
+  border-radius: 10mm;
+}
+
+/* khmer pattern */
+.qs-khmer .qs-face {
+  background: #7a1414;
+  color: #f7e3b0;
+  border: 0;
+  border-radius: 3mm;
+  padding: 10mm 8mm;
+}
+.qs-khmer .qs-deco {
+  display: block;
+  position: absolute;
+  inset: 2.5mm;
+  border: 1.6mm solid transparent;
+  border-image: repeating-linear-gradient(45deg, #c99a2e 0 2mm, #f2d27a 2mm 3mm, #c99a2e 3mm 5mm) 8;
+  pointer-events: none;
+}
+.qs-khmer .qs-top {
+  font-family: "Moul", "Kantumruy Pro", serif;
+  font-weight: 400;
+}
+.qs-khmer .qs-qr {
+  border: 0.6mm solid #c99a2e;
+}
+
+/* photo frame */
+.qs-polaroid .qs-face {
+  background: #f3efe8;
+  border: 0;
+  border-radius: 1mm;
+}
+.qs-polaroid .qs-qr {
+  order: 1;
+  width: 58mm;
+  height: 64mm;
+  padding: 3mm 3mm 9mm;
+  background: #fff;
+  box-shadow: 0 1mm 3mm rgba(0, 0, 0, 0.18);
+  transform: rotate(-2deg);
+}
+.qs-polaroid .qs-qr img {
+  height: auto;
+  aspect-ratio: 1;
+}
+.qs-polaroid .qs-table {
+  order: 2;
+  font-family: "Comic Sans MS", "Segoe Print", "Bradley Hand", cursive;
+  font-weight: 700;
+  margin-top: -8mm;
+  transform: rotate(-2deg);
+  z-index: 2;
+}
+.qs-polaroid .qs-word {
+  display: none;
+}
+.qs-polaroid .qs-scan {
+  order: 3;
+}
+
+/* ticket */
+.qs-ticket .qs-face {
+  border: 0;
+  border-radius: 3mm;
+  background:
+    radial-gradient(circle at 0 62%, transparent 0 4mm, var(--c) 4.2mm) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 62%, transparent 0 4mm, var(--c) 4.2mm) right / 51% 100% no-repeat;
+  color: #fff;
+}
+.qs-ticket .qs-deco {
+  display: block;
+  position: absolute;
+  left: 6mm;
+  right: 6mm;
+  top: 62%;
+  border-top: 0.5mm dashed rgba(255, 255, 255, 0.7);
+}
+.qs-ticket .qs-qr {
+  border-radius: 2mm;
+}
+.qs-ticket .qs-word {
+  letter-spacing: 0.3em;
+}
+
+/* small preview on screen */
+.qs-preview {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.qs-preview > .qs {
+  zoom: 0.5;
+}
+.qs-preview > .qs-tent {
+  zoom: 0.3;
+}

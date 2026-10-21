@@ -1,0 +1,32 @@
+{
+  "name": "bizhub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev:8889": "vite --port 8889 --strictPort",
+    "build:uat": "vite build --mode uat",
+    "build:prod": "vite build --mode prod",
+    "deploy:uat": "npm run build:uat && firebase deploy --only hosting:uat",
+    "deploy:prod": "npm run build:prod && firebase deploy --only hosting:prod"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "firebase": "^11.10.0",
+    "html-to-image": "^1.11.11",
+    "jsqr": "^1.4.0",
+    "lucide-react": "^1.53.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "vite": "^6.4.4"
+  }
+}

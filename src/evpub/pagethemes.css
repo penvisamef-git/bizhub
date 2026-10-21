@@ -1,0 +1,675 @@
+/* Event page themes (pageThemes.js) on .evp: --p-a main · --p-b light · --p-c deep. 6 styles: aurora editorial bold midnight pastel cinema */
+
+/* ---------- dark pages: shared fixes for parts that are white by default ---------- */
+.evp-pg-dark .evp-field input,
+.evp-pg-dark .evp-field textarea {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--e-ink);
+  border-color: var(--e-line);
+}
+.evp-pg-dark .evp-type.on {
+  background: color-mix(in srgb, var(--e-accent) 16%, transparent);
+}
+.evp-pg-dark .evp-stepper {
+  background: rgba(255, 255, 255, 0.06);
+}
+.evp-pg-dark .evp-stepper button,
+.evp-pg-dark .evp-acc button,
+.evp-pg-dark .evp-proof,
+.evp-pg-dark .evp-mini {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--e-ink);
+}
+.evp-pg-dark .evp-acc {
+  background: rgba(255, 255, 255, 0.05);
+}
+.evp-pg-dark .evp-lang.dark,
+.evp-pg-dark.evp-center .evp-lang {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--e-ink);
+}
+.evp-pg-dark .evp-bar {
+  background: color-mix(in srgb, var(--e-card) 70%, #000);
+  border: 1px solid var(--e-line);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.evp-pg-dark .evp-closed {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--e-ink);
+}
+
+/* ---------- 1 · aurora — dark sky with colour lights, glass cards ---------- */
+.evp-pg-aurora {
+  --e-bg: #0a0a12;
+  --e-card: rgba(255, 255, 255, 0.06);
+  --e-ink: #f5f5fb;
+  --e-muted: #a6a6bd;
+  --e-line: rgba(255, 255, 255, 0.13);
+  background:
+    radial-gradient(55% 35% at 12% 0%, color-mix(in srgb, var(--p-a) 50%, transparent), transparent 70%),
+    radial-gradient(45% 30% at 92% 8%, color-mix(in srgb, var(--p-b) 38%, transparent), transparent 70%),
+    radial-gradient(70% 45% at 50% 100%, color-mix(in srgb, var(--p-c) 75%, transparent), transparent 75%),
+    #0a0a12;
+  background-attachment: fixed;
+}
+.evp-pg-aurora .evp-hero {
+  background: transparent;
+}
+.evp-pg-aurora .evp-hero-bg {
+  opacity: 0.35;
+}
+.evp-pg-aurora .evp-card,
+.evp-pg-aurora .evp-top + .evp-main .evp-sum {
+  border: 1px solid var(--e-line);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+.evp-pg-aurora .evp-poster {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 24px 70px color-mix(in srgb, var(--p-a) 45%, transparent);
+}
+.evp-pg-aurora .evp-hero-text h1 {
+  background: linear-gradient(90deg, #fff, var(--p-b));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- 2 · magazine — warm paper, serif titles, thin rules ---------- */
+.evp-pg-editorial {
+  --e-bg: #f6f1e7;
+  --e-card: #fffdf8;
+  --e-ink: #1f1a14;
+  --e-muted: #6f665a;
+  --e-line: #e3d9c8;
+}
+.evp-pg-editorial h1,
+.evp-pg-editorial h2,
+.evp-pg-editorial .evp-top b,
+.evp-pg-editorial .evp-orderno b {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.evp-pg-editorial .evp-hero {
+  background: var(--e-bg);
+  color: var(--e-ink);
+  border-bottom: 1px solid var(--e-ink);
+}
+.evp-pg-editorial .evp-hero-bg {
+  display: none;
+}
+.evp-pg-editorial .evp-hero-text h1 {
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.evp-pg-editorial .evp-hero-text h1::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin-bottom: 16px;
+  background: var(--p-a);
+}
+.evp-pg-editorial .evp-poster {
+  border-radius: 2px;
+  box-shadow: 10px 10px 0 var(--p-b);
+}
+.evp-pg-editorial .evp-facts a {
+  color: var(--p-a);
+}
+.evp-pg-editorial .evp-org {
+  background: rgba(0, 0, 0, 0.05);
+}
+.evp-pg-editorial .evp-lang {
+  background: var(--e-card);
+  color: var(--e-ink);
+  border: 1px solid var(--e-line);
+}
+.evp-pg-editorial .evp-card {
+  border-radius: 4px;
+  border: 1px solid var(--e-line);
+  box-shadow: none;
+}
+.evp-pg-editorial .evp-type {
+  border-radius: 4px;
+}
+.evp-pg-editorial .evp-btn {
+  border-radius: 4px;
+  background: var(--p-c);
+  box-shadow: none;
+}
+.evp-pg-editorial .evp-bar {
+  border-radius: 6px;
+  background: var(--e-ink);
+}
+
+/* ---------- 3 · bold block — solid colour hero, big letters, ink shadows ---------- */
+.evp-pg-bold {
+  --e-bg: color-mix(in srgb, var(--p-b) 22%, #fff);
+  --e-card: #fff;
+  --e-ink: #111;
+  --e-muted: #555;
+  --e-line: #111;
+}
+.evp-pg-bold .evp-hero {
+  background: var(--p-a);
+  border-bottom: 4px solid #111;
+}
+.evp-pg-bold .evp-hero-bg {
+  display: none;
+}
+.evp-pg-bold .evp-hero-text h1 {
+  font-size: clamp(34px, 7vw, 64px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.98;
+  text-shadow: 4px 4px 0 #111;
+}
+.evp-pg-bold .evp-poster {
+  border-radius: 6px;
+  border: 4px solid #111;
+  box-shadow: 10px 10px 0 #111;
+  rotate: -2deg;
+}
+.evp-pg-bold .evp-org {
+  background: #111;
+}
+.evp-pg-bold .evp-card {
+  border: 2.5px solid #111;
+  border-radius: 14px;
+  box-shadow: 6px 6px 0 #111;
+}
+.evp-pg-bold .evp-type {
+  border: 2px solid #111;
+  border-radius: 10px;
+}
+.evp-pg-bold .evp-type.on {
+  background: var(--p-b);
+}
+.evp-pg-bold .evp-btn {
+  border: 2.5px solid #111;
+  border-radius: 12px;
+  background: var(--p-a);
+  box-shadow: 4px 4px 0 #111;
+}
+.evp-pg-bold .evp-bar {
+  border: 2.5px solid #111;
+  border-radius: 16px;
+  box-shadow: 6px 6px 0 #111;
+}
+
+/* ---------- 4 · midnight — deep night blue, glowing highlights ---------- */
+.evp-pg-midnight {
+  --e-bg: #0d1020;
+  --e-card: #161a2e;
+  --e-ink: #eef0ff;
+  --e-muted: #9ca3c7;
+  --e-line: #272c48;
+}
+.evp-pg-midnight .evp-hero {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--p-c) 75%, #0d1020), #0d1020);
+}
+.evp-pg-midnight .evp-hero-bg {
+  opacity: 0.28;
+}
+.evp-pg-midnight .evp-hero-text h1 {
+  text-shadow: 0 0 28px color-mix(in srgb, var(--p-a) 70%, transparent);
+}
+.evp-pg-midnight .evp-poster {
+  box-shadow: 0 0 0 2px var(--p-a), 0 0 50px color-mix(in srgb, var(--p-a) 50%, transparent);
+}
+.evp-pg-midnight .evp-card {
+  border: 1px solid var(--e-line);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+.evp-pg-midnight .evp-type.on {
+  border-color: var(--p-a);
+  box-shadow: 0 0 0 1px var(--p-a), 0 0 22px color-mix(in srgb, var(--p-a) 40%, transparent);
+}
+.evp-pg-midnight .evp-btn {
+  box-shadow: 0 0 26px color-mix(in srgb, var(--p-a) 55%, transparent);
+}
+
+/* ---------- 5 · pastel — soft tints, round shapes, tilted poster ---------- */
+.evp-pg-pastel {
+  --e-bg: color-mix(in srgb, var(--p-b) 26%, #fff);
+  --e-card: #fff;
+  --e-ink: color-mix(in srgb, var(--p-c) 85%, #000);
+  --e-muted: color-mix(in srgb, var(--p-c) 55%, #8a8a8a);
+  --e-line: color-mix(in srgb, var(--p-b) 60%, #fff);
+}
+.evp-pg-pastel .evp-hero {
+  background:
+    radial-gradient(40% 60% at 85% 20%, color-mix(in srgb, var(--p-a) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--p-b) 75%, #fff), var(--e-bg));
+  color: var(--e-ink);
+}
+.evp-pg-pastel .evp-hero-bg {
+  display: none;
+}
+.evp-pg-pastel .evp-facts a {
+  color: var(--p-a);
+}
+.evp-pg-pastel .evp-org {
+  background: rgba(255, 255, 255, 0.7);
+}
+.evp-pg-pastel .evp-lang {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--e-ink);
+}
+.evp-pg-pastel .evp-poster {
+  border-radius: 28px;
+  border: 6px solid #fff;
+  rotate: 3deg;
+  box-shadow: 0 24px 50px color-mix(in srgb, var(--p-c) 25%, transparent);
+}
+.evp-pg-pastel .evp-card {
+  border-radius: 30px;
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--p-c) 10%, transparent);
+}
+.evp-pg-pastel .evp-type {
+  border-radius: 22px;
+}
+.evp-pg-pastel .evp-btn {
+  border-radius: 999px;
+}
+.evp-pg-pastel .evp-bar {
+  border-radius: 999px;
+  background: var(--e-ink);
+}
+
+/* ---------- 6 · big poster — the poster fills the top, cinema dark ---------- */
+.evp-pg-cinema {
+  --e-bg: #0c0c0f;
+  --e-card: #17171c;
+  --e-ink: #f6f6f7;
+  --e-muted: #a1a1aa;
+  --e-line: #2a2a31;
+}
+.evp-pg-cinema .evp-hero {
+  min-height: min(78vh, 680px);
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(160deg, var(--p-a), var(--p-c));
+}
+.evp-pg-cinema .evp-hero-bg {
+  inset: 0;
+  filter: saturate(1.1) brightness(0.75);
+  transform: none;
+}
+.evp-pg-cinema .evp-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 12, 15, 0.1) 0%, rgba(12, 12, 15, 0.35) 45%, #0c0c0f 100%);
+}
+.evp-pg-cinema .evp-hero-in {
+  z-index: 1;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+.evp-pg-cinema .evp-poster {
+  display: none;
+}
+.evp-pg-cinema .evp-hero-text h1 {
+  font-size: clamp(36px, 8vw, 72px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.evp-pg-cinema .evp-hero-text h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin-top: 14px;
+  border-radius: 4px;
+  background: var(--p-a);
+}
+.evp-pg-cinema .evp-card {
+  border: 1px solid var(--e-line);
+}
+.evp-pg-cinema .evp-btn {
+  border-radius: 10px;
+}
+
+/* =================== live (animated) styles — the moving layer sits behind the page, never over the buttons =================== */
+.evp-pg-live {
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+}
+.evp-pg-live::before,
+.evp-pg-live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.evp-pg-live > :not(.evp-bar) {
+  position: relative;
+  z-index: 1;
+}
+.evp-pg-live .evp-hero {
+  background: transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  .evp-pg-live::before,
+  .evp-pg-live::after,
+  .evp-pg-live .evp-hero::after,
+  .evp-pg-live .evp-hero,
+  .evp-pg-live .evp-btn {
+    animation: none !important;
+  }
+}
+
+/* 7 · live glow — big soft lights drifting in the dark */
+.evp-pg-live-glow {
+  --e-bg: #08080f;
+  --e-card: rgba(255, 255, 255, 0.07);
+  --e-ink: #f7f7fc;
+  --e-muted: #b0b0c6;
+  --e-line: rgba(255, 255, 255, 0.14);
+  background: #08080f;
+}
+.evp-pg-live-glow::before {
+  inset: -20%;
+  background:
+    radial-gradient(30% 25% at 20% 20%, color-mix(in srgb, var(--p-a) 75%, transparent), transparent 70%),
+    radial-gradient(28% 22% at 80% 35%, color-mix(in srgb, var(--p-b) 55%, transparent), transparent 70%),
+    radial-gradient(35% 30% at 45% 85%, color-mix(in srgb, var(--p-c) 90%, transparent), transparent 70%);
+  filter: blur(30px);
+  animation: evlDrift 16s ease-in-out infinite alternate;
+}
+.evp-pg-live-glow::after {
+  inset: -20%;
+  background: radial-gradient(25% 20% at 70% 70%, color-mix(in srgb, var(--p-a) 45%, transparent), transparent 70%);
+  filter: blur(40px);
+  animation: evlDrift 11s ease-in-out infinite alternate-reverse;
+}
+.evp-pg-live-glow .evp-card {
+  border: 1px solid var(--e-line);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+.evp-pg-live-glow .evp-hero-bg {
+  opacity: 0.3;
+}
+.evp-pg-live-glow .evp-poster {
+  box-shadow: 0 0 60px color-mix(in srgb, var(--p-a) 55%, transparent);
+}
+@keyframes evlDrift {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate(6%, -4%) scale(1.15) rotate(8deg);
+  }
+  100% {
+    transform: translate(-5%, 5%) scale(1.05) rotate(-6deg);
+  }
+}
+
+/* 8 · live confetti — colour pieces falling slowly */
+.evp-pg-live-confetti {
+  --e-bg: color-mix(in srgb, var(--p-b) 18%, #fff);
+  --e-card: rgba(255, 255, 255, 0.92);
+  --e-ink: #17151c;
+  --e-muted: #6b6676;
+  --e-line: color-mix(in srgb, var(--p-b) 55%, #fff);
+  background: var(--e-bg);
+}
+.evp-pg-live-confetti::before,
+.evp-pg-live-confetti::after {
+  background-image:
+    radial-gradient(3.5px 3.5px at 20px 30px, var(--p-a) 95%, transparent 100%),
+    radial-gradient(3px 7px at 95px 85px, var(--p-b) 95%, transparent 100%),
+    radial-gradient(3px 3px at 150px 20px, var(--p-c) 95%, transparent 100%),
+    radial-gradient(6px 2.5px at 60px 140px, #facc15 95%, transparent 100%);
+  background-size: 190px 180px;
+  opacity: 0.8;
+  animation: evlFall 22s linear infinite;
+}
+.evp-pg-live-confetti::after {
+  background-size: 260px 240px;
+  background-position: 70px 40px;
+  opacity: 0.5;
+  animation-duration: 34s;
+}
+.evp-pg-live-confetti .evp-hero {
+  color: var(--e-ink);
+}
+.evp-pg-live-confetti .evp-hero-bg {
+  display: none;
+}
+.evp-pg-live-confetti .evp-hero-text h1 {
+  font-weight: 900;
+  color: var(--p-c);
+}
+.evp-pg-live-confetti .evp-facts a {
+  color: var(--p-a);
+}
+.evp-pg-live-confetti .evp-org,
+.evp-pg-live-confetti .evp-lang {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--e-ink);
+}
+.evp-pg-live-confetti .evp-poster {
+  border: 6px solid #fff;
+  border-radius: 20px;
+  rotate: -2deg;
+  box-shadow: 0 22px 50px color-mix(in srgb, var(--p-c) 25%, transparent);
+}
+.evp-pg-live-confetti .evp-card {
+  border-radius: 26px;
+}
+.evp-pg-live-confetti .evp-btn {
+  border-radius: 999px;
+}
+@keyframes evlFall {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 1440px;
+  }
+}
+
+/* 9 · live stars — a night sky that twinkles */
+.evp-pg-live-stars {
+  --e-bg: #070a1a;
+  --e-card: rgba(18, 22, 46, 0.82);
+  --e-ink: #f1f3ff;
+  --e-muted: #a2a8cc;
+  --e-line: rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(80% 50% at 50% 0%, color-mix(in srgb, var(--p-c) 70%, transparent), transparent 75%),
+    radial-gradient(60% 40% at 80% 100%, color-mix(in srgb, var(--p-a) 30%, transparent), transparent 75%),
+    #070a1a;
+}
+.evp-pg-live-stars::before,
+.evp-pg-live-stars::after {
+  background-image:
+    radial-gradient(1.4px 1.4px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 90px 120px, #fff, transparent),
+    radial-gradient(1.6px 1.6px at 160px 60px, var(--p-b), transparent),
+    radial-gradient(1px 1px at 230px 180px, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 300px 90px, #fff, transparent);
+  background-size: 320px 220px;
+  animation: evlTwinkle 4s ease-in-out infinite alternate, evlSky 120s linear infinite;
+}
+.evp-pg-live-stars::after {
+  background-size: 260px 300px;
+  background-position: 100px 60px;
+  animation-delay: -2s, 0s;
+  animation-duration: 5s, 90s;
+}
+.evp-pg-live-stars .evp-hero-bg {
+  opacity: 0.25;
+}
+.evp-pg-live-stars .evp-card {
+  border: 1px solid var(--e-line);
+}
+.evp-pg-live-stars .evp-hero-text h1 {
+  text-shadow: 0 0 24px color-mix(in srgb, var(--p-b) 70%, transparent);
+}
+.evp-pg-live-stars .evp-poster {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+@keyframes evlTwinkle {
+  from {
+    opacity: 0.25;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes evlSky {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -640px 220px;
+  }
+}
+
+/* 10 · live waves — the hero ends in moving waves */
+.evp-pg-live-waves {
+  --e-bg: color-mix(in srgb, var(--p-b) 14%, #fff);
+  --e-card: #fff;
+  --e-ink: color-mix(in srgb, var(--p-c) 88%, #000);
+  --e-muted: color-mix(in srgb, var(--p-c) 50%, #8a8a8a);
+  --e-line: color-mix(in srgb, var(--p-b) 50%, #fff);
+  background: var(--e-bg);
+}
+.evp-pg-live-waves .evp-hero {
+  background: linear-gradient(170deg, var(--p-a), var(--p-c));
+  padding-bottom: 46px;
+}
+.evp-pg-live-waves .evp-hero-bg {
+  opacity: 0.35;
+}
+.evp-pg-live-waves .evp-hero::before,
+.evp-pg-live-waves .evp-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 46px;
+  background: radial-gradient(48px 26px at 50% 100%, var(--e-bg) 98%, transparent 100%) 0 100% / 96px 46px repeat-x;
+  animation: evlWave 7s linear infinite;
+  z-index: 2;
+}
+.evp-pg-live-waves .evp-hero::before {
+  bottom: 6px;
+  opacity: 0.45;
+  background-size: 140px 46px;
+  animation-duration: 11s;
+  animation-direction: reverse;
+}
+.evp-pg-live-waves .evp-card {
+  border-radius: 24px;
+  box-shadow: 0 14px 34px color-mix(in srgb, var(--p-c) 12%, transparent);
+}
+.evp-pg-live-waves .evp-btn {
+  border-radius: 999px;
+}
+@keyframes evlWave {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 960px;
+  }
+}
+
+/* 11 · live colours — the top flows through the colours, the button shimmers */
+.evp-pg-live-flow {
+  --e-bg: #f7f6fa;
+  --e-card: #fff;
+  --e-ink: #16151c;
+  --e-muted: #67646f;
+  --e-line: #ebe9f0;
+  background: var(--e-bg);
+}
+.evp-pg-live-flow .evp-hero {
+  background: linear-gradient(115deg, var(--p-a), var(--p-c), var(--p-b), var(--p-a)) 0 0 / 300% 300%;
+  animation: evlFlow 12s ease infinite;
+}
+.evp-pg-live-flow .evp-hero-bg {
+  opacity: 0.25;
+  mix-blend-mode: luminosity;
+}
+.evp-pg-live-flow .evp-hero-text h1 {
+  font-weight: 900;
+}
+.evp-pg-live-flow .evp-poster {
+  border-radius: 22px;
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.35);
+}
+.evp-pg-live-flow .evp-btn {
+  background: linear-gradient(115deg, var(--p-a), var(--p-c), var(--p-a)) 0 0 / 200% 100%;
+  animation: evlFlow 4s linear infinite;
+}
+.evp-pg-live-flow .evp-type.on {
+  border-color: var(--p-a);
+}
+@keyframes evlFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 12 · live stage lights — spotlights sweeping from the top */
+.evp-pg-live-stage {
+  --e-bg: #0b0a0e;
+  --e-card: #17151c;
+  --e-ink: #f8f7fa;
+  --e-muted: #a9a5b4;
+  --e-line: #2a2731;
+  background: #0b0a0e;
+}
+.evp-pg-live-stage::before,
+.evp-pg-live-stage::after {
+  inset: 0 -30% auto;
+  height: 900px;
+  background: conic-gradient(from 168deg at 30% 0%, transparent 0deg, color-mix(in srgb, var(--p-a) 55%, transparent) 10deg, transparent 22deg);
+  filter: blur(6px);
+  transform-origin: 30% 0%;
+  animation: evlSweep 7s ease-in-out infinite alternate;
+}
+.evp-pg-live-stage::after {
+  background: conic-gradient(from 170deg at 70% 0%, transparent 0deg, color-mix(in srgb, var(--p-b) 45%, transparent) 9deg, transparent 20deg);
+  transform-origin: 70% 0%;
+  animation-duration: 9s;
+  animation-direction: alternate-reverse;
+}
+.evp-pg-live-stage .evp-hero-bg {
+  opacity: 0.22;
+}
+.evp-pg-live-stage .evp-hero-text h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--p-a) 65%, transparent);
+}
+.evp-pg-live-stage .evp-poster {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--p-a) 70%, transparent), 0 30px 80px rgba(0, 0, 0, 0.7);
+}
+.evp-pg-live-stage .evp-card {
+  border: 1px solid var(--e-line);
+}
+@keyframes evlSweep {
+  from {
+    transform: rotate(-16deg);
+  }
+  to {
+    transform: rotate(18deg);
+  }
+}

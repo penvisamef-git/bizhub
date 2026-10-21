@@ -1,0 +1,255 @@
+/* App colour themes (Settings → Theme). Default = Ember (orange, in layout.css).
+ * Applied only inside the app: AppLayout sets <html data-accent="…">.
+ * "html:root" is stronger than the layout rules, which load later. */
+html:root[data-accent="ocean"],
+html:root[data-accent="ocean"] .app {
+  --brand: #2563eb;
+  --brand-2: #06b6d4;
+  --brand-ink: #1d4ed8;
+  --brand-hover: #1e50c8;
+  --accent: #1d4ed8;
+  --active: rgba(37, 99, 235, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --orange-shadow: 0 10px 24px rgba(37, 99, 235, 0.3);
+  --focus: 0 0 0 3px rgba(37, 99, 235, 0.35);
+  --bar: rgba(37, 99, 235, 0.3);
+  --glow1: rgba(37, 99, 235, 0.28);
+}
+html:root[data-accent="ocean"] .app {
+  --app-bg: #e9edf4;
+}
+html:root[data-accent="ocean"][data-theme="dark"],
+html:root[data-accent="ocean"][data-theme="dark"] .app {
+  --brand: #4f8cff;
+  --brand-2: #22d3ee;
+  --brand-ink: #7aa7ff;
+  --brand-hover: #6a9dff;
+  --accent: #7aa7ff;
+  --active: rgba(79, 140, 255, 0.16);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --orange-shadow: 0 10px 24px rgba(79, 140, 255, 0.2);
+  --focus: 0 0 0 3px rgba(79, 140, 255, 0.4);
+  --bar: rgba(79, 140, 255, 0.35);
+  --glow1: rgba(79, 140, 255, 0.25);
+}
+html:root[data-accent="ocean"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="forest"],
+html:root[data-accent="forest"] .app {
+  --brand: #15803d;
+  --brand-2: #65a30d;
+  --brand-ink: #166534;
+  --brand-hover: #126b33;
+  --accent: #166534;
+  --active: rgba(21, 128, 61, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #15803d 0%, #65a30d 100%);
+  --orange-shadow: 0 10px 24px rgba(21, 128, 61, 0.3);
+  --focus: 0 0 0 3px rgba(21, 128, 61, 0.35);
+  --bar: rgba(21, 128, 61, 0.3);
+  --glow1: rgba(21, 128, 61, 0.28);
+}
+html:root[data-accent="forest"] .app {
+  --app-bg: #e9efea;
+}
+html:root[data-accent="forest"][data-theme="dark"],
+html:root[data-accent="forest"][data-theme="dark"] .app {
+  --brand: #34c46a;
+  --brand-2: #a3d94a;
+  --brand-ink: #62d98d;
+  --brand-hover: #4bd07c;
+  --accent: #62d98d;
+  --active: rgba(52, 196, 106, 0.16);
+  --onbrand: #06210f;
+  --grad: linear-gradient(135deg, #15803d 0%, #65a30d 100%);
+  --orange-shadow: 0 10px 24px rgba(52, 196, 106, 0.2);
+  --focus: 0 0 0 3px rgba(52, 196, 106, 0.4);
+  --bar: rgba(52, 196, 106, 0.35);
+  --glow1: rgba(52, 196, 106, 0.25);
+}
+html:root[data-accent="forest"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="royal"],
+html:root[data-accent="royal"] .app {
+  --brand: #7c3aed;
+  --brand-2: #c026d3;
+  --brand-ink: #6d28d9;
+  --brand-hover: #6a2fd0;
+  --accent: #6d28d9;
+  --active: rgba(124, 58, 237, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%);
+  --orange-shadow: 0 10px 24px rgba(124, 58, 237, 0.3);
+  --focus: 0 0 0 3px rgba(124, 58, 237, 0.35);
+  --bar: rgba(124, 58, 237, 0.3);
+  --glow1: rgba(124, 58, 237, 0.28);
+}
+html:root[data-accent="royal"] .app {
+  --app-bg: #ecebf4;
+}
+html:root[data-accent="royal"][data-theme="dark"],
+html:root[data-accent="royal"][data-theme="dark"] .app {
+  --brand: #9b6cff;
+  --brand-2: #e05cf0;
+  --brand-ink: #b796ff;
+  --brand-hover: #ab84ff;
+  --accent: #b796ff;
+  --active: rgba(155, 108, 255, 0.16);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%);
+  --orange-shadow: 0 10px 24px rgba(155, 108, 255, 0.2);
+  --focus: 0 0 0 3px rgba(155, 108, 255, 0.4);
+  --bar: rgba(155, 108, 255, 0.35);
+  --glow1: rgba(155, 108, 255, 0.25);
+}
+html:root[data-accent="royal"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="rose"],
+html:root[data-accent="rose"] .app {
+  --brand: #e11d48;
+  --brand-2: #f472b6;
+  --brand-ink: #be123c;
+  --brand-hover: #c81a40;
+  --accent: #be123c;
+  --active: rgba(225, 29, 72, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #e11d48 0%, #f472b6 100%);
+  --orange-shadow: 0 10px 24px rgba(225, 29, 72, 0.3);
+  --focus: 0 0 0 3px rgba(225, 29, 72, 0.35);
+  --bar: rgba(225, 29, 72, 0.3);
+  --glow1: rgba(225, 29, 72, 0.28);
+}
+html:root[data-accent="rose"] .app {
+  --app-bg: #f3ebee;
+}
+html:root[data-accent="rose"][data-theme="dark"],
+html:root[data-accent="rose"][data-theme="dark"] .app {
+  --brand: #ff4d79;
+  --brand-2: #ff8fc7;
+  --brand-ink: #ff7f9f;
+  --brand-hover: #ff6a8f;
+  --accent: #ff7f9f;
+  --active: rgba(255, 77, 121, 0.16);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #e11d48 0%, #f472b6 100%);
+  --orange-shadow: 0 10px 24px rgba(255, 77, 121, 0.2);
+  --focus: 0 0 0 3px rgba(255, 77, 121, 0.4);
+  --bar: rgba(255, 77, 121, 0.35);
+  --glow1: rgba(255, 77, 121, 0.25);
+}
+html:root[data-accent="rose"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="lagoon"],
+html:root[data-accent="lagoon"] .app {
+  --brand: #0d9488;
+  --brand-2: #0ea5e9;
+  --brand-ink: #0f766e;
+  --brand-hover: #0b8076;
+  --accent: #0f766e;
+  --active: rgba(13, 148, 136, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%);
+  --orange-shadow: 0 10px 24px rgba(13, 148, 136, 0.3);
+  --focus: 0 0 0 3px rgba(13, 148, 136, 0.35);
+  --bar: rgba(13, 148, 136, 0.3);
+  --glow1: rgba(13, 148, 136, 0.28);
+}
+html:root[data-accent="lagoon"] .app {
+  --app-bg: #e8efef;
+}
+html:root[data-accent="lagoon"][data-theme="dark"],
+html:root[data-accent="lagoon"][data-theme="dark"] .app {
+  --brand: #2dd4bf;
+  --brand-2: #38bdf8;
+  --brand-ink: #5eead4;
+  --brand-hover: #45dcc8;
+  --accent: #5eead4;
+  --active: rgba(45, 212, 191, 0.16);
+  --onbrand: #04201c;
+  --grad: linear-gradient(135deg, #0d9488 0%, #0ea5e9 100%);
+  --orange-shadow: 0 10px 24px rgba(45, 212, 191, 0.2);
+  --focus: 0 0 0 3px rgba(45, 212, 191, 0.4);
+  --bar: rgba(45, 212, 191, 0.35);
+  --glow1: rgba(45, 212, 191, 0.25);
+}
+html:root[data-accent="lagoon"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="gold"],
+html:root[data-accent="gold"] .app {
+  --brand: #b7791f;
+  --brand-2: #d4a72c;
+  --brand-ink: #975a16;
+  --brand-hover: #a06a1a;
+  --accent: #975a16;
+  --active: rgba(183, 121, 31, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #b7791f 0%, #d4a72c 100%);
+  --orange-shadow: 0 10px 24px rgba(183, 121, 31, 0.3);
+  --focus: 0 0 0 3px rgba(183, 121, 31, 0.35);
+  --bar: rgba(183, 121, 31, 0.3);
+  --glow1: rgba(183, 121, 31, 0.28);
+}
+html:root[data-accent="gold"] .app {
+  --app-bg: #f1eee7;
+}
+html:root[data-accent="gold"][data-theme="dark"],
+html:root[data-accent="gold"][data-theme="dark"] .app {
+  --brand: #e0a83a;
+  --brand-2: #f5cd5a;
+  --brand-ink: #f0c060;
+  --brand-hover: #e8b84d;
+  --accent: #f0c060;
+  --active: rgba(224, 168, 58, 0.16);
+  --onbrand: #231703;
+  --grad: linear-gradient(135deg, #b7791f 0%, #d4a72c 100%);
+  --orange-shadow: 0 10px 24px rgba(224, 168, 58, 0.2);
+  --focus: 0 0 0 3px rgba(224, 168, 58, 0.4);
+  --bar: rgba(224, 168, 58, 0.35);
+  --glow1: rgba(224, 168, 58, 0.25);
+}
+html:root[data-accent="gold"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}
+html:root[data-accent="graphite"],
+html:root[data-accent="graphite"] .app {
+  --brand: #27272a;
+  --brand-2: #52525b;
+  --brand-ink: #18181b;
+  --brand-hover: #3f3f46;
+  --accent: #18181b;
+  --active: rgba(39, 39, 42, 0.1);
+  --onbrand: #ffffff;
+  --grad: linear-gradient(135deg, #27272a 0%, #52525b 100%);
+  --orange-shadow: 0 10px 24px rgba(39, 39, 42, 0.3);
+  --focus: 0 0 0 3px rgba(39, 39, 42, 0.35);
+  --bar: rgba(39, 39, 42, 0.3);
+  --glow1: rgba(39, 39, 42, 0.28);
+}
+html:root[data-accent="graphite"] .app {
+  --app-bg: #ebebec;
+}
+html:root[data-accent="graphite"][data-theme="dark"],
+html:root[data-accent="graphite"][data-theme="dark"] .app {
+  --brand: #e4e4e7;
+  --brand-2: #a1a1aa;
+  --brand-ink: #f4f4f5;
+  --brand-hover: #ffffff;
+  --accent: #f4f4f5;
+  --active: rgba(228, 228, 231, 0.16);
+  --onbrand: #16171b;
+  --grad: linear-gradient(135deg, #3f3f46 0%, #18181b 100%);
+  --orange-shadow: 0 10px 24px rgba(228, 228, 231, 0.2);
+  --focus: 0 0 0 3px rgba(228, 228, 231, 0.4);
+  --bar: rgba(228, 228, 231, 0.35);
+  --glow1: rgba(228, 228, 231, 0.25);
+}
+html:root[data-accent="graphite"][data-theme="dark"] .app {
+  --app-bg: #0d0e11;
+}

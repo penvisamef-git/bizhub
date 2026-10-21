@@ -1,0 +1,192 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:lang(km) h1,
+:lang(km) h2,
+:lang(km) h3 {
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+:lang(km) p,
+:lang(km) li {
+  line-height: 1.75;
+}
+
+a {
+  color: var(--accent);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: 10px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ---------- shared buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--onbrand);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--brand-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px var(--glow1);
+}
+.btn-secondary {
+  background: var(--card);
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+}
+.btn-block {
+  width: 100%;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lang-switch {
+  display: inline-flex;
+  background: var(--chip);
+  border-radius: 999px;
+  padding: 3px;
+}
+.lang-switch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 14px;
+  min-height: 36px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+}
+.lang-switch button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 2.5px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- simple full-page states ---------- */
+.page-loading {
+  min-height: 100vh;
+  background: var(--bg);
+}
+.standalone-page,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 48px 24px;
+}
+.standalone-page {
+  min-height: 100vh;
+}
+.standalone-page h1,
+.empty-state h1 {
+  margin: 8px 0 0;
+  font-size: 30px;
+  font-weight: 800;
+}
+.standalone-page p,
+.empty-state p {
+  margin: 0 0 8px;
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 16px;
+}

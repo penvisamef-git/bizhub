@@ -1,0 +1,198 @@
+/* certificates (ev_certs): one A4-landscape sheet, 3 designs */
+.evc-page { min-height: 100vh; }
+.evc-main { max-width: 1160px; margin: 0 auto; padding: 18px 16px 40px; display: flex; flex-direction: column; gap: 16px; }
+.evc-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.evc-bar > span { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; padding: 8px 14px; border-radius: 999px; font-size: 14px; }
+.evc-ok { background: #dcfce7; color: #15803d; }
+.evc-wait { background: #fef3c7; color: #b45309; }
+.evc-bad { background: #fee2e2; color: #b91c1c; }
+.evc-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.evc-actions .evp-btn { width: auto; min-width: 200px; }
+.evp-btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
+.evc-fit { width: 100%; position: relative; overflow: hidden; }
+.evc-sheet { width: 1123px; height: 794px; transform-origin: top left; position: absolute; top: 0; left: 0; box-sizing: border-box; padding: 34px; font-family: Georgia, "Times New Roman", "Noto Serif Khmer", serif; color: #1f2937; background: #fff; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15); }
+.evc-frame { height: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 44px 70px 36px; position: relative; }
+.evc-top { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.evc-logo { height: 70px; max-width: 220px; object-fit: contain; }
+.evc-org { font-size: 17px; letter-spacing: 3px; text-transform: uppercase; font-family: system-ui, sans-serif; font-weight: 600; }
+.evc-title { margin: 22px 0 4px; font-size: 50px; font-weight: 700; line-height: 1.1; }
+.evc-pre { margin: 16px 0 6px; font-size: 18px; font-style: italic; color: #6b7280; }
+.evc-name { font-size: 54px; line-height: 1.15; padding: 4px 40px 10px; border-bottom: 2px solid currentColor; min-width: 520px; font-family: "Great Vibes", "Brush Script MT", Georgia, serif; }
+.evc-body { max-width: 760px; margin: 20px 0 0; font-size: 19px; line-height: 1.55; color: #374151; }
+.evc-foot { margin-top: auto; width: 100%; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 20px; }
+.evc-sign { display: flex; flex-direction: column; align-items: center; gap: 2px; justify-self: start; min-width: 260px; font-family: system-ui, sans-serif; }
+.evc-line { width: 240px; border-top: 1.5px solid #374151; margin-bottom: 8px; }
+.evc-sign b { font-size: 16px; }
+.evc-sign small { font-size: 13px; color: #6b7280; }
+.evc-seal { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
+.evc-verify { justify-self: end; display: flex; flex-direction: column; align-items: center; gap: 3px; font-family: system-ui, sans-serif; }
+.evc-verify img, .evc-qr-empty { width: 92px; height: 92px; display: block; background: #f3f4f6; }
+.evc-verify small { font-size: 11px; color: #6b7280; }
+
+/* classic: navy + gold double frame */
+.evc-classic { background: #fffdf7; }
+.evc-classic .evc-frame { border: 3px solid #1e3a8a; outline: 1.5px solid #c9a227; outline-offset: -12px; }
+.evc-classic .evc-title { color: #1e3a8a; }
+.evc-classic .evc-org { color: #a37f12; }
+.evc-classic .evc-name { color: #1e3a8a; border-color: #c9a227; }
+.evc-classic .evc-seal { background: radial-gradient(circle at 35% 30%, #f5d76e, #b8860b); box-shadow: 0 0 0 5px #fff, 0 0 0 7px #c9a227; }
+
+/* modern: clean, a coloured band on the left */
+.evc-modern { padding: 0; font-family: system-ui, "Segoe UI", "Noto Sans Khmer", sans-serif; background: linear-gradient(90deg, #0f766e 0 26px, #14b8a6 26px 34px, #fff 34px); }
+.evc-modern .evc-frame { padding: 60px 90px 46px 120px; align-items: flex-start; text-align: left; }
+.evc-modern .evc-top { flex-direction: row; gap: 14px; }
+.evc-modern .evc-title { font-size: 46px; text-transform: uppercase; letter-spacing: 1px; color: #0f766e; font-weight: 800; }
+.evc-modern .evc-pre { font-style: normal; }
+.evc-modern .evc-name { padding-left: 0; font-family: system-ui, "Noto Sans Khmer", sans-serif; font-weight: 800; font-size: 52px; color: #111827; border-color: #14b8a6; border-bottom-width: 4px; min-width: 0; }
+.evc-modern .evc-body { text-align: left; }
+.evc-modern .evc-seal { background: #0f766e; border-radius: 22px; }
+
+/* royal: deep burgundy with ornate gold */
+.evc-royal { background: #4a0d1f; padding: 26px; }
+.evc-royal .evc-frame { background: #fffaf0; border: 2px solid #d4af37; box-shadow: inset 0 0 0 8px #fffaf0, inset 0 0 0 10px #d4af37; }
+.evc-royal .evc-title { color: #7a1530; font-variant: small-caps; letter-spacing: 2px; }
+.evc-royal .evc-org { color: #7a1530; }
+.evc-royal .evc-name { color: #7a1530; border-color: #d4af37; }
+.evc-royal .evc-seal { background: radial-gradient(circle at 35% 30%, #a3243f, #5c0f22); box-shadow: 0 0 0 5px #fffaf0, 0 0 0 7px #d4af37; }
+
+@media print {
+  @page { size: A4 landscape; margin: 0; }
+  body * { visibility: hidden; }
+  .evc-sheet, .evc-sheet * { visibility: visible; }
+  .evc-fit { position: static; height: auto !important; overflow: visible; }
+  .evc-sheet { position: fixed; top: 0; left: 0; transform: none !important; box-shadow: none; width: 297mm; height: 210mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* signature */
+.evc-sig { height: 64px; max-width: 240px; object-fit: contain; margin-bottom: -6px; }
+.evc-sig-space { height: 30px; }
+.evc-deco { display: none; position: absolute; pointer-events: none; }
+.evc-sheet > .evc-frame { z-index: 1; }
+
+/* ================= 100 designs: .evc-p + a layout, colours from --c1 / --c2 / --bg ================= */
+.evc-p { background: var(--bg); color: #1f2937; }
+.evc-p .evc-title { color: var(--c1); }
+.evc-p .evc-org { color: var(--c1); }
+.evc-p .evc-name { color: var(--c1); border-color: var(--c2); }
+.evc-p .evc-seal { background: radial-gradient(circle at 35% 30%, var(--c2), var(--c1)); box-shadow: 0 0 0 5px var(--bg), 0 0 0 7px var(--c2); }
+.evc-p .evc-logo-ic { color: var(--c1); }
+.evc-p .evc-deco { display: block; }
+
+/* 1 frame: double border */
+.evc-L-frame .evc-frame { border: 3px solid var(--c1); outline: 1.5px solid var(--c2); outline-offset: -12px; }
+.evc-L-frame .evc-deco { display: none; }
+
+/* 2 band: coloured band on the left, text left */
+.evc-L-band { padding: 0; font-family: system-ui, "Segoe UI", "Noto Sans Khmer", sans-serif; }
+.evc-L-band .evc-d1 { left: 0; top: 0; bottom: 0; width: 34px; background: linear-gradient(90deg, var(--c1) 0 26px, var(--c2) 26px); }
+.evc-L-band .evc-frame { padding: 60px 90px 46px 120px; align-items: flex-start; text-align: left; }
+.evc-L-band .evc-top { flex-direction: row; gap: 14px; }
+.evc-L-band .evc-title { font-size: 46px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+.evc-L-band .evc-pre { font-style: normal; }
+.evc-L-band .evc-name { padding-left: 0; min-width: 0; font-family: inherit; font-weight: 800; color: #111827; border-bottom-width: 4px; }
+.evc-L-band .evc-body { text-align: left; }
+.evc-L-band .evc-seal { border-radius: 22px; background: var(--c1); box-shadow: none; }
+
+/* 3 ornate: coloured outer, paper inside, gold corners */
+.evc-L-ornate { background: var(--c1); padding: 26px; }
+.evc-L-ornate .evc-frame { background: var(--bg); border: 2px solid var(--c2); box-shadow: inset 0 0 0 8px var(--bg), inset 0 0 0 10px var(--c2); }
+.evc-L-ornate .evc-deco { width: 70px; height: 70px; border: 3px solid var(--c2); z-index: 2; }
+.evc-L-ornate .evc-d1 { top: 44px; left: 44px; border-right: 0; border-bottom: 0; border-radius: 30px 0 0 0; }
+.evc-L-ornate .evc-d2 { top: 44px; right: 44px; border-left: 0; border-bottom: 0; border-radius: 0 30px 0 0; }
+.evc-L-ornate .evc-d3 { bottom: 44px; left: 44px; border-right: 0; border-top: 0; border-radius: 0 0 0 30px; }
+.evc-L-ornate .evc-d4 { bottom: 44px; right: 44px; border-left: 0; border-top: 0; border-radius: 0 0 30px 0; }
+.evc-L-ornate .evc-title { font-variant: small-caps; letter-spacing: 2px; }
+
+/* 4 ribbon: a diagonal ribbon across the top-left corner */
+.evc-L-ribbon { overflow: hidden; }
+.evc-L-ribbon .evc-frame { border: 1.5px solid var(--c2); }
+.evc-L-ribbon .evc-d1 { top: 62px; left: -86px; width: 380px; height: 54px; background: var(--c1); transform: rotate(-38deg); box-shadow: 0 0 0 4px var(--bg), 0 0 0 7px var(--c2); }
+.evc-L-ribbon .evc-d2 { bottom: 62px; right: -86px; width: 380px; height: 54px; background: var(--c1); transform: rotate(-38deg); box-shadow: 0 0 0 4px var(--bg), 0 0 0 7px var(--c2); }
+.evc-L-ribbon .evc-seal { position: relative; }
+.evc-L-ribbon .evc-seal::after { content: ""; position: absolute; bottom: -34px; left: 26px; width: 44px; height: 44px; background: linear-gradient(135deg, transparent 0 22px, var(--c1) 22px) left / 22px 100% no-repeat, linear-gradient(225deg, transparent 0 22px, var(--c1) 22px) right / 22px 100% no-repeat; z-index: -1; }
+
+/* 5 wave: coloured waves top and bottom */
+.evc-L-wave { padding: 0; overflow: hidden; }
+.evc-L-wave .evc-d1 { top: -150px; left: -10%; width: 120%; height: 250px; background: var(--c1); border-radius: 0 0 50% 50%; }
+.evc-L-wave .evc-d2 { top: -150px; left: -10%; width: 120%; height: 266px; background: var(--c2); border-radius: 0 0 50% 50%; z-index: -1; position: absolute; }
+.evc-L-wave .evc-d3 { bottom: -170px; left: -10%; width: 120%; height: 230px; background: var(--c1); border-radius: 50% 50% 0 0; }
+.evc-L-wave .evc-d4 { bottom: -170px; left: -10%; width: 120%; height: 246px; background: var(--c2); border-radius: 50% 50% 0 0; }
+.evc-L-wave .evc-d4 { z-index: 0; }
+.evc-L-wave .evc-d3 { z-index: 0; }
+.evc-L-wave .evc-d1 { z-index: 0; box-shadow: 0 12px 0 var(--c2); }
+.evc-L-wave .evc-d2 { display: none; }
+.evc-L-wave .evc-d4 { display: none; }
+.evc-L-wave .evc-d3 { box-shadow: 0 -12px 0 var(--c2); }
+.evc-L-wave .evc-frame { padding: 34px 90px 70px; }
+.evc-L-wave .evc-org { color: #fff; }
+.evc-L-wave .evc-logo-ic { color: #fff; }
+.evc-L-wave .evc-title { margin-top: 44px; }
+.evc-L-wave .evc-foot { margin-bottom: 20px; }
+
+/* 6 geometric: triangles in two corners */
+.evc-L-geo { overflow: hidden; font-family: system-ui, "Segoe UI", "Noto Sans Khmer", sans-serif; }
+.evc-L-geo .evc-d1 { top: 0; left: 0; width: 300px; height: 300px; background: var(--c1); clip-path: polygon(0 0, 100% 0, 0 100%); }
+.evc-L-geo .evc-d2 { top: 0; left: 0; width: 360px; height: 360px; background: var(--c2); clip-path: polygon(0 0, 100% 0, 0 100%); opacity: 0.55; }
+.evc-L-geo .evc-d3 { bottom: 0; right: 0; width: 300px; height: 300px; background: var(--c1); clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.evc-L-geo .evc-d4 { bottom: 0; right: 0; width: 360px; height: 360px; background: var(--c2); clip-path: polygon(100% 0, 100% 100%, 0 100%); opacity: 0.55; }
+.evc-L-geo .evc-title { text-transform: uppercase; font-weight: 800; letter-spacing: 3px; font-size: 44px; }
+.evc-L-geo .evc-name { font-family: inherit; font-weight: 700; }
+.evc-L-geo .evc-seal { transform: rotate(45deg); border-radius: 18px; }
+.evc-L-geo .evc-seal svg { transform: rotate(-45deg); }
+.evc-L-geo .evc-verify { background: #fff; padding: 6px; border-radius: 8px; }
+
+/* 7 minimal: lots of white, a thin line, text left */
+.evc-L-minimal { background: #fff; font-family: system-ui, "Segoe UI", "Noto Sans Khmer", sans-serif; }
+.evc-L-minimal .evc-d1 { top: 34px; left: 104px; width: 80px; height: 6px; background: var(--c1); }
+.evc-L-minimal .evc-d2 { top: 34px; left: 190px; width: 30px; height: 6px; background: var(--c2); }
+.evc-L-minimal .evc-frame { align-items: flex-start; text-align: left; padding: 70px 70px 40px; }
+.evc-L-minimal .evc-top { flex-direction: row; gap: 12px; }
+.evc-L-minimal .evc-title { font-size: 26px; font-weight: 600; letter-spacing: 6px; text-transform: uppercase; color: #6b7280; margin-top: 40px; }
+.evc-L-minimal .evc-pre { font-style: normal; font-size: 15px; }
+.evc-L-minimal .evc-name { font-family: inherit; font-size: 64px; font-weight: 300; color: #111827; border: 0; padding: 0; min-width: 0; }
+.evc-L-minimal .evc-body { text-align: left; color: #6b7280; }
+.evc-L-minimal .evc-seal { width: 64px; height: 64px; background: transparent; color: var(--c1); box-shadow: inset 0 0 0 2px var(--c1); }
+
+/* 8 kbach: a patterned border (Khmer-style motif) */
+.evc-L-kbach { padding: 30px; background: repeating-linear-gradient(45deg, var(--c1) 0 8px, transparent 8px 16px), repeating-linear-gradient(-45deg, var(--c2) 0 8px, var(--c1) 8px 16px); }
+.evc-L-kbach .evc-frame { background: var(--bg); border: 3px solid var(--c2); box-shadow: inset 0 0 0 6px var(--bg), inset 0 0 0 7px var(--c1); }
+.evc-L-kbach .evc-d1, .evc-L-kbach .evc-d2 { width: 34px; height: 34px; background: var(--c2); transform: rotate(45deg); left: calc(50% - 17px); z-index: 2; box-shadow: 0 0 0 5px var(--bg), 0 0 0 7px var(--c1); }
+.evc-L-kbach .evc-d1 { top: 13px; }
+.evc-L-kbach .evc-d2 { bottom: 13px; }
+.evc-L-kbach .evc-d3, .evc-L-kbach .evc-d4 { display: none; }
+.evc-L-kbach .evc-title { font-variant: small-caps; letter-spacing: 1px; }
+
+/* 9 medal: a big medal at the top */
+.evc-L-medal .evc-frame { border: 2px solid var(--c2); border-radius: 14px; padding-top: 140px; }
+.evc-L-medal .evc-d1 { top: 46px; left: calc(50% - 64px); width: 128px; height: 128px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--c2), var(--c1)); box-shadow: 0 0 0 6px var(--bg), 0 0 0 9px var(--c2); z-index: 2; }
+.evc-L-medal .evc-d2 { top: 150px; left: calc(50% - 40px); width: 80px; height: 70px; background: linear-gradient(160deg, transparent 0 34px, var(--c1) 34px) left / 40px 100% no-repeat, linear-gradient(200deg, transparent 0 34px, var(--c1) 34px) right / 40px 100% no-repeat; z-index: 1; display: none; }
+.evc-L-medal .evc-top { position: absolute; top: 76px; left: 0; right: 0; z-index: 3; }
+.evc-L-medal .evc-top .evc-org { display: none; }
+.evc-L-medal .evc-logo { height: 54px; max-width: 90px; filter: brightness(0) invert(1); }
+.evc-L-medal .evc-logo-ic { color: #fff; }
+.evc-L-medal .evc-title { margin-top: 40px; }
+.evc-L-medal .evc-seal { display: none; }
+.evc-L-medal .evc-foot { grid-template-columns: 1fr 1fr; }
+
+/* 10 night gold: dark, glowing colour, gold writing */
+.evc-L-night { background: radial-gradient(circle at 15% 0%, var(--c1), #0b0f1a 72%); color: #e5e7eb; }
+.evc-L-night .evc-frame { border: 1.5px solid var(--c2); outline: 1px solid color-mix(in srgb, var(--c2) 50%, transparent); outline-offset: -10px; }
+.evc-L-night .evc-title, .evc-L-night .evc-org, .evc-L-night .evc-logo-ic { color: var(--c2); }
+.evc-L-night .evc-pre, .evc-L-night .evc-body, .evc-L-night .evc-sign small, .evc-L-night .evc-verify small { color: #cbd5e1; }
+.evc-L-night .evc-name { color: #fff; }
+.evc-L-night .evc-line { border-color: var(--c2); }
+.evc-L-night .evc-seal { box-shadow: 0 0 0 5px #0b0f1a, 0 0 0 7px var(--c2); }
+.evc-L-night .evc-verify img { padding: 4px; background: #fff; }
+.evc-L-night .evc-sig { filter: invert(1) brightness(1.6); }
+.evc-L-night .evc-deco { display: none; }
+@media print { .evc-sheet .evc-deco { visibility: visible; } }
+/* fixes: ribbon (second ribbon top-right, clear of the QR), wave (taller top so the logo sits inside), medal (logo above the medal) */
+.evc-L-ribbon .evc-d2 { top: 62px; bottom: auto; right: -86px; transform: rotate(38deg); }
+.evc-L-wave .evc-d1 { top: -110px; height: 250px; }
+.evc-L-wave .evc-frame { padding-top: 26px; }
+.evc-L-wave .evc-title { margin-top: 64px; }
+.evc-L-medal .evc-d1 { z-index: 0; }
+.evc-L-medal .evc-top { z-index: 3; top: 82px; }
+.evc-sponsors { display: flex; justify-content: center; align-items: center; gap: 22px; margin-top: auto; padding-top: 14px; }
+.evc-sponsors img { height: 34px; max-width: 110px; object-fit: contain; }
+.evc-sponsors + .evc-foot { margin-top: 12px; }

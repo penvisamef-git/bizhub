@@ -1,0 +1,1131 @@
+/* ================= Guest House receipts: 24 templates, black ink only (thermal or A4) ================= */
+
+/* ---------- printing ---------- */
+.ghr-print {
+  display: none;
+}
+@media print {
+  body.ghr-printing > *:not(.ghr-print) {
+    display: none !important;
+  }
+  body.ghr-printing .ghr-print {
+    display: block;
+  }
+  body.ghr-printing {
+    background: #fff !important;
+  }
+}
+.ghr-print.w80 {
+  width: 76mm;
+}
+.ghr-print.w58 {
+  width: 54mm;
+}
+.ghr-print.wa4 {
+  width: 100%;
+}
+
+/* ---------- on screen ---------- */
+.ghr-paper {
+  background: #fff;
+  color: #000;
+  margin: 0 auto;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 8px 28px rgb(0 0 0 / 0.14);
+  border-radius: 4px;
+  position: relative;
+  max-width: 100%;
+}
+.ghr-paper.w80 {
+  width: 300px;
+}
+.ghr-paper.w58 {
+  width: 220px;
+}
+.ghr-paper.wa4 {
+  width: 560px;
+  border-radius: 2px;
+}
+.ghr-paper:not(.wa4)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background:
+    linear-gradient(-45deg, transparent 6px, #fff 0) 0 0 / 12px 8px repeat-x,
+    linear-gradient(45deg, transparent 6px, #fff 0) 0 0 / 12px 8px repeat-x;
+}
+
+/* ---------- base (= Classic) ---------- */
+.ghr {
+  --ink: #000;
+  position: relative;
+  font-family: "Kantumruy Pro", system-ui, sans-serif;
+  font-size: 11.5px;
+  line-height: 1.38;
+  color: var(--ink);
+  padding: 3mm 2.5mm 4mm;
+  overflow: hidden;
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.ghr-paper .ghr {
+  padding: 16px 14px 20px;
+}
+.ghr.sz-58 {
+  font-size: 10.5px;
+}
+.ghr.sz-a4 {
+  font-size: 13px;
+  padding: 0;
+}
+.ghr-paper .ghr.sz-a4 {
+  padding: 36px 40px;
+}
+.ghr b {
+  font-weight: 700;
+}
+.ghr small {
+  font-size: 0.85em;
+}
+.ghr-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 4px;
+}
+.ghr-logo {
+  display: grid;
+  place-items: center;
+  width: 13mm;
+  height: 13mm;
+  border-radius: 3mm;
+  overflow: hidden;
+}
+.ghr-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15);
+}
+.ghr-id {
+  display: grid;
+  gap: 1px;
+}
+.ghr-name {
+  font-size: 1.2em;
+}
+.ghr-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.12em;
+  letter-spacing: 0.1em;
+  margin: 2.5mm 0 1.5mm;
+}
+.ghr-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2mm;
+}
+.ghr-row > span {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.ghr-row > b {
+  flex: none;
+  text-align: right;
+  font-weight: 600;
+}
+.ghr-dots {
+  flex: 1 1 auto;
+  min-width: 2mm;
+}
+.ghr-rule {
+  border-top: 1px dashed var(--ink);
+  margin: 2mm 0;
+}
+.ghr-stay {
+  display: grid;
+  gap: 1px;
+}
+.ghr-guest {
+  display: grid;
+  gap: 1px;
+  margin-bottom: 1.2mm;
+}
+.ghr-guest b {
+  font-size: 1.1em;
+}
+.ghr-roomtag {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.ghr-lines {
+  display: grid;
+  gap: 1.2mm;
+}
+.ghr-totals {
+  display: grid;
+  gap: 1mm;
+}
+.ghr-grand {
+  font-size: 1.25em;
+  font-weight: 800;
+}
+.ghr-grand > b {
+  font-weight: 800;
+}
+.ghr-khr {
+  text-align: right;
+  font-size: 0.9em;
+}
+.ghr-due {
+  font-weight: 800;
+}
+.ghr-due > b {
+  font-weight: 800;
+}
+.ghr-pays {
+  display: grid;
+  gap: 0.8mm;
+  margin-top: 2.5mm;
+  font-size: 0.92em;
+}
+.ghr-sec {
+  font-weight: 800;
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ghr-qr {
+  display: grid;
+  justify-items: center;
+  gap: 1mm;
+  margin-top: 3mm;
+  text-align: center;
+}
+.ghr-qr img {
+  width: 34mm;
+  height: 34mm;
+  object-fit: contain;
+}
+.ghr.sz-58 .ghr-qr img {
+  width: 28mm;
+  height: 28mm;
+}
+.ghr-foot {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1mm;
+  margin-top: 3.5mm;
+  font-size: 0.92em;
+}
+.ghr-foot p {
+  margin: 0;
+  white-space: pre-line;
+}
+.ghr-bi {
+  display: inline-grid;
+  line-height: 1.15;
+}
+.ghr-bi small {
+  font-size: 0.72em;
+  font-weight: 400;
+  opacity: 0.85;
+}
+/* parts only some templates use */
+.ghr-orn,
+.ghr-stars {
+  text-align: center;
+  letter-spacing: 0.3em;
+  margin: 1.5mm 0;
+}
+.ghr-stars {
+  letter-spacing: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ghr-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1.5px solid var(--ink);
+  margin: 2mm 0;
+}
+.ghr-facts > div {
+  display: grid;
+  padding: 1.5mm 2mm;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.ghr-facts > div:nth-child(2n) {
+  border-right: 0;
+}
+.ghr-facts > div:nth-child(n + 3) {
+  border-bottom: 0;
+}
+.ghr-facts small {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.72em;
+}
+.ghr-facts b {
+  font-size: 1.35em;
+  line-height: 1.1;
+}
+.ghr-table {
+  display: grid;
+  gap: 1.2mm;
+}
+.ghr-tr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 8mm auto;
+  gap: 2mm;
+  align-items: baseline;
+}
+.ghr-tr > span:nth-child(2) {
+  text-align: center;
+}
+.ghr-tr > span:nth-child(3) {
+  text-align: right;
+  font-weight: 600;
+}
+.ghr-tr small {
+  display: block;
+  font-size: 0.82em;
+}
+.ghr-th {
+  font-weight: 800;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 1mm;
+}
+.ghr-th > span:nth-child(3) {
+  font-weight: 800;
+}
+.ghr-folio {
+  display: grid;
+  gap: 1mm;
+  font-size: 0.92em;
+}
+.ghr-fo {
+  display: grid;
+  grid-template-columns: 10mm minmax(0, 1fr) auto auto;
+  gap: 1.5mm;
+}
+.ghr-fo > span:nth-child(n + 3) {
+  text-align: right;
+}
+.ghr-fo > span:nth-child(4) {
+  min-width: 13mm;
+  font-weight: 700;
+}
+.ghr-fo-h {
+  font-weight: 800;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 1mm;
+}
+.ghr-fo.cr {
+  font-style: italic;
+}
+.ghr-cal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2mm;
+  justify-content: center;
+  margin: 2mm 0;
+}
+.ghr-cal > div {
+  display: grid;
+  justify-items: center;
+  width: 12mm;
+  border: 1.5px solid var(--ink);
+  border-radius: 1.5mm;
+  overflow: hidden;
+}
+.ghr-cal > div small {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: 0.7em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.ghr-cal > div b {
+  font-size: 1.45em;
+  line-height: 1.15;
+}
+.ghr-cal > div span {
+  font-size: 0.68em;
+  padding-bottom: 0.6mm;
+}
+.ghr-cal > div.out {
+  border-style: dashed;
+}
+.ghr-cal > div.out small {
+  background: none;
+  color: var(--ink);
+  border-bottom: 1px dashed var(--ink);
+}
+.ghr-reg {
+  display: grid;
+  gap: 2mm;
+}
+.ghr-field {
+  display: grid;
+  gap: 0.4mm;
+}
+.ghr-field small {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ghr-field b {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.5mm;
+  min-height: 1.2em;
+}
+.ghr-sign {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  margin-top: 8mm;
+}
+.ghr-sign > div {
+  display: grid;
+  justify-items: center;
+  gap: 1mm;
+}
+.ghr-sign i {
+  display: block;
+  width: 100%;
+  border-top: 1px solid var(--ink);
+}
+.ghr-billto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+}
+.ghr-billto > div {
+  display: grid;
+  gap: 0.4mm;
+  align-content: start;
+}
+.ghr-billto small {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75em;
+}
+.ghr-ticket {
+  display: grid;
+  gap: 2mm;
+  margin: 1mm 0;
+}
+.ghr-tk-room {
+  display: grid;
+  justify-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 2mm;
+  padding: 1mm;
+}
+.ghr-tk-room small {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+.ghr-tk-room b {
+  font-size: 2.6em;
+  line-height: 1;
+  font-weight: 900;
+}
+.ghr-tk-dates {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  text-align: center;
+}
+.ghr-tk-dates > div {
+  display: grid;
+}
+.ghr-tk-dates small {
+  text-transform: uppercase;
+  font-size: 0.72em;
+  letter-spacing: 0.1em;
+}
+.ghr-tk-dates b {
+  font-size: 1.4em;
+  line-height: 1.1;
+}
+.ghr-tk-arrow {
+  font-size: 1.6em;
+  font-weight: 800;
+}
+.ghr-perf {
+  position: relative;
+  border-top: 2px dashed var(--ink);
+  margin: 3mm -4mm 2.5mm;
+}
+.ghr-perf span {
+  position: absolute;
+  left: 3mm;
+  top: -0.8em;
+  background: #fff;
+  padding: 0 1mm;
+  font-size: 1.1em;
+}
+.ghr-stamp {
+  position: absolute;
+  z-index: 2;
+  top: 9mm;
+  right: 3mm;
+  transform: rotate(-14deg);
+  border: 3px double var(--ink);
+  border-radius: 50%;
+  width: 24mm;
+  height: 24mm;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 1.35em;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+  pointer-events: none;
+}
+.ghr-stamp::before {
+  content: "";
+  position: absolute;
+  inset: 1.4mm;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+}
+.ghr-stamp.due {
+  border-style: dashed;
+}
+.ghr-hello {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1mm;
+  border: 2px solid var(--ink);
+  border-radius: 4mm;
+  padding: 3mm 2mm;
+  margin-bottom: 3mm;
+}
+.ghr-hello b {
+  font-size: 1.6em;
+  line-height: 1.15;
+}
+.ghr-hello span {
+  letter-spacing: 0.2em;
+}
+
+/* ================= the 24 templates ================= */
+
+/* 2 · Modern */
+.ghr.t-modern {
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+}
+.ghr.t-modern .ghr-head {
+  justify-items: start;
+  text-align: left;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2.5mm;
+}
+.ghr.t-modern .ghr-logo {
+  width: 11mm;
+  height: 11mm;
+  border-radius: 50%;
+}
+.ghr.t-modern .ghr-title {
+  text-align: left;
+  font-size: 1.6em;
+  letter-spacing: -0.01em;
+  font-weight: 900;
+}
+.ghr.t-modern .ghr-rule {
+  border-top: 2px solid var(--ink);
+}
+.ghr.t-modern .ghr-grand {
+  font-size: 1.9em;
+  letter-spacing: -0.02em;
+}
+
+/* 3 · Typewriter */
+.ghr.t-typewriter {
+  font-family: "Courier New", Courier, "Kantumruy Pro", monospace;
+  letter-spacing: 0.01em;
+}
+.ghr.t-typewriter .ghr-rule {
+  border-top: 3px double var(--ink);
+}
+.ghr.t-typewriter .ghr-title {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ghr.t-typewriter .ghr-meta,
+.ghr.t-typewriter .ghr-roomtag,
+.ghr.t-typewriter .ghr-sec {
+  text-transform: uppercase;
+}
+.ghr.t-typewriter .ghr-logo {
+  display: none;
+}
+
+/* 4 · Bold */
+.ghr.t-bold .ghr-title {
+  background: var(--ink);
+  color: #fff;
+  padding: 1.6mm 0;
+  margin-left: -2.5mm;
+  margin-right: -2.5mm;
+  font-size: 1.35em;
+}
+.ghr-paper .ghr.t-bold .ghr-title {
+  margin-left: -14px;
+  margin-right: -14px;
+}
+.ghr.t-bold .ghr-name {
+  font-size: 1.45em;
+  font-weight: 900;
+}
+.ghr.t-bold .ghr-grand {
+  background: var(--ink);
+  color: #fff;
+  padding: 2mm 2.5mm;
+  border-radius: 1.5mm;
+  font-size: 1.5em;
+}
+.ghr.t-bold .ghr-rule {
+  border-top: 2px solid var(--ink);
+}
+
+/* 5 · Compact */
+.ghr.t-compact {
+  font-size: 9.5px;
+  line-height: 1.22;
+  padding-top: 2mm;
+  padding-bottom: 2mm;
+}
+.ghr.t-compact .ghr-logo,
+.ghr.t-compact .ghr-pays,
+.ghr.t-compact .ghr-khr {
+  display: none;
+}
+.ghr.t-compact .ghr-title {
+  margin: 1mm 0;
+}
+.ghr.t-compact .ghr-rule {
+  margin: 1mm 0;
+}
+.ghr.t-compact .ghr-lines {
+  gap: 0.4mm;
+}
+.ghr.t-compact .ghr-foot {
+  margin-top: 1.5mm;
+}
+
+/* 6 · Elegant */
+.ghr.t-elegant {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.ghr.t-elegant .ghr-name {
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+.ghr.t-elegant .ghr-logo {
+  border-radius: 50%;
+}
+.ghr.t-elegant .ghr-title {
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  font-size: 1em;
+}
+.ghr.t-elegant .ghr-rule {
+  border-top: 3px double var(--ink);
+}
+.ghr.t-elegant .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-elegant .ghr-foot b {
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* 7 · Boxed */
+.ghr.t-boxed .ghr-rule {
+  display: none;
+}
+.ghr.t-boxed .ghr-meta,
+.ghr.t-boxed .ghr-stay,
+.ghr.t-boxed .ghr-lines,
+.ghr.t-boxed .ghr-totals,
+.ghr.t-boxed .ghr-pays {
+  border: 1.5px solid var(--ink);
+  border-radius: 2mm;
+  padding: 1.8mm 2.2mm;
+  margin-top: 2mm;
+}
+.ghr.t-boxed .ghr-totals {
+  border-width: 2.5px;
+}
+.ghr.t-boxed .ghr-title {
+  display: block;
+  width: max-content;
+  margin: 2.5mm auto 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.6mm 4mm;
+}
+
+/* 8 · Columns */
+.ghr.t-columns .ghr-rule {
+  border-top-style: solid;
+}
+.ghr.t-columns .ghr-title {
+  text-align: left;
+}
+.ghr.t-columns .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2.5mm;
+}
+
+/* 9 · Big logo */
+.ghr.t-biglogo .ghr-logo {
+  width: 26mm;
+  height: 26mm;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  padding: 1mm;
+  box-sizing: border-box;
+}
+.ghr.t-biglogo .ghr-logo img {
+  border-radius: 50%;
+}
+.ghr.t-biglogo .ghr-name {
+  font-size: 1.6em;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+/* 10 · Minimal */
+.ghr.t-minimal {
+  line-height: 1.6;
+  font-weight: 300;
+}
+.ghr.t-minimal .ghr-rule {
+  border: 0;
+  margin: 3mm 0;
+}
+.ghr.t-minimal .ghr-logo {
+  display: none;
+}
+.ghr.t-minimal .ghr-title {
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  font-size: 0.9em;
+}
+.ghr.t-minimal .ghr-row > span,
+.ghr.t-minimal .ghr-meta,
+.ghr.t-minimal .ghr-sec {
+  color: #444;
+}
+.ghr.t-minimal .ghr-grand {
+  font-weight: 600;
+  font-size: 1.6em;
+}
+
+/* 11 · Khmer first */
+.ghr.t-khmer {
+  font-family: "Kantumruy Pro", "Noto Sans Khmer", system-ui, sans-serif;
+  line-height: 1.3;
+}
+.ghr.t-khmer .ghr-lines,
+.ghr.t-khmer .ghr-meta,
+.ghr.t-khmer .ghr-totals {
+  gap: 1.6mm;
+}
+.ghr.t-khmer .ghr-rule {
+  border-top: 1.5px solid var(--ink);
+}
+.ghr.t-khmer .ghr-title .ghr-bi b,
+.ghr.t-khmer .ghr-title {
+  font-size: 1.25em;
+}
+
+/* 12 · Room ticket */
+.ghr.t-ticket {
+  border: 2px dashed var(--ink);
+  border-radius: 3mm;
+  margin: 1mm;
+}
+.ghr.t-ticket .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2mm;
+}
+.ghr.t-ticket .ghr-title {
+  letter-spacing: 0.3em;
+}
+.ghr.t-ticket .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-ticket .ghr-roomtag {
+  display: none;
+}
+
+/* 13 · Paid stamp */
+.ghr.t-stamp .ghr-head {
+  justify-items: start;
+  text-align: left;
+  padding-right: 26mm;
+}
+.ghr.t-stamp .ghr-title {
+  font-size: 1.3em;
+  text-align: left;
+}
+.ghr.t-stamp .ghr-rule {
+  border-top: 1.5px solid var(--ink);
+}
+
+/* 14 · Invoice */
+.ghr.t-invoice .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2.5mm;
+}
+.ghr.t-invoice .ghr-title {
+  text-align: right;
+  font-size: 1.9em;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin: 3mm 0 1mm;
+}
+.ghr.t-invoice .ghr-meta {
+  justify-items: end;
+}
+.ghr.t-invoice .ghr-meta .ghr-row {
+  width: 70%;
+  margin-left: auto;
+}
+.ghr.t-invoice .ghr-rule {
+  border-top: 1.5px solid var(--ink);
+}
+.ghr.t-invoice .ghr-th {
+  background: var(--ink);
+  color: #fff;
+  padding: 1mm 1.5mm;
+  border: 0;
+}
+.ghr.t-invoice .ghr-tr:not(.ghr-th) {
+  padding: 0 1.5mm;
+}
+.ghr.t-invoice .ghr-totals {
+  width: 72%;
+  margin-left: auto;
+}
+.ghr.t-invoice .ghr-grand {
+  border-top: 2px solid var(--ink);
+  padding-top: 1mm;
+}
+.ghr.t-invoice.sz-58 .ghr-billto {
+  grid-template-columns: 1fr;
+}
+.ghr.t-invoice.sz-a4 .ghr-logo {
+  width: 18mm;
+  height: 18mm;
+}
+.ghr.t-invoice.sz-a4 .ghr-name {
+  font-size: 1.6em;
+}
+
+/* 15 · Hotel folio */
+.ghr.t-folio {
+  font-family: "Courier New", Courier, "Kantumruy Pro", monospace;
+}
+.ghr.t-folio .ghr-title {
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding: 1mm 0;
+  letter-spacing: 0.25em;
+}
+.ghr.t-folio .ghr-rule {
+  border-top-style: solid;
+}
+.ghr.t-folio.sz-58 .ghr-fo {
+  grid-template-columns: 8mm minmax(0, 1fr) auto;
+}
+.ghr.t-folio.sz-58 .ghr-fo > span:nth-child(4) {
+  display: none;
+}
+
+/* 16 · Thank-you card */
+.ghr.t-postcard .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2mm;
+}
+.ghr.t-postcard .ghr-logo {
+  border-radius: 50%;
+  width: 10mm;
+  height: 10mm;
+}
+.ghr.t-postcard .ghr-rule {
+  border-top: 1px dotted var(--ink);
+}
+.ghr.t-postcard .ghr-title {
+  font-size: 0.95em;
+  letter-spacing: 0.25em;
+}
+
+/* 17 · Retro */
+.ghr.t-retro {
+  font-family: "Courier New", Courier, "Kantumruy Pro", monospace;
+  text-transform: uppercase;
+}
+.ghr.t-retro .ghr-head,
+.ghr.t-retro .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-retro .ghr-logo {
+  display: none;
+}
+.ghr.t-retro .ghr-dots {
+  border-bottom: 1.5px dotted var(--ink);
+  transform: translateY(-0.3em);
+}
+.ghr.t-retro .ghr-rule {
+  border-top: 1px dashed var(--ink);
+  border-bottom: 1px dashed var(--ink);
+  height: 1.5px;
+}
+.ghr.t-retro .ghr-title {
+  font-size: 1.3em;
+  letter-spacing: 0.3em;
+}
+
+/* 18 · Banner */
+.ghr.t-banner .ghr-head {
+  background: var(--ink);
+  color: #fff;
+  padding: 3mm 2mm;
+  margin: -3mm -2.5mm 0;
+}
+.ghr-paper .ghr.t-banner .ghr-head {
+  margin: -16px -14px 0;
+}
+.ghr.t-banner .ghr-logo {
+  background: #fff;
+  color: var(--ink);
+}
+.ghr.t-banner .ghr-logo img {
+  filter: grayscale(1);
+}
+.ghr.t-banner .ghr-name {
+  font-size: 1.4em;
+}
+.ghr.t-banner .ghr-sec,
+.ghr.t-banner .ghr-roomtag {
+  display: inline-block;
+  width: max-content;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.3mm 2mm;
+  border-radius: 999px;
+}
+.ghr.t-banner .ghr-grand {
+  background: var(--ink);
+  color: #fff;
+  padding: 2.5mm;
+  margin: 0 -2.5mm;
+  font-size: 1.5em;
+}
+.ghr-paper .ghr.t-banner .ghr-grand {
+  margin: 0 -14px;
+  padding: 10px 14px;
+}
+
+/* 19 · Fact grid */
+.ghr.t-grid .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-grid .ghr-roomtag {
+  display: none;
+}
+.ghr.t-grid .ghr-rule {
+  border-top-style: solid;
+}
+.ghr.t-grid .ghr-totals {
+  border: 1.5px solid var(--ink);
+  padding: 1.5mm 2mm;
+}
+
+/* 20 · Registration card */
+.ghr.t-regcard .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2mm;
+}
+.ghr.t-regcard .ghr-title {
+  border: 2px solid var(--ink);
+  padding: 1mm;
+  font-size: 1em;
+}
+.ghr.t-regcard .ghr-rule {
+  border-top-style: solid;
+}
+
+/* 21 · Luxe */
+.ghr.t-luxe {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  border: 4px double var(--ink);
+  margin: 1.5mm;
+  padding: 4mm 3mm;
+}
+.ghr.t-luxe .ghr-logo {
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+}
+.ghr.t-luxe .ghr-name {
+  font-size: 1.5em;
+  font-weight: 400;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+.ghr.t-luxe .ghr-title {
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.2em;
+}
+.ghr.t-luxe .ghr-rule {
+  border-top: 1px solid var(--ink);
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ghr.t-luxe .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-luxe .ghr-grand {
+  font-weight: 400;
+  font-size: 1.45em;
+}
+
+/* 22 · Large print */
+.ghr.t-large {
+  font-size: 15px;
+  line-height: 1.3;
+}
+.ghr.t-large.sz-58 {
+  font-size: 13px;
+}
+.ghr.t-large .ghr-facts b {
+  font-size: 1.6em;
+}
+.ghr.t-large .ghr-grand {
+  font-size: 1.8em;
+}
+.ghr.t-large .ghr-due {
+  font-size: 1.4em;
+}
+.ghr.t-large .ghr-pays,
+.ghr.t-large .ghr-meta {
+  font-size: 0.85em;
+}
+.ghr.t-large .ghr-rule {
+  border-top: 2px solid var(--ink);
+}
+
+/* 23 · Zigzag */
+.ghr.t-zigzag .ghr-rule {
+  border: 0;
+  height: 3mm;
+  margin: 2.5mm -1mm;
+  background:
+    linear-gradient(135deg, var(--ink) 25%, transparent 25%) 0 0 / 3mm 3mm repeat-x,
+    linear-gradient(225deg, var(--ink) 25%, transparent 25%) 0 0 / 3mm 3mm repeat-x;
+  opacity: 0.9;
+}
+.ghr.t-zigzag .ghr-title::before,
+.ghr.t-zigzag .ghr-title::after {
+  content: " ▲ ";
+  font-size: 0.7em;
+}
+.ghr.t-zigzag .ghr-sec::before {
+  content: "▸ ";
+}
+.ghr.t-zigzag .ghr-grand {
+  font-size: 1.5em;
+}
+
+/* 24 · Calendar */
+.ghr.t-calendar .ghr-head {
+  grid-template-columns: auto 1fr;
+  justify-items: start;
+  text-align: left;
+  align-items: center;
+  gap: 2mm;
+}
+.ghr.t-calendar .ghr-guest {
+  justify-items: center;
+  text-align: center;
+}
+.ghr.t-calendar .ghr-stay > .ghr-row {
+  display: none;
+}
+.ghr.t-calendar .ghr-rule {
+  border-top-style: solid;
+}
+
+/* A4: more room */
+.ghr.sz-a4 .ghr-qr img {
+  width: 40mm;
+  height: 40mm;
+}
+.ghr.sz-a4 .ghr-cal > div {
+  width: 16mm;
+}
+
+/* Khmer letters must not be spaced apart (it breaks the script) */
+.ghr.lang-km .ghr-title,
+.ghr.lang-km .ghr-sec,
+.ghr.lang-km .ghr-bi b,
+.ghr.lang-km .ghr-facts small,
+.ghr.lang-km .ghr-field small,
+.ghr.lang-km .ghr-billto small,
+.ghr.lang-km .ghr-tk-room small,
+.ghr.lang-km .ghr-tk-dates small,
+.ghr.lang-km .ghr-th,
+.ghr.lang-km .ghr-fo-h,
+.ghr.lang-km .ghr-stamp,
+.ghr.t-khmer .ghr-bi b {
+  letter-spacing: 0;
+}

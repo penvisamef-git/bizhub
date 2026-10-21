@@ -1,0 +1,1066 @@
+/* Portfolio themes. Free: classic (default in portfolio.css), minimal, sidebar.
+   Premium: midnight, magazine, glass, terminal, bento (shown as "Mosaic"), executive, corporate, professional, enterprise.
+   Wide layouts use container queries on .pf, so they also look right in the small editor preview. */
+
+/* ===================== FREE · Minimal: white, typographic, no color block ===================== */
+.pf-t-minimal {
+  --page: #ffffff;
+  --paper: #ffffff;
+}
+.pf-t-minimal .pf-hero {
+  color: var(--ink);
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-minimal .pf-hero-fx {
+  display: none;
+}
+.pf-t-minimal .pf-hero-in {
+  align-items: flex-start;
+  text-align: left;
+}
+.pf-t-minimal .pf-photo {
+  transform: none;
+  border-radius: 999px;
+  border: 0;
+  box-shadow: none;
+  background: var(--c-soft);
+  color: var(--c-dark);
+}
+.pf-t-minimal .pf-hero h1 {
+  letter-spacing: -0.03em;
+}
+.pf-t-minimal .pf-role {
+  color: var(--c);
+  opacity: 1;
+}
+.pf-t-minimal .pf-contacts {
+  justify-content: flex-start;
+}
+.pf-t-minimal .pf-contacts a {
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line);
+}
+.pf-t-minimal .pf-main {
+  margin-top: 0;
+  gap: 0;
+}
+.pf-t-minimal .pf-section {
+  box-shadow: none;
+  border-radius: 0;
+  padding: 26px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-minimal .pf-section-ic {
+  display: none;
+}
+.pf-t-minimal .pf-section h2 {
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--c);
+}
+:lang(km) .pf-t-minimal .pf-section h2 {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+}
+.pf-t-minimal .pf-two {
+  gap: 0;
+}
+.pf-t-minimal .pf-qr {
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+/* ===================== FREE · Sidebar: colored side column on wide screens ===================== */
+.pf-t-sidebar .pf-hero {
+  background: var(--c-dark);
+}
+.pf-t-sidebar .pf-photo {
+  border-radius: 999px;
+  transform: none;
+}
+@container (min-width: 760px) {
+  .pf-t-sidebar .pf-shell {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    min-height: 100%;
+  }
+  .pf-t-sidebar .pf-hero {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--c-dark), var(--c));
+  }
+  .pf-t-sidebar .pf-hero-in {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 48px 28px;
+  }
+  .pf-t-sidebar .pf-photo {
+    width: 128px;
+    height: 128px;
+  }
+  .pf-t-sidebar .pf-hero h1 {
+    font-size: 30px;
+  }
+  .pf-t-sidebar .pf-contacts {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pf-t-sidebar .pf-contacts a {
+    border-radius: 12px;
+  }
+  .pf-t-sidebar .pf-main {
+    margin: 0;
+    max-width: 860px;
+    padding: 40px 32px;
+  }
+  .pf-t-sidebar .pf-projects,
+  .pf-t-sidebar .pf-two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===================== PREMIUM · Midnight: dark with glowing accents ===================== */
+.pf-t-midnight {
+  --ink: #eef0f6;
+  --muted: #9aa0b4;
+  --line: rgba(255, 255, 255, 0.08);
+  --paper: rgba(255, 255, 255, 0.04);
+  --page: #090b12;
+  background:
+    radial-gradient(60% 40% at 80% 0%, color-mix(in srgb, var(--c) 35%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 0% 30%, rgba(124, 77, 255, 0.18), transparent 70%),
+    #090b12;
+}
+.pf-t-midnight .pf-hero {
+  background: transparent;
+}
+.pf-t-midnight .pf-hero-fx {
+  background: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 40px 40px;
+}
+.pf-t-midnight .pf-photo {
+  border-color: var(--c);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--c) 25%, transparent), 0 0 50px color-mix(in srgb, var(--c) 55%, transparent);
+}
+.pf-t-midnight .pf-hero h1 {
+  background: linear-gradient(90deg, #fff, var(--c-light));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pf-t-midnight .pf-contacts a {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.pf-t-midnight .pf-section {
+  border: 1px solid var(--line);
+  box-shadow: none;
+  backdrop-filter: blur(10px);
+}
+.pf-t-midnight .pf-section-ic,
+.pf-t-midnight .pf-chips span,
+.pf-t-midnight .pf-when {
+  background: color-mix(in srgb, var(--c) 22%, transparent);
+  color: var(--c-light);
+}
+.pf-t-midnight .pf-dot {
+  background: #090b12;
+  box-shadow: 0 0 12px var(--c);
+}
+.pf-t-midnight .pf-about,
+.pf-t-midnight .pf-timeline p {
+  color: #c9cddb;
+}
+.pf-t-midnight a.pf-project:hover {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--c) 30%, transparent);
+}
+.pf-t-midnight .pf-project small,
+.pf-t-midnight .pf-list a {
+  color: var(--c-light);
+}
+.pf-t-midnight .pf-card-link {
+  background: var(--c);
+}
+.pf-t-midnight .pf-empty {
+  background: transparent;
+}
+
+/* ===================== PREMIUM · Magazine: editorial serif, big type ===================== */
+.pf-t-magazine {
+  --page: #f6f2ea;
+  --paper: transparent;
+  --ink: #141210;
+  --muted: #6b645a;
+  --line: #d9d1c3;
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  counter-reset: pfsec;
+}
+.pf-t-magazine .pf-hero {
+  color: var(--ink);
+  background: var(--page);
+  border-bottom: 3px double var(--ink);
+}
+.pf-t-magazine .pf-hero-fx {
+  display: none;
+}
+.pf-t-magazine .pf-hero-in {
+  align-items: flex-start;
+  text-align: left;
+}
+.pf-t-magazine .pf-photo {
+  border-radius: 2px;
+  border: 0;
+  transform: none;
+  filter: grayscale(1) contrast(1.1);
+  box-shadow: 10px 10px 0 var(--c);
+}
+.pf-t-magazine .pf-hero h1 {
+  font-weight: 400;
+  font-size: 46px;
+  font-style: italic;
+  line-height: 1;
+}
+.pf-t-magazine .pf-role {
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 12.5px;
+  color: var(--c-dark);
+}
+:lang(km) .pf-t-magazine .pf-role {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+}
+.pf-t-magazine .pf-contacts {
+  justify-content: flex-start;
+}
+.pf-t-magazine .pf-contacts a {
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 4px 2px;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif;
+}
+.pf-t-magazine .pf-main {
+  margin-top: 0;
+  gap: 0;
+}
+.pf-t-magazine .pf-section {
+  box-shadow: none;
+  border-radius: 0;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+  counter-increment: pfsec;
+}
+.pf-t-magazine .pf-section h2 {
+  font-weight: 400;
+  font-size: 28px;
+  font-style: italic;
+}
+.pf-t-magazine .pf-section h2::before {
+  content: counter(pfsec, decimal-leading-zero);
+  font-style: normal;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c);
+  margin-right: 4px;
+}
+.pf-t-magazine .pf-section-ic {
+  display: none;
+}
+.pf-t-magazine .pf-about {
+  font-size: 18px;
+  line-height: 1.7;
+}
+.pf-t-magazine .pf-about::first-letter {
+  float: left;
+  font-size: 58px;
+  line-height: 0.9;
+  padding: 4px 8px 0 0;
+  color: var(--c);
+}
+.pf-t-magazine .pf-chips span,
+.pf-t-magazine .pf-when {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  border-radius: 0;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.pf-t-magazine .pf-dot {
+  border-radius: 0;
+  border-color: var(--ink);
+  box-shadow: none;
+}
+.pf-t-magazine .pf-project {
+  border-radius: 0;
+  border-color: var(--ink);
+}
+.pf-t-magazine .pf-two {
+  gap: 0 30px;
+}
+.pf-t-magazine .pf-qr {
+  box-shadow: none;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+}
+.pf-t-magazine .pf-card-link {
+  border-radius: 0;
+}
+@container (min-width: 700px) {
+  .pf-t-magazine .pf-hero h1 {
+    font-size: 72px;
+  }
+}
+
+/* ===================== PREMIUM · Glass: color blobs + frosted cards ===================== */
+.pf-t-glass {
+  --ink: #ffffff;
+  --muted: rgba(255, 255, 255, 0.8);
+  --line: rgba(255, 255, 255, 0.25);
+  --paper: rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(40% 30% at 15% 20%, var(--c-light), transparent 70%),
+    radial-gradient(35% 30% at 85% 35%, #ff5fa2, transparent 70%),
+    radial-gradient(40% 35% at 30% 80%, #ffb347, transparent 70%),
+    radial-gradient(40% 35% at 90% 90%, #7c4dff, transparent 70%),
+    linear-gradient(160deg, var(--c-dark), var(--c));
+  background-attachment: fixed;
+}
+.pf-t-glass .pf-hero {
+  background: transparent;
+}
+.pf-t-glass .pf-hero-fx {
+  display: none;
+}
+.pf-t-glass .pf-section,
+.pf-t-glass .pf-qr,
+.pf-t-glass .pf-empty {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+}
+.pf-t-glass .pf-section-ic,
+.pf-t-glass .pf-chips span,
+.pf-t-glass .pf-when {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+.pf-t-glass .pf-dot {
+  background: transparent;
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+}
+.pf-t-glass .pf-about,
+.pf-t-glass .pf-timeline p,
+.pf-t-glass .pf-project p {
+  color: rgba(255, 255, 255, 0.9);
+}
+.pf-t-glass .pf-project {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+.pf-t-glass .pf-project b svg,
+.pf-t-glass .pf-project small,
+.pf-t-glass .pf-list a {
+  color: #fff;
+}
+.pf-t-glass .pf-qr {
+  background: rgba(255, 255, 255, 0.85);
+}
+.pf-t-glass .pf-qr small {
+  color: #333;
+}
+.pf-t-glass .pf-card-link {
+  background: #fff;
+  color: var(--c-dark);
+}
+
+/* ===================== PREMIUM · Terminal: developer, monospace ===================== */
+.pf-t-terminal {
+  --ink: #d6f5e3;
+  --muted: #7fa591;
+  --line: rgba(120, 255, 180, 0.14);
+  --paper: #0d1411;
+  --page: #070b09;
+  font-family: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, "Kantumruy Pro", monospace;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 3px), #070b09;
+}
+.pf-t-terminal .pf-hero {
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-terminal .pf-hero-fx {
+  display: none;
+}
+.pf-t-terminal .pf-hero-in {
+  align-items: flex-start;
+  text-align: left;
+}
+.pf-t-terminal .pf-photo {
+  border-radius: 6px;
+  border: 1px solid var(--c);
+  transform: none;
+  box-shadow: none;
+  background: #0d1411;
+  color: var(--c-light);
+}
+.pf-t-terminal .pf-hero h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.pf-t-terminal .pf-hero h1::before {
+  content: "~$ whoami\A";
+  white-space: pre;
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.pf-t-terminal .pf-hero h1::after {
+  content: "_";
+  color: var(--c);
+  animation: pfBlink 1s steps(1) infinite;
+}
+.pf-t-terminal .pf-role {
+  color: var(--c-light);
+  font-size: 14px;
+}
+.pf-t-terminal .pf-role::before {
+  content: "// ";
+  opacity: 0.6;
+}
+.pf-t-terminal .pf-contacts {
+  justify-content: flex-start;
+}
+.pf-t-terminal .pf-contacts a {
+  border-radius: 4px;
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+  font-weight: 500;
+}
+.pf-t-terminal .pf-section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: none;
+  padding-top: 44px;
+  position: relative;
+}
+.pf-t-terminal .pf-section::before {
+  /* window dots */
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: 15px 0 0 #febc2e, 30px 0 0 #28c840;
+}
+.pf-t-terminal .pf-section h2 {
+  font-size: 15px;
+  color: var(--c-light);
+}
+.pf-t-terminal .pf-section h2::before {
+  content: "#";
+  color: var(--muted);
+}
+.pf-t-terminal .pf-section-ic {
+  display: none;
+}
+.pf-t-terminal .pf-chips span,
+.pf-t-terminal .pf-when {
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  color: var(--c-light);
+  font-weight: 500;
+}
+.pf-t-terminal .pf-dot {
+  border-radius: 2px;
+  background: #070b09;
+  box-shadow: none;
+}
+.pf-t-terminal .pf-about,
+.pf-t-terminal .pf-timeline p,
+.pf-t-terminal .pf-project p {
+  color: #b5d6c3;
+  font-size: 13.5px;
+}
+.pf-t-terminal .pf-project {
+  border-radius: 6px;
+}
+.pf-t-terminal .pf-project small,
+.pf-t-terminal .pf-list a,
+.pf-t-terminal .pf-project b svg {
+  color: var(--c-light);
+}
+.pf-t-terminal .pf-qr {
+  border-radius: 8px;
+}
+.pf-t-terminal .pf-card-link {
+  border-radius: 6px;
+  background: var(--c);
+}
+@keyframes pfBlink {
+  50% { opacity: 0; }
+}
+
+/* ===================== PREMIUM · Mosaic (key "bento"): colorful tile collage ===================== */
+.pf-t-bento {
+  --page: #f3efe6;
+  --paper: #ffffff;
+  --line: rgba(0, 0, 0, 0.08);
+}
+.pf-t-bento .pf-hero {
+  margin: 14px 14px 0;
+  border-radius: 34px;
+  background: var(--c);
+}
+.pf-t-bento .pf-hero-fx {
+  background:
+    radial-gradient(circle at 100% 0%, #ffd54a 0 70px, transparent 71px),
+    radial-gradient(circle at 0% 100%, rgba(255, 255, 255, 0.18) 0 120px, transparent 121px);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.pf-t-bento .pf-photo {
+  border-radius: 28px;
+  transform: rotate(4deg);
+  border-color: #fff;
+}
+.pf-t-bento .pf-hero h1 {
+  font-size: 36px;
+  letter-spacing: -0.03em;
+}
+.pf-t-bento .pf-main {
+  margin-top: 14px;
+  gap: 14px;
+}
+.pf-t-bento .pf-section {
+  border-radius: 34px;
+  box-shadow: none;
+  border: 2px solid #16171b;
+}
+/* each tile a different pastel */
+.pf-t-bento .pf-section:nth-of-type(5n + 1) { background: var(--c-soft); }
+.pf-t-bento .pf-section:nth-of-type(5n + 2) { background: #fff4c2; }
+.pf-t-bento .pf-section:nth-of-type(5n + 3) { background: #d9f7e3; }
+.pf-t-bento .pf-section:nth-of-type(5n + 4) { background: #ffe0e6; }
+.pf-t-bento .pf-section:nth-of-type(5n + 5) { background: #e3e8ff; }
+.pf-t-bento .pf-section h2 {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.pf-t-bento .pf-section-ic {
+  border-radius: 999px;
+  background: #16171b;
+  color: #fff;
+}
+.pf-t-bento .pf-chips span,
+.pf-t-bento .pf-when {
+  background: #fff;
+  color: #16171b;
+  border: 2px solid #16171b;
+}
+.pf-t-bento .pf-dot {
+  border-color: #16171b;
+  box-shadow: none;
+}
+.pf-t-bento .pf-timeline li::before {
+  background: #16171b;
+  opacity: 0.25;
+}
+.pf-t-bento .pf-project,
+.pf-t-bento .pf-file-thumb {
+  background: #fff;
+  border: 2px solid #16171b;
+  border-radius: 20px;
+}
+.pf-t-bento .pf-qr {
+  border: 2px solid #16171b;
+  box-shadow: 6px 6px 0 #16171b;
+}
+@container (min-width: 700px) {
+  .pf-t-bento .pf-hero {
+    margin: 22px auto 0;
+    max-width: 960px;
+  }
+  .pf-t-bento .pf-hero-in {
+    padding: 52px 40px;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+  .pf-t-bento .pf-photo {
+    width: 190px;
+    height: 190px;
+  }
+  .pf-t-bento .pf-hero h1 {
+    font-size: 56px;
+  }
+  .pf-t-bento .pf-main {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 988px;
+  }
+  .pf-t-bento .pf-two {
+    display: contents;
+  }
+  .pf-t-bento .pf-section {
+    grid-column: span 2;
+  }
+  /* certificates + languages side by side */
+  .pf-t-bento .pf-two > .pf-section {
+    grid-column: span 1;
+  }
+  .pf-t-bento .pf-two > .pf-section:only-child {
+    grid-column: span 2;
+  }
+  .pf-t-bento .pf-foot,
+  .pf-t-bento .pf-empty {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ===================== PREMIUM · Executive: black & gold ===================== */
+.pf-t-executive {
+  --gold: #d9b45a;
+  --ink: #f3ead3;
+  --muted: #a99f86;
+  --line: rgba(217, 180, 90, 0.2);
+  --paper: #121110;
+  --page: #0b0a09;
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.pf-t-executive .pf-hero {
+  background: radial-gradient(90% 120% at 50% 0%, #221d13, #0b0a09 70%);
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-executive .pf-hero-fx {
+  display: none;
+}
+.pf-t-executive .pf-photo {
+  border: 2px solid var(--gold);
+  border-radius: 999px;
+  transform: none;
+  outline: 1px solid rgba(217, 180, 90, 0.45);
+  outline-offset: 6px;
+  background: #1a1712;
+  color: var(--gold);
+}
+.pf-t-executive .pf-hero h1 {
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  background: linear-gradient(100deg, #b8913a, #f6e3a1 45%, #b8913a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.pf-t-executive .pf-role {
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 400;
+}
+.pf-t-executive .pf-contacts a {
+  background: transparent;
+  border-color: rgba(217, 180, 90, 0.4);
+  color: var(--ink);
+  border-radius: 4px;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif;
+}
+.pf-t-executive .pf-section {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: none;
+}
+.pf-t-executive .pf-section h2 {
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+.pf-t-executive .pf-section-ic {
+  background: transparent;
+  border: 1px solid rgba(217, 180, 90, 0.5);
+  border-radius: 999px;
+  color: var(--gold);
+}
+.pf-t-executive .pf-chips span,
+.pf-t-executive .pf-when {
+  background: transparent;
+  border: 1px solid rgba(217, 180, 90, 0.4);
+  color: var(--gold);
+  border-radius: 4px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+.pf-t-executive .pf-dot {
+  background: #0b0a09;
+  border-color: var(--gold);
+  box-shadow: none;
+}
+.pf-t-executive .pf-about,
+.pf-t-executive .pf-timeline p,
+.pf-t-executive .pf-project p {
+  color: #d7ceb6;
+}
+.pf-t-executive .pf-project {
+  border-radius: 4px;
+}
+.pf-t-executive .pf-project b svg,
+.pf-t-executive .pf-project small,
+.pf-t-executive .pf-list a {
+  color: var(--gold);
+}
+.pf-t-executive .pf-qr {
+  border-radius: 6px;
+}
+.pf-t-executive .pf-card-link {
+  background: linear-gradient(100deg, #b8913a, #f6e3a1 45%, #b8913a);
+  color: #1a1408;
+  border-radius: 4px;
+}
+
+/* ===================== PREMIUM · Corporate: navy header, clean business look ===================== */
+.pf-t-corporate {
+  --page: #f3f5f8;
+  --ink: #0f1d2e;
+  --muted: #5b6878;
+  --line: #e1e6ed;
+  font-family: "Inter", "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+}
+.pf-t-corporate .pf-hero {
+  background: #0f2742;
+  border-bottom: 5px solid var(--c);
+}
+.pf-t-corporate .pf-hero-fx {
+  background: linear-gradient(115deg, transparent 55%, rgba(255, 255, 255, 0.05) 55% 70%, transparent 70%);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.pf-t-corporate .pf-hero-in {
+  align-items: flex-start;
+  text-align: left;
+}
+.pf-t-corporate .pf-photo {
+  border-radius: 8px;
+  transform: none;
+  border: 3px solid #fff;
+}
+.pf-t-corporate .pf-hero h1 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.pf-t-corporate .pf-role {
+  color: var(--c-light);
+}
+.pf-t-corporate .pf-contacts {
+  justify-content: flex-start;
+}
+.pf-t-corporate .pf-contacts a {
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.pf-t-corporate .pf-main {
+  margin-top: 20px;
+}
+.pf-t-corporate .pf-section {
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(15, 29, 46, 0.04);
+}
+.pf-t-corporate .pf-section h2 {
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.pf-t-corporate .pf-section h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 48px;
+  height: 3px;
+  background: var(--c);
+}
+.pf-t-corporate .pf-section-ic {
+  border-radius: 6px;
+  background: #0f2742;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+}
+.pf-t-corporate .pf-chips span,
+.pf-t-corporate .pf-when {
+  border-radius: 4px;
+  background: #eef2f7;
+  color: #0f2742;
+}
+.pf-t-corporate .pf-dot {
+  border-radius: 2px;
+  border-color: #0f2742;
+  box-shadow: none;
+}
+.pf-t-corporate .pf-project,
+.pf-t-corporate .pf-file-thumb,
+.pf-t-corporate .pf-qr {
+  border-radius: 6px;
+}
+
+/* ===================== PREMIUM · Professional: a printed CV on paper ===================== */
+.pf-t-professional {
+  --page: #e9ebef;
+  --paper: transparent;
+  --ink: #1d232c;
+  --muted: #5d6673;
+  --line: #e3e6ea;
+}
+.pf-t-professional .pf-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-top: 8px solid var(--c);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  min-height: 100%;
+}
+.pf-t-professional .pf-hero {
+  background: #fff;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-professional .pf-hero-fx {
+  display: none;
+}
+.pf-t-professional .pf-hero-in {
+  align-items: flex-start;
+  text-align: left;
+  padding-bottom: 28px;
+}
+.pf-t-professional .pf-photo {
+  border-radius: 999px;
+  transform: none;
+  border: 0;
+  box-shadow: none;
+  background: var(--c-soft);
+  color: var(--c-dark);
+}
+.pf-t-professional .pf-hero h1 {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 28px;
+}
+:lang(km) .pf-t-professional .pf-hero h1 {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.pf-t-professional .pf-role {
+  color: var(--c-dark);
+}
+.pf-t-professional .pf-contacts {
+  justify-content: flex-start;
+  gap: 4px 16px;
+}
+.pf-t-professional .pf-contacts a {
+  padding: 2px 0;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  font-weight: 600;
+}
+.pf-t-professional .pf-main {
+  margin-top: 0;
+  gap: 0;
+}
+.pf-t-professional .pf-section {
+  box-shadow: none;
+  border-radius: 0;
+  padding: 22px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.pf-t-professional .pf-section-ic {
+  display: none;
+}
+.pf-t-professional .pf-section h2 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--c-dark);
+}
+:lang(km) .pf-t-professional .pf-section h2 {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+}
+.pf-t-professional .pf-timeline li {
+  padding-left: 0;
+}
+.pf-t-professional .pf-timeline li::before,
+.pf-t-professional .pf-dot {
+  display: none;
+}
+.pf-t-professional .pf-when {
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+.pf-t-professional .pf-chips span {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 4px;
+}
+.pf-t-professional .pf-two {
+  gap: 0 28px;
+}
+.pf-t-professional .pf-qr {
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+@container (min-width: 700px) {
+  .pf-t-professional .pf-shell {
+    margin: 32px auto;
+  }
+  .pf-t-professional .pf-hero-in {
+    padding: 44px 48px 32px;
+  }
+  .pf-t-professional .pf-main {
+    padding: 0 48px 40px;
+  }
+  /* dates in a left column, like a printed CV */
+  .pf-t-professional .pf-timeline li {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    column-gap: 20px;
+  }
+  .pf-t-professional .pf-tl-head {
+    display: contents;
+  }
+  .pf-t-professional .pf-tl-head b {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .pf-t-professional .pf-when {
+    grid-column: 1;
+    grid-row: 1;
+    white-space: normal;
+  }
+  .pf-t-professional .pf-tl-sub,
+  .pf-t-professional .pf-timeline p {
+    grid-column: 2;
+  }
+}
+
+/* ===================== PREMIUM · Enterprise: slate panels with color accents ===================== */
+.pf-t-enterprise {
+  --page: #eceff3;
+  --ink: #1b2430;
+  --muted: #5f6b7a;
+  --line: #dde2e8;
+}
+.pf-t-enterprise .pf-hero {
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0 12px, transparent 12px 24px),
+    linear-gradient(135deg, #1f2a37, #2c3a4b);
+}
+.pf-t-enterprise .pf-hero-fx {
+  background: linear-gradient(90deg, var(--c) 0 6px, transparent 6px);
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.pf-t-enterprise .pf-photo {
+  border-radius: 14px;
+  transform: none;
+  border: 3px solid var(--c);
+}
+.pf-t-enterprise .pf-role {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 4px;
+  background: var(--c);
+  color: #fff;
+  opacity: 1;
+  font-size: 14px;
+}
+.pf-t-enterprise .pf-contacts a {
+  border-radius: 4px;
+}
+.pf-t-enterprise .pf-section {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--c);
+}
+.pf-t-enterprise .pf-section h2 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+:lang(km) .pf-t-enterprise .pf-section h2 {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+}
+.pf-t-enterprise .pf-section-ic {
+  border-radius: 8px;
+  background: #1f2a37;
+  color: #fff;
+}
+.pf-t-enterprise .pf-chips span,
+.pf-t-enterprise .pf-when {
+  border-radius: 4px;
+  background: #1f2a37;
+  color: #fff;
+}
+.pf-t-enterprise .pf-dot {
+  border-radius: 3px;
+  box-shadow: none;
+}
+.pf-t-enterprise .pf-project,
+.pf-t-enterprise .pf-file-thumb,
+.pf-t-enterprise .pf-qr {
+  border-radius: 8px;
+}
+@container (min-width: 700px) {
+  .pf-t-enterprise .pf-main {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pf-t-enterprise .pf-two {
+    display: contents;
+  }
+  .pf-t-enterprise .pf-section:has(.pf-about),
+  .pf-t-enterprise .pf-section:has(.pf-projects),
+  .pf-t-enterprise .pf-section:has(.pf-files),
+  .pf-t-enterprise .pf-foot,
+  .pf-t-enterprise .pf-empty {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-t-terminal .pf-hero h1::after {
+    animation: none;
+  }
+}

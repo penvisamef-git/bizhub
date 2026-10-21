@@ -1,0 +1,321 @@
+/* Voice notes: the recorder pop-up + the player (owner editor, public page, replies) */
+.vc-back {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  background: rgba(15, 17, 22, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: vcIn 0.15s ease-out;
+}
+@keyframes vcIn {
+  from {
+    opacity: 0;
+  }
+}
+.vc-card {
+  --vc-accent: var(--brand, #e0581a);
+  width: min(460px, 100%);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  background: #fff;
+  color: #16171b;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+}
+.vc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.vc-head b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 800;
+}
+.vc-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 0;
+  background: #f2f3f6;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: inherit;
+}
+.vc-stage {
+  border-radius: 20px;
+  padding: 18px 16px 14px;
+  background: linear-gradient(160deg, #fff6f1, #f6f7fb);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.vc-stage.p-rec {
+  background: linear-gradient(160deg, #fff0ea, #ffe7ee);
+}
+.vc-wave {
+  height: 64px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.vc-wave i {
+  width: 5px;
+  min-height: 4px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--vc-accent) 70%, #fff);
+  transition: height 0.08s linear;
+}
+.vc-stage:not(.p-rec) .vc-wave i {
+  background: #d5d8e0;
+}
+.vc-time {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.vc-time b {
+  font-size: 30px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.vc-time small {
+  color: #646a78;
+  font-size: 13px;
+}
+.vc-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: #e5392f;
+  align-self: center;
+  animation: vcBlink 1s ease-in-out infinite;
+}
+@keyframes vcBlink {
+  50% {
+    opacity: 0.25;
+  }
+}
+.vc-acts {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.vc-rec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  color: #16171b;
+}
+.vc-rec > svg {
+  box-sizing: content-box;
+  padding: 20px;
+  border-radius: 999px;
+  background: #e5392f;
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(229, 57, 47, 0.35);
+}
+.vc-rec:disabled > svg {
+  background: #9aa0ad;
+  box-shadow: none;
+}
+/* own buttons: the recorder opens on top of the whole page (outside the dashboard's styles) */
+.vc-btn {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--vc-accent);
+  background: var(--vc-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  font-size: 14.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.vc-btn.ghost {
+  background: #fff;
+  color: #16171b;
+  border-color: #dfe2e8;
+}
+.vc-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.vc-btn.vc-stop {
+  background: #e5392f;
+  border-color: #e5392f;
+}
+.vc-hint {
+  text-align: center;
+  color: #8a8f9c;
+  font-size: 12px;
+}
+.vc-err {
+  margin: 0;
+  color: #c62828;
+  font-size: 13.5px;
+  text-align: center;
+}
+.vc-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 10px 4px 4px;
+}
+.vc-empty p {
+  margin: 0;
+  color: #4a4f5c;
+  line-height: 1.55;
+}
+.vc-empty-ic {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: #f2f3f6;
+  display: grid;
+  place-items: center;
+  color: #8a8f9c;
+}
+
+/* ---------- player ---------- */
+.vc-player {
+  --vc-accent: var(--nb-accent, var(--acc, var(--brand, #e0581a)));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 8px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--vc-accent) 8%, var(--card, #fff));
+  border: 1px solid color-mix(in srgb, var(--vc-accent) 22%, transparent);
+  max-width: 100%;
+  min-width: 0;
+}
+.vc-card .vc-player {
+  --vc-accent: var(--brand, #e0581a);
+}
+.vc-play {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 0;
+  background: var(--vc-accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.vc-play:disabled {
+  opacity: 0.5;
+}
+.vc-bars {
+  flex: 1;
+  min-width: 60px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  outline: none;
+}
+.vc-bars i {
+  flex: 1;
+  min-width: 2px;
+  max-width: 5px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--vc-accent) 28%, #c9ccd5);
+}
+.vc-bars i.on {
+  background: var(--vc-accent);
+}
+.vc-ptime {
+  font-size: 12.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted, #646a78);
+  min-width: 34px;
+  text-align: right;
+}
+.vc-rate {
+  border: 0;
+  border-radius: 99px;
+  padding: 4px 8px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  background: color-mix(in srgb, var(--vc-accent) 14%, transparent);
+  color: var(--vc-accent);
+  cursor: pointer;
+  min-width: 38px;
+}
+.vc-rm {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--muted, #646a78);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.vc-rm:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+.vc-player .nb-dl {
+  flex-shrink: 0;
+}
+.vc-player.bad .vc-bars {
+  opacity: 0.4;
+}
+.vc-player.compact {
+  padding: 6px 8px 6px 6px;
+  gap: 8px;
+}
+.vc-player.compact .vc-play {
+  width: 34px;
+  height: 34px;
+}
+.vc-player.compact .vc-bars {
+  height: 26px;
+}
+@media (max-width: 420px) {
+  .vc-player .vc-rate {
+    display: none;
+  }
+}
+@media print {
+  .vc-play,
+  .vc-rate,
+  .vc-rm {
+    display: none !important;
+  }
+}

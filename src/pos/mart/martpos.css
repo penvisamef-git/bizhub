@@ -1,0 +1,1169 @@
+/* Mini Mart POS — the sale screen fills the window: products left, cart right */
+.mp-center.ghp-center {
+  background: linear-gradient(135deg, var(--mp-a2, #14b8a6) 0%, var(--mp-adeep, #0f766e) 100%);
+}
+.ghp-brand.mp-brand {
+  color: var(--mp-a, #0d9488);
+}
+.mp-scan-box input:focus {
+  outline: none;
+  box-shadow: none;
+  border: 0;
+}
+.mp-cash .mp-quick {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.ghp.mp .ghp-tabs button.on {
+  background: var(--mp-adeep, #0f766e);
+}
+.ghp.mp-on-sell {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.mp-main {
+  flex: 1;
+  min-height: 0;
+}
+.mp-sell {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 390px;
+}
+.mp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  min-height: 0;
+  min-width: 0;
+}
+.mp-scan {
+  display: flex;
+  gap: 8px;
+}
+.mp-scan-box {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 2px solid color-mix(in srgb, var(--mp-a, #0d9488) 45%, var(--line));
+  background: var(--card);
+  color: var(--mp-a, #0d9488);
+}
+.mp-scan-box:focus-within {
+  border-color: var(--mp-a, #0d9488);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--mp-a, #0d9488) 16%, transparent);
+}
+.mp-scan-box input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 17px;
+}
+.mp-x {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.mp-cam {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mp-miss {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, #f59e0b 14%, var(--card));
+  color: #92400e;
+  font-weight: 600;
+  font-size: 14px;
+}
+.mp-miss span {
+  flex: 1;
+  min-width: 140px;
+}
+.mp-cats {
+  flex-shrink: 0;
+}
+.mp-cats button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.mp-grid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  grid-auto-rows: max-content;
+  gap: 10px;
+  padding: 2px 2px 80px;
+}
+.mp-prod {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+  transition:
+    transform 0.08s,
+    border-color 0.15s;
+}
+.mp-prod:hover {
+  border-color: var(--mp-a, #0d9488);
+}
+.mp-prod:active {
+  transform: scale(0.97);
+}
+.mp-prod-pic {
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+.mp-prod-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mp-prod-name {
+  font-size: 13.5px;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5em;
+}
+.mp-prod-price {
+  color: var(--mp-adeep, #0f766e);
+  font-variant-numeric: tabular-nums;
+}
+.mp-none {
+  grid-column: 1 / -1;
+  display: grid;
+  place-items: center;
+  padding: 40px 0;
+  color: var(--muted);
+}
+
+/* cart */
+.mp-cart {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--card);
+  border-left: 1px solid var(--line);
+}
+.mp-cart-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.mp-cart-head b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.mp-cart-head small {
+  flex: 1;
+  color: var(--muted);
+}
+.mp-cart-close {
+  display: none;
+}
+.mp-lines {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 14px;
+}
+.mp-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--muted);
+  margin: 40px 10px;
+}
+.mp-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.mp-line-text {
+  display: grid;
+  min-width: 0;
+}
+.mp-line-text b {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mp-line-text small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.mp-qty {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.mp-qty button {
+  width: 30px;
+  height: 32px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.mp-qty input {
+  width: 38px;
+  height: 32px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: none;
+  color: var(--text);
+  text-align: center;
+  font: inherit;
+  font-weight: 700;
+}
+.mp-line-total {
+  min-width: 62px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.mp-sum {
+  border-top: 1px solid var(--line);
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 10px;
+}
+.mp-disc-btn {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px dashed var(--line);
+  background: none;
+  color: var(--muted);
+  border-radius: 99px;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.mp-total {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+}
+.mp-total span {
+  font-weight: 600;
+  color: var(--muted);
+}
+.mp-total b {
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+}
+.mp-total small {
+  grid-column: 2;
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.mp-pay {
+  height: 56px;
+  border-radius: 14px;
+  border: 0;
+  background: linear-gradient(135deg, var(--mp-a2, #14b8a6), var(--mp-adeep, #0f766e));
+  color: #fff;
+  font: inherit;
+  font-size: 19px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--mp-a, #0d9488) 35%, transparent);
+}
+.mp-pay:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+.mp-pay kbd {
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.mp-bar {
+  display: none;
+}
+
+/* pay */
+.mp-pay-modal {
+  max-width: 620px;
+}
+.mp-paywrap {
+  display: grid;
+  gap: 14px;
+}
+.mp-due {
+  display: grid;
+  justify-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--mp-a, #0d9488) 9%, var(--card));
+}
+.mp-due small {
+  color: var(--muted);
+}
+.mp-due b {
+  font-size: 40px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--mp-adeep, #0f766e);
+}
+.mp-due span {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.mp-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mp-methods button {
+  flex: 1;
+  min-width: 90px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mp-methods button.on {
+  background: var(--mp-adeep, #0f766e);
+  border-color: var(--mp-adeep, #0f766e);
+  color: #fff;
+}
+.mp-cash {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.mp-cash label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.mp-cash label > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.mp-cash input,
+.mp-big-input {
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 0 12px;
+  width: 100%;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+}
+.mp-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mp-quick button {
+  flex: 1;
+  min-width: 52px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg2, rgba(127, 127, 127, 0.08));
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mp-quick-row button {
+  flex: 0 0 auto;
+  padding: 0 16px;
+}
+.mp-change {
+  display: grid;
+  justify-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, #16a34a 12%, var(--card));
+  color: #15803d;
+}
+.mp-change small {
+  font-weight: 600;
+}
+.mp-change b {
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+}
+.mp-change span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.mp-change.short {
+  background: color-mix(in srgb, #dc2626 10%, var(--card));
+  color: #b91c1c;
+}
+.mp-change.short b {
+  font-size: 18px;
+}
+.mp-change.big {
+  margin-bottom: 12px;
+}
+.mp-change.big b {
+  font-size: 38px;
+}
+.mp-qr {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.mp-qr img {
+  width: min(260px, 70vw);
+  border-radius: 12px;
+  background: #fff;
+  padding: 6px;
+}
+.mp-qr span {
+  font-weight: 600;
+}
+.mp-confirm {
+  width: 100%;
+}
+.mp-off-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: color-mix(in srgb, #f59e0b 14%, var(--card));
+  color: #92400e;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+.mp-camera {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+}
+.mp-camera video {
+  display: block;
+  width: 100%;
+  max-height: 60vh;
+  object-fit: cover;
+}
+.mp-camera i {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 50%;
+  height: 2px;
+  background: #ef4444;
+  box-shadow: 0 0 12px #ef4444;
+}
+.mp-camera small {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}
+
+/* phones + small tablets: the cart slides up from the bottom */
+@media (max-width: 900px) {
+  .mp-sell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mp-left {
+    padding: 10px;
+  }
+  .mp-grid {
+    grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+    gap: 8px;
+  }
+  .mp-cart {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 82vh;
+    height: 82dvh;
+    z-index: 40;
+    border-left: 0;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -20px 50px rgba(15, 23, 42, 0.3);
+    transform: translateY(105%);
+    transition: transform 0.22s ease;
+  }
+  .mp-cart.open {
+    transform: none;
+  }
+  .mp-cart-close {
+    display: grid;
+  }
+  .mp-bar {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 30;
+    display: flex;
+    gap: 8px;
+  }
+  .mp-bar-cart {
+    flex: 1;
+    min-width: 0;
+    height: 56px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    font: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+  }
+  .mp-bar-cart span {
+    flex: 1;
+    text-align: left;
+    color: var(--muted);
+  }
+  .mp-bar-cart b {
+    font-size: 18px;
+  }
+  .mp-bar .mp-pay {
+    padding: 0 22px;
+  }
+  .mp-cash {
+    grid-template-columns: 1fr;
+  }
+  .mp-top .ghp-tabs {
+    margin-left: 0;
+    order: 3;
+    flex-basis: 100%;
+  }
+  .mp-top .ghp-tabs span {
+    display: inline;
+  }
+}
+.mp-stock {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #15803d;
+}
+.mp-stock.low {
+  color: #b45309;
+}
+.mp-stock.out {
+  color: #b91c1c;
+}
+/* debt at the counter */
+.mp-debt {
+  display: grid;
+  gap: 10px;
+}
+.mp-debt > b {
+  font-size: 15px;
+}
+.mp-debt-list {
+  display: grid;
+  gap: 6px;
+  max-height: 34vh;
+  overflow-y: auto;
+}
+.mp-debt-list button,
+.mp-debt-pick {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  text-align: left;
+  gap: 2px 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.mp-debt-list button b,
+.mp-debt-pick b {
+  font-size: 15px;
+}
+.mp-debt-list button small,
+.mp-debt-pick small {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.mp-debt-list button:hover {
+  border-color: var(--mp-a, #0d9488);
+}
+.mp-debt-list button.new {
+  border-style: dashed;
+  grid-template-columns: auto 1fr;
+}
+.mp-debt-list button.new small {
+  grid-column: 2;
+}
+.mp-debt-pick.on {
+  border-color: var(--mp-a, #0d9488);
+  background: color-mix(in srgb, var(--mp-a, #0d9488) 8%, var(--card));
+}
+.mp-debt-pick span {
+  display: grid;
+}
+/* shifts: count the drawer (like the Restaurant POS) */
+.sh-card {
+  width: min(440px, 100%);
+}
+.sh-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sh-amount {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.sh-amount small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.sh-amount b {
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+.sh-amount.on {
+  border-color: var(--mp-a, #0d9488);
+  background: color-mix(in srgb, var(--mp-a, #0d9488) 7%, var(--card));
+}
+.sh-pad button {
+  font-size: 22px;
+}
+.sh-rate {
+  text-align: center;
+}
+.sh-sheet {
+  max-width: 900px;
+}
+.sh-close {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 20px;
+}
+.sh-left,
+.sh-right {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.sh-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sh-stats div {
+  display: grid;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg2, rgba(127, 127, 127, 0.08));
+}
+.sh-stats small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.sh-stats b {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+.sh-lines div {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 2px;
+  font-size: 14px;
+}
+.sh-cash {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+}
+.sh-cash th {
+  text-align: right;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+.sh-cash td {
+  padding: 5px 2px;
+  border-top: 1px solid var(--line);
+  text-align: right;
+}
+.sh-cash td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+.sh-cash tr.sub td {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  border-top: 0;
+  padding: 2px;
+}
+.sh-cash tr.diff td {
+  font-weight: 800;
+  border-top: 2px solid var(--line);
+}
+.sh-cash .neg {
+  color: #b91c1c;
+}
+.sh-cash .pos {
+  color: #15803d;
+}
+.sh-cash.small {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.sh-moves {
+  display: flex;
+  gap: 8px;
+}
+.sh-move {
+  display: grid;
+  gap: 12px;
+}
+.sh-done {
+  justify-items: center;
+  text-align: center;
+}
+.sh-ok {
+  color: #16a34a;
+}
+.sh-big {
+  font-size: 34px;
+  font-variant-numeric: tabular-nums;
+}
+.sh-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .sh-close {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sh-right {
+    order: -1;
+  }
+}
+/* Mini Mart teal on the full-screen cards */
+.mp-center .ghp-icon {
+  background: linear-gradient(135deg, var(--mp-a2, #14b8a6), var(--mp-adeep, #0f766e));
+}
+.mp-center .ghp-kicker {
+  color: var(--mp-adeep, #0f766e);
+}
+.mp-center .ghp-card .ghp-big {
+  background: linear-gradient(135deg, var(--mp-a2, #14b8a6), var(--mp-adeep, #0f766e));
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+}
+.sh-btns {
+  width: 100%;
+}
+.sh-btns .sh-btn {
+  flex: 1;
+  min-width: 140px;
+  min-height: 48px;
+  width: auto;
+  justify-content: center;
+}
+.mp-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 800;
+  display: inline-grid;
+  place-items: center;
+}
+.mp-mdot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+
+/* ---------------- POS looks (mart_pos_theme): top bar + product cards ---------------- */
+.ghp.mp .mp-prod {
+  border-radius: var(--mp-r, 14px);
+}
+.ghp.mp .mp-prod-pic {
+  border-radius: calc(var(--mp-r, 14px) * 0.7);
+}
+.ghp.mp.pt-head-accent .ghp-top,
+.ghp.mp.pt-head-dark .ghp-top {
+  color: #fff;
+  border-color: transparent;
+}
+.ghp.mp.pt-head-accent .ghp-top {
+  background: linear-gradient(115deg, var(--mp-adeep, #0f766e), var(--mp-a2, #14b8a6));
+}
+.ghp.mp.pt-head-dark .ghp-top {
+  background: color-mix(in srgb, var(--mp-adeep, #0f766e) 22%, #0b0f19);
+}
+.ghp.mp.pt-head-accent .ghp-brand,
+.ghp.mp.pt-head-dark .ghp-brand,
+.ghp.mp.pt-head-accent .ghp-who,
+.ghp.mp.pt-head-dark .ghp-who,
+.ghp.mp.pt-head-accent .ghp-who small,
+.ghp.mp.pt-head-dark .ghp-who small {
+  color: #fff;
+}
+.ghp.mp.pt-head-accent .ghp-tabs button,
+.ghp.mp.pt-head-dark .ghp-tabs button {
+  color: rgb(255 255 255 / 82%);
+  background: transparent;
+}
+.ghp.mp.pt-head-accent .ghp-tabs button.on,
+.ghp.mp.pt-head-dark .ghp-tabs button.on {
+  background: rgb(255 255 255 / 20%);
+  color: #fff;
+}
+.ghp.mp.pt-head-dark .ghp-tabs button.on {
+  background: var(--mp-a, #0d9488);
+}
+.ghp.mp.pt-head-accent .ghp-top .md-btn-ghost,
+.ghp.mp.pt-head-dark .ghp-top .md-btn-ghost {
+  color: #fff;
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 28%);
+}
+.ghp.mp.pt-head-accent .ghp-top .md-btn-primary,
+.ghp.mp.pt-head-dark .ghp-top .md-btn-primary {
+  background: #fff;
+  color: #111827;
+}
+/* photo: the picture fills the card, words over it */
+.ghp.mp.pt-card-photo .mp-prod {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+}
+.ghp.mp.pt-card-photo .mp-prod-pic {
+  aspect-ratio: 1;
+  border-radius: 0;
+}
+.ghp.mp.pt-card-photo .mp-prod-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 0;
+  padding: 28px 9px 28px;
+  color: #fff;
+  background: linear-gradient(to top, rgb(0 0 0 / 80%), rgb(0 0 0 / 0%));
+  font-weight: 600;
+}
+.ghp.mp.pt-card-photo .mp-prod-price {
+  position: absolute;
+  left: 9px;
+  bottom: 7px;
+  color: #fff;
+}
+.ghp.mp.pt-card-photo .mp-stock {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+/* list: one row per product */
+.ghp.mp.pt-card-list .mp-grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+}
+.ghp.mp.pt-card-list .mp-prod {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.ghp.mp.pt-card-list .mp-prod-pic {
+  width: 52px;
+  flex: none;
+  aspect-ratio: 1;
+  font-size: 16px;
+}
+.ghp.mp.pt-card-list .mp-prod-name {
+  flex: 1;
+  min-height: 0;
+}
+.ghp.mp.pt-card-list .mp-stock {
+  order: 3;
+}
+.ghp.mp.pt-card-list .mp-prod-price {
+  order: 4;
+}
+/* round pictures, words in the middle */
+.ghp.mp.pt-card-round .mp-prod {
+  text-align: center;
+  align-items: center;
+}
+.ghp.mp.pt-card-round .mp-prod-pic {
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+/* compact: more products on the screen */
+.ghp.mp.pt-card-compact .mp-grid {
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 7px;
+}
+.ghp.mp.pt-card-compact .mp-prod {
+  padding: 6px;
+  gap: 4px;
+}
+.ghp.mp.pt-card-compact .mp-prod-pic {
+  aspect-ratio: 16 / 10;
+  font-size: 17px;
+}
+.ghp.mp.pt-card-compact .mp-prod-name {
+  font-size: 12px;
+}
+/* bold: thick border, hard shadow, big price */
+.ghp.mp.pt-card-bold .mp-prod {
+  border: 2px solid var(--ink, #111);
+  box-shadow: 4px 4px 0 var(--ink, #111);
+}
+.ghp.mp.pt-card-bold .mp-prod:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--ink, #111);
+}
+.ghp.mp.pt-card-bold .mp-prod-price {
+  font-size: 16px;
+  font-weight: 800;
+}
+.ghp.mp.pt-head-accent .ghp-brand b,
+.ghp.mp.pt-head-dark .ghp-brand b,
+.ghp.mp.pt-head-accent .ghp-who b,
+.ghp.mp.pt-head-dark .ghp-who b {
+  color: #fff;
+}
+.ghp.mp .mt-chips button.on {
+  background: var(--mp-a, #0d9488);
+  border-color: var(--mp-a, #0d9488);
+  color: var(--onbrand, #fff);
+}
+.mp-held-btn em {
+  font-style: normal;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--mp-a, #0d9488);
+  color: #fff;
+  font-size: 11px;
+  display: inline-grid;
+  place-items: center;
+}
+.mp-held {
+  display: grid;
+  gap: 8px;
+}
+.mp-held-hint {
+  margin: 0 0 4px;
+  font-size: 13px;
+}
+.mp-held-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.mp-held-ic {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--mp-a, #0d9488);
+  background: color-mix(in srgb, var(--mp-a, #0d9488) 12%, transparent);
+}
+.mp-held-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+.mp-held-text small {
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mp-held-total {
+  font-variant-numeric: tabular-nums;
+}
+
+/* promotions, member points, coupon (mart_promos / mart_loyalty) */
+.mp-promos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mp-promos span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #047857;
+}
+.mp-promos b {
+  margin-left: auto;
+}
+.mp-extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.mp-disc-btn.on {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--mp-a, #0f766e) 50%, var(--line));
+  color: var(--mp-a, #0f766e);
+  background: color-mix(in srgb, var(--mp-a, #0f766e) 8%, transparent);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mp-member-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #f59e0b 12%, transparent);
+  color: #92400e;
+}
+.mp-member-card span {
+  display: flex;
+  flex-direction: column;
+}
+.mp-redeem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+}

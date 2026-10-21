@@ -1,0 +1,733 @@
+/* Event ticket designs (themes.js). Every design keeps the QR dark-on-white inside .evt-qr so door phones scan it.
+   --t-a main colour · --t-b light · --t-c deep. 12 styles: gradient stub pass neon retro vip glass festival minimal badge khmer pop */
+.evt {
+  isolation: isolate;
+}
+.evt .evt-deco,
+.evt .evt-kicker {
+  display: none;
+}
+.evt .evt-deco i {
+  position: absolute;
+  pointer-events: none;
+}
+.evt .evt-qr {
+  display: grid;
+  place-items: center;
+  width: min(100%, 250px);
+  aspect-ratio: 1;
+  padding: 10px;
+  border-radius: 16px;
+  background: #fff;
+}
+.evt .evt-qr img {
+  width: 100%;
+}
+.evt .evp-ticket-type {
+  background: color-mix(in srgb, var(--t-a) 12%, #fff);
+  color: var(--t-a);
+}
+.evt .evp-ticket-top {
+  position: relative;
+  z-index: 1;
+}
+.evt .evt-kicker {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.evt-classic .evt-qr {
+  padding: 0;
+}
+
+/* 1 · gradient — a glowing two-colour header */
+.evt-gradient {
+  border-radius: 26px;
+}
+.evt-gradient .evp-ticket-top {
+  padding: 22px 22px 20px;
+  background:
+    radial-gradient(120% 150% at 0% 0%, color-mix(in srgb, var(--t-b) 85%, transparent) 0%, transparent 55%),
+    radial-gradient(90% 120% at 100% 100%, color-mix(in srgb, var(--t-c) 90%, transparent) 0%, transparent 60%),
+    var(--t-a);
+}
+.evt-gradient .evp-ticket-top b {
+  font-size: 19px;
+}
+.evt-gradient .evt-qr {
+  box-shadow: 0 0 0 1px var(--e-line);
+}
+
+/* 2 · tear-off — coloured edge, tinted stub with a big perforation */
+.evt-stub {
+  border-radius: 14px;
+  border-left: 12px solid var(--t-a);
+  background: color-mix(in srgb, var(--t-a) 9%, #fff);
+}
+.evt-stub .evp-ticket-top {
+  background: #fff;
+  color: var(--t-c);
+  padding: 18px 18px 16px;
+}
+.evt-stub .evp-ticket-top small {
+  color: color-mix(in srgb, var(--t-c) 75%, #fff);
+  opacity: 1;
+}
+.evt-stub .evt-kicker {
+  display: block;
+  color: var(--t-a);
+}
+.evt-stub .evp-ticket-cut {
+  margin: 0;
+  border-top: 4px dotted color-mix(in srgb, var(--t-a) 45%, #fff);
+}
+.evt-stub .evp-ticket-cut::before {
+  left: -23px;
+}
+.evt-stub .evp-ticket-cut::after {
+  right: -11px;
+}
+.evt-stub .evp-ticket-type {
+  background: var(--t-a);
+  color: #fff;
+}
+
+/* 3 · boarding pass — solid band, big letters, barcode strip */
+.evt-pass {
+  border-radius: 18px;
+}
+.evt-pass .evt-deco {
+  display: block;
+}
+.evt-pass .evt-deco i:first-child {
+  z-index: 2;
+  top: 20px;
+  right: 18px;
+  width: 52px;
+  height: 46px;
+  background: repeating-linear-gradient(90deg, #fff 0 2px, transparent 2px 4px, #fff 4px 5px, transparent 5px 8px, #fff 8px 11px, transparent 11px 13px);
+  opacity: 0.55;
+}
+.evt-pass .evt-deco i:last-child {
+  z-index: 2;
+  left: 22px;
+  right: 22px;
+  bottom: 12px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--t-a);
+  opacity: 0.25;
+}
+.evt-pass .evp-ticket-top {
+  padding: 18px 84px 18px 22px;
+  background: var(--t-a);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.evt-pass .evt-kicker {
+  display: block;
+  opacity: 0.75;
+}
+.evt-pass .evp-ticket-top b {
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+}
+.evt-pass .evp-ticket-top small {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.evt-pass .evp-ticket-cut {
+  border-top: 2px dashed color-mix(in srgb, var(--t-a) 35%, #fff);
+}
+.evt-pass .evp-ticket-info {
+  padding-bottom: 20px;
+}
+.evt-pass .evp-ticket-type {
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* 4 · neon night — dark card, glowing outline */
+.evt-neon {
+  border-radius: 22px;
+  background:
+    radial-gradient(80% 60% at 50% 0%, color-mix(in srgb, var(--t-a) 30%, transparent), transparent 70%),
+    #0b0b14;
+  color: #f4f4f8;
+  border: 1.5px solid var(--t-b);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--t-a) 50%, transparent),
+    0 0 28px color-mix(in srgb, var(--t-a) 55%, transparent),
+    0 14px 34px rgba(0, 0, 0, 0.35);
+}
+.evt-neon .evp-ticket-top {
+  background: transparent;
+  text-align: center;
+  align-items: center;
+  padding: 22px 18px 18px;
+}
+.evt-neon .evt-kicker {
+  display: block;
+  color: var(--t-b);
+  text-shadow: 0 0 10px var(--t-a);
+}
+.evt-neon .evp-ticket-top b {
+  font-size: 22px;
+  color: #fff;
+  text-shadow:
+    0 0 6px var(--t-b),
+    0 0 18px var(--t-a);
+}
+.evt-neon .evp-ticket-cut {
+  border-top: 2px dashed color-mix(in srgb, var(--t-b) 55%, transparent);
+}
+.evt-neon .evt-qr {
+  box-shadow: 0 0 22px color-mix(in srgb, var(--t-a) 70%, transparent);
+}
+.evt-neon .evp-ticket-info small,
+.evt-neon .evp-muted {
+  color: #b8b8c8;
+}
+.evt-neon .evp-ticket-type {
+  background: transparent;
+  color: var(--t-b);
+  border: 1.5px solid var(--t-b);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 60%, transparent);
+}
+.evt-neon .evp-mini,
+.evt-vip .evp-mini {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* 5 · cinema — cream paper, scalloped sides, ADMIT ONE banner */
+.evt-retro {
+  border-radius: 10px;
+  background: #fbf3e1;
+  color: #3a2a17;
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  box-shadow: 0 10px 26px rgba(70, 40, 10, 0.18);
+}
+.evt-retro::after {
+  content: "";
+  position: absolute;
+  inset: 8px 14px;
+  border: 2px solid var(--t-c);
+  border-radius: 6px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.evt-retro .evt-deco {
+  display: block;
+}
+.evt-retro .evt-deco i {
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: radial-gradient(circle at var(--x) 50%, var(--e-bg) 5.5px, transparent 6px) 0 0 / 10px 17px repeat-y;
+}
+.evt-retro .evt-deco i:first-child {
+  --x: 0;
+  left: 0;
+}
+.evt-retro .evt-deco i:last-child {
+  --x: 100%;
+  right: 0;
+}
+.evt-retro .evp-ticket-top {
+  margin: 16px 22px 0;
+  padding: 14px 12px 14px;
+  border-radius: 4px;
+  background: var(--t-a);
+  text-align: center;
+  align-items: center;
+}
+.evt-retro .evt-kicker {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+}
+.evt-retro .evt-kicker::before,
+.evt-retro .evt-kicker::after {
+  content: " ★ ";
+  font-size: 12px;
+  vertical-align: 3px;
+}
+.evt-retro .evp-ticket-top b {
+  font-size: 16px;
+  font-style: italic;
+}
+.evt-retro .evp-ticket-cut {
+  margin: 14px 26px 0;
+  border-top: 2px dotted var(--t-c);
+}
+.evt-retro .evp-ticket-cut::before,
+.evt-retro .evp-ticket-cut::after {
+  display: none;
+}
+.evt-retro .evt-qr {
+  border: 2px solid var(--t-c);
+  border-radius: 6px;
+}
+.evt-retro .evp-ticket-info,
+.evt-retro .evp-ticket-acts {
+  position: relative;
+  z-index: 1;
+}
+.evt-retro .evp-ticket-info small {
+  color: #7a6448;
+}
+.evt-retro .evp-ticket-type {
+  border-radius: 3px;
+  background: var(--t-c);
+  color: #fbf3e1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.evt-retro .evp-ticket-acts {
+  padding-bottom: 24px;
+}
+
+/* 6 · VIP foil — black card, metallic foil, art-deco corners */
+.evt-vip {
+  --foil: linear-gradient(115deg, var(--t-c) 0%, var(--t-b) 28%, #fff 45%, var(--t-b) 60%, var(--t-a) 100%);
+  border-radius: 18px;
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, #1b1b1f, #050506);
+  color: #f2efe6;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+}
+.evt-vip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: var(--foil);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.evt-vip .evt-deco {
+  display: block;
+}
+.evt-vip .evt-deco i {
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--t-b);
+  opacity: 0.85;
+}
+.evt-vip .evt-deco i:first-child {
+  top: 10px;
+  left: 10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.evt-vip .evt-deco i:last-child {
+  top: 10px;
+  right: 10px;
+  border-left: 0;
+  border-bottom: 0;
+}
+.evt-vip .evp-ticket-top {
+  background: transparent;
+  text-align: center;
+  align-items: center;
+  padding: 26px 22px 18px;
+}
+.evt-vip .evt-kicker {
+  display: block;
+  background: var(--foil);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 12px;
+}
+.evt-vip .evp-ticket-top b {
+  font-size: 21px;
+  background: var(--foil);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.evt-vip .evp-ticket-top small {
+  color: #d6d0c0;
+}
+.evt-vip .evp-ticket-cut {
+  border-top: 1.5px solid color-mix(in srgb, var(--t-b) 60%, transparent);
+}
+.evt-vip .evp-ticket-info small,
+.evt-vip .evp-muted {
+  color: #b9b3a3;
+}
+.evt-vip .evp-ticket-type {
+  background: var(--foil);
+  color: #111;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* 7 · glass — colour blobs behind frosted panels */
+.evt-glass {
+  border-radius: 28px;
+  background:
+    radial-gradient(45% 35% at 10% 8%, var(--t-b), transparent 70%),
+    radial-gradient(55% 40% at 95% 30%, color-mix(in srgb, var(--t-a) 80%, transparent), transparent 70%),
+    radial-gradient(60% 45% at 20% 95%, color-mix(in srgb, var(--t-c) 70%, transparent), transparent 70%),
+    color-mix(in srgb, var(--t-b) 35%, #fff);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--t-c) 30%, transparent);
+}
+.evt-glass .evp-ticket-top,
+.evt-glass .evp-ticket-info {
+  margin: 12px 12px 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: var(--t-c);
+}
+.evt-glass .evp-ticket-top small {
+  color: color-mix(in srgb, var(--t-c) 80%, #fff);
+  opacity: 1;
+}
+.evt-glass .evp-ticket-top b {
+  font-size: 19px;
+}
+.evt-glass .evp-ticket-cut {
+  border: 0;
+  margin: 6px 0;
+}
+.evt-glass .evp-ticket-cut::before,
+.evt-glass .evp-ticket-cut::after {
+  display: none;
+}
+.evt-glass .evp-ticket-qr {
+  padding-top: 8px;
+}
+.evt-glass .evt-qr {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+.evt-glass .evp-ticket-info {
+  margin: 12px 12px 12px;
+  padding: 14px;
+}
+.evt-glass .evp-ticket-info small {
+  color: color-mix(in srgb, var(--t-c) 75%, #fff);
+}
+.evt-glass .evp-mini {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* 8 · festival — candy stripes + wristband */
+.evt-festival {
+  border-radius: 22px;
+}
+.evt-festival::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background: repeating-linear-gradient(-45deg, var(--t-a) 0 10px, var(--t-b) 10px 20px);
+}
+.evt-festival .evp-ticket-top {
+  padding: 22px 20px 20px;
+  background:
+    linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--t-c) 55%, transparent)),
+    repeating-linear-gradient(-45deg, var(--t-a) 0 16px, color-mix(in srgb, var(--t-a) 78%, var(--t-b)) 16px 32px);
+}
+.evt-festival .evt-kicker {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--t-a);
+  margin-bottom: 4px;
+}
+.evt-festival .evp-ticket-top b {
+  font-size: 23px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-shadow: 0 2px 0 color-mix(in srgb, var(--t-c) 70%, transparent);
+}
+.evt-festival .evp-ticket-cut {
+  border-top: 3px dashed color-mix(in srgb, var(--t-b) 60%, #fff);
+}
+.evt-festival .evp-ticket-acts {
+  padding-bottom: 26px;
+}
+.evt-festival .evp-ticket-type {
+  background: var(--t-b);
+  color: var(--t-c);
+}
+
+/* 9 · minimal — white, thin line, typewriter details */
+.evt-minimal {
+  border-radius: 6px;
+  border: 1.5px solid var(--t-c);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--t-a) 22%, transparent);
+}
+.evt-minimal .evp-ticket-top {
+  background: #fff;
+  color: var(--t-c);
+  padding: 20px 20px 14px;
+}
+.evt-minimal .evt-kicker {
+  display: block;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.12em;
+  color: var(--t-a);
+}
+.evt-minimal .evp-ticket-top b {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.evt-minimal .evp-ticket-top small {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11.5px;
+  color: #555;
+  opacity: 1;
+}
+.evt-minimal .evp-ticket-cut {
+  margin: 0;
+  border-top: 1.5px solid var(--t-c);
+}
+.evt-minimal .evp-ticket-cut::before,
+.evt-minimal .evp-ticket-cut::after {
+  display: none;
+}
+.evt-minimal .evp-ticket-type {
+  border-radius: 0;
+  background: transparent;
+  border: 1.5px solid var(--t-a);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  text-transform: uppercase;
+}
+.evt-minimal .evp-ticket-info code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.evt-minimal .evp-mini {
+  border-radius: 0;
+  border: 1px solid var(--e-line);
+  background: #fff;
+}
+
+/* 10 · name badge — lanyard slot, name in big letters */
+.evt-badge {
+  border-radius: 20px;
+  background: linear-gradient(180deg, var(--t-a) 0 150px, #fff 150px);
+}
+.evt-badge .evt-deco {
+  display: block;
+}
+.evt-badge .evt-deco i:first-child {
+  z-index: 3;
+  top: 12px;
+  left: 50%;
+  translate: -50% 0;
+  width: 58px;
+  height: 11px;
+  border-radius: 99px;
+  background: var(--e-bg);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+.evt-badge .evt-deco i:last-child {
+  z-index: 0;
+  top: 0;
+  right: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--t-b) 45%, transparent);
+}
+.evt-badge .evp-ticket-top {
+  background: transparent;
+  padding: 36px 20px 16px;
+  text-align: center;
+  align-items: center;
+}
+.evt-badge .evt-kicker {
+  display: block;
+  opacity: 0.8;
+}
+.evt-badge .evp-ticket-cut {
+  display: none;
+}
+.evt-badge .evp-ticket-qr {
+  padding-top: 0;
+}
+.evt-badge .evt-qr {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+.evt-badge .evp-ticket-info b {
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--t-c);
+  line-height: 1.15;
+}
+.evt-badge .evp-ticket-type {
+  order: 2;
+  background: var(--t-c);
+  color: #fff;
+  padding: 5px 16px;
+}
+
+/* 11 · Khmer art — royal frame with a kbach-style border band */
+.evt-khmer {
+  --kbach: conic-gradient(from 45deg at 50% 50%, var(--t-b) 0 25%, transparent 0 50%, var(--t-b) 0 75%, transparent 0) 0 0 / 14px 14px;
+  border-radius: 16px;
+  background: #fff8ea;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--t-c) 25%, transparent);
+}
+.evt-khmer::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid var(--t-b);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.evt-khmer .evt-deco {
+  display: block;
+}
+.evt-khmer .evt-deco i {
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: var(--kbach);
+  opacity: 0.9;
+  z-index: 2;
+}
+.evt-khmer .evt-deco i:first-child {
+  top: 0;
+}
+.evt-khmer .evt-deco i:last-child {
+  bottom: 0;
+}
+.evt-khmer .evp-ticket-top {
+  padding: 26px 20px 18px;
+  background:
+    radial-gradient(60% 90% at 50% 0%, color-mix(in srgb, var(--t-a) 70%, transparent), transparent),
+    var(--t-c);
+  text-align: center;
+  align-items: center;
+  color: #fff6dc;
+}
+.evt-khmer .evp-ticket-top::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 7px;
+  background: var(--kbach);
+  background-size: 10px 10px;
+}
+.evt-khmer .evt-kicker {
+  display: block;
+  color: var(--t-b);
+  letter-spacing: 0.3em;
+}
+.evt-khmer .evt-kicker::before,
+.evt-khmer .evt-kicker::after {
+  content: "❖";
+  margin: 0 8px;
+  letter-spacing: 0;
+}
+.evt-khmer .evp-ticket-top b {
+  font-size: 20px;
+  color: var(--t-b);
+}
+.evt-khmer .evp-ticket-cut {
+  margin-top: 10px;
+  border-top: 2px dotted color-mix(in srgb, var(--t-c) 40%, #fff);
+}
+.evt-khmer .evt-qr {
+  border: 2px solid var(--t-b);
+}
+.evt-khmer .evp-ticket-info,
+.evt-khmer .evp-ticket-acts {
+  position: relative;
+  z-index: 1;
+}
+.evt-khmer .evp-ticket-info b {
+  color: var(--t-c);
+}
+.evt-khmer .evp-ticket-type {
+  background: var(--t-c);
+  color: var(--t-b);
+}
+.evt-khmer .evp-ticket-acts {
+  padding-bottom: 24px;
+}
+
+/* 12 · pop art — comic halftone, thick ink lines */
+.evt-pop {
+  border-radius: 16px;
+  border: 3px solid #111;
+  box-shadow: 7px 7px 0 #111;
+}
+.evt-pop .evp-ticket-top {
+  padding: 20px 18px 18px;
+  border-bottom: 3px solid #111;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--t-c) 60%, transparent) 1.7px, transparent 2.2px) 0 0 / 10px 10px,
+    linear-gradient(135deg, var(--t-a), var(--t-b));
+}
+.evt-pop .evt-kicker {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 3px 10px;
+  background: #ffe14a;
+  color: #111;
+  border: 2px solid #111;
+  rotate: -3deg;
+  margin-bottom: 6px;
+}
+.evt-pop .evp-ticket-top b {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-text-stroke: 1px #111;
+  text-shadow: 3px 3px 0 #111;
+}
+.evt-pop .evp-ticket-top small {
+  color: #111;
+  font-weight: 700;
+  opacity: 1;
+}
+.evt-pop .evp-ticket-cut {
+  display: none;
+}
+.evt-pop .evt-qr {
+  border: 3px solid #111;
+  border-radius: 10px;
+}
+.evt-pop .evp-ticket-qr {
+  padding-top: 20px;
+}
+.evt-pop .evp-ticket-type {
+  border: 2px solid #111;
+  background: var(--t-b);
+  color: #111;
+}
+.evt-pop .evp-mini {
+  border: 2px solid #111;
+  background: #fff;
+}

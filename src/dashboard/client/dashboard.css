@@ -1,0 +1,1031 @@
+/* Owner dashboard (home). Uses the app theme variables, so every colour theme and dark mode work. */
+.db {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.db h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+}
+.db-muted {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+.db-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.db-head h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.db-head {
+  align-items: center;
+}
+.db-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  padding: 7px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+}
+.db-refresh:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+/* ---------- top row: coin card + KPIs ---------- */
+.db-top {
+  display: grid;
+  grid-template-columns: minmax(300px, 360px) 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+.db-top.no-sales {
+  grid-template-columns: minmax(300px, 360px) 1fr;
+}
+.db-coin {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.db-card {
+  position: relative;
+  aspect-ratio: 1.586; /* a real bank card */
+  border-radius: 20px;
+  padding: 20px 22px;
+  color: #fff;
+  text-decoration: none;
+  background: var(--grad);
+  box-shadow: var(--orange-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.db-card::before,
+.db-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+.db-card::before {
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  top: -110px;
+  background: rgba(255, 255, 255, 0.14);
+}
+.db-card::after {
+  width: 220px;
+  height: 220px;
+  left: -70px;
+  bottom: -130px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.db-card:hover {
+  transform: translateY(-2px);
+}
+.db-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.db-card-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: 0.02em;
+}
+.db-chip {
+  width: 40px;
+  height: 30px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #f6e3a6, #d8b45a 60%, #f3dc95);
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  padding: 5px 7px;
+  gap: 3px;
+  box-shadow: inset 0 0 0 1px rgba(120, 90, 20, 0.35);
+}
+.db-chip i {
+  display: block;
+  border-top: 1px solid rgba(120, 90, 20, 0.45);
+}
+.db-card-bal {
+  margin-top: auto;
+  font-size: clamp(28px, 3.2vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.db-card-no {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+.db-card-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.db-card-foot span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.db-card-foot .r {
+  text-align: right;
+}
+.db-card-foot small {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+.db-coin-btns {
+  display: flex;
+  gap: 8px;
+}
+.db-coin-btns .md-btn {
+  flex: 1;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.db-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.db-kpi-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+.db-kpi-label small {
+  font-weight: 500;
+}
+.db-kpi-num {
+  font-size: clamp(26px, 2.8vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+.db-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  align-self: flex-start;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 3px 9px 3px 6px;
+  border-radius: 99px;
+}
+.db-delta em {
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-left: 3px;
+}
+.db-delta.up {
+  color: var(--good);
+  background: var(--goodbg);
+}
+.db-delta.down {
+  color: var(--danger);
+  background: var(--dangerbg);
+}
+.db-delta.flat {
+  color: var(--muted);
+  background: var(--chip);
+  padding-left: 9px;
+}
+.db-kpi-row {
+  display: flex;
+  gap: 8px;
+  margin: auto 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.db-kpi-row div {
+  flex: 1;
+  min-width: 0;
+}
+.db-kpi-row dt {
+  font-size: 11.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-kpi-row dd {
+  margin: 2px 0 0;
+  font-weight: 800;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.db-spark {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 46px;
+  margin-top: 6px;
+}
+.db-spark i {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  background: color-mix(in srgb, var(--brand) 38%, transparent);
+  transition: height 0.4s ease;
+}
+.db-spark i.now {
+  background: var(--brand);
+}
+.db-spark i.future {
+  background: var(--chip);
+}
+
+.db-start {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.db-start > svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+.db-start div {
+  flex: 1;
+  min-width: 200px;
+}
+.db-start p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+/* ---------- middle: chart + best sellers ---------- */
+.db-mid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.db-sec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.db-chart-read {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: -4px 0 10px;
+}
+.db-chart-read b {
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.db-chart-read span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.db-chart-empty {
+  padding: 40px 0;
+  text-align: center;
+}
+.db-chart {
+  display: flex;
+  flex-direction: column;
+}
+.db-plot {
+  position: relative;
+  flex: 1;
+  min-height: 190px;
+  padding-left: 44px;
+}
+.db-grid {
+  position: absolute;
+  inset: 0 0 22px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.db-grid span {
+  border-top: 1px dashed var(--line);
+  height: 0;
+  position: relative;
+}
+.db-grid span:last-child {
+  border-top-style: solid;
+}
+.db-grid em {
+  position: absolute;
+  left: 0;
+  top: -8px;
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.db-bars {
+  position: relative;
+  height: 100%;
+  display: flex;
+  gap: 2px;
+}
+.db-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 0 0 22px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+  min-width: 0;
+}
+.db-bar:hover,
+.db-bar.on,
+.db-bar:focus-visible {
+  background: var(--chip);
+  outline: none;
+}
+.db-bar i {
+  display: block;
+  width: min(70%, 22px);
+  border-radius: 4px 4px 0 0;
+  background: color-mix(in srgb, var(--brand) 45%, transparent);
+  transition:
+    height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.15s;
+}
+.db-bar.now i,
+.db-bar.on i,
+.db-bar:hover i {
+  background: var(--brand);
+}
+.db-bar-day {
+  position: absolute;
+  bottom: 2px;
+  font-size: 10.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.db-bar.now .db-bar-day {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.db-top-items h3 {
+  margin-bottom: 12px;
+}
+.db-top-items ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.db-top-items li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.db-rank {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--chip);
+  font-size: 12px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.db-top-items li:first-child .db-rank {
+  background: var(--brand);
+  color: var(--onbrand);
+}
+.db-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.db-item-main b {
+  font-size: 13.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-item-main small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.db-item-bar {
+  display: block;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--chip);
+  overflow: hidden;
+  margin-top: 3px;
+}
+.db-item-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--brand) 60%, transparent);
+}
+.db-item-val {
+  font-weight: 800;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- bottom: businesses + attention ---------- */
+.db-bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.db-biz-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.db-biz-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.db-biz-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.db-biz-open:hover {
+  background: var(--chip);
+}
+.db-biz-photo,
+.db-biz-ic {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.db-biz-photo {
+  object-fit: cover;
+  background: var(--chip);
+}
+.db-biz-ic {
+  display: grid;
+  place-items: center;
+  background: var(--active);
+  color: var(--brand-ink, var(--brand));
+}
+.db-biz-ic .sa-initial {
+  width: 100%;
+  height: 100%;
+}
+.db-biz-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.db-biz-main b {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-biz-main small {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-ends {
+  font-style: normal;
+}
+.db-ends.s-expiring {
+  color: var(--warn);
+}
+.db-ends.s-expired {
+  color: var(--danger);
+}
+.db-biz-num {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.db-biz-num b {
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.db-biz-num small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.db-chev {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.db-att h3 {
+  margin-bottom: 10px;
+}
+.db-att ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.db-att li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--warnbg);
+}
+.db-att li.bad {
+  background: var(--dangerbg);
+}
+.db-att-ic {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  color: var(--warn);
+  flex-shrink: 0;
+}
+.db-att li.bad .db-att-ic {
+  color: var(--danger);
+}
+.db-att-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.db-att-main b {
+  font-size: 13px;
+}
+.db-att-main small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.db-att .md-btn {
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.db-good {
+  padding: 8px 0;
+}
+
+/* loading placeholders */
+.db-ghost,
+.db-ghost-rows {
+  background: linear-gradient(90deg, var(--chip) 0%, var(--bg2) 50%, var(--chip) 100%);
+  background-size: 200% 100%;
+  animation: db-shimmer 1.3s linear infinite;
+  border-color: transparent;
+}
+.db-ghost {
+  min-height: 200px;
+}
+.db-ghost-rows {
+  height: 150px;
+  border-radius: 14px;
+}
+@keyframes db-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* gentle entrance */
+.db-top > *,
+.db-mid > *,
+.db-bottom > * {
+  animation: db-in 0.35s ease both;
+}
+.db-mid > * {
+  animation-delay: 0.05s;
+}
+.db-bottom > * {
+  animation-delay: 0.1s;
+}
+@keyframes db-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .db *,
+  .db *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .db-top {
+    grid-template-columns: 1fr 1fr;
+  }
+  .db-top .db-coin {
+    grid-row: span 2;
+  }
+  .db-top.no-sales {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .db-top.no-sales .db-coin {
+    grid-row: auto;
+    max-width: 420px;
+  }
+}
+@media (max-width: 900px) {
+  .db-mid,
+  .db-bottom {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .db-top,
+  .db-top.no-sales {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .db-biz-open {
+    gap: 10px;
+    padding: 8px 6px;
+  }
+  .db-top .db-coin {
+    grid-row: auto;
+  }
+  .db-head h2 {
+    font-size: 20px;
+  }
+  .db-plot {
+    min-height: 160px;
+    padding-left: 38px;
+  }
+  .db-bar-day {
+    font-size: 9.5px;
+  }
+}
+.db-kpi-sub {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 2px;
+}
+.db-kpi-sub b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* right now (all businesses) */
+.db-now .db-sec-head {
+  align-items: baseline;
+}
+.db-now-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.db-now-tile {
+  --c: #64748b;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 13px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  text-decoration: none;
+  min-width: 0;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
+}
+a.db-now-tile:hover {
+  border-color: var(--c);
+  transform: translateY(-1px);
+}
+.db-now-tile.k-waiting {
+  --c: #ea580c;
+}
+.db-now-tile.k-in_house {
+  --c: #2563eb;
+}
+.db-now-tile.k-open_bills {
+  --c: #d97706;
+}
+.db-now-tile.k-staff_in {
+  --c: #7c3aed;
+}
+.db-now-tile.k-messages {
+  --c: #0891b2;
+}
+.db-now-tile.k-stock {
+  --c: #dc2626;
+}
+.db-now-tile.k-new_customers {
+  --c: #16a34a;
+}
+.db-now-tile.k-renewals {
+  --c: #b45309;
+}
+.db-now-tile.hot {
+  background: color-mix(in srgb, var(--c) 7%, var(--card));
+  border-color: color-mix(in srgb, var(--c) 40%, var(--line));
+}
+.db-now-tile.zero {
+  opacity: 0.72;
+}
+.db-now-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.db-now-ic {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 13%, transparent);
+}
+.db-now-n {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+.db-now-n small {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.db-now-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.db-now-sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+.db-now-sub.warn {
+  color: #c2410c;
+  font-weight: 700;
+}
+/* the quiet tiles: small chips under the busy ones */
+.db-now-quiet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.db-now-chip {
+  --c: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.db-now-chip svg {
+  color: var(--c);
+  opacity: 0.8;
+}
+.db-now-chip b {
+  color: var(--ink);
+  opacity: 0.6;
+}
+.db-now-chip.k-waiting {
+  --c: #ea580c;
+}
+.db-now-chip.k-in_house {
+  --c: #2563eb;
+}
+.db-now-chip.k-open_bills {
+  --c: #d97706;
+}
+.db-now-chip.k-staff_in {
+  --c: #7c3aed;
+}
+.db-now-chip.k-messages {
+  --c: #0891b2;
+}
+.db-now-chip.k-stock {
+  --c: #dc2626;
+}
+.db-now-chip.k-new_customers {
+  --c: #16a34a;
+}
+.db-now-chip.k-renewals {
+  --c: #b45309;
+}
+.db-now-by {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.db-now-by em {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  max-width: 100%;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--bg2);
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.db-item-biz {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  background: rgba(234, 88, 12, 0.1);
+  color: #c2410c;
+}
+.db-item-biz.k-mart {
+  background: rgba(13, 148, 136, 0.1);
+  color: #0f766e;
+}
+
+/* My businesses: search + type chips */
+.db-biz-tools {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.db-biz-tools .db-biz-search {
+  flex: 1;
+  min-width: 0;
+}
+.db-biz-type {
+  height: 40px;
+  max-width: 46%;
+  padding: 0 34px 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px
+    center;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+.db-biz-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg2);
+  color: var(--muted);
+}
+.db-biz-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+.db-biz-search button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: grid;
+}
+.db-biz-tools .ss {
+  max-width: 46%;
+  flex: 0 1 auto;
+}
+.db-biz-tools .db-biz-type.ss-btn {
+  max-width: none;
+}
+
+/* ---------- My businesses: list / grid, arrange ---------- */
+.db-bottom.solo { grid-template-columns: minmax(0, 1fr); }
+.db-biz-acts { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.db-seg { display: inline-flex; background: var(--chip); border-radius: 10px; padding: 3px; gap: 2px; }
+.db-seg button { border: 0; background: transparent; color: var(--muted); width: 32px; height: 28px; border-radius: 8px; display: grid; place-items: center; cursor: pointer; }
+.db-seg button.on { background: var(--card, #fff); color: inherit; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+.db-arrange-hint { margin: -2px 0 10px; font-size: 13px; color: var(--muted); padding: 8px 12px; border-radius: 10px; background: color-mix(in srgb, var(--brand) 8%, transparent); }
+.db-grip { color: var(--muted); cursor: grab; display: grid; place-items: center; padding: 0 2px; }
+.db-biz-list.arranging .db-biz-row { border-radius: 14px; background: var(--chip); padding-right: 6px; transition: transform 0.12s; }
+.db-biz-list.arranging .db-biz-open { cursor: grab; }
+.db-biz-list.arranging .db-biz-open:hover { background: transparent; }
+.db-biz-row.dragging { opacity: 0.45; outline: 2px dashed var(--brand); }
+.db-move { display: flex; gap: 2px; }
+.db-move .md-icon-btn:disabled { opacity: 0.3; }
+/* grid */
+.db-biz-list.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.db-biz-row.card { position: relative; flex-direction: column; align-items: stretch; gap: 0; border: 1px solid var(--line, rgba(0, 0, 0, 0.08)); border-radius: 18px; background: var(--card, #fff); overflow: hidden; transition: box-shadow 0.15s, transform 0.15s; }
+.db-biz-row.card:hover { box-shadow: 0 10px 26px rgba(15, 23, 42, 0.1); transform: translateY(-2px); }
+.db-biz-row.card .db-biz-open { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px; border-radius: 0; }
+.db-biz-row.card .db-biz-open:hover { background: transparent; }
+.db-biz-row.card .db-biz-photo, .db-biz-row.card .db-biz-ic { width: 64px; height: 64px; border-radius: 16px; }
+.db-biz-row.card .db-biz-ic svg { width: 28px; height: 28px; }
+.db-biz-row.card .db-biz-main { width: 100%; }
+.db-biz-row.card .db-biz-main b { font-size: 15px; }
+.db-biz-row.card .db-biz-main small { white-space: normal; line-height: 1.4; }
+.db-biz-row.card .db-biz-num { align-items: flex-start; text-align: left; }
+.db-biz-row.card .db-biz-edit { position: absolute; top: 8px; right: 8px; background: var(--card, #fff); }
+.db-biz-row.card .db-grip { position: absolute; top: 10px; right: 10px; }
+.db-biz-row.card .db-move { justify-content: center; padding: 0 8px 10px; }
+.db-biz-list.grid.arranging .db-biz-row { padding-right: 0; }
+@media (max-width: 520px) { .db-biz-list.grid { grid-template-columns: 1fr 1fr; gap: 8px; } .db-biz-row.card .db-biz-open { padding: 12px; } .db-biz-row.card .db-biz-photo, .db-biz-row.card .db-biz-ic { width: 52px; height: 52px; } }

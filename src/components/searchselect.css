@@ -1,0 +1,122 @@
+/* SearchSelect: a select you can type in */
+.ss {
+  position: relative;
+  min-width: 0;
+}
+.ss-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background-image: none !important;
+  padding-right: 12px !important;
+}
+.ss-btn .ss-val {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ss-chev {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+.ss.open .ss-chev {
+  transform: rotate(180deg);
+}
+.ss-hint {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.ss-pop {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(340px, 92vw);
+  background: var(--card, #fff);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px -16px rgba(15, 23, 42, 0.35);
+  padding: 6px;
+  animation: ss-in 0.14s ease-out;
+}
+@keyframes ss-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.ss-q {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 10px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  background: var(--bg2);
+  color: var(--muted);
+}
+.ss-q input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+.ss-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.ss-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.ss-opt .ss-val {
+  flex: 1;
+  min-width: 0;
+}
+.ss-opt.hi {
+  background: var(--bg2);
+}
+.ss-opt.on {
+  font-weight: 700;
+  color: var(--brand-ink, var(--brand));
+}
+.ss-check {
+  flex-shrink: 0;
+  color: var(--brand);
+}
+.ss-empty {
+  padding: 12px 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.ss-q input,
+.ss-q input:focus {
+  height: auto;
+  padding: 0;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none;
+}

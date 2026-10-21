@@ -1,0 +1,311 @@
+/* App styles (Settings → Style): 12 looks, each different in shape, shadow, font and background.
+ * The colour comes from the colour theme (accents.css / the owner's own colour) — every style works with every colour.
+ * Applied inside the app only: AppLayout sets <html data-style="…"> ("floating" = the default, no attribute). */
+
+/* ---------- shared helpers ---------- */
+html:root[data-style] .app .panel-card,
+html:root[data-style] .app .md-card,
+html:root[data-style] .app .sa-stat,
+html:root[data-style] .app .side-card {
+  transition: none;
+}
+
+/* 1 · Flat — no shadows, thin lines, calm */
+html:root[data-style="flat"] .app {
+  --radius: 12px;
+  --card-shadow: none;
+  --pop-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --orange-shadow: none;
+}
+html:root[data-style="flat"]:not([data-theme="dark"]) .app {
+  --app-bg: #f7f8fa;
+}
+html:root[data-style="flat"] .app .panel-card,
+html:root[data-style="flat"] .app .md-card,
+html:root[data-style="flat"] .app .sa-stat,
+html:root[data-style="flat"] .app .side-card {
+  border: 1px solid var(--line);
+}
+html:root[data-style="flat"] .app .nav-link {
+  border-radius: 8px;
+}
+html:root[data-style="flat"] .app .nav-link.active {
+  background: var(--active);
+  color: var(--brand-ink);
+  box-shadow: none;
+}
+html:root[data-style="flat"] .app .md-btn {
+  border-radius: 8px;
+}
+html:root[data-style="flat"] .app .md-btn-primary {
+  background: var(--brand);
+}
+
+/* 2 · Glass — frosted cards over colour */
+html:root[data-style="glass"] .app {
+  --radius: 24px;
+  --card: rgba(255, 255, 255, 0.62);
+  --card-shadow: 0 8px 32px rgba(31, 38, 135, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  background:
+    radial-gradient(circle at 10% 10%, var(--glow1, rgba(224, 88, 26, 0.25)), transparent 40%), radial-gradient(circle at 90% 20%, color-mix(in srgb, var(--brand-2) 35%, transparent), transparent 45%),
+    radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 50%), #eef1f7;
+  background-attachment: fixed;
+}
+html:root[data-style="glass"][data-theme="dark"] .app {
+  --card: rgba(30, 32, 40, 0.6);
+  --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: radial-gradient(circle at 10% 10%, var(--glow1, rgba(224, 88, 26, 0.25)), transparent 40%), radial-gradient(circle at 90% 20%, color-mix(in srgb, var(--brand-2) 25%, transparent), transparent 45%), #0c0d11;
+  background-attachment: fixed;
+}
+html:root[data-style="glass"] .app .panel-card,
+html:root[data-style="glass"] .app .md-card,
+html:root[data-style="glass"] .app .sa-stat,
+html:root[data-style="glass"] .app .side-card {
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+html:root[data-style="glass"][data-theme="dark"] .app .panel-card,
+html:root[data-style="glass"][data-theme="dark"] .app .md-card,
+html:root[data-style="glass"][data-theme="dark"] .app .side-card {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 3 · Sharp — square corners, Inter, a bar for the open menu */
+html:root[data-style="sharp"] {
+  --font: "Inter", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="sharp"] .app {
+  --radius: 4px;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+html:root[data-style="sharp"] .app .nav-link {
+  border-radius: 2px;
+}
+html:root[data-style="sharp"] .app .nav-link.active {
+  background: var(--active);
+  color: var(--brand-ink);
+  box-shadow: inset 4px 0 0 var(--brand);
+}
+html:root[data-style="sharp"] .app .md-btn,
+html:root[data-style="sharp"] .md-modal .md-btn,
+html:root[data-style="sharp"] .app input,
+html:root[data-style="sharp"] .app select,
+html:root[data-style="sharp"] .md-modal {
+  border-radius: 3px !important;
+}
+
+/* 4 · Soft — very round, tinted background, Nunito */
+html:root[data-style="soft"] {
+  --font: "Nunito", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="soft"] .app {
+  --radius: 32px;
+  --card-shadow: 0 14px 40px color-mix(in srgb, var(--brand) 10%, transparent);
+}
+html:root[data-style="soft"]:not([data-theme="dark"]) .app {
+  --app-bg: color-mix(in srgb, var(--brand) 7%, #f8f8fb);
+}
+html:root[data-style="soft"] .app .nav-link.active {
+  background: color-mix(in srgb, var(--brand) 16%, var(--card));
+  color: var(--brand-ink);
+  box-shadow: none;
+}
+
+/* 5 · Outline — see-through cards with clear borders */
+html:root[data-style="outline"] {
+  --font: "DM Sans", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="outline"] .app {
+  --radius: 16px;
+  --card-shadow: none;
+}
+html:root[data-style="outline"] .app .panel-card,
+html:root[data-style="outline"] .app .md-card,
+html:root[data-style="outline"] .app .sa-stat,
+html:root[data-style="outline"] .app .side-card {
+  background: transparent;
+  border: 1.5px solid var(--line-strong);
+}
+html:root[data-style="outline"] .app .nav-link.active {
+  background: transparent;
+  color: var(--brand-ink);
+  box-shadow: inset 0 0 0 2px var(--brand);
+}
+html:root[data-style="outline"] .app .md-btn-primary {
+  background: transparent;
+  color: var(--brand-ink);
+  box-shadow: inset 0 0 0 2px var(--brand);
+}
+
+/* 6 · Studio — a dark menu column, light work area, Manrope */
+html:root[data-style="studio"] {
+  --font: "Manrope", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="studio"] .app {
+  --radius: 18px;
+}
+html:root[data-style="studio"] .app .sidebar .side-card {
+  background: #15161b;
+  color: #f2f3f6;
+}
+html:root[data-style="studio"] .app .sidebar .nav-link,
+html:root[data-style="studio"] .app .sidebar .biz-switch small {
+  color: #a3a7b3;
+}
+html:root[data-style="studio"] .app .sidebar .biz-switch b {
+  color: #fff;
+}
+html:root[data-style="studio"] .app .sidebar .biz-switch .av {
+  background: var(--brand);
+  color: #fff;
+}
+html:root[data-style="studio"] .app .sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+html:root[data-style="studio"] .app .sidebar .nav-link.active {
+  color: #fff;
+}
+html:root[data-style="studio"] .app .sidebar .nav-label {
+  color: #6b6f7b;
+}
+
+/* 7 · Compact — more on the screen */
+html:root[data-style="compact"] {
+  --font: "Inter", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="compact"] .app {
+  --radius: 12px;
+  gap: 12px;
+  padding: 12px;
+  font-size: 14px;
+}
+html:root[data-style="compact"] .app .sidebar {
+  width: 220px;
+  gap: 10px;
+}
+html:root[data-style="compact"] .app .nav-link {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 13.5px;
+  border-radius: 10px;
+}
+html:root[data-style="compact"] .app .panel-card {
+  padding: 14px;
+}
+html:root[data-style="compact"] .app .md-btn {
+  border-radius: 10px;
+}
+
+/* 8 · Bold — thick lines and hard shadows, Space Grotesk */
+html:root[data-style="bold"] {
+  --font: "Space Grotesk", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="bold"] .app {
+  --radius: 14px;
+  --card-shadow: 5px 5px 0 var(--ink);
+}
+html:root[data-style="bold"]:not([data-theme="dark"]) .app {
+  --app-bg: #fff8ea;
+}
+html:root[data-style="bold"] .app .panel-card,
+html:root[data-style="bold"] .app .md-card,
+html:root[data-style="bold"] .app .sa-stat,
+html:root[data-style="bold"] .app .side-card {
+  border: 2px solid var(--ink);
+}
+html:root[data-style="bold"] .app .nav-link.active {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 3px 3px 0 var(--ink);
+  border: 2px solid var(--ink);
+}
+html:root[data-style="bold"] .app .md-btn-primary {
+  background: var(--brand);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+/* 9 · Paper — warm paper, serif titles */
+html:root[data-style="paper"] .app {
+  --radius: 10px;
+  --card-shadow: 0 1px 0 rgba(60, 40, 10, 0.08), 0 6px 18px rgba(60, 40, 10, 0.06);
+}
+html:root[data-style="paper"]:not([data-theme="dark"]) .app {
+  --app-bg: #f4efe4;
+  --card: #fffdf8;
+  --bg2: #f8f3e8;
+  --chip: #f3ecdd;
+  --line: #e9e0cd;
+  --line-strong: #dccfb5;
+}
+html:root[data-style="paper"] .app h1,
+html:root[data-style="paper"] .app h2,
+html:root[data-style="paper"] .app h3 {
+  font-family: "Lora", "Kantumruy Pro", Georgia, serif;
+  letter-spacing: 0;
+}
+html:root[data-style="paper"] .app .nav-link.active {
+  background: var(--card);
+  color: var(--brand-ink);
+  box-shadow: inset 0 -3px 0 var(--brand);
+  border-radius: 6px;
+}
+
+/* 10 · Neumorph — soft raised surfaces, Poppins */
+html:root[data-style="neumorph"] {
+  --font: "Poppins", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="neumorph"] .app {
+  --radius: 22px;
+}
+html:root[data-style="neumorph"]:not([data-theme="dark"]) .app {
+  --app-bg: #e7ebf1;
+  --card: #e7ebf1;
+  --bg2: #edf0f5;
+  --card-shadow: 8px 8px 18px #c9ced6, -8px -8px 18px #ffffff;
+}
+html:root[data-style="neumorph"][data-theme="dark"] .app {
+  --app-bg: #1b1d23;
+  --card: #1b1d23;
+  --card-shadow: 8px 8px 18px #121317, -8px -8px 18px #24272f;
+}
+html:root[data-style="neumorph"] .app .nav-link.active {
+  background: var(--card);
+  color: var(--brand-ink);
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.12),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.7);
+}
+html:root[data-style="neumorph"][data-theme="dark"] .app .nav-link.active {
+  box-shadow:
+    inset 4px 4px 8px #121317,
+    inset -4px -4px 8px #24272f;
+}
+
+/* 11 · Aurora — a colour wash behind white cards, Outfit */
+html:root[data-style="aurora"] {
+  --font: "Outfit", "Kantumruy Pro", system-ui, sans-serif;
+}
+html:root[data-style="aurora"] .app {
+  --radius: 26px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--brand) 22%, #f5f6fa) 0%, #f5f6fa 38%, color-mix(in srgb, var(--brand-2) 18%, #f5f6fa) 100%);
+  background-attachment: fixed;
+}
+html:root[data-style="aurora"][data-theme="dark"] .app {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--brand) 22%, #0d0e11) 0%, #0d0e11 40%, color-mix(in srgb, var(--brand-2) 14%, #0d0e11) 100%);
+  background-attachment: fixed;
+}
+html:root[data-style="aurora"] .app .nav-link.active {
+  background: var(--grad);
+  box-shadow: 0 8px 22px var(--bar, rgba(0, 0, 0, 0.2));
+}
+
+/* glass + aurora paint the whole page — the sticky header must not cover it with a flat band */
+html:root[data-style="glass"] .app .app-header,
+html:root[data-style="aurora"] .app .app-header {
+  background: transparent;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}

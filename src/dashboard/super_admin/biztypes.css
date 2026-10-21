@@ -1,0 +1,135 @@
+.bt-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 6px;
+  scrollbar-width: thin;
+}
+.bt-chip {
+  --c: #64748b;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 150px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s,
+    background 0.15s;
+}
+.bt-chip.t-restaurant {
+  --c: #ea580c;
+}
+.bt-chip.t-mart {
+  --c: #0d9488;
+}
+.bt-chip.t-guest_house {
+  --c: #2563eb;
+}
+.bt-chip.t-attendance {
+  --c: #7c3aed;
+}
+.bt-chip.t-namecard {
+  --c: #db2777;
+}
+.bt-ic {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+}
+.bt-text {
+  display: grid;
+  line-height: 1.25;
+}
+.bt-text b {
+  font-size: 14px;
+}
+.bt-text small {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.bt-chip:hover {
+  border-color: color-mix(in srgb, var(--c) 45%, var(--line));
+}
+.bt-chip.on {
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 8%, var(--card));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 16%, transparent);
+}
+.bt-chip.on .bt-ic {
+  background: var(--c);
+  color: #fff;
+}
+.bt-tag {
+  --c: #64748b;
+  display: inline-block;
+  margin-top: 3px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+}
+.bt-tag.t-restaurant {
+  --c: #ea580c;
+}
+.bt-tag.t-mart {
+  --c: #0d9488;
+}
+.bt-tag.t-guest_house {
+  --c: #2563eb;
+}
+.bt-tag.t-attendance {
+  --c: #7c3aed;
+}
+.bt-tag.t-namecard {
+  --c: #db2777;
+}
+
+/* the small row (owner dashboard: My businesses) */
+.bt-row.sm {
+  gap: 8px;
+}
+.bt-row.sm .bt-chip {
+  min-width: 0;
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+  gap: 8px;
+}
+.bt-row.sm .bt-ic {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+}
+.bt-row.sm .bt-text {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 6px;
+}
+.bt-chip.t-menu_qr,
+.bt-tag.t-menu_qr {
+  --c: #db2777;
+}
+.bt-chip.t-flipbook,
+.bt-tag.t-flipbook {
+  --c: #7c3aed;
+}
+.bt-chip.t-qr_gen,
+.bt-tag.t-qr_gen {
+  --c: #0f766e;
+}

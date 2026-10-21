@@ -1,0 +1,501 @@
+/* 24 paid page themes — each builds on a free layout (qp-card / qp-banner / qp-minimal) and keeps the owner's colour (--q) */
+
+/* dark pages: light text */
+.qp.qp-dark {
+  --qp-text: #eef0f6;
+  --qp-muted: #a3a9b8;
+  --qp-panel: rgba(255, 255, 255, 0.06);
+  --qp-line: rgba(255, 255, 255, 0.1);
+  --qp-input: rgba(255, 255, 255, 0.06);
+  --qp-input-line: rgba(255, 255, 255, 0.16);
+  --qp-sheet: #161922;
+  --q-soft: color-mix(in srgb, var(--q) 22%, #161922);
+}
+.qp-dark .qp-btn.ghost,
+.qp-dark .qp-actions a {
+  color: color-mix(in srgb, var(--q) 55%, #fff);
+}
+.qp-dark .qp-made {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* 1 aurora — soft colour lights behind a floating card */
+.th-aurora {
+  background:
+    radial-gradient(60% 45% at 15% 10%, color-mix(in srgb, var(--q) 75%, #fff) 0%, transparent 70%), radial-gradient(55% 40% at 90% 25%, color-mix(in srgb, var(--q) 55%, #7c3aed) 0%, transparent 70%),
+    radial-gradient(70% 50% at 50% 100%, color-mix(in srgb, var(--q) 60%, #06b6d4) 0%, transparent 70%), color-mix(in srgb, var(--q) 25%, #0f172a);
+  background-attachment: fixed;
+}
+.th-aurora .qp-sheet {
+  border-radius: 30px;
+}
+
+/* 2 glass — frosted card on a bold gradient */
+.th-glass {
+  background: linear-gradient(160deg, var(--q), color-mix(in srgb, var(--q) 45%, #312e81));
+  --qp-sheet: rgba(255, 255, 255, 0.78);
+  --qp-panel: rgba(255, 255, 255, 0.55);
+}
+.th-glass .qp-sheet {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+.th-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35) 0 60px, transparent 61px), radial-gradient(circle at 85% 70%, rgba(255, 255, 255, 0.22) 0 90px, transparent 91px);
+  pointer-events: none;
+}
+.th-glass .qp-sheet,
+.th-glass .qp-made {
+  position: relative;
+}
+
+/* 3 midnight — dark page, glowing colour */
+.th-midnight {
+  background: radial-gradient(80% 50% at 50% 0%, color-mix(in srgb, var(--q) 45%, #0b0d14) 0%, #0b0d14 70%);
+}
+.th-midnight .qp-sheet {
+  border: 1px solid color-mix(in srgb, var(--q) 35%, transparent);
+  box-shadow: 0 0 60px -10px color-mix(in srgb, var(--q) 55%, transparent);
+}
+.th-midnight .qp-logo {
+  border-color: #161922;
+}
+
+/* 4 neon — black, neon outline */
+.th-neon {
+  background: #07080c;
+  border-top: 0;
+  --qp-sheet: #07080c;
+}
+.th-neon .qp-sheet {
+  margin-top: 26px;
+  border: 2px solid var(--q);
+  border-radius: 22px;
+  padding: 26px 20px 8px;
+  box-shadow:
+    0 0 14px var(--q),
+    inset 0 0 14px color-mix(in srgb, var(--q) 40%, transparent);
+  width: calc(100% - 28px);
+}
+.th-neon .qp-head h1 {
+  text-shadow: 0 0 12px var(--q);
+}
+.th-neon .qp-logo {
+  border-color: var(--q);
+  box-shadow: 0 0 12px var(--q);
+}
+.th-neon .qp-btn {
+  box-shadow: 0 0 16px var(--q);
+}
+
+/* 5 paper — cream paper, serif titles */
+.th-paper {
+  --qp-sheet: #fbf7ee;
+  --qp-panel: #f3ecdc;
+  --qp-line: #e6dcc6;
+  background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(120, 90, 40, 0.07) 31px 32px), #fbf7ee;
+  border-top: 0;
+}
+.th-paper .qp-sheet {
+  border-left: 3px double color-mix(in srgb, var(--q) 60%, #c9b48a);
+}
+.th-paper .qp-head h1,
+.th-paper h2 {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.th-paper .qp-btn {
+  border-radius: 6px;
+}
+
+/* 6 marble — light stone, fine lines, elegant */
+.th-marble {
+  border-top: 0;
+  background: linear-gradient(115deg, transparent 40%, rgba(160, 160, 170, 0.12) 41%, transparent 43%), linear-gradient(35deg, transparent 60%, rgba(160, 160, 170, 0.1) 61%, transparent 63%), radial-gradient(circle at 30% 20%, #ffffff, #eeeef1);
+}
+.th-marble .qp-sheet {
+  text-align: center;
+}
+.th-marble .qp-head {
+  flex-direction: column;
+  border-bottom: 0;
+  position: relative;
+}
+.th-marble .qp-head::after {
+  content: "";
+  width: 80px;
+  height: 2px;
+  background: var(--q);
+  margin-top: 6px;
+}
+.th-marble .qp-head h1 {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.th-marble .qp-logo {
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+}
+.th-marble .qp-btn {
+  border-radius: 999px;
+}
+
+/* 7 wave — wave under the header */
+.th-wave .qp-head {
+  border-radius: 0;
+  padding-bottom: 54px;
+  position: relative;
+}
+.th-wave .qp-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 36px;
+  background: var(--qp-sheet);
+  -webkit-mask: radial-gradient(28px 22px at 50% 100%, #000 98%, transparent) 0 0 / 56px 36px repeat-x;
+  mask: radial-gradient(28px 22px at 50% 100%, #000 98%, transparent) 0 0 / 56px 36px repeat-x;
+}
+
+/* 8 curve — round arc header, centred */
+.th-curve .qp-head {
+  flex-direction: column;
+  text-align: center;
+  border-radius: 0 0 50% 50% / 0 0 46px 46px;
+  padding: 48px 20px 40px;
+}
+.th-curve .qp-logo {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+}
+
+/* 9 angle — slanted header */
+.th-angle .qp-head {
+  border-radius: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 0 100%);
+  padding-bottom: 52px;
+}
+.th-angle .qp-btn {
+  border-radius: 4px;
+  transform: skewX(-6deg);
+}
+
+/* 10 dots — polka dots */
+.th-dots {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.28) 2.5px, transparent 3px) 0 0 / 22px 22px,
+    var(--q);
+}
+
+/* 11 grid — graph paper */
+.th-grid {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px) 0 0 / 24px 24px,
+    color-mix(in srgb, var(--q) 85%, #000);
+}
+.th-grid .qp-sheet {
+  border-radius: 10px;
+}
+
+/* 12 stripes — bold diagonal stripes */
+.th-stripes {
+  background: repeating-linear-gradient(135deg, var(--q) 0 18px, color-mix(in srgb, var(--q) 80%, #000) 18px 36px);
+}
+.th-stripes .qp-sheet {
+  border-radius: 18px;
+  box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* 13 split — colour top half */
+.th-split {
+  background: linear-gradient(var(--q) 0 260px, #f4f5f7 260px);
+}
+.th-split .qp-sheet {
+  background: transparent;
+  box-shadow: none;
+  min-height: 0;
+}
+.th-split .qp-head {
+  background: none;
+  flex-direction: column;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.th-split .qp-logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 24px;
+}
+.th-split .qp-main {
+  background: var(--qp-sheet);
+  border-radius: 24px;
+  margin: 0 14px;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.3);
+}
+.th-split .qp-foot {
+  color: var(--qp-muted);
+}
+
+/* 14 bubbles — floating circles */
+.th-bubbles {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.25) 0 38px, transparent 39px), radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.18) 0 60px, transparent 61px),
+    radial-gradient(circle at 80% 85%, rgba(255, 255, 255, 0.2) 0 80px, transparent 81px), radial-gradient(circle at 8% 75%, rgba(255, 255, 255, 0.15) 0 50px, transparent 51px),
+    linear-gradient(180deg, color-mix(in srgb, var(--q) 80%, #fff), var(--q));
+}
+.th-bubbles .qp-sheet {
+  border-radius: 36px;
+}
+.th-bubbles .qp-btn {
+  border-radius: 999px;
+}
+
+/* 15 ticket — card with cut-out sides */
+.th-ticket {
+  background: color-mix(in srgb, var(--q) 18%, #f4f5f7);
+}
+.th-ticket .qp-sheet {
+  border-radius: 18px;
+  -webkit-mask:
+    radial-gradient(circle 14px at 0 120px, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 120px, transparent 98%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle 14px at 0 120px, transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle 14px at 100% 120px, transparent 98%, #000) right / 51% 100% no-repeat;
+  box-shadow: none;
+  border-top: 8px solid var(--q);
+}
+.th-ticket .qp-head {
+  border-bottom: 2px dashed var(--qp-line);
+  margin-bottom: 14px;
+}
+.th-ticket .qp-logo {
+  margin-top: 14px;
+}
+
+/* 16 badge — big round logo with a colour ring */
+.th-badge {
+  border-top: 0;
+  background: linear-gradient(var(--q-soft), var(--qp-sheet) 320px);
+}
+.th-badge .qp-head {
+  flex-direction: column;
+  text-align: center;
+  border-bottom: 0;
+}
+.th-badge .qp-logo {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 0;
+  box-shadow:
+    0 0 0 6px var(--qp-sheet),
+    0 0 0 10px var(--q);
+}
+.th-badge .qp-head h1 {
+  font-size: 26px;
+}
+.th-badge .qp-btn {
+  border-radius: 999px;
+}
+
+/* 17 retro — thick outlines, offset shadows */
+.th-retro {
+  border-top: 0;
+  background: #fff4dc;
+  --qp-sheet: #fff4dc;
+  --qp-panel: #fff;
+}
+.th-retro .qp-sheet {
+  padding-top: 40px;
+}
+.th-retro .qp-logo {
+  border: 3px solid #1d1f24;
+  border-radius: 14px;
+  box-shadow: 5px 5px 0 #1d1f24;
+}
+.th-retro .qp-head {
+  border-bottom: 3px solid #1d1f24;
+}
+.th-retro .qp-head h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.th-retro .qp-btn,
+.th-retro .qp-rows,
+.th-retro .qp-field input,
+.th-retro .qp-field select,
+.th-retro .qp-field textarea {
+  border: 2.5px solid #1d1f24;
+  box-shadow: 4px 4px 0 #1d1f24;
+  border-radius: 10px;
+}
+
+/* 18 pastel — soft tint, round shapes */
+.th-pastel {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--q) 22%, #fff), color-mix(in srgb, var(--q) 10%, #fdf2f8));
+}
+.th-pastel .qp-sheet {
+  border-radius: 40px;
+  box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--q) 60%, transparent);
+}
+.th-pastel .qp-logo {
+  border-radius: 50%;
+}
+.th-pastel .qp-btn {
+  border-radius: 999px;
+}
+.th-pastel .qp-made {
+  color: color-mix(in srgb, var(--q) 60%, #555);
+}
+
+/* 19 mono — black and white, one colour line */
+.th-mono {
+  border-top: 0;
+}
+.th-mono .qp-head {
+  border-bottom: 2px solid #1d1f24;
+}
+.th-mono .qp-head h1 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.th-mono .qp-logo {
+  filter: grayscale(1);
+  border-radius: 0;
+}
+.th-mono .qp-btn {
+  background: #111;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--q);
+}
+.th-mono .qp-rows {
+  border-radius: 0;
+  border-left: 4px solid var(--q);
+}
+
+/* 20 luxe — dark with a fine colour frame */
+.th-luxe {
+  background: #0e0e10;
+  --qp-sheet: #141416;
+}
+.th-luxe .qp-head {
+  background: #0e0e10;
+  border-bottom: 1px solid color-mix(in srgb, var(--q) 70%, transparent);
+  border-radius: 0;
+  flex-direction: column;
+  text-align: center;
+}
+.th-luxe .qp-head h1 {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--q) 60%, #fff);
+}
+.th-luxe .qp-logo {
+  border: 1px solid var(--q);
+  border-radius: 50%;
+}
+.th-luxe .qp-btn {
+  background: transparent;
+  border: 1px solid var(--q);
+  color: color-mix(in srgb, var(--q) 60%, #fff);
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+/* 21 sunrise — warm gradient from the colour to light */
+.th-sunrise {
+  background: linear-gradient(180deg, var(--q) 0%, color-mix(in srgb, var(--q) 50%, #fbbf24) 35%, #fff7ed 70%);
+}
+.th-sunrise::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 70px;
+  width: 260px;
+  height: 260px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.55), transparent 65%);
+  pointer-events: none;
+}
+.th-sunrise .qp-sheet,
+.th-sunrise .qp-made {
+  position: relative;
+}
+.th-sunrise .qp-made {
+  color: #b45309;
+}
+
+/* 22 confetti — party colours */
+.th-confetti {
+  background:
+    radial-gradient(circle, #facc15 2px, transparent 3px) 0 0 / 46px 46px,
+    radial-gradient(circle, #ec4899 2px, transparent 3px) 15px 23px / 46px 46px,
+    radial-gradient(circle, #22d3ee 2px, transparent 3px) 30px 8px / 46px 46px,
+    radial-gradient(circle, #fff 2px, transparent 3px) 8px 35px / 46px 46px,
+    var(--q);
+}
+.th-confetti .qp-sheet {
+  border-radius: 28px;
+  border: 4px solid #fff;
+}
+
+/* 23 leaf — organic round shapes */
+.th-leaf .qp-head {
+  border-radius: 0 0 80px 0;
+  background: linear-gradient(135deg, var(--q), color-mix(in srgb, var(--q) 55%, #14532d));
+}
+.th-leaf .qp-logo {
+  border-radius: 50% 0 50% 50%;
+}
+.th-leaf .qp-rows {
+  border-radius: 24px 4px 24px 4px;
+}
+.th-leaf .qp-btn {
+  border-radius: 22px 4px 22px 4px;
+}
+.th-leaf {
+  background: color-mix(in srgb, var(--q) 8%, #f6faf3);
+}
+
+/* 24 tech — dark circuit grid, mono font */
+.th-tech {
+  border-top: 0;
+  background:
+    linear-gradient(color-mix(in srgb, var(--q) 14%, transparent) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, color-mix(in srgb, var(--q) 14%, transparent) 1px, transparent 1px) 0 0 / 32px 32px,
+    #0a0f14;
+  --qp-sheet: #0a0f14;
+}
+.th-tech .qp-head {
+  border-bottom: 1px dashed color-mix(in srgb, var(--q) 60%, transparent);
+}
+.th-tech .qp-head h1,
+.th-tech .qp-head small {
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, "Kantumruy Pro", monospace;
+}
+.th-tech .qp-head small::before {
+  content: "> ";
+  color: var(--q);
+}
+.th-tech .qp-logo {
+  border-radius: 8px;
+  border: 1px solid var(--q);
+}
+.th-tech .qp-btn {
+  border-radius: 6px;
+}
+.th-tech .qp-rows {
+  border: 1px solid color-mix(in srgb, var(--q) 40%, transparent);
+}

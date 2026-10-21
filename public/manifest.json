@@ -1,0 +1,12 @@
+{
+  "short_name": "BizHub",
+  "name": "BizHub · One account for every business",
+  "icons": [
+    { "src": "logo192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "logo512.png", "type": "image/png", "sizes": "512x512" }
+  ],
+  "start_url": "/app/dashboard",
+  "display": "standalone",
+  "theme_color": "#B9420C",
+  "background_color": "#FFFFFF"
+}

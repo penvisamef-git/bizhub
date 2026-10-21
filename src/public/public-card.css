@@ -1,0 +1,85 @@
+.pc-page {
+  min-height: 100vh;
+  background: var(--pc-bg, #f4f5f8);
+  padding: 28px 16px 40px;
+  display: flex;
+  justify-content: center;
+}
+:root[data-theme="dark"] .pc-page {
+  background: #0d0e11;
+}
+.pc-wrap {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pc-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pc-share,
+.pc-make {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pc-share {
+  background: var(--pc-c, #e0581a);
+  color: #fff;
+}
+.pc-make {
+  background: #fff;
+  color: #16171b;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+@media (max-width: 460px) {
+  .pc-page {
+    padding: 0 0 32px;
+  }
+  .pc-page .nc {
+    border-radius: 0 0 28px 28px;
+    box-shadow: none;
+  }
+}
+
+/* public portfolio */
+.pp-page {
+  min-height: 100vh;
+  background: #f4f5f8;
+  padding-bottom: 76px; /* room for the floating Share button */
+}
+.pp-share {
+  position: fixed;
+  right: 16px;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pc-c, #e0581a);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.pp-page .pf {
+  min-height: 100vh;
+}

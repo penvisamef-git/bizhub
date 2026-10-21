@@ -1,0 +1,208 @@
+/* Restaurant POS looks (rest_pos_theme). Colours come from restThemes.js (a style tag); these rules change the shapes.
+   body classes: rpt rpt-head-{light|brand|dark} rpt-tile-{card|photo|list|round|bold|flat} rpt-ticket-{plain|paper|dark} [rpt-dark] */
+
+/* corners everywhere */
+body.rpt .pos-item,
+body.rpt .pos-btn,
+body.rpt .pos-input,
+body.rpt .pos-card,
+body.rpt .pos-table {
+  border-radius: var(--rpt-r);
+}
+body.rpt .pos-chips button {
+  border-radius: calc(var(--rpt-r) + 4px);
+}
+body.rpt .pos-chips button.on {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--onbrand) !important;
+}
+
+/* ---------- top bar ---------- */
+body.rpt-head-brand .pos-top {
+  background: linear-gradient(120deg, var(--brand), var(--accent));
+  border-bottom: 0;
+  color: var(--onbrand);
+}
+body.rpt-head-dark .pos-top {
+  background: color-mix(in srgb, var(--ink) 92%, #000);
+  border-bottom: 0;
+  color: #fff;
+}
+body.rpt-dark.rpt-head-dark .pos-top {
+  background: color-mix(in srgb, var(--card) 70%, #000);
+  border-bottom: 1px solid var(--line);
+}
+body.rpt-head-brand .pos-top-name small,
+body.rpt-head-dark .pos-top-name small,
+body.rpt-head-brand .pos-top-time,
+body.rpt-head-dark .pos-top-time {
+  color: inherit;
+  opacity: 0.78;
+}
+body.rpt-head-brand .pos-top-staff,
+body.rpt-head-dark .pos-top-staff,
+body.rpt-head-brand .pos-top-today,
+body.rpt-head-dark .pos-top-today {
+  background: rgba(255, 255, 255, 0.16);
+  color: inherit;
+}
+body.rpt-head-brand .pos-top-logo,
+body.rpt-head-dark .pos-top-logo {
+  background: rgba(255, 255, 255, 0.92);
+}
+body.rpt-head-brand .pos-top .pos-icon,
+body.rpt-head-dark .pos-top .pos-icon,
+body.rpt-head-brand .pos-top > button:not(.pos-status),
+body.rpt-head-dark .pos-top > button:not(.pos-status) {
+  color: inherit;
+}
+
+/* ---------- dish cards ---------- */
+/* photo: the picture fills the card, name + price on top of it */
+body.rpt-tile-photo .pos-items {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+body.rpt-tile-photo .pos-item {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  min-height: 150px;
+  box-shadow: 0 6px 16px -10px rgba(0, 0, 0, 0.45);
+}
+body.rpt-tile-photo .pos-item-img {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  border-radius: 0;
+}
+body.rpt-tile-photo .pos-item::after {
+  content: "";
+  position: absolute;
+  inset: 40% 0 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+  pointer-events: none;
+}
+body.rpt-tile-photo .pos-item b,
+body.rpt-tile-photo .pos-item-price {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 0 10px;
+}
+body.rpt-tile-photo .pos-item b {
+  margin-top: auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+body.rpt-tile-photo .pos-item-price {
+  padding-bottom: 10px;
+}
+body.rpt-tile-photo .pos-item-img svg {
+  color: var(--muted);
+}
+
+/* list: quick rows with a small picture */
+body.rpt-tile-list .pos-items {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 8px;
+}
+body.rpt-tile-list .pos-item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  grid-template-rows: auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px 8px 8px;
+}
+body.rpt-tile-list .pos-item-img {
+  width: 52px;
+  height: 52px;
+  aspect-ratio: 1;
+  border-radius: calc(var(--rpt-r) - 2px);
+}
+body.rpt-tile-list .pos-item b {
+  -webkit-line-clamp: 2;
+}
+body.rpt-tile-list .pos-item-price {
+  white-space: nowrap;
+}
+
+/* round: centred, circle pictures */
+body.rpt-tile-round .pos-item {
+  align-items: center;
+  text-align: center;
+  padding: 12px 8px 12px;
+}
+body.rpt-tile-round .pos-item-img {
+  width: 76%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px var(--active);
+  margin-bottom: 4px;
+}
+body.rpt-tile-round .pos-item-price {
+  background: var(--active);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+/* bold: a solid price bar at the bottom */
+body.rpt-tile-bold .pos-item {
+  padding: 0;
+  overflow: hidden;
+  border-width: 2px;
+}
+body.rpt-tile-bold .pos-item-img {
+  border-radius: 0;
+}
+body.rpt-tile-bold .pos-item b {
+  padding: 4px 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: 13px;
+}
+body.rpt-tile-bold .pos-item-price {
+  margin-top: auto;
+  background: var(--brand);
+  color: var(--onbrand);
+  padding: 7px 10px;
+  font-size: 16px;
+}
+
+/* flat: no boxes, just the dishes */
+body.rpt-tile-flat .pos-item {
+  border-color: transparent;
+  background: transparent;
+  padding: 6px;
+}
+body.rpt-tile-flat .pos-item:hover {
+  background: var(--card);
+  border-color: var(--line);
+}
+body.rpt-tile-flat .pos-item-img {
+  border: 1px solid var(--line);
+}
+
+/* ---------- the ticket (order on the right) ---------- */
+body.rpt-ticket-paper .pos-ticket {
+  background: repeating-linear-gradient(0deg, transparent 0 27px, color-mix(in srgb, var(--ink) 5%, transparent) 27px 28px), var(--card);
+  border-left: 2px dashed var(--line-strong);
+}
+body.rpt-ticket-paper .pos-ticket-head {
+  border-bottom-style: dashed;
+}
+body.rpt-ticket-dark .pos-ticket {
+  background: color-mix(in srgb, var(--card) 80%, #000);
+}
+body.rpt-dark .pos-item-img {
+  background: color-mix(in srgb, var(--card) 70%, #000);
+}
+body.rpt-dark .pos-chips button {
+  background: var(--card);
+  color: var(--ink);
+}
+body.rpt-head-brand .pos-top-today,
+body.rpt-head-dark .pos-top-today {
+  border-color: rgba(255, 255, 255, 0.28);
+}

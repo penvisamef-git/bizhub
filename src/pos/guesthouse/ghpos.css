@@ -1,0 +1,672 @@
+/* Guest House desk POS + guest display */
+.ghp {
+  min-height: 100vh;
+  background: var(--app-bg, #f1f4f9);
+  padding: 0 0 24px;
+}
+.ghp-top {
+  width: 100%;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  background: var(--card, #fff);
+  border-bottom: 1px solid var(--line, rgba(127, 127, 127, 0.18));
+  flex-wrap: wrap;
+}
+.ghp-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #0ea5e9;
+}
+.ghp-brand b {
+  color: var(--ink, #0f172a);
+}
+.ghp-brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.ghp-tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+  flex: 1;
+}
+.ghp-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ghp-tabs button.on {
+  background: var(--ink, #0f172a);
+  color: #fff;
+}
+.ghp-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ghp-who {
+  display: grid;
+  line-height: 1.15;
+  text-align: right;
+}
+.ghp-who small {
+  font-size: 11px;
+  color: var(--muted, #64748b);
+}
+.ghp-main {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1280px;
+  margin: 16px auto 0;
+  padding: 0 16px;
+}
+.ghp-center {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+}
+.ghp-card {
+  width: min(400px, 100%);
+  background: var(--card, #fff);
+  border-radius: 24px;
+  padding: 22px;
+  display: grid;
+  gap: 12px;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.25);
+  color: var(--ink, #0f172a);
+}
+.ghp-card h1 {
+  margin: 0;
+  font-size: 22px;
+}
+.ghp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ghp-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #fff;
+  overflow: hidden;
+}
+.ghp-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ghp-lang {
+  border: 1px solid var(--line, rgba(127, 127, 127, 0.3));
+  background: none;
+  border-radius: 99px;
+  padding: 6px 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  color: inherit;
+}
+.ghp-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6366f1;
+}
+.ghp-muted {
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ghp-muted.bad {
+  color: #dc2626;
+}
+.ghp-code {
+  font-size: 32px;
+  letter-spacing: 0.4em;
+  text-align: center;
+  padding: 12px;
+  border-radius: 14px;
+  border: 2px solid var(--line, rgba(127, 127, 127, 0.3));
+  font-weight: 800;
+  background: none;
+  color: inherit;
+}
+.ghp-input {
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line, rgba(127, 127, 127, 0.3));
+  font: inherit;
+  background: none;
+  color: inherit;
+}
+.ghp-big {
+  padding: 14px;
+  font-size: 16px;
+  justify-content: center;
+}
+.ghp-pin {
+  text-align: center;
+}
+.ghp-pin .ghp-muted {
+  justify-content: center;
+}
+.ghp-dots {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin: 6px 0;
+}
+.ghp-dots i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #6366f1;
+}
+.ghp-dots i.on {
+  background: #6366f1;
+}
+.ghp-dots.shake {
+  animation: ghp-shake 0.4s;
+}
+.ghp-dots.shake i {
+  border-color: #dc2626;
+}
+@keyframes ghp-shake {
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+.ghp-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.ghp-pad button {
+  height: 60px;
+  border-radius: 16px;
+  border: 0;
+  background: var(--chip, rgba(127, 127, 127, 0.1));
+  font: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.ghp-pad button:active {
+  background: color-mix(in srgb, #6366f1 25%, transparent);
+}
+.ghp-link-btn {
+  border: 0;
+  background: none;
+  color: var(--muted, #64748b);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+.ghp-unlink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ghp-disp {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ghp-disp-opt {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  text-align: left;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line, rgba(127, 127, 127, 0.25));
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.ghp-disp-opt svg {
+  color: #6366f1;
+}
+.ghp-disp-opt small {
+  color: var(--muted, #64748b);
+}
+.ghp-disp-qr {
+  grid-column: 1 / -1;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.ghp-disp-qr img {
+  width: 220px;
+  height: 220px;
+}
+.ghp-disp-qr a {
+  font-size: 12px;
+  word-break: break-all;
+}
+@media (max-width: 760px) {
+  .ghp-hide-sm,
+  .ghp-tabs button span {
+    display: none;
+  }
+  .ghp-tabs {
+    margin-left: 0;
+  }
+  .ghp-disp {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------- guest display ---------------- */
+.ghd {
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 10%, #1e3a8a, #0f172a 60%);
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+.ghd-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 28px;
+  font-size: 20px;
+}
+.ghd-head img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.ghd-clock {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.8;
+}
+.ghd-center {
+  flex: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+  padding: 20px;
+}
+.ghd-center h1 {
+  margin: 0;
+  font-size: clamp(40px, 7vw, 80px);
+}
+.ghd-center h2 {
+  margin: 0;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.ghd-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 28px;
+  object-fit: cover;
+}
+.ghd-times {
+  opacity: 0.8;
+}
+.ghd-muted {
+  opacity: 0.7;
+  max-width: 420px;
+}
+.ghd-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 8px 28px 28px;
+  align-items: start;
+}
+.ghd-body.no-qr {
+  grid-template-columns: minmax(0, 720px);
+  justify-content: center;
+}
+.ghd-bill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 22px 26px;
+  display: grid;
+  gap: 4px;
+}
+.ghd-guest {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+.ghd-guest b {
+  font-size: 28px;
+}
+.ghd-guest small {
+  opacity: 0.75;
+}
+.ghd-room {
+  justify-self: start;
+  background: #6366f1;
+  border-radius: 99px;
+  padding: 3px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.ghd-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+}
+.ghd-line.total {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  font-size: 22px;
+  font-weight: 800;
+}
+.ghd-due {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 18px;
+  font-size: 22px;
+}
+.ghd-due b {
+  font-size: 40px;
+}
+.ghd-due.owe {
+  background: #f59e0b;
+  color: #111827;
+}
+.ghd-due.ok {
+  background: #16a34a;
+}
+.ghd-qr {
+  background: #fff;
+  color: #0f172a;
+  border-radius: 24px;
+  padding: 22px;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.ghd-qr span {
+  font-weight: 700;
+  font-size: 20px;
+}
+.ghd-qr img {
+  width: min(320px, 100%);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.ghd-qr b {
+  font-size: 34px;
+}
+.ghd-qr small {
+  color: #64748b;
+}
+@media (max-width: 760px) {
+  .ghd-body {
+    grid-template-columns: 1fr;
+  }
+}
+.ghp-card,
+.ghp-card * {
+  box-sizing: border-box;
+}
+.ghp-card .ghp-big {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  background: #6366f1;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ghp-card .ghp-big:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.ghp-card .md-btn-danger {
+  background: #dc2626;
+  color: #fff;
+  border: 0;
+}
+.ghp-card {
+  grid-template-columns: minmax(0, 1fr);
+}
+.ghp-card input {
+  width: 100%;
+  min-width: 0;
+}
+
+/* touch sizes + theme-aware colours in the desk POS */
+.ghp .md-btn {
+  min-height: 46px;
+  padding: 10px 16px;
+  font-size: 15px;
+}
+.ghp .md-btn.sa-btn-sm {
+  min-height: 44px;
+}
+.ghp .md-icon-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+.ghp input:not([type="checkbox"]):not([type="radio"]),
+.ghp select,
+.ghp textarea {
+  min-height: 48px;
+  font-size: 16px;
+}
+.ghp .gh-tile,
+.ghp .gh-row-main {
+  min-height: 56px;
+}
+.ghp .at-seg button,
+.ghp .gh-add,
+.ghp .rs-pill {
+  min-height: 42px;
+}
+.ghp .md-modal {
+  width: min(720px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+}
+.ghp-sq {
+  min-width: 46px;
+  justify-content: center;
+}
+.ghp-tabs button {
+  min-height: 46px;
+  padding: 10px 18px;
+  font-size: 15px;
+}
+.ghp-tabs button.on {
+  background: var(--ink, #0f172a);
+  color: var(--card, #fff);
+}
+.ghp-brand b,
+.ghp-who b {
+  color: var(--ink, #0f172a);
+}
+.ghp-card,
+.ghp-pad button {
+  color: var(--ink, #0f172a);
+}
+.ghd-pic {
+  min-height: 360px;
+  border-radius: 24px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+.ghd-idle.has-img {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.35), rgba(15, 23, 42, 0.8)),
+    var(--img) center / cover no-repeat;
+}
+
+/* online / offline pill + notices */
+.ghp-net {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line, #e5e7eb);
+  background: var(--card, #fff);
+  color: var(--ink, #111);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ghp-net.on {
+  color: #15803d;
+  border-color: #86efac;
+  background: color-mix(in srgb, #22c55e 10%, var(--card, #fff));
+}
+.ghp-net.wait {
+  color: #b45309;
+  border-color: #fcd34d;
+  background: color-mix(in srgb, #f59e0b 12%, var(--card, #fff));
+}
+.ghp-net.off {
+  color: #b91c1c;
+  border-color: #fca5a5;
+  background: color-mix(in srgb, #ef4444 12%, var(--card, #fff));
+}
+.ghp-net em {
+  font-style: normal;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.ghp-net em {
+  color: inherit;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+.ghp-net .spin {
+  animation: ghp-spin 1s linear infinite;
+}
+@keyframes ghp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.ghp-offline {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+[data-theme="dark"] .ghp-offline {
+  background: #422006;
+  color: #fde68a;
+}
+.ghp-failed {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.ghp-failed ul {
+  margin: 0;
+  padding-left: 18px;
+  flex: 1 1 100%;
+}
+[data-theme="dark"] .ghp-failed {
+  background: #450a0a;
+  color: #fecaca;
+}
+
+/* online bookings bell */
+.ghp-bell {
+  position: relative;
+}
+.ghp-bell em {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-style: normal;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+}
+.ghp-bell.ring svg {
+  animation: ghq-shake 1s ease-in-out infinite;
+  color: #ef4444;
+}
+
+/* the POS is not inside the app shell: give dialogs the same orange as the dashboard */
+.ghp,
+.ghp-center {
+  --grad: linear-gradient(135deg, #e0581a 0%, #e8701a 55%, #e08a1a 100%);
+  --orange-shadow: 0 10px 24px rgba(224, 88, 26, 0.32);
+}

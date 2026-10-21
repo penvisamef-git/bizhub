@@ -1,0 +1,19 @@
+/* coin transaction window (TxDetail.jsx) */
+.txd { display: flex; flex-direction: column; gap: 14px; width: 100%; }
+.txd-top { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 12px; border-radius: 18px; background: var(--bg2, #f4f5f8); text-align: center; }
+.txd-top.in { background: color-mix(in srgb, #2f6b2f 9%, transparent); }
+.txd-top.out { background: color-mix(in srgb, #b42318 7%, transparent); }
+.txd-ic { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--card, #fff); }
+.txd-top.in .txd-ic, .txd-top.in .txd-amt { color: #2f6b2f; }
+.txd-top.out .txd-ic, .txd-top.out .txd-amt { color: #b42318; }
+.txd-amt { font-size: 30px; font-weight: 800; line-height: 1.1; }
+.txd-what { font-weight: 700; font-size: 15px; }
+.txd-rows { margin: 0; display: flex; flex-direction: column; }
+.txd-rows > div { display: flex; justify-content: space-between; gap: 14px; padding: 9px 2px; border-bottom: 1px solid var(--line, #e6e8ee); }
+.txd-rows > div:last-child { border-bottom: 0; }
+.txd-rows dt { color: var(--muted, #6a6e7a); font-size: 13px; flex: none; max-width: 45%; }
+.txd-rows dd { margin: 0; font-weight: 600; font-size: 13.5px; text-align: right; word-break: break-word; }
+.txd-id { display: inline-flex; align-items: center; gap: 4px; }
+.txd-id code { font-size: 11.5px; color: var(--muted, #6a6e7a); }
+.sa-list-row.tx-click, tr.tx-click { cursor: pointer; }
+.sa-list-row.tx-click:hover, tr.tx-click:hover td { background: var(--md-hover, rgba(0, 0, 0, 0.03)); }

@@ -1,0 +1,432 @@
+/* Staff QR sticker: 12 styles (classic free). Sized in mm so it prints true to size. */
+.aq {
+  --c: #4f46e5;
+  --c2: #16a34a;
+  width: 100mm;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2mm;
+  padding: 8mm 8mm 6mm;
+  background: #fff;
+  color: #0f172a;
+  border-radius: 6mm;
+  border: 0.5mm solid #e2e8f0;
+  text-align: center;
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  break-inside: avoid;
+}
+.aq * {
+  box-sizing: border-box;
+}
+.aq > *:not(.aq-deco):not(.aq-hole) {
+  position: relative;
+  z-index: 1;
+}
+.aq-head {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  max-width: 100%;
+}
+.aq-logo {
+  width: 13mm;
+  height: 13mm;
+  flex: none;
+  border-radius: 3mm;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--c);
+  color: #fff;
+  font-size: 16pt;
+}
+.aq-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+.aq-name {
+  font-weight: 800;
+  font-size: 15pt;
+  line-height: 1.15;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.aq-title {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.aq-qr {
+  width: 58mm;
+  height: 58mm;
+  padding: 3mm;
+  background: #fff;
+  border-radius: 4mm;
+  border: 0.6mm solid var(--c);
+  margin: 1mm 0;
+}
+.aq-qr img,
+.aq-qr-ph {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.aq-qr-ph {
+  background: repeating-linear-gradient(45deg, #e2e8f0 0 3mm, #f8fafc 3mm 6mm);
+}
+.aq-scan {
+  font-size: 15pt;
+  font-weight: 800;
+  color: var(--c);
+  line-height: 1.2;
+}
+.aq-scan-en {
+  font-size: 10pt;
+  font-weight: 600;
+  margin-top: -1.5mm;
+  opacity: 0.75;
+}
+.aq-hours {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5mm;
+  margin-top: 1mm;
+}
+.aq-hours span {
+  font-size: 8.5pt;
+  font-weight: 700;
+  padding: 1mm 3mm;
+  border-radius: 99mm;
+  background: color-mix(in srgb, var(--c) 12%, transparent);
+  color: var(--c);
+  font-variant-numeric: tabular-nums;
+}
+.aq-note {
+  margin: 0;
+  font-size: 9.5pt;
+  font-weight: 600;
+}
+.aq-foot {
+  margin-top: 1mm;
+  font-size: 6.5pt;
+  opacity: 0.45;
+  letter-spacing: 0.04em;
+}
+.aq-deco,
+.aq-hole {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* classic — colour band on top */
+.aq-classic .aq-deco {
+  inset: 0 0 auto 0;
+  height: 26mm;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+.aq-classic .aq-head,
+.aq-classic .aq-title {
+  color: #fff;
+}
+.aq-classic .aq-logo {
+  background: #fff;
+  color: #4f46e5;
+}
+.aq-classic .aq-title {
+  opacity: 0.85;
+}
+
+/* minimal */
+.aq-minimal {
+  --c: #111;
+  border: 0.3mm solid #111;
+  border-radius: 1mm;
+}
+.aq-minimal .aq-logo {
+  background: #111;
+}
+.aq-minimal .aq-qr {
+  border: 0;
+  padding: 0;
+}
+.aq-minimal .aq-scan {
+  font-weight: 600;
+}
+.aq-minimal .aq-hours span {
+  background: none;
+  border: 0.3mm solid #111;
+}
+
+/* colour block */
+.aq-block {
+  --c: #0ea5e9;
+  background: #0ea5e9;
+  color: #fff;
+  border: 0;
+}
+.aq-block .aq-logo {
+  background: #fff;
+  color: #0ea5e9;
+}
+.aq-block .aq-qr {
+  border: 0;
+  border-radius: 6mm;
+  padding: 4mm;
+}
+.aq-block .aq-scan {
+  color: #fff;
+}
+.aq-block .aq-hours span {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+/* gradient */
+.aq-gradient {
+  --c: #6366f1;
+  background: linear-gradient(160deg, #2563eb, #7c3aed 60%, #db2777);
+  color: #fff;
+  border: 0;
+}
+.aq-gradient .aq-deco {
+  width: 60mm;
+  height: 60mm;
+  right: -20mm;
+  top: -20mm;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+.aq-gradient .aq-logo {
+  background: rgba(255, 255, 255, 0.2);
+}
+.aq-gradient .aq-qr {
+  border: 0;
+  box-shadow: 0 3mm 8mm rgba(0, 0, 0, 0.25);
+}
+.aq-gradient .aq-scan {
+  color: #fff;
+}
+.aq-gradient .aq-hours span {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* dark */
+.aq-dark {
+  --c: #22c55e;
+  background: #0b1120;
+  color: #e2e8f0;
+  border: 0;
+}
+.aq-dark .aq-qr {
+  border: 0;
+}
+.aq-dark .aq-hours span {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+/* black & gold */
+.aq-gold {
+  --c: #d4af37;
+  background: #0c0a09;
+  color: #f5f0e1;
+  border: 0;
+  border-radius: 2mm;
+}
+.aq-gold .aq-deco {
+  inset: 3mm;
+  border: 0.4mm solid #d4af37;
+  outline: 0.2mm solid #8a6d1f;
+  outline-offset: 1mm;
+}
+.aq-gold .aq-name,
+.aq-gold .aq-scan-en {
+  font-family: Georgia, "Times New Roman", serif;
+}
+.aq-gold .aq-logo {
+  background: #d4af37;
+  color: #0c0a09;
+}
+.aq-gold .aq-qr {
+  border-color: #d4af37;
+}
+
+/* Khmer pattern */
+.aq-angkor {
+  --c: #fde9b5;
+  background: #9e1b1b;
+  color: #fde9b5;
+  border: 0;
+}
+.aq-angkor .aq-deco {
+  inset: 3mm;
+  border: 2.5mm solid transparent;
+  border-image: repeating-linear-gradient(45deg, #c99a2e 0 2mm, #7f1d1d 2mm 3.5mm) 10;
+}
+.aq-angkor .aq-logo {
+  background: #c99a2e;
+  color: #7f1d1d;
+}
+.aq-angkor .aq-qr {
+  border: 0.8mm solid #c99a2e;
+}
+.aq-angkor .aq-hours span {
+  background: rgba(253, 233, 181, 0.16);
+}
+
+/* kraft paper */
+.aq-kraft {
+  --c: #5b3a1e;
+  background: #d8b98c radial-gradient(rgba(0, 0, 0, 0.05) 0.4mm, transparent 0.5mm) 0 0 / 3mm 3mm;
+  color: #3b2414;
+  border: 0;
+  border-radius: 2mm;
+}
+.aq-kraft .aq-deco {
+  width: 22mm;
+  height: 22mm;
+  right: 5mm;
+  bottom: 14mm;
+  border: 0.6mm dashed rgba(91, 58, 30, 0.45);
+  border-radius: 50%;
+  transform: rotate(-14deg);
+}
+.aq-kraft .aq-logo {
+  background: #5b3a1e;
+}
+.aq-kraft .aq-qr {
+  border: 0;
+  box-shadow: 1mm 1mm 0 rgba(59, 36, 20, 0.35);
+}
+.aq-kraft .aq-name {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* ticket */
+.aq-ticket {
+  --c: #e11d48;
+  border: 0;
+  border-radius: 3mm;
+  background: radial-gradient(circle at 0 70%, transparent 4mm, #fff 4.2mm) left / 51% 100% no-repeat, radial-gradient(circle at 100% 70%, transparent 4mm, #fff 4.2mm) right / 51% 100% no-repeat;
+  filter: drop-shadow(0 0 0.3mm #94a3b8);
+}
+.aq-ticket .aq-deco {
+  left: 8mm;
+  right: 8mm;
+  top: 70%;
+  border-top: 0.5mm dashed #cbd5e1;
+}
+.aq-ticket .aq-logo {
+  background: #e11d48;
+}
+
+/* ID badge */
+.aq-badge {
+  --c: #0f766e;
+  padding-top: 16mm;
+  border: 0.5mm solid #cbd5e1;
+  border-radius: 5mm;
+}
+.aq-badge .aq-deco {
+  inset: 0 0 auto 0;
+  height: 30mm;
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+.aq-badge .aq-hole {
+  top: 4mm;
+  left: 50%;
+  width: 16mm;
+  height: 3.5mm;
+  margin-left: -8mm;
+  border-radius: 99mm;
+  background: #fff;
+  z-index: 2;
+}
+.aq-badge .aq-head,
+.aq-badge .aq-title {
+  color: #fff;
+}
+.aq-badge .aq-logo {
+  background: #fff;
+  color: #0f766e;
+}
+
+/* photo frame */
+.aq-photo {
+  --c: #334155;
+  background: #f1f5f9;
+  border: 0;
+  border-radius: 1mm;
+}
+.aq-photo .aq-qr {
+  width: 64mm;
+  height: 72mm;
+  padding: 4mm 4mm 12mm;
+  border: 0;
+  border-radius: 0.5mm;
+  box-shadow: 0 1.5mm 4mm rgba(0, 0, 0, 0.18);
+  transform: rotate(-2deg);
+}
+.aq-photo .aq-qr img {
+  height: auto;
+  aspect-ratio: 1;
+}
+.aq-photo .aq-scan {
+  margin-top: -10mm;
+  color: #334155;
+  transform: rotate(-2deg);
+}
+.aq-photo .aq-scan-en {
+  font-family: "Comic Sans MS", "Segoe Print", cursive;
+  transform: rotate(-2deg);
+}
+.aq-photo .aq-logo {
+  background: #334155;
+}
+
+/* neon */
+.aq-neon {
+  --c: #25e2ff;
+  background: #07070d;
+  color: #f1f5f9;
+  border: 0;
+}
+.aq-neon .aq-deco {
+  inset: 3mm;
+  border-radius: 5mm;
+  border: 0.6mm solid #ff2ea6;
+  box-shadow: 0 0 3mm #ff2ea6, inset 0 0 3mm #ff2ea6;
+}
+.aq-neon .aq-qr {
+  border-color: #25e2ff;
+  box-shadow: 0 0 4mm #25e2ff;
+}
+.aq-neon .aq-scan {
+  text-shadow: 0 0 2mm #25e2ff;
+}
+.aq-neon .aq-logo {
+  background: #ff2ea6;
+}
+
+/* small preview: the same sticker, scaled down */
+.aq-mini {
+  width: calc(100mm * var(--s, 0.5));
+  height: calc(var(--h, 150mm) * var(--s, 0.5));
+  overflow: hidden;
+}
+.aq-mini > .aq {
+  transform: scale(var(--s, 0.5));
+  transform-origin: top left;
+}

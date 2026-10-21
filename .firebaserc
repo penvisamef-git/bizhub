@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "bizhub-cambodia"
+  },
+  "targets": {
+    "bizhub-cambodia": {
+      "hosting": {
+        "uat": [
+          "bizhub-cambodia"
+        ],
+        "prod": [
+          "prod-bizhub-cambodia"
+        ]
+      }
+    }
+  }
+}

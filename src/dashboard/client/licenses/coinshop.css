@@ -1,0 +1,523 @@
+/* Buy coins (bank transfer + screenshot) */
+.cs-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.cs-head h2 {
+  margin: 0;
+}
+.cs-head p {
+  margin: 4px 0 0;
+}
+.cs-head-ic {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, #f59e0b 16%, transparent);
+  flex-shrink: 0;
+}
+.cs-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+}
+.cs-packs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 12px;
+  padding-top: 10px;
+}
+.cs-pack .md-btn {
+  width: 100%;
+  justify-content: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+.cs-pack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 22px 10px 14px;
+  border-radius: var(--radius, 20px);
+  background: var(--card);
+  border: 2px solid transparent;
+  box-shadow: var(--card-shadow);
+  text-align: center;
+}
+.cs-pack.on {
+  border-color: var(--brand);
+}
+.cs-pack.best {
+  background: linear-gradient(180deg, color-mix(in srgb, #f59e0b 10%, var(--card)), var(--card));
+}
+.cs-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #fff;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+}
+.cs-coins {
+  font-size: 27px;
+  line-height: 1.1;
+  margin-top: 6px;
+}
+.cs-pack > small {
+  color: var(--muted);
+  margin-top: -4px;
+}
+.cs-free {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #059669;
+  min-height: 20px;
+}
+.cs-price {
+  font-size: 22px;
+  margin: 6px 0 10px;
+  color: var(--brand-ink);
+}
+.cs-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--bg2);
+}
+.cs-qty button {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--card);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.cs-cart {
+  position: sticky;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cs-cart h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cs-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--line);
+}
+.cs-green {
+  color: #059669;
+  font-weight: 700;
+}
+.cs-red {
+  color: #dc2626;
+}
+.cs-sum {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cs-sum b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 18px;
+}
+.cs-sum.total b {
+  font-size: 24px;
+  color: var(--brand-ink);
+}
+.cs-go {
+  width: 100%;
+  min-height: 46px;
+}
+.cs-soon {
+  font-size: 12px;
+}
+.cs-orders {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-order {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+.cs-order-ic {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--bg2);
+  color: var(--muted);
+}
+.cs-order.s-approved .cs-order-ic {
+  color: #059669;
+  background: rgba(5, 150, 105, 0.1);
+}
+.cs-order.s-pending .cs-order-ic {
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.1);
+}
+.cs-order.s-rejected .cs-order-ic {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+.cs-order-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.cs-step {
+  font-size: 14px;
+}
+.cs-banks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+.cs-bank {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.cs-bank.on {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--active);
+}
+.cs-bank-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--brand);
+}
+.cs-qr {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--bg2);
+}
+.cs-qr-pic {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.cs-qr-pic img {
+  width: 100%;
+  border-radius: 12px;
+  background: #fff;
+}
+.cs-qr-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cs-qr-info span {
+  display: flex;
+  flex-direction: column;
+}
+.cs-qr-amt {
+  font-size: 30px;
+  color: var(--brand-ink);
+}
+/* a QR picture with the amount in it (tall poster): a bigger picture so it scans from the screen */
+.cs-qr.fixed {
+  grid-template-columns: 320px minmax(0, 1fr);
+}
+.cs-qr-zoom {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+  cursor: zoom-in;
+}
+.cs-qr-zoom img {
+  display: block;
+}
+.cs-qr-zoom-ic {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+.cs-pay-link,
+.cs-pay-link:hover {
+  width: 100%;
+  justify-content: center;
+  text-decoration: none;
+}
+.cs-qr-view {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(10, 10, 14, 0.88);
+  cursor: zoom-out;
+  animation: csFade 0.18s ease;
+}
+.cs-qr-view img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+}
+.cs-qr-view button {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  cursor: pointer;
+}
+@keyframes csFade {
+  from {
+    opacity: 0;
+  }
+}
+.cs-qr-tip {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--card);
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.cs-qr-tip.ok {
+  background: #ecfdf5;
+  color: #047857;
+}
+:root[data-theme="dark"] .cs-qr-tip.ok {
+  background: rgba(16, 185, 129, 0.14);
+  color: #6ee7b7;
+}
+.cs-proof {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 2px dashed var(--line-strong, var(--line));
+  background: var(--card);
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+}
+.cs-proof.has {
+  border-style: solid;
+  border-color: #10b981;
+  color: var(--ink);
+}
+.cs-proof img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.cs-foot-get {
+  margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+}
+.cs-sent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.cs-sent-ic {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #d97706;
+  background: rgba(217, 119, 6, 0.12);
+}
+.cs-hotline {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--bg2);
+  width: 100%;
+  box-sizing: border-box;
+}
+.cs-hot-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+/* licenses: kind filter */
+.lc-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lc-tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: var(--card-shadow);
+  align-self: flex-start;
+}
+.lc-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.lc-tabs button.on {
+  background: var(--solid);
+  color: var(--on-solid);
+}
+.lc-tabs em {
+  font-style: normal;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #f59e0b;
+  color: #fff;
+  font-size: 12px;
+  display: inline-grid;
+  place-items: center;
+}
+.lc-kind {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.lc-kind button {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.lc-kind button.on {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--onbrand, #fff);
+}
+.lc-kind small {
+  opacity: 0.75;
+}
+@media (max-width: 900px) {
+  .cs-layout {
+    grid-template-columns: 1fr;
+  }
+  .cs-cart {
+    position: static;
+  }
+}
+@media (max-width: 560px) {
+  .cs-qr,
+  .cs-qr.fixed {
+    grid-template-columns: 1fr;
+  }
+  .cs-qr-zoom {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .cs-order {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+  }
+  .cs-order > .md-btn {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+}
+.rs-muted {
+  color: var(--muted);
+  font-size: 13.5px;
+}

@@ -1,0 +1,203 @@
+/* The branded PDF (note_pdf): the same A4 page in the preview and in the browser's print window ("Save as PDF").
+   Real text (Khmer stays text), pictures and signatures print, the theme only lends its accent colour. */
+.pd-doc {
+  --pd-acc: var(--acc, var(--brand, #e0581a));
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", system-ui, sans-serif;
+  color: #16171b;
+  background: #fff !important;
+  font-size: 13.5px;
+  line-height: 1.6;
+  /* the theme's own page look is not printed — only its colour */
+  background-image: none !important;
+}
+.pd-doc * {
+  box-sizing: border-box;
+}
+.pd-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--pd-acc);
+  margin-bottom: 18px;
+}
+.pd-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pd-brand img,
+.pd-logo-ph {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.pd-logo-ph {
+  display: grid;
+  place-items: center;
+  background: var(--pd-acc);
+  color: #fff;
+  font-weight: 800;
+  font-size: 18px;
+}
+.pd-brand b {
+  font-size: 15px;
+  font-weight: 800;
+}
+.pd-date {
+  color: #646a78;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.pd-title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #16171b;
+}
+.pd-meta {
+  margin: 4px 0 16px;
+  color: #646a78;
+  font-size: 12px;
+}
+.pd-body .nb-view {
+  --nb-accent: var(--pd-acc);
+  font-size: 13.5px;
+}
+.pd-body .nb-view h2 {
+  color: var(--pd-acc);
+  font-size: 16px;
+  margin: 16px 0 6px;
+  break-after: avoid;
+}
+.pd-body .nb-img img,
+.pd-body .nb-draw img {
+  max-height: 340px;
+  max-width: 100%;
+  object-fit: contain;
+}
+.pd-body .nb-dl,
+.pd-body .nb-x,
+.pd-doc .vc-play,
+.pd-doc .vc-rate,
+.pd-doc .vc-rm {
+  display: none !important;
+}
+.pd-body .nb-img,
+.pd-body .nb-draw,
+.pd-body .nb-callout,
+.pd-body li {
+  break-inside: avoid;
+}
+.pd-sec {
+  margin-top: 22px;
+}
+.pd-sec h2 {
+  font-size: 15px;
+  margin: 0 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e6e8ee;
+  color: var(--pd-acc);
+  break-after: avoid;
+}
+.pd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.pd-table th {
+  text-align: left;
+  background: #f3f4f7;
+  padding: 6px 8px;
+  font-weight: 800;
+  border-bottom: 1px solid #dfe2e8;
+}
+.pd-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #eceef3;
+  vertical-align: top;
+  word-break: break-word;
+}
+.pd-table tr {
+  break-inside: avoid;
+}
+.pd-nowrap {
+  white-space: nowrap;
+}
+.pd-replies {
+  margin: 0;
+  padding-left: 20px;
+}
+.pd-replies li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eceef3;
+  break-inside: avoid;
+}
+.pd-replies li small {
+  color: #646a78;
+}
+.pd-replies p {
+  margin: 2px 0;
+  white-space: pre-line;
+}
+.pd-sign {
+  display: block;
+  max-height: 80px;
+  max-width: 260px;
+  margin: 4px 0;
+}
+.pd-files {
+  display: block;
+  color: #646a78;
+}
+.pd-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+  padding-top: 8px;
+  border-top: 1px solid #e6e8ee;
+  color: #8a8f9c;
+  font-size: 11px;
+}
+
+/* the page that is printed: only it, nothing else of the dashboard */
+@media screen {
+  .nt-print-root {
+    position: fixed;
+    left: -10000px;
+    top: 0;
+    width: 794px;
+  }
+}
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-size: 9pt;
+    color: #8a8f9c;
+  }
+}
+@media print {
+  body:has(.nt-print-root) > *:not(.nt-print-root) {
+    display: none !important;
+  }
+  body:has(.nt-print-root) {
+    background: #fff !important;
+  }
+  .nt-print-root {
+    position: static;
+    width: auto;
+    display: block !important;
+  }
+  .pd-doc {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

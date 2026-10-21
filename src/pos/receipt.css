@@ -1,0 +1,331 @@
+/* ---------- printing (receipt printer, through the print window) ---------- */
+.pos-print {
+  display: none;
+}
+@media print {
+  @page {
+    margin: 0;
+  }
+  body.pos-printing > *:not(.pos-print) {
+    display: none !important;
+  }
+  body.pos-printing .pos-print {
+    display: block;
+  }
+}
+.pos-print.w80 {
+  width: 76mm;
+}
+.pos-print.w58 {
+  width: 54mm;
+}
+.pr {
+  font-family: "Kantumruy Pro", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: #000;
+  padding: 3mm 2mm;
+  line-height: 1.35;
+}
+.pr-head {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1px;
+}
+.pr-head img {
+  width: 14mm;
+  height: 14mm;
+  object-fit: cover;
+  border-radius: 3mm;
+  margin-bottom: 1mm;
+  filter: grayscale(1);
+}
+.pr-head b {
+  font-size: 13px;
+}
+.pr-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 13px;
+  margin: 2mm 0 1mm;
+  letter-spacing: 0.08em;
+}
+.pr-meta,
+.pr-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 2mm;
+}
+.pr-rule {
+  border-top: 1px dashed #000;
+  margin: 1.5mm 0;
+}
+.pr-line {
+  margin-bottom: 1mm;
+}
+.pr-sub {
+  padding-left: 3mm;
+  font-size: 10px;
+}
+.pr-total {
+  font-weight: 800;
+  font-size: 13px;
+}
+.pr-other {
+  font-size: 10px;
+}
+.pr-foot {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1px;
+  font-size: 10px;
+}
+
+/* the same receipt on screen (preview before printing, invoices in reports) */
+.pr-paper {
+  background: #fff;
+  color: #000;
+  margin: 0 auto;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 8px 28px rgb(0 0 0 / 0.12);
+  border-radius: 4px;
+  position: relative;
+  max-width: 100%;
+}
+.pr-paper.w80 {
+  width: 300px;
+}
+.pr-paper.w58 {
+  width: 220px;
+}
+.pr-paper::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 8px;
+  background: linear-gradient(-45deg, transparent 6px, #fff 0) 0 0 / 12px 8px repeat-x, linear-gradient(45deg, transparent 6px, #fff 0) 0 0 / 12px 8px repeat-x;
+}
+.pr-paper .pr {
+  padding: 14px 12px 18px;
+  font-size: 12px;
+}
+.pr-paper .pr-head img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+.pr-stamp {
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  border: 2px solid #000;
+  padding: 1mm;
+  margin: 1.5mm 0;
+}
+.pr-void {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* ================= receipt looks (all print in black on a thermal printer) ================= */
+.pr-cols {
+  display: grid;
+  grid-template-columns: 7mm minmax(0, 1fr) auto;
+  gap: 1.5mm;
+}
+.pr-cols-head {
+  font-weight: 800;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  padding-bottom: 0.8mm;
+  margin-bottom: 1mm;
+}
+.pr-cols > span:last-child {
+  text-align: right;
+}
+
+/* modern: clean sans, bold heads, solid thin lines */
+.pr.pr-t-modern {
+  font-family: "Plus Jakarta Sans", "Kantumruy Pro", Arial, sans-serif;
+}
+.pr-t-modern .pr-rule {
+  border-top-style: solid;
+}
+.pr-t-modern .pr-title {
+  letter-spacing: 0.2em;
+  font-size: 12px;
+}
+.pr-t-modern .pr-total {
+  font-size: 16px;
+}
+
+/* mono: typewriter, upper case, double lines */
+.pr.pr-t-mono {
+  font-family: "Courier New", Courier, ui-monospace, monospace;
+}
+.pr-t-mono .pr-title,
+.pr-t-mono .pr-head b {
+  text-transform: uppercase;
+}
+.pr-t-mono .pr-rule {
+  border-top: 3px double #000;
+}
+.pr-t-mono .pr-total {
+  text-transform: uppercase;
+}
+
+/* bold: black title band + black total box */
+.pr-t-bold .pr-title {
+  background: #000;
+  color: #fff;
+  padding: 1.2mm 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pr-t-bold .pr-total {
+  background: #000;
+  color: #fff;
+  padding: 1.5mm 2mm;
+  margin: 1mm 0;
+  font-size: 15px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pr-t-bold .pr-head b {
+  font-size: 15px;
+}
+
+/* compact: small and tight (saves paper) */
+.pr.pr-t-compact {
+  font-size: 9.5px;
+  line-height: 1.2;
+  padding: 2mm 1.5mm;
+}
+.pr-paper .pr.pr-t-compact {
+  font-size: 10.5px;
+}
+.pr-t-compact .pr-head img {
+  width: 9mm;
+  height: 9mm;
+}
+.pr-t-compact .pr-rule {
+  margin: 0.8mm 0;
+}
+.pr-t-compact .pr-sub {
+  font-size: 9px;
+}
+.pr-t-compact .pr-title {
+  margin: 1mm 0 0.5mm;
+  font-size: 11px;
+}
+
+/* elegant: serif, centred, double lines, italic thanks */
+.pr.pr-t-elegant {
+  font-family: Georgia, "Times New Roman", "Kantumruy Pro", serif;
+}
+.pr-t-elegant .pr-title {
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.3em;
+}
+.pr-t-elegant .pr-rule {
+  border-top: 3px double #000;
+  margin: 2mm 6mm;
+}
+.pr-t-elegant .pr-foot {
+  font-style: italic;
+}
+.pr-t-elegant .pr-head b {
+  font-size: 15px;
+  letter-spacing: 0.04em;
+}
+
+/* boxed: each part in a thin box */
+.pr-t-boxed .pr-head,
+.pr-t-boxed .pr-foot {
+  border: 1px solid #000;
+  padding: 1.5mm;
+  border-radius: 1.5mm;
+}
+.pr-t-boxed .pr-title {
+  border: 1.5px solid #000;
+  border-radius: 1.5mm;
+  padding: 0.8mm 0;
+}
+.pr-t-boxed .pr-rule {
+  border-top-style: solid;
+}
+.pr-t-boxed .pr-total {
+  border: 1.5px solid #000;
+  border-radius: 1.5mm;
+  padding: 1.2mm 2mm;
+  margin: 1mm 0;
+}
+
+/* columns: qty | item | amount table */
+.pr-t-columns .pr-rule {
+  border-top-style: solid;
+}
+.pr-t-columns .pr-sub {
+  padding-left: 8.5mm;
+}
+
+/* big logo: large logo + name, made for shops with a strong brand */
+.pr-t-biglogo .pr-head img {
+  width: 26mm;
+  height: 26mm;
+  border-radius: 50%;
+}
+.pr-paper .pr-t-biglogo .pr-head img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+.pr-t-biglogo .pr-head b {
+  font-size: 17px;
+}
+.pr-t-biglogo .pr-title {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+}
+
+/* minimal: no lines, more air, light */
+.pr-t-minimal .pr-rule {
+  border-top: 0;
+  margin: 2.5mm 0;
+}
+.pr-t-minimal .pr-title {
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  font-size: 10px;
+}
+.pr-t-minimal .pr-head img {
+  filter: grayscale(1);
+  border-radius: 50%;
+}
+.pr-t-minimal .pr-total {
+  font-size: 16px;
+  border-top: 1px solid #000;
+  padding-top: 1.5mm;
+}
+
+/* khmer: Khmer names first and bigger */
+.pr.pr-t-khmer {
+  font-family: "Kantumruy Pro", "Noto Sans Khmer", sans-serif;
+}
+.pr-t-khmer .pr-row > span:first-child {
+  font-weight: 700;
+}
+.pr-t-khmer .pr-title {
+  font-size: 15px;
+}
+.pr-t-khmer .pr-head .pr-km {
+  font-size: 17px;
+}
+
+.pr-off {
+  font-style: italic;
+}

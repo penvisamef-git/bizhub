@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="icon" type="image/svg+xml" href="/bizhub-icon.svg" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#B9420C" />
+    <title>BizHub · One account. Every business you run.</title>
+    <meta name="description" content="BizHub: run your digital name card, restaurant, mini mart, guest house, warehouse and attendance from one account. Sign up and get 100 free coins." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BizHub · One account. Every business you run." />
+    <meta property="og:description" content="Digital name card, restaurant, mini mart, guest house, warehouse and attendance in one account. Sign up and get 100 free coins." />
+    <meta property="og:image" content="/og-image.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script>
+      // apply saved theme before first paint (no flash)
+      try {
+        var t = localStorage.getItem("bizhub_theme");
+        if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+        var a = localStorage.getItem("bizhub_accent");
+        if (a && a !== "ember" && location.pathname.indexOf("/app") === 0) document.documentElement.dataset.accent = a;
+        var l = localStorage.getItem("bizhub_lang");
+        if (l) document.documentElement.lang = l;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <noscript>BizHub needs JavaScript to run.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
