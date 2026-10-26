@@ -6,3 +6,5 @@ dist
 .DS_Store
 *.log
 *.local
+# never put the POS installers in the site (Firebase's free plan refuses .exe) — they are on GitHub Releases
+public/downloads/

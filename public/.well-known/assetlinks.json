@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.bizhubcambodia.app",
-      "sha256_cert_fingerprints": ["REPLACE_WITH_UPLOAD_KEY_SHA256", "REPLACE_WITH_PLAY_APP_SIGNING_SHA256"]
+      "sha256_cert_fingerprints": ["00:1E:56:4C:24:3C:11:2F:28:37:54:28:A3:FD:65:3C:46:19:4D:BA:70:63:4F:02:29:1D:D3:72:B7:68:04:B0", "F0:B7:33:1C:BF:15:C7:F4:51:77:68:B1:4A:D0:42:E3:45:6B:25:B1:21:59:5C:45:63:A7:28:A3:94:78:42:48"]
     }
   }
 ]

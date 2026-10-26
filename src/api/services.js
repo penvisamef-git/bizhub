@@ -88,6 +88,13 @@ export const customerAuthService = {
   loginQrState: (id) => userApiClient.get(`/login-qr/${id}`), // → { state: waiting | used | expired }
 };
 
+// "Delete my account" (30 days to change your mind; logging in again cancels)
+export const accountDeleteService = {
+  status: () => userApiClient.get("/account/delete"), // { pending, requested_at, delete_at, days }
+  request: (body) => userApiClient.post("/account/delete", body), // { password } or { firebase_token }
+  cancel: () => userApiClient.delete("/account/delete"),
+};
+
 // owner home screen: coins, businesses, sales (restaurants), best sellers, what needs attention
 export const dashboardService = {
   get: (fresh) => userApiClient.get(`/dashboard${fresh ? "?fresh=1" : ""}`),

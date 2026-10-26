@@ -14,6 +14,8 @@ const LoginPage = lazy(PAGES.login);
 const SignUpPage = lazy(PAGES.signUp);
 const ForgotPasswordPage = lazy(PAGES.forgot);
 const TermsPage = lazy(PAGES.terms);
+const PrivacyPage = lazy(PAGES.privacy);
+const DeleteAccountPage = lazy(PAGES.deleteAccount);
 const PhoneSignUpPage = lazy(PAGES.phoneSignUp);
 const PhoneForgotPage = lazy(PAGES.phoneForgot);
 const SMS_ON = import.meta.env.VITE_SMS_SIGNUP === "1"; // SMS sign-up needs Firebase billing
@@ -154,6 +156,8 @@ export default function App() {
             }
           />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/delete-account" element={<DeleteAccountPage />} />
           {SMS_ON && (
             <Route
               path="/sign-up/phone"

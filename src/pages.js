@@ -8,6 +8,8 @@ export const PAGES = {
   signUp: () => import("./homepage/auth/SignUpPage"),
   forgot: () => import("./homepage/auth/ForgotPasswordPage"),
   terms: () => import("./public/TermsPage"),
+  privacy: () => import("./public/PrivacyPage"),
+  deleteAccount: () => import("./public/DeleteAccountPage"),
   phoneSignUp: () => import("./homepage/auth/PhoneSignUpPage"), // SMS (VITE_SMS_SIGNUP=1)
   phoneForgot: () => import("./homepage/auth/PhoneForgotPage"),
   appLayout: () => import("./dashboard/layout/AppLayout"),

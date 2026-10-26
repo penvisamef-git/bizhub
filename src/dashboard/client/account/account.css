@@ -759,3 +759,122 @@
   height: 26px;
   background: #ef4444;
 }
+
+/* ---------- delete my account ---------- */
+.del-card .del-icon {
+  background: color-mix(in srgb, #dc2626 12%, transparent);
+  color: #dc2626;
+}
+.del-card.is-pending {
+  border: 1.5px solid color-mix(in srgb, #dc2626 45%, transparent);
+  background: color-mix(in srgb, #dc2626 5%, var(--card, #fff));
+}
+.del-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.del-hint {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.del-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+.del-help {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.ac-btn.del-btn {
+  background: #dc2626;
+  color: #fff;
+  border-color: #dc2626;
+}
+.ac-btn.del-btn:disabled {
+  opacity: 0.5;
+}
+.del-btn-full {
+  width: 100%;
+  justify-content: center;
+}
+.del-modal .md-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.del-warn {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #dc2626 9%, transparent);
+  color: #991b1b;
+  font-size: 13.5px;
+}
+.del-warn svg {
+  flex: none;
+  margin-top: 2px;
+}
+.del-warn ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  line-height: 1.6;
+}
+.del-kept {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.del-agree {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.del-agree input {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  accent-color: #dc2626;
+}
+.del-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.del-form label {
+  font-size: 13px;
+  font-weight: 700;
+}
+.del-or {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.del-keep {
+  margin-top: 2px;
+}
+.del-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+}
+.del-banner a {
+  font-weight: 800;
+  text-decoration: underline;
+}
+@media (prefers-color-scheme: dark) {
+  .del-warn {
+    color: #fecaca;
+  }
+}

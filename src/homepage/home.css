@@ -1325,6 +1325,9 @@
 .g-debt_book {
   background: linear-gradient(135deg, #be123c, #f97316);
 }
+.g-digital_note {
+  background: linear-gradient(135deg, #a16207, #facc15);
+}
 .g-stamp_card {
   background: linear-gradient(135deg, #92400e, #f59e0b);
 }

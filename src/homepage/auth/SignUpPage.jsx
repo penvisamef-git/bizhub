@@ -204,6 +204,10 @@ export default function SignUpPage() {
               {t.agreePre}{" "}
               <Link to={ROUTES.terms} target="_blank" rel="noreferrer">
                 {t.agreeLink}
+              </Link>{" "}
+              {t.agreeAnd}{" "}
+              <Link to={ROUTES.privacy} target="_blank" rel="noreferrer">
+                {t.privacy}
               </Link>
               {t.agreePost}
             </p>

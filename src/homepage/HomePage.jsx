@@ -16,6 +16,7 @@ import { HERO_ICONS } from "./content";
 import HeroBanner from "./HeroBanner";
 import ServiceSheet from "./ServiceSheet";
 import AppShowcase from "./AppShowcase";
+import PosDownload from "./PosDownload";
 import PriceTag from "./PriceTag";
 
 // Card title + bullet keys for each service (text lives in content.js)
@@ -51,6 +52,7 @@ function SiteHeader({ t }) {
     ["#services", t.navServices],
     ["#coins", t.navPricing],
     ["#app", t.navApp],
+    ["#pos", t.navPos],
     ["#why", t.navAbout],
     ["#talk", t.navContact],
   ];
@@ -320,6 +322,8 @@ function SiteFooter({ t }) {
           <a href="#services">{t.navServices}</a>
           <a href="#coins">{t.navPricing}</a>
           <Link to={ROUTES.terms}>{tt.terms}</Link>
+          <Link to={ROUTES.privacy}>{tt.privacy}</Link>
+          <Link to={ROUTES.deleteAccount}>{tt.deleteAccountLink}</Link>
           <Link to={ROUTES.login}>{t.login}</Link>
         </nav>
         <small className="hx-copy">{t.copy}</small>
@@ -344,6 +348,7 @@ export default function HomePage() {
         <Coins t={t} settings={settings} />
         <Why t={t} />
         <AppShowcase t={t} settings={settings} />
+        <PosDownload t={t} />
         <Talk t={t} settings={settings} />
       </main>
       <SiteFooter t={t} />

@@ -360,6 +360,9 @@ export default function TermsPage() {
                 )}
                 {c.address && <li>{c.address}</li>}
               </ul>
+              <p>
+                <Link to={ROUTES.privacy}>{lang === "km" ? "គោលការណ៍ឯកជនភាព" : "Privacy Policy"}</Link> · <Link to={ROUTES.deleteAccount}>{lang === "km" ? "លុបគណនី" : "Delete account"}</Link>
+              </p>
             </section>
           </article>
         </div>

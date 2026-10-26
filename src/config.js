@@ -27,6 +27,8 @@ export const ROUTES = {
   signUp: "/sign-up",
   forgot: "/forgot-password",
   terms: "/terms",
+  privacy: "/privacy",
+  deleteAccount: "/delete-account",
   app: "/app",
   dashboard: "/app/dashboard",
   account: "/app/account",

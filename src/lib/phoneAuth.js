@@ -159,13 +159,17 @@ export function phoneErrorKey(err) {
   if (c === "auth/too-many-requests" || c === "auth/quota-exceeded") return "smsTooMany";
   if (c === "auth/invalid-verification-code" || c === "auth/missing-verification-code") return "codeWrong";
   if (c === "auth/code-expired" || c === "auth/session-expired") return "codeExpired";
-  if (c === "auth/unauthorized-domain" || c === "auth/captcha-check-failed" || c === "auth/invalid-app-credential") return "smsDomain";
+  // this website address isn't in Firebase → Authentication → Settings → Authorized domains (Google sign-in, email links, SMS)
+  if (c === "auth/unauthorized-domain") return "authDomain";
+  if (c === "auth/captcha-check-failed" || c === "auth/invalid-app-credential") return "smsDomain";
   if (c === "auth/network-request-failed") return "networkError";
   if (c === "app/sdk-missing") return "smsSdkMissing";
   if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request" || c === "auth/user-cancelled") return "cancelled";
   if (c === "auth/popup-blocked") return "popupBlocked";
   if (c === "auth/invalid-action-code" || c === "auth/expired-action-code") return "linkUsed";
   if (c === "auth/invalid-email" || c === "auth/missing-email") return "badEmail";
+  // not a Firebase error (e.g. our API said no) → no SMS text: the pages then show the server's own message
+  if (!/^(auth|app)\//.test(c)) return "server";
   console.warn("[phone auth]", c || err?.message); // unknown reason: the exact Firebase code is in the browser console
   return "smsFailed";
 }

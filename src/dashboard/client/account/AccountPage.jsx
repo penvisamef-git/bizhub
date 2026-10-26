@@ -8,6 +8,7 @@ import "../../admin/master_data/masterdata.css";
 import "./account.css";
 import ChangeEmail from "./ChangeEmail";
 import AppQrLogin from "./AppQrLogin";
+import DeleteAccount from "./DeleteAccount";
 
 function InfoRow({ icon, label, value, tone = "" }) {
   return (
@@ -286,6 +287,9 @@ function AccountPage() {
 
         {/* ---------- log in on the BizHub app (owners + super admin: the app is for them) ---------- */}
         {(customer || me.is_super_admin) && <AppQrLogin service={service} />}
+
+        {/* ---------- delete my account (owners; Google Play / App Store rule) ---------- */}
+        {customer && <DeleteAccount onChanged={(st) => setProfile((p) => ({ ...p, delete_at: st.delete_at || null }))} />}
       </div>
     </div>
   );

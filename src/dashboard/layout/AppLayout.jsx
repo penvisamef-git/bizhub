@@ -19,6 +19,7 @@ import { ROUTES } from "../../config";
 import { ACCOUNT_NAV, ALL_NAV, CLIENT_NAV, SETTINGS_NAV, SUPER_NAV, SUPPORT_NAV, TEAM_NAV } from "./nav";
 import { ChatPageSkeleton, CoinOrdersPageSkeleton, CoinShopSkeleton, InboxPageSkeleton, PageSkeleton } from "../../components/skeleton/Skeleton";
 import { useConfirmSignOut } from "../../components/ConfirmSignOut";
+import { DeletionBanner } from "../client/account/DeleteAccount";
 
 const fmtCoins = (n) => new Intl.NumberFormat("en-US").format(Number(n) || 0);
 
@@ -259,6 +260,7 @@ export default function AppLayout() {
         </header>
 
         <main className="app-content">
+          {isCustomer(user) && <DeletionBanner user={user} />}
           {/* only this part waits while a page downloads; the menu stays on screen */}
           <Suspense fallback={<RouteSkeleton path={location.pathname} search={location.search} />}>
             <Outlet />

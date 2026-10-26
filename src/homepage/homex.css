@@ -1094,3 +1094,132 @@ a.hx-contact:hover {
 .hx-contact:not([href^="tel"]) {
   grid-column: 1 / -1;
 }
+
+/* ---------- BizHub POS for the computer (#pos) ---------- */
+.hx-pos {
+  padding-top: 24px;
+}
+.hx-pos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+  max-width: 920px;
+}
+.hx-pos-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 26px;
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+}
+.hx-pos-card.mine {
+  border-color: color-mix(in srgb, var(--hx-orange) 60%, var(--line));
+  box-shadow: var(--shadow);
+}
+.hx-pos-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hx-pos-ic {
+  width: 54px;
+  height: 54px;
+  flex: none;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(140deg, var(--hx-orange), #f5a35e);
+}
+.hx-pos-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  margin-right: auto;
+}
+.hx-pos-name b {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.hx-pos-name small,
+.hx-pos-meta {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.hx-pos-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--hx-orange) 14%, transparent);
+  color: var(--hx-orange);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.hx-pos-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.hx-pos-meta {
+  margin-top: -6px;
+  text-align: center;
+}
+.hx-pos-help {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+.hx-pos-help button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: left;
+  cursor: pointer;
+}
+.hx-pos-help button span {
+  margin-right: auto;
+}
+.hx-pos-chev {
+  transition: transform 0.25s;
+}
+.hx-pos-help.on .hx-pos-chev {
+  transform: rotate(180deg);
+}
+.hx-pos-help ol {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+.hx-pos-foot {
+  max-width: 920px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+@media (max-width: 640px) {
+  .hx-pos-card {
+    padding: 20px;
+  }
+  .hx-pos-grid {
+    grid-template-columns: 1fr;
+  }
+}
