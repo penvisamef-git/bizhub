@@ -6,7 +6,9 @@
         "components": [
           { "/": "/app/wallet*", "comment": "top-up card QR → Wallet" },
           { "/": "/app/licenses*" },
-          { "/": "/app/support*" }
+          { "/": "/app/support*" },
+          { "/": "/app/join/*", "comment": "Team invite link (v1.5)" },
+          { "/": "/join/*" }
         ]
       }
     ]
