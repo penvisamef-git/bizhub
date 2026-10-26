@@ -215,7 +215,8 @@ export default function NoteDashboard() {
   const navList = GROUPS.map(([group, keys], gi) => (
     <div key={gi} className="rs-nav-group">
       {group && <span className="rs-nav-label">{m.groups[group]}</span>}
-      {keys.map((key) => {
+      {keys.flatMap((key) => (key === "addons" ? ["team", key] : [key])).map((key) => {
+        if (key === "team") return <TeamNavLink key="team" id={id} onGo={() => setNavOpen(false)} />; // Team, just above Add-ons
         const Icon = TABS.find(([k]) => k === key)[1];
         return (
           <button
@@ -236,7 +237,6 @@ export default function NoteDashboard() {
           </button>
         );
       })}
-      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

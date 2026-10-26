@@ -154,7 +154,8 @@ export default function EventDashboard() {
   const navList = GROUPS.map(([group, keys]) => (
     <div key={group} className="rs-nav-group">
       <span className="rs-nav-label">{x.groups[group]}</span>
-      {keys.map((key) => {
+      {keys.flatMap((key) => (key === "addons" ? ["team", key] : [key])).map((key) => {
+        if (key === "team") return <TeamNavLink key="team" id={id} onGo={() => setNavOpen(false)} />; // Team, just above Add-ons
         const Icon = TABS.find(([k]) => k === key)[1];
         return (
           <button
@@ -175,7 +176,6 @@ export default function EventDashboard() {
           </button>
         );
       })}
-      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

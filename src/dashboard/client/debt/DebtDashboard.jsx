@@ -121,7 +121,8 @@ export default function DebtDashboard() {
   const navList = GROUPS.map(([group, keys]) => (
     <div key={group} className="rs-nav-group">
       <span className="rs-nav-label">{m.groups[group]}</span>
-      {keys.map((key) => {
+      {keys.flatMap((key) => (key === "addons" ? ["team", key] : [key])).map((key) => {
+        if (key === "team") return <TeamNavLink key="team" id={id} onGo={() => setNavOpen(false)} />; // Team, just above Add-ons
         const Icon = TABS.find(([k]) => k === key)[1];
         const locked = NEEDS[key] && !ctx.on(NEEDS[key]);
         return (
@@ -144,7 +145,6 @@ export default function DebtDashboard() {
           </button>
         );
       })}
-      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

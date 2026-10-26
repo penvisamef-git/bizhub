@@ -235,7 +235,8 @@ export default function RestaurantDashboard() {
   const navList = GROUPS.map(([group, keys]) => [group, keys.filter((k) => !(k === "setup" && setupDone && tab !== "setup"))]).map(([group, keys], gi) => (
     <div key={gi} className="rs-nav-group">
       {group && <span className="rs-nav-label">{r.navGroups[group]}</span>}
-      {keys.map((key) => {
+      {keys.flatMap((key) => (key === "addons" ? ["team", key] : [key])).map((key) => {
+        if (key === "team") return <TeamNavLink key="team" id={id} onGo={() => setNavOpen(false)} />; // Team, just above Add-ons
         const Icon = TABS.find(([k]) => k === key)[1];
         const step = overview.setup.steps[key];
         const locked = NEEDS[key] && !ctx.addonOn(NEEDS[key]);
@@ -260,7 +261,6 @@ export default function RestaurantDashboard() {
           </button>
         );
       })}
-      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 
