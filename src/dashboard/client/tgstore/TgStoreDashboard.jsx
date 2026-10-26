@@ -15,7 +15,7 @@ import PurchaseModal from "../../../components/purchase/PurchaseModal";
 import MyBusinesses from "../../../components/MyBusinesses";
 import CoinIcon from "../../../components/CoinIcon";
 import { memo } from "../../../lib/memo";
-import { OrdersTab } from "./TsOrders";
+import { OrdersTab, startLive } from "./TsOrders";
 import { ADDON_ICON } from "./TsGrow";
 import { MiniStore } from "./TsDesign";
 import { themeName } from "../../../tgstore/themes";
@@ -84,8 +84,9 @@ export default function TgStoreDashboard() {
     [api, id, x.loadFail],
   );
   useEffect(() => {
+    if (current === "orders") startLive(api, id); // the open orders come with the rest, not after it
     reload();
-    const t = setTimeout(() => Object.values(LOAD).forEach((l) => l().catch(() => {})), 400);
+    const t = setTimeout(() => Object.values(LOAD).forEach((l) => l().catch(() => {})), 2500); // the other tabs, once this one is up
     return () => clearTimeout(t);
   }, [reload]);
 

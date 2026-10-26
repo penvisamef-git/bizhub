@@ -107,13 +107,17 @@ const GROUPS = {
 // business type → its dashboard (big files: only downloaded for the types the owner has)
 const BIZ_PAGE = { namecard: "nameCardEditor", restaurant: "restaurant", attendance: "attendance", guest_house: "guestHouse", mart: "mart", menu_qr: "menuQr", flipbook: "flipbook", qr_gen: "qrGen", website: "website", debt_book: "debt", digital_note: "note", stamp_card: "stamp", event: "event", tg_store: "tgStore" };
 const bizDone = new Set();
+// background downloads wait until the page on screen has its own files and data (they share the phone's line)
+const later = (run, wait) => {
+  const go = () => setTimeout(() => ("requestIdleCallback" in window ? window.requestIdleCallback(run, { timeout: 3000 }) : run()), wait);
+  if (document.readyState === "complete") go();
+  else window.addEventListener("load", go, { once: true });
+};
 export function prefetchBizTypes(categories = []) {
   const todo = [...new Set(categories)].map((c) => BIZ_PAGE[c]).filter((n) => n && !bizDone.has(n));
   if (!todo.length) return;
   todo.forEach((n) => bizDone.add(n));
-  const run = () => todo.forEach((n) => PAGES[n]().catch(() => {}));
-  if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 4000 });
-  else setTimeout(run, 1500);
+  later(() => todo.forEach((n) => PAGES[n]().catch(() => {})), 2000);
 }
 
 let done = false;
@@ -125,6 +129,5 @@ export function prefetchPages(kind) {
   if (kind === "customer") {
     prefetchBizTypes((memo.get("myBusinesses") || []).map((b) => b.category));
   }
-  if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 3000 });
-  else setTimeout(run, 1200);
+  later(run, 3500);
 }

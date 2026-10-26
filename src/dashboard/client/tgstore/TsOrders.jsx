@@ -3,6 +3,7 @@ import { Bike, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock, Extern
 import { Modal } from "../../super_admin/parts";
 import { Head } from "../menuqr/parts";
 import CoinIcon from "../../../components/CoinIcon";
+import { memo } from "../../../lib/memo";
 import { ago, fill, fmtNum, fmtTime, money } from "./text";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
@@ -207,22 +208,32 @@ export function OrderModal({ ctx, order, onClose, onChanged }) {
 }
 
 // ---------------------------------------------------------------- live board
+// the open orders are asked for at once when the dashboard opens (with its other data, not after it)
+const early = new Map(); // business id → { at, p }
+export function startLive(api, id) {
+  const p = api.orders({ status: "open" });
+  p.catch(() => {});
+  early.set(id, { at: Date.now(), p });
+}
 function LiveView({ ctx }) {
   const { x, api, data, put, cur } = ctx;
-  const [rows, setRows] = useState(null);
+  const [rows, setRows] = useState(() => memo.get(`tgstore-live:${ctx.id}`) ?? null);
   const [error, setError] = useState("");
   const live = useRef(true);
   const load = useCallback(
-    () =>
-      api
-        .orders({ status: "open" })
+    () => {
+      const e = early.get(ctx.id);
+      early.delete(ctx.id);
+      return (e && Date.now() - e.at < 10000 ? e.p : api.orders({ status: "open" }))
         .then((r) => {
           if (!live.current) return;
+          memo.set(`tgstore-live:${ctx.id}`, r.data);
           setRows(r.data);
           setError("");
           if (r.counts) put((d) => ({ counts: { ...d.counts, ...r.counts } }));
         })
-        .catch((e) => live.current && setError(e.message)),
+        .catch((err) => live.current && setError(err.message));
+    },
     [api], // eslint-disable-line react-hooks/exhaustive-deps
   );
   useEffect(() => {
