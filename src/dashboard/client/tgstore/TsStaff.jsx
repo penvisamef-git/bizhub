@@ -166,7 +166,7 @@ export function StaffTab({ ctx }) {
                 <option value="staff">{x.posRoles.staff}</option>
                 <option value="manager">{x.posRoles.manager}</option>
               </select>
-              <input value={f.pin} onChange={(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, "").slice(0, 4) })} inputMode="numeric" placeholder={x.pinPh} aria-label="PIN" data-testid="ts-staff-pin" />
+              <input value={f.pin} onChange={(e) => setF({ ...f, pin: e.target.value.replace(/\D/g, "").slice(0, 4) })} inputMode="numeric" placeholder={x.staffPinPh} aria-label="PIN" data-testid="ts-staff-pin" />
               <button type="submit" className="md-btn md-btn-primary sa-btn-sm" disabled={readOnly || !!busy || !f.name.trim() || f.pin.length !== 4} data-testid="ts-staff-add">
                 {busy === "add" ? <Loader2 size={14} className="md-spin" /> : <Plus size={14} />} {x.addStaff}
               </button>

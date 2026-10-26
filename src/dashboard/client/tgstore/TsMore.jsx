@@ -447,7 +447,7 @@ export function RemindTab({ ctx }) {
                   <thead>
                     <tr>
                       <th>{x.custCols.who}</th>
-                      <th className="num">{x.itemsN}</th>
+                      <th className="num">{x.itemsCol}</th>
                       <th className="num">{x.total}</th>
                       <th>{x.when}</th>
                       <th>{x.status}</th>

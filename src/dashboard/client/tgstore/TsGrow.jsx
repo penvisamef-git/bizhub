@@ -342,7 +342,7 @@ export function MessagesTab({ ctx }) {
             </div>
           </form>
           <section className="panel-card">
-            <h3 className="ts-h3">{x.history}</h3>
+            <h3 className="ts-h3">{x.sentBefore}</h3>
             {d.rows.length === 0 ? (
               <p className="rs-muted">{x.noMessages}</p>
             ) : (
