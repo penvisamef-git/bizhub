@@ -424,7 +424,12 @@ export function StoreTab({ ctx }) {
                 <label htmlFor="ts-fee">
                   {x.fee} ({cur})
                 </label>
-                <input id="ts-fee" value={f.delivery.fee} inputMode="decimal" onChange={(e) => set("delivery.fee", num(e.target.value))} />
+                <input id="ts-fee" value={f.delivery.fee} inputMode="decimal" onChange={(e) => set("delivery.fee", num(e.target.value))} disabled={ctx.on("ts_zones") && s.zones?.on} />
+                <span className="md-hint">
+                  <button type="button" className="sa-link" onClick={() => ctx.go("delivery")}>
+                    {ctx.on("ts_zones") && s.zones?.on ? x.zonesInUse : x.zonesTry}
+                  </button>
+                </span>
               </div>
               <div className="md-field">
                 <label htmlFor="ts-free">

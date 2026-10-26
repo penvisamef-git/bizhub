@@ -1447,6 +1447,12 @@ export function tgStoreApi({ id }) {
     removePayImage: (mid) => del(`/pay-methods/${mid}/image`),
     useTheme: (key) => post(`/themes/${key}`),
     setLink: (slug) => put("/link", { slug }),
+    riders: () => get("/riders"),
+    ridersLink: () => post("/riders/link"),
+    ridersTest: () => post("/riders/test"),
+    ridersOff: () => del("/riders"),
+    toRiders: (oid) => post(`/orders/${oid}/riders`),
+    carts: () => get("/carts"),
   };
 }
 // the customer's side: inside Telegram every call carries the signed Telegram data (who is ordering)
@@ -1471,6 +1477,8 @@ export const tgStorePublic = {
   me: (slug) => tgCall(`/${encodeURIComponent(slug)}/me`),
   order: (slug, body) => tgCall(`/${encodeURIComponent(slug)}/orders`, { method: "POST", body }),
   promo: (slug, code, subtotal) => tgCall(`/${encodeURIComponent(slug)}/promo`, { method: "POST", body: { code, subtotal } }),
+  cart: (slug, items) => tgCall(`/${encodeURIComponent(slug)}/cart`, { method: "PUT", body: { items } }),
+  fee: (slug, body) => tgCall(`/${encodeURIComponent(slug)}/fee`, { method: "POST", body }),
   follow: (token) => tgCall(`/order/${encodeURIComponent(token)}`),
   proof: (token, file) => {
     const fd = new FormData();

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Palette, Puzzle, ReceiptText, Send, Settings, Share2, Tag, Users, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Palette, Puzzle, ReceiptText, Send, Settings, Share2, ShoppingCart, Tag, Truck, Users, X } from "lucide-react";
 import "../../admin/master_data/masterdata.css";
 import "../../super_admin/super-admin.css";
 import "../restaurant/restaurant.css";
@@ -22,7 +22,7 @@ import { themeName } from "../../../tgstore/themes";
 import TeamNavLink from "../team/TeamNavLink";
 import { fill, fmtDate, fmtNum, useTsText } from "./text";
 
-const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign") };
+const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign"), more: () => import("./TsMore") };
 const later = (file, name) => lazy(() => LOAD[file]().then((x) => ({ default: x[name] })));
 const ProductsTab = later("setup", "ProductsTab");
 const CustomersTab = later("people", "CustomersTab");
@@ -33,6 +33,8 @@ const PromosTab = later("grow", "PromosTab");
 const MessagesTab = later("grow", "MessagesTab");
 const ReportTab = later("grow", "ReportTab");
 const AddonsTab = later("grow", "AddonsTab");
+const DeliveryTab = later("more", "DeliveryTab");
+const RemindTab = later("more", "RemindTab");
 
 const TABS = [
   ["orders", ReceiptText, OrdersTab],
@@ -40,17 +42,19 @@ const TABS = [
   ["customers", Users, CustomersTab],
   ["promos", Tag, PromosTab],
   ["messages", Megaphone, MessagesTab],
+  ["remind", ShoppingCart, RemindTab],
   ["report", BarChart3, ReportTab],
   ["store", Settings, StoreTab],
+  ["delivery", Truck, DeliveryTab],
   ["design", Palette, DesignTab],
   ["share", Share2, ShareTab],
   ["addons", Puzzle, AddonsTab],
 ];
-const NEEDS = { promos: "ts_promos", messages: "ts_broadcast", report: "ts_reports" };
+const NEEDS = { promos: "ts_promos", messages: "ts_broadcast", remind: "ts_remind", report: "ts_reports" };
 const GROUPS = [
   ["sell", ["orders", "products", "customers"]],
-  ["grow", ["promos", "messages", "report"]],
-  ["setup", ["store", "design", "share", "addons"]],
+  ["grow", ["promos", "messages", "remind", "report"]],
+  ["setup", ["store", "delivery", "design", "share", "addons"]],
 ];
 const GRACE_DAYS = 7;
 

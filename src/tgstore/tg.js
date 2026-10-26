@@ -69,3 +69,30 @@ export const store = {
     }
   },
 };
+
+// the customer's location: Telegram's own (Bot API 8+) when there is one, else the browser's
+export function getLocation(wa) {
+  const fromBrowser = () =>
+    new Promise((resolve) => {
+      if (typeof navigator === "undefined" || !navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
+        (p) => resolve({ lat: p.coords.latitude, lng: p.coords.longitude }),
+        () => resolve(null),
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 60000 },
+      );
+    });
+  const lm = wa?.LocationManager;
+  if (!lm?.init || !wa.isVersionAtLeast?.("8.0")) return fromBrowser();
+  return new Promise((resolve) => {
+    const ask = () => {
+      if (!lm.isLocationAvailable) return fromBrowser().then(resolve);
+      lm.getLocation((d) => (d ? resolve({ lat: d.latitude, lng: d.longitude }) : fromBrowser().then(resolve)));
+    };
+    try {
+      if (lm.isInited) ask();
+      else lm.init(ask);
+    } catch {
+      fromBrowser().then(resolve);
+    }
+  });
+}

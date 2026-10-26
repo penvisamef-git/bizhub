@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Bike, Check, CircleDollarSign, Clock, Download, Loader2, MapPin, Phone, ShoppingBag, Store, Upload, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, CircleDollarSign, Clock, Download, ExternalLink, Loader2, MapPin, Phone, RotateCcw, ShoppingBag, Store, Upload, UtensilsCrossed, X } from "lucide-react";
 import { tgStorePublic } from "../api/services";
 import { fill, fmtTime, money, useTgText } from "./text";
 import { loadTelegram } from "./tg";
@@ -151,6 +151,33 @@ export default function OrderPage() {
           {!finished && o.status !== "cancelled" && <small className="tsp-muted">{t.keepPage}</small>}
         </section>
 
+        {o.rider && o.status !== "cancelled" && (
+          <section className="tsp-panel tsp-rider" data-testid="tsp-rider">
+            <div className="tsp-rider-who">
+              <span className="tsp-rider-ic">
+                <Bike size={20} />
+              </span>
+              <span>
+                <small className="tsp-muted">{t.rider}</small>
+                <b>{o.rider.name}</b>
+              </span>
+            </div>
+            <ul className="tsp-rider-steps">
+              {[
+                ["taken", o.rider.taken_at],
+                ["picked", o.rider.picked_at],
+                ["delivered", o.rider.delivered_at],
+              ].map(([k, when]) => (
+                <li key={k} className={when ? "on" : ""}>
+                  <span>{when ? <Check size={12} /> : null}</span>
+                  <b>{t.riderSteps[k]}</b>
+                  <small>{when ? fmtTime(when) : ""}</small>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {o.status !== "cancelled" && o.pay.status !== "paid" && ((o.pay.method === "khqr" && d.khqr) || ownPay) && (
           <section className="tsp-panel">
             <h2>{ownPay ? fill(t.payWith, { name: ownPay.name }) : t.payNow}</h2>
@@ -226,9 +253,25 @@ export default function OrderPage() {
               <MapPin size={13} /> {o.address}
             </p>
           )}
+          {o.mode === "delivery" && o.zone && (
+            <p className="tsp-addr">
+              <MapPin size={13} /> {[o.zone.name && !/ km$/.test(o.zone.name) ? o.zone.name : "", o.zone.km !== null ? `${o.zone.km} km` : ""].filter(Boolean).join(" · ")}
+              {o.zone.lat !== null && (
+                <a href={`https://maps.google.com/?q=${o.zone.lat},${o.zone.lng}`} target="_blank" rel="noreferrer">
+                  {" "}
+                  <ExternalLink size={12} />
+                </a>
+              )}
+            </p>
+          )}
         </section>
 
         <div className="tsp-follow-acts">
+          {s.again && ["done", "cancelled"].includes(o.status) && (
+            <Link className="tsp-btn" to={`/t/${s.slug}?again=${encodeURIComponent(token)}`} data-testid="tsp-again-order">
+              <RotateCcw size={16} /> {t.again}
+            </Link>
+          )}
           <Link className="tsp-btn ghost" to={`/t/${s.slug}${o.mode === "dine_in" && o.table ? `?table=${encodeURIComponent(o.table)}` : ""}`}>
             <ShoppingBag size={16} /> {t.orderMore}
           </Link>

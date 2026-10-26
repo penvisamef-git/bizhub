@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bike, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock, History, Image as ImageIcon, Lock, MapPin, MessageSquareText, Package, Phone, ReceiptText, Search, Share2, ShoppingBag, Tag, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock, ExternalLink, History, Image as ImageIcon, Lock, Map as MapIcon, MapPin, MessageSquareText, Package, Phone, ReceiptText, Search, Send, Share2, ShoppingBag, ShoppingCart, Tag, UtensilsCrossed, X } from "lucide-react";
 import { Modal } from "../../super_admin/parts";
 import { Head } from "../menuqr/parts";
 import CoinIcon from "../../../components/CoinIcon";
@@ -35,6 +35,11 @@ export function OrderCard({ ctx, o, busy, act, plain = false }) {
         <span className="ts-order-time" title={new Date(o.created_date).toLocaleString()}>
           {fmtTime(o.created_date)} · {ago(o.created_date, x)}
         </span>
+        {o.from_remind && (
+          <span className="ts-pill st-accepted" title={x.wonBackHint}>
+            <ShoppingCart size={13} /> {x.wonBack}
+          </span>
+        )}
       </header>
       <ul className="ts-lines">
         {o.items.map((l, i) => (
@@ -85,6 +90,28 @@ export function OrderCard({ ctx, o, busy, act, plain = false }) {
           <MapPin size={14} /> {o.address}
         </p>
       )}
+      {o.mode === "delivery" && o.zone && (
+        <p className="ts-order-line">
+          <MapIcon size={14} /> {[o.zone.name && !/ km$/.test(o.zone.name) ? o.zone.name : "", o.zone.km !== null ? `${o.zone.km} km` : ""].filter(Boolean).join(" · ")}
+          {o.zone.lat !== null && (
+            <a href={`https://maps.google.com/?q=${o.zone.lat},${o.zone.lng}`} target="_blank" rel="noreferrer" className="ts-map-link">
+              <ExternalLink size={12} /> {x.openMap}
+            </a>
+          )}
+        </p>
+      )}
+      {o.rider && (
+        <p className="ts-order-line" data-testid={`ts-o${o.no}-rider`}>
+          <Bike size={14} /> <b>{o.rider.name}</b>
+          {o.rider.username ? ` @${o.rider.username}` : ""} · {o.rider.delivered_at ? x.riderDone : o.rider.picked_at ? x.riderPicked : x.riderTook}
+          <span className="rs-muted"> · {fmtTime(o.rider.delivered_at || o.rider.picked_at || o.rider.taken_at)}</span>
+        </p>
+      )}
+      {o.mode === "delivery" && !o.rider && o.riders_sent && open && (
+        <p className="ts-order-line rs-muted">
+          <Bike size={14} /> {x.ridersWaiting}
+        </p>
+      )}
       {o.note && (
         <p className="ts-order-line">
           <MessageSquareText size={14} /> {o.note}
@@ -114,6 +141,7 @@ export function OrderCard({ ctx, o, busy, act, plain = false }) {
           {o.status === "accepted" && o.mode === "delivery" && b("on_way", x.onWay, () => act(o, "on_way"), "primary", <Bike size={14} />)}
           {["accepted", "ready", "on_way"].includes(o.status) && b("done", x.doneBtn, () => act(o, "done"), o.status === "accepted" ? "ghost" : "primary", <Check size={14} />)}
           {o.pay.status !== "paid" && o.status !== "cancelled" && b("paid", x.markPaid, () => act(o, "paid"), "ghost", <CircleDollarSign size={14} />)}
+          {o.mode === "delivery" && ["accepted", "ready"].includes(o.status) && !o.riders_sent && ctx.on("ts_riders") && ctx.data.riders?.connected && b("riders", x.toRiders, () => act(o, "riders"), "ghost", <Send size={14} />)}
           {o.pay.proof && (
             <a className="md-btn md-btn-ghost sa-btn-sm" href={o.pay.proof} target="_blank" rel="noreferrer">
               <ImageIcon size={14} /> {x.seeProof}
@@ -151,7 +179,8 @@ export function useOrderActs(ctx, after) {
   const act = async (o, status, extra = {}) => {
     setBusy(o._id);
     try {
-      const r = status === "paid" ? await ctx.api.paid(o._id) : await ctx.api.move(o._id, status, extra);
+      const r = status === "paid" ? await ctx.api.paid(o._id) : status === "riders" ? await ctx.api.toRiders(o._id) : await ctx.api.move(o._id, status, extra);
+      if (status === "riders") ctx.notify({ type: "success", text: r.message });
       await after?.(r?.data);
     } catch (e) {
       ctx.notify({ type: "error", text: e.message });

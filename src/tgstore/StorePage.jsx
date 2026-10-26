@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Bike, Check, ChevronLeft, Clock, Tag, Image as ImageIcon, Loader2, MapPin, Minus, Phone, Plus, ReceiptText, ShoppingBag, Store, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, ChevronLeft, ChevronRight, Clock, Tag, Image as ImageIcon, Loader2, LocateFixed, MapPin, Minus, Phone, Plus, ReceiptText, RotateCcw, ShoppingBag, Store, UtensilsCrossed, X } from "lucide-react";
 import { tgStorePublic } from "../api/services";
 import { fill, money, round, useTgText } from "./text";
-import { askWrite, haptic, loadTelegram, store as keep } from "./tg";
+import { askWrite, getLocation, haptic, loadTelegram, store as keep } from "./tg";
 import { loadThemeFont, themeClass, themeKind, themeName, themeOf, themeVars } from "./themes";
 import "./tgstore-public.css";
 
@@ -11,6 +11,46 @@ const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrosse
 const lineKey = (l) => `${l.product_id}|${JSON.stringify(l.options)}|${l.note || ""}`;
 const pName = (p, lang) => (lang === "km" && p.name_km) || p.name;
 const unitOf = (p, options) => p.price + options.reduce((a, o) => a + (o.price || 0), 0);
+const sendLines = (cart) => cart.map((l) => ({ product_id: l.product_id, qty: l.qty, options: l.options.map((o) => ({ group: o.group, choice: o.choice })), note: l.note || "" }));
+// saved lines (a cart left in Telegram, an old order) → cart lines with today's prices; what is gone is left out
+function linesFrom(items, products, lang) {
+  const byId = new Map(products.filter((p) => !p.sold_out).map((p) => [String(p._id), p]));
+  const out = [];
+  let dropped = 0;
+  for (const it of items || []) {
+    const p = byId.get(String(it.product_id));
+    if (!p) {
+      dropped += 1;
+      continue;
+    }
+    const options = [];
+    for (const o of it.options || []) {
+      const g = p.options.find((x) => x.name === o.group);
+      const c = g?.choices.find((x) => x.name === o.choice);
+      if (c) options.push({ group: g.name, choice: c.name, price: c.price || 0 });
+    }
+    if (p.options.some((g) => g.required && !options.some((o) => o.group === g.name))) {
+      dropped += 1;
+      continue;
+    }
+    const line = { product_id: p._id, options, note: it.note || "", qty: Math.min(99, Math.max(1, Number(it.qty) || 1)), unit: unitOf(p, options), name: pName(p, lang) };
+    const same = out.find((l) => lineKey(l) === lineKey(line));
+    if (same) same.qty = Math.min(99, same.qty + line.qty);
+    else out.push(line);
+  }
+  return { lines: out, dropped };
+}
+// a pin typed or pasted: "11.55, 104.92" or a Google Maps link
+function pinFrom(text) {
+  let v = String(text || "");
+  try {
+    v = decodeURIComponent(v);
+  } catch {
+    /* as it is */
+  }
+  const m = /@(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/.exec(v) || /[?&](?:q|query|ll|destination)=(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/.exec(v) || /^\s*(-?\d{1,2}\.\d+)\s*,\s*(-?\d{1,3}\.\d+)\s*$/.exec(v);
+  return m ? { lat: Number(m[1]), lng: Number(m[2]) } : null;
+}
 
 // one product: its photo, choices (size, toppings…), how many, a note
 function ItemSheet({ p, cur, lang, t, onAdd, onClose, closed }) {
@@ -101,10 +141,52 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
   const [code, setCode] = useState("");
   const [promo, setPromo] = useState(null); // { code, kind, value, min_order }
   const [promoErr, setPromoErr] = useState("");
+  // delivery zones (an area, or the km from the customer's pin) + the pin for the rider
+  const z = s.zones;
+  const [area, setArea] = useState(() => (z?.areas?.some((a) => a._id === last.area) ? last.area : ""));
+  const [pin, setPin] = useState(() => me?.pin || last.pin || null);
+  const [quote, setQuote] = useState(null); // { fee, km }
+  const [loc, setLoc] = useState({ busy: false, error: "", text: "" });
+  const askFee = async (p) => {
+    try {
+      const r = await tgStorePublic.fee(s.slug, { pin: p });
+      setQuote(r.data);
+      setLoc((o) => ({ ...o, error: "" }));
+    } catch (err) {
+      setQuote(null);
+      setLoc((o) => ({ ...o, error: err.message }));
+    }
+  };
+  useEffect(() => {
+    if (z?.kind === "distance" && pin) askFee(pin);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const usePin = (p) => {
+    setPin(p);
+    setQuote(null);
+    if (p && z?.kind === "distance") askFee(p);
+  };
+  const locate = async () => {
+    setLoc((o) => ({ ...o, busy: true, error: "" }));
+    const p = await getLocation(wa);
+    setLoc((o) => ({ ...o, busy: false, error: p ? "" : t.locNo }));
+    if (p) usePin({ lat: Math.round(p.lat * 1e6) / 1e6, lng: Math.round(p.lng * 1e6) / 1e6 });
+  };
+  const pasted = () => {
+    if (!loc.text.trim()) return;
+    const p = pinFrom(loc.text.trim());
+    if (!p) return setLoc((o) => ({ ...o, error: t.locNo }));
+    setLoc((o) => ({ ...o, text: "" }));
+    usePin(p);
+  };
   const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
   const own = pays.find((m) => m.key === f.pay && m.info);
   const sub = round(cart.reduce((a, l) => a + l.unit * l.qty, 0), cur);
-  const fee = f.mode === "delivery" && s.delivery ? (s.delivery.free_from && sub >= s.delivery.free_from ? 0 : s.delivery.fee) : 0;
+  const zoneArea = z?.kind === "area" ? z.areas.find((a) => a._id === area) : null;
+  const baseFee = !s.delivery ? 0 : z ? (z.kind === "area" ? (zoneArea ? zoneArea.fee : null) : quote ? quote.fee : null) : s.delivery.fee;
+  const freeNow = !!(s.delivery?.free_from && sub >= s.delivery.free_from);
+  const fee = f.mode === "delivery" && s.delivery ? (freeNow ? 0 : baseFee || 0) : 0;
+  const zoneMissing = f.mode === "delivery" && !!z && (z.kind === "area" ? !zoneArea : !quote);
+  const wantPin = f.mode === "delivery" && (z?.kind === "distance" || s.pin);
   const promoShort = promo && promo.min_order && sub < promo.min_order;
   const off = !promo || promoShort ? 0 : Math.min(sub, round(promo.kind === "percent" ? (sub * promo.value) / 100 : promo.value, cur));
   const total = round(Math.max(0, sub - off) + fee, cur);
@@ -118,7 +200,8 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
       setPromoErr(err.message);
     }
   };
-  const short = f.mode === "delivery" && s.delivery?.min_order && sub < s.delivery.min_order;
+  const minNeed = f.mode === "delivery" ? Math.max(s.delivery?.min_order || 0, zoneArea?.min_order || 0) : 0;
+  const short = minNeed > 0 && sub < minNeed;
   const qty = (k, dlt) => setCart((c) => c.map((l) => (lineKey(l) === k ? { ...l, qty: Math.max(0, Math.min(99, l.qty + dlt)) } : l)).filter((l) => l.qty > 0));
 
   const place = async (e) => {
@@ -129,8 +212,10 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
       let can = !!me?.can_message;
       if (wa && me?.telegram && !can) can = await askWrite(wa);
       const r = await tgStorePublic.order(s.slug, {
-        items: cart.map((l) => ({ product_id: l.product_id, qty: l.qty, options: l.options.map((o) => ({ group: o.group, choice: o.choice })), note: l.note })),
+        items: sendLines(cart),
         mode: f.mode,
+        ...(f.mode === "delivery" && z?.kind === "area" ? { area } : {}),
+        ...(f.mode === "delivery" && pin ? { pin } : {}),
         table: f.mode === "dine_in" ? f.table : "",
         address: f.mode === "delivery" ? f.address : "",
         name: f.name,
@@ -140,7 +225,8 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
         promo: promo && !promoShort ? promo.code : "",
         can_message: can,
       });
-      keep.set("tsp_me", { name: f.name, phone: f.phone, address: f.address || last.address || "" });
+      keep.set("tsp_me", { name: f.name, phone: f.phone, address: f.address || last.address || "", area: area || last.area || "", pin: pin || last.pin || null });
+      keep.set(`tsp_last:${s.slug}`, { no: r.data.no, items: sendLines(cart).map((l, i) => ({ ...l, name: cart[i].name })) });
       const mine = keep.get(`tsp_orders:${s.slug}`, []);
       keep.set(`tsp_orders:${s.slug}`, [{ token: r.data.token, no: r.data.no, total: r.data.total, at: Date.now() }, ...mine].slice(0, 10));
       haptic("medium");
@@ -210,6 +296,47 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
                 <span>{t.address}</span>
                 <textarea value={f.address} rows={2} maxLength={200} placeholder={t.addressPh} onChange={(e) => set("address", e.target.value)} required data-testid="tsp-address" />
               </label>
+              {z?.kind === "area" && (
+                <fieldset className="tsp-group">
+                  <legend>
+                    {t.area} <small>{t.required}</small>
+                  </legend>
+                  {z.areas.map((a) => (
+                    <button key={a._id} type="button" className={`tsp-choice ${area === a._id ? "on" : ""}`} onClick={() => setArea(a._id)} aria-pressed={area === a._id} data-testid="tsp-area">
+                      <span className="tsp-tick">{area === a._id && <Check size={13} />}</span>
+                      <span>{a.name}</span>
+                      <small>{a.fee ? money(a.fee, cur) : t.free}</small>
+                    </button>
+                  ))}
+                </fieldset>
+              )}
+              {wantPin && (
+                <div className="tsp-loc" data-testid="tsp-loc">
+                  <span className="tsp-loc-label">{z?.kind === "distance" ? t.locWhere : t.locHelps}</span>
+                  {pin ? (
+                    <div className="tsp-loc-ok">
+                      <MapPin size={16} />
+                      <span>{quote?.km !== undefined && quote?.km !== null ? fill(t.locOk, { km: quote.km }) : `${pin.lat.toFixed(5)}, ${pin.lng.toFixed(5)}`}</span>
+                      <button type="button" className="tsp-btn ghost sm" onClick={() => usePin(null)}>
+                        {t.changeLoc}
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <button type="button" className="tsp-btn ghost" onClick={locate} disabled={loc.busy} data-testid="tsp-locate">
+                        {loc.busy ? <Loader2 size={16} className="tsp-spin" /> : <LocateFixed size={16} />} {loc.busy ? t.locating : t.shareLoc}
+                      </button>
+                      <input className="tsp-loc-input" value={loc.text} placeholder={t.pasteMap} onChange={(e) => setLoc((o) => ({ ...o, text: e.target.value }))} onBlur={pasted} onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), pasted())} data-testid="tsp-map" />
+                    </>
+                  )}
+                  {loc.error && <p className="tsp-error">{loc.error}</p>}
+                  {z?.kind === "distance" && !quote && !loc.error && (
+                    <p className="tsp-hint">
+                      {t.locFor} {z.steps[0] ? fill(t.feeFrom, { amount: money(z.steps[0].fee, cur) }) : ""}
+                    </p>
+                  )}
+                </div>
+              )}
               {s.delivery.note && <p className="tsp-hint">{s.delivery.note}</p>}
               {s.delivery.free_from > 0 && <p className="tsp-hint">{fill(t.freeFrom, { amount: money(s.delivery.free_from, cur) })}</p>}
             </>
@@ -276,17 +403,17 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
             {f.mode === "delivery" && (
               <>
                 <span>{t.fee}</span>
-                <span>{fee ? money(fee, cur) : t.free}</span>
+                <span data-testid="tsp-fee">{zoneMissing && !freeNow ? "—" : fee ? money(fee, cur) : t.free}</span>
               </>
             )}
             <b>{t.total}</b>
             <b>{money(total, cur)}</b>
           </div>
-          {short && <p className="tsp-error">{fill(t.minOrder, { amount: money(s.delivery.min_order, cur) })}</p>}
+          {short && <p className="tsp-error">{fill(t.minOrder, { amount: money(minNeed, cur) })}</p>}
           {error && <p className="tsp-error" role="alert">{error}</p>}
         </div>
         <div className="tsp-sheet-foot">
-          <button type="submit" className="tsp-btn wide" disabled={busy || !cart.length || short || !s.open} data-testid="tsp-place">
+          <button type="submit" className="tsp-btn wide" disabled={busy || !cart.length || short || !s.open || zoneMissing} data-testid="tsp-place">
             {busy ? <Loader2 size={18} className="tsp-spin" /> : null} {busy ? t.placing : fill(t.place, { total: money(total, cur) })}
           </button>
         </div>
@@ -319,8 +446,10 @@ export default function StorePage() {
   const [checkout, setCheckout] = useState(false);
   const [cart, setCartState] = useState(() => keep.get(`tsp_cart:${slug}`, []));
   const [bump, setBump] = useState(false);
+  const [notice, setNotice] = useState("");
   const table = (params.get("table") || "").slice(0, 10);
   const catRefs = useRef({});
+  const synced = useRef(undefined); // the cart last sent for the reminder
 
   const setCart = (fn) =>
     setCartState((c) => {
@@ -348,6 +477,23 @@ export default function StorePage() {
           // drop lines whose product is gone or sold out
           const ok = new Map(r.data.products.filter((p) => !p.sold_out).map((p) => [String(p._id), p]));
           setCart((c) => c.filter((l) => ok.has(String(l.product_id))));
+          // the cart they left in Telegram (cart reminder add-on), when this phone has none
+          if (m?.data?.cart?.length && !keep.get(`tsp_cart:${slug}`, []).length) setCart(linesFrom(m.data.cart, r.data.products, lang).lines);
+          // ?again=<order> (the "Order again" button in Telegram): that order in the cart
+          const again = params.get("again");
+          if (again && r.data.store.again) {
+            window.history.replaceState(null, "", window.location.pathname + window.location.search.replace(/[?&]again=[^&]*/, "").replace(/^&/, "?") + window.location.hash);
+            tgStorePublic
+              .follow(again)
+              .then((o) => {
+                const { lines, dropped } = linesFrom(o.data.order.items, r.data.products, lang);
+                if (!on || !lines.length) return;
+                setCart(lines);
+                setCheckout(true);
+                if (dropped) setNotice(t.againSome);
+              })
+              .catch(() => {});
+          }
           try {
             const look = themeOf(r.data.store.theme).palette;
             w?.setHeaderColor?.(look.bg);
@@ -362,6 +508,20 @@ export default function StorePage() {
       on = false;
     };
   }, [slug]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // what is in the cart, for the reminder (Telegram + the add-on); a second later, and only when it changed
+  useEffect(() => {
+    if (!d?.store.again || !wa?.initData) return undefined;
+    const items = sendLines(cart);
+    const key = JSON.stringify(items);
+    if (synced.current === undefined && !items.length) return undefined;
+    if (key === synced.current) return undefined;
+    const tm = setTimeout(() => {
+      synced.current = key;
+      tgStorePublic.cart(slug, items).catch(() => {});
+    }, 1200);
+    return () => clearTimeout(tm);
+  }, [cart, d, wa, slug]);
 
   const groups = useMemo(() => {
     if (!d) return [];
@@ -406,6 +566,15 @@ export default function StorePage() {
   loadThemeFont(s.theme);
   const theme = themeVars(s.theme, s.color);
   const recent = me?.orders?.length ? me.orders : keep.get(`tsp_orders:${slug}`, []);
+  const lastOrder = s.again ? me?.last || keep.get(`tsp_last:${slug}`, null) : null;
+  const orderAgain = () => {
+    const { lines, dropped } = linesFrom(lastOrder.items, d.products, lang);
+    if (!lines.length) return setNotice(t.againSome);
+    setCart(lines);
+    haptic("medium");
+    setNotice(dropped ? t.againSome : "");
+    setCheckout(true);
+  };
 
   return (
     <div className={`tsp-page ${themeClass(s.theme)} ${wa ? "in-tg" : ""}`} style={theme}>
@@ -470,6 +639,26 @@ export default function StorePage() {
             </button>
           ))}
         </div>
+      )}
+      {notice && (
+        <div className="tsp-notice" role="status">
+          <span>{notice}</span>
+          <button type="button" className="tsp-icon" onClick={() => setNotice("")} aria-label={t.close}>
+            <X size={16} />
+          </button>
+        </div>
+      )}
+      {lastOrder?.items?.length > 0 && count === 0 && s.open && (
+        <button type="button" className="tsp-again" onClick={orderAgain} data-testid="tsp-again">
+          <span className="tsp-again-ic">
+            <RotateCcw size={18} />
+          </span>
+          <span className="tsp-again-text">
+            <b>{t.again}</b>
+            <small>{fill(t.againSub, { no: lastOrder.no, what: lastOrder.items.map((l) => `${l.qty}× ${l.name || "…"}`).join(", ") })}</small>
+          </span>
+          <ChevronRight size={18} />
+        </button>
       )}
       {groups.length > 1 && (
         <nav className="tsp-cats" aria-label="Categories">

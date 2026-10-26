@@ -1715,3 +1715,144 @@ a.ts-pill {
 .ts-design.is-using {
   box-shadow: inset 0 0 0 2px var(--brand);
 }
+
+/* ---------- delivery zones · riders · cart reminder (v2.0 add-ons) ---------- */
+.ts-zone-rows {
+  display: grid;
+  gap: 8px;
+}
+.ts-zone-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+.ts-zone-row.two {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  max-width: 460px;
+}
+.ts-zone-row.head span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.ts-zone-row input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--md-border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--md-text);
+  background: var(--card);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ts-zone-row input:focus {
+  border-color: var(--md-primary);
+  box-shadow: 0 0 0 3px var(--md-soft);
+}
+.ts-unit-input input {
+  padding-right: 38px;
+}
+.ts-card-title {
+  padding: 16px 18px 6px;
+  margin: 0;
+}
+.ts-zone-row.is-off input {
+  opacity: 0.55;
+}
+.ts-zone-acts {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.ts-zone-acts .md-switch {
+  gap: 0;
+}
+.ts-unit-input {
+  position: relative;
+  display: block;
+}
+.ts-unit-input small {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.ts-how {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+.ts-map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 8px;
+  font-weight: 600;
+  color: var(--brand);
+}
+.ts-remind {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.ts-tg-preview {
+  width: 280px;
+  flex: none;
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #cfe3d1, #e3eedb);
+}
+.ts-tg-preview > small {
+  font-weight: 700;
+  color: #4b6b50;
+}
+.ts-tg-bubble {
+  background: #fff;
+  color: #1f1a16;
+  border-radius: 12px 12px 12px 4px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  display: grid;
+  gap: 6px;
+  font-size: 13.5px;
+}
+.ts-tg-bubble p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ts-tg-btn {
+  display: block;
+  text-align: center;
+  padding: 7px;
+  border-radius: 8px;
+  background: #e8f3fb;
+  color: #2481cc;
+  font-weight: 600;
+}
+.ts-tg-preview .md-hint {
+  color: #4b6b50;
+  margin: 0;
+}
+@media (max-width: 760px) {
+  .ts-remind {
+    flex-direction: column;
+  }
+  .ts-tg-preview {
+    width: 100%;
+  }
+  .ts-zone-row {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: 6px;
+  }
+}

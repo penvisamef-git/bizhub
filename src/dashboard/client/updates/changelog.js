@@ -26,6 +26,9 @@ export const CHANGELOG = [
       { kind: "new", en: "Customers: totals, filters, sort, each customer's orders, favourites and your note.", km: "អតិថិជន៖ សរុប តម្រង តម្រៀប ការកម្ម៉ង់របស់អតិថិជននីមួយៗ អ្វីដែលចូលចិត្ត និងកំណត់ចំណាំ។" },
       { kind: "new", en: "Your own ways to pay (ABA, Wing…): 3 ways free; more + a QR picture for each 10 coins forever.", km: "វិធីបង់ប្រាក់ផ្ទាល់ខ្លួន (ABA, Wing…)៖ 3 ឥតគិតថ្លៃ; បន្ថែម + រូប QR 10 កាក់ ជារៀងរហូត។" },
       { kind: "new", en: "Write your own channel post; own link name and QR colours with your logo (20 coins forever).", km: "សរសេរការប្រកាសឆានែលដោយខ្លួនឯង; ឈ្មោះតំណ និងពណ៌ QR ជាមួយឡូហ្គោ (20 កាក់ ជារៀងរហូត)។" },
+      { kind: "new", en: "Cart reminder + Order again (20 coins a year): one Telegram message to people who left items in the cart, and a one-tap “Order again”.", km: "រំលឹកកន្ត្រក + កម្ម៉ង់ម្តងទៀត (20 កាក់ ក្នុងមួយឆ្នាំ)៖ សារ Telegram មួយទៅអ្នកដែលទុកទំនិញក្នុងកន្ត្រក និង “កម្ម៉ង់ម្តងទៀត” ចុចតែម្តង។" },
+      { kind: "new", en: "Delivery zones (20 coins a year): a fee per area, or by km from your shop with the customer's location pin.", km: "តំបន់ដឹកជញ្ជូន (20 កាក់ ក្នុងមួយឆ្នាំ)៖ ថ្លៃតាមតំបន់ ឬតាមគីឡូម៉ែត្រពីហាង តាមទីតាំងរបស់អតិថិជន។" },
+      { kind: "new", en: "Riders group (30 coins a year): delivery orders go to your riders' Telegram group — Take it · Picked up · Delivered — and the customer sees each step.", km: "ក្រុមអ្នកដឹក (30 កាក់ ក្នុងមួយឆ្នាំ)៖ ការកម្ម៉ង់ដឹកទៅក្រុម Telegram អ្នកដឹក — យក · បានយក · ដឹករួច — ហើយអតិថិជនឃើញគ្រប់ជំហាន។" },
     ],
   },
   {
