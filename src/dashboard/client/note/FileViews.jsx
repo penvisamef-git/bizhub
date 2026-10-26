@@ -44,7 +44,7 @@ export function FileItems({ ctx, rows, view, dl, openNote, selectable = false, p
                     <DownloadBtn file={{ _id: r._id, name: r.name, url: r.url }} className="fv-dl" />
                   </FileDl.Provider>
                 </span>
-                <span className="fv-card-pic" onClick={selectable ? () => toggle(r) : undefined}>
+                <span className={`fv-card-pic ${selectable ? "pick" : ""}`} onClick={selectable ? () => toggle(r) : undefined}>
                   <FileThumb r={r} big />
                   <span className="fv-card-type" style={{ background: `color-mix(in srgb, ${KIND_TONE[r.kind] || "#6b7280"} 85%, #000)` }}>
                     {m.mediaKinds[r.kind] || r.kind}

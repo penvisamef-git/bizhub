@@ -145,6 +145,9 @@
   border-color: var(--fv-acc);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--fv-acc) 35%, transparent);
 }
+.fv-card-pic.pick {
+  cursor: pointer;
+}
 .fv-card-pic {
   position: relative;
   display: block;

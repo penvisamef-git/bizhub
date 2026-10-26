@@ -573,6 +573,7 @@
   font-size: 13.5px;
 }
 .v4-table th {
+  cursor: pointer;
   position: sticky;
   top: 0;
   text-align: left;
