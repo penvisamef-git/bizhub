@@ -4,7 +4,7 @@ import { fill, useTeamText } from "./team-text";
 import "./team.css";
 
 // on top of every business screen: the owner's Team button, or what a team member may do here
-export default function TeamBar({ id, shared }) {
+export default function TeamBar({ id, shared, button = false }) {
   const { tt } = useTeamText();
   if (shared) {
     const view = shared.role === "view";
@@ -15,6 +15,7 @@ export default function TeamBar({ id, shared }) {
       </div>
     );
   }
+  if (!button) return null; // the owner's Team button is in the left menu, under Add-ons
   return (
     <div className="tm-ownbar">
       <Link to={`/app/business/${id}/team`} className="md-btn md-btn-ghost sa-btn-sm" data-testid="team-open">

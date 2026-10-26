@@ -18,6 +18,7 @@ import { qrDesignSvg } from "../../../qrgen/qrDesign";
 import { fmt, useQgText } from "./text";
 import { ADDON_ICON, ThemeThumb } from "./QgParts";
 import { themeOf } from "../../../qrgen/themes";
+import TeamNavLink from "../team/TeamNavLink";
 import { PRINTS } from "../../../qrgen/prints";
 
 const LOAD = {
@@ -153,6 +154,7 @@ export default function QrGenDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

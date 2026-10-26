@@ -6,6 +6,7 @@ import { BusinessSkeleton, EditorSkeleton } from "../../components/skeleton/Skel
 
 import { PAGES } from "../../pages";
 import TeamBar from "./team/TeamBar";
+import { TeamShared } from "./team/TeamNavLink";
 import { loadShared } from "./team/SharedSection";
 
 // same files as the background download (pages.js), so a dashboard downloaded early opens at once
@@ -71,37 +72,39 @@ export default function BusinessPage() {
   const skeleton = category === "namecard" ? <EditorSkeleton tabs /> : <BusinessSkeleton />;
   if (!category) return skeleton;
   return (
-    <Suspense fallback={skeleton}>
-      <TeamBar id={id} shared={shared} />
-      {category === "restaurant" ? (
-        <RestaurantDashboard key={id} />
-      ) : category === "attendance" ? (
-        <AttendanceDashboard key={id} />
-      ) : category === "guest_house" ? (
-        <GuestHouseDashboard key={id} />
-      ) : category === "mart" ? (
-        <MartDashboard key={id} />
-      ) : category === "menu_qr" ? (
-        <MenuQrDashboard key={id} />
-      ) : category === "flipbook" ? (
-        <FlipBookDashboard key={id} />
-      ) : category === "qr_gen" ? (
-        <QrGenDashboard key={id} />
-      ) : category === "website" ? (
-        <WebsiteDashboard key={id} />
-      ) : category === "digital_note" ? (
-        <NoteDashboard key={id} />
-      ) : category === "debt_book" ? (
-        <DebtDashboard key={id} />
-      ) : category === "stamp_card" ? (
-        <StampDashboard key={id} />
-      ) : category === "event" ? (
-        <EventDashboard key={id} />
-      ) : category === "tg_store" ? (
-        <TgStoreDashboard key={id} />
-      ) : (
-        <NameCardEditor key={id} />
-      )}
-    </Suspense>
+    <TeamShared.Provider value={shared || null}>
+      <Suspense fallback={skeleton}>
+        <TeamBar id={id} shared={shared} button={category === "namecard"} />
+        {category === "restaurant" ? (
+          <RestaurantDashboard key={id} />
+        ) : category === "attendance" ? (
+          <AttendanceDashboard key={id} />
+        ) : category === "guest_house" ? (
+          <GuestHouseDashboard key={id} />
+        ) : category === "mart" ? (
+          <MartDashboard key={id} />
+        ) : category === "menu_qr" ? (
+          <MenuQrDashboard key={id} />
+        ) : category === "flipbook" ? (
+          <FlipBookDashboard key={id} />
+        ) : category === "qr_gen" ? (
+          <QrGenDashboard key={id} />
+        ) : category === "website" ? (
+          <WebsiteDashboard key={id} />
+        ) : category === "digital_note" ? (
+          <NoteDashboard key={id} />
+        ) : category === "debt_book" ? (
+          <DebtDashboard key={id} />
+        ) : category === "stamp_card" ? (
+          <StampDashboard key={id} />
+        ) : category === "event" ? (
+          <EventDashboard key={id} />
+        ) : category === "tg_store" ? (
+          <TgStoreDashboard key={id} />
+        ) : (
+          <NameCardEditor key={id} />
+        )}
+      </Suspense>
+    </TeamShared.Provider>
   );
 }

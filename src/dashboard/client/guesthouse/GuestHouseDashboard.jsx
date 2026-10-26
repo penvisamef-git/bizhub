@@ -52,6 +52,7 @@ import { WS_TEXT } from "./ws-text";
 import { PORTAL_LOOKS } from "../../../gsite/portal/ptext";
 import { cuText } from "./gh2-text";
 import { BookingAlertBar, RequestsSheet, useBookingAlert } from "./GhRequests";
+import TeamNavLink from "../team/TeamNavLink";
 import MyBusinesses from "../../../components/MyBusinesses";
 
 const LOAD = { daily: () => import("./GhDaily"), setup: () => import("./GhSetup") };
@@ -208,6 +209,7 @@ export default function GuestHouseDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

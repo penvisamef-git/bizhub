@@ -15,6 +15,7 @@ import { memo } from "../../../lib/memo";
 import { isLive, shelfName } from "../../../fbook/shelves";
 import { readerName } from "../../../fbook/readers";
 import { fmt, shelfUrl, useFbText } from "./text";
+import TeamNavLink from "../team/TeamNavLink";
 import { ADDON_ICON } from "./FbParts";
 
 const LOAD = {
@@ -151,6 +152,7 @@ export default function FlipBookDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

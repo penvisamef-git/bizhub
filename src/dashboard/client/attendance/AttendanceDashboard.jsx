@@ -41,6 +41,7 @@ import CoinIcon from "../../../components/CoinIcon";
 import { memo } from "../../../lib/memo";
 import { fmtDate, useAttText } from "./text";
 import { ADDON_ICONS, ADDON_TAB, addonText } from "./addon-info";
+import TeamNavLink from "../team/TeamNavLink";
 import MyBusinesses from "../../../components/MyBusinesses";
 
 const LOAD = {
@@ -203,6 +204,7 @@ export default function AttendanceDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

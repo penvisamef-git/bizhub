@@ -20,6 +20,7 @@ import { StampTab, ADDON_ICON } from "./ScTabs";
 import { themeName } from "../../../stamp/themes";
 import { posterName } from "../../../stamp/posters";
 import StampCard from "../../../stamp/StampCard";
+import TeamNavLink from "../team/TeamNavLink";
 import { fmt, fmtDate, shopUrl, useScText } from "./text";
 
 const LOAD = { tabs: () => import("./ScTabs") };
@@ -156,6 +157,7 @@ export default function StampDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

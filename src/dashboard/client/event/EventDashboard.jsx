@@ -22,6 +22,7 @@ import { CertView } from "../../../evpub/Certificate";
 import { pageThemeName } from "../../../evpub/pageThemes";
 import PagePreview from "../../../evpub/PagePreview";
 import { TicketCard } from "../../../evpub/TicketCard";
+import TeamNavLink from "../team/TeamNavLink";
 import { useEvPubText } from "../../../evpub/text";
 
 const LOAD = { tabs: () => import("./EvTabs") };
@@ -174,6 +175,7 @@ export default function EventDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

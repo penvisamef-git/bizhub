@@ -49,6 +49,7 @@ import { mpLookName, msLookName } from "../../../msite/looks";
 import { posLookName } from "../../../pos/mart/posThemes";
 import { OrderAlertBar, useOrderAlert } from "./MartOrders";
 import { wText } from "./wtext";
+import TeamNavLink from "../team/TeamNavLink";
 import MyBusinesses from "../../../components/MyBusinesses";
 
 const sales = () => import("./MartSales");
@@ -206,6 +207,7 @@ export default function MartDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

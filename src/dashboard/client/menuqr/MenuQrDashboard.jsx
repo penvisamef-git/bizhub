@@ -15,6 +15,7 @@ import { memo } from "../../../lib/memo";
 import { fmt, fmtDate, menuUrl, useMqText } from "./text";
 import { themeLabel } from "../../../qmenu/themes";
 import { qrStyleName } from "./qrArt";
+import TeamNavLink from "../team/TeamNavLink";
 import { ADDON_ICON } from "./parts";
 
 const LOAD = {
@@ -158,6 +159,7 @@ export default function MenuQrDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

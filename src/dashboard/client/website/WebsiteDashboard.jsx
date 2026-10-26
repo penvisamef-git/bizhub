@@ -15,6 +15,7 @@ import MyBusinesses from "../../../components/MyBusinesses";
 import { memo } from "../../../lib/memo";
 import { tx } from "../../../wsite/blocks";
 import { wsThemeName } from "../../../wsite/themes";
+import TeamNavLink from "../team/TeamNavLink";
 import { fmt, fmtDate, SITE, useWsText } from "./text";
 
 const LOAD = { editor: () => import("./WsEditor"), more: () => import("./WsMore") };
@@ -179,6 +180,7 @@ export default function WebsiteDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

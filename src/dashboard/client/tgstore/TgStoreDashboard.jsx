@@ -19,6 +19,7 @@ import { OrdersTab } from "./TsOrders";
 import { ADDON_ICON } from "./TsGrow";
 import { MiniStore } from "./TsDesign";
 import { themeName } from "../../../tgstore/themes";
+import TeamNavLink from "../team/TeamNavLink";
 import { fill, fmtDate, fmtNum, useTsText } from "./text";
 
 const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign") };
@@ -146,6 +147,7 @@ export default function TgStoreDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

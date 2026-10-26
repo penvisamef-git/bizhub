@@ -19,6 +19,7 @@ import { bytes, fmt, fmtDate, useNoteText } from "./text";
 import { StylePackStage, ThemeMini } from "./NoteLook";
 import { LinkStage } from "./LinkField";
 import { themeName } from "../../../note/themes";
+import TeamNavLink from "../team/TeamNavLink";
 import { V4Stage } from "./NoteV4";
 
 const LOAD = { editor: () => import("./NoteEditor"), more: () => import("./NoteMore"), addons: () => import("./NoteAddons"), groups: () => import("./NoteGroups"), media: () => import("./NoteMedia"), v4: () => import("./NoteV4") };
@@ -235,6 +236,7 @@ export default function NoteDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

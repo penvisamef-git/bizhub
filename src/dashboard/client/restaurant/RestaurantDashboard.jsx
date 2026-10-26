@@ -43,6 +43,7 @@ import CoinIcon from "../../../components/CoinIcon";
 import { useRestText } from "./text";
 import { memo } from "../../../lib/memo";
 import { ADDON_ICONS, fmtDate } from "./parts";
+import TeamNavLink from "../team/TeamNavLink";
 import MyBusinesses from "../../../components/MyBusinesses";
 
 // each tab is its own small file; all of them are fetched quietly once the dashboard is open
@@ -259,6 +260,7 @@ export default function RestaurantDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 

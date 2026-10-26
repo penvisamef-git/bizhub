@@ -15,6 +15,7 @@ import PurchaseModal from "../../../components/purchase/PurchaseModal";
 import MyBusinesses from "../../../components/MyBusinesses";
 import { memo } from "../../../lib/memo";
 import { CustomersTab } from "./DebtCustomers";
+import TeamNavLink from "../team/TeamNavLink";
 import { fmt, useDebtText } from "./text";
 
 const LOAD = { more: () => import("./DebtMore") };
@@ -143,6 +144,7 @@ export default function DebtDashboard() {
           </button>
         );
       })}
+      {keys.includes("addons") && <TeamNavLink id={id} onGo={() => setNavOpen(false)} />}
     </div>
   ));
 
