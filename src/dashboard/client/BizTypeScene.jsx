@@ -4,8 +4,8 @@ import "./bizscene.css";
 // A small looping picture under the type's description in "Add business": shows what the type does.
 // Pure CSS animation; a new type without its own scene gets the generic one. Still picture when the phone asks for less motion.
 const W = {
-  en: { owes: "Owes", paid: "Paid", remind: "Reminder sent", publish: "Publish", saved: "Contact saved", menu: "Menu", total: "Total", in: "In", room: "Room", rooms: "Booked", scan: "Scan me", t: "Table", free: "Free coffee!", shared: "Shared · 3 replies" },
-  km: { owes: "ជំពាក់", paid: "សងរួច", remind: "បានផ្ញើការរំលឹក", publish: "ផ្សព្វផ្សាយ", saved: "បានរក្សាទុកលេខ", menu: "ម៉ឺនុយ", total: "សរុប", in: "ចូល", room: "បន្ទប់", rooms: "បានកក់", scan: "ស្កេន", t: "តុ", free: "កាហ្វេឥតគិតថ្លៃ!", shared: "បានចែករំលែក · ឆ្លើយ 3" },
+  en: { owes: "Owes", paid: "Paid", remind: "Reminder sent", publish: "Publish", saved: "Contact saved", menu: "Menu", total: "Total", in: "In", room: "Room", rooms: "Booked", scan: "Scan me", t: "Table", free: "Free coffee!", shared: "Shared · 3 replies", order: "New order", accept: "Accept", accepted: "Accepted" },
+  km: { owes: "ជំពាក់", paid: "សងរួច", remind: "បានផ្ញើការរំលឹក", publish: "ផ្សព្វផ្សាយ", saved: "បានរក្សាទុកលេខ", menu: "ម៉ឺនុយ", total: "សរុប", in: "ចូល", room: "បន្ទប់", rooms: "បានកក់", scan: "ស្កេន", t: "តុ", free: "កាហ្វេឥតគិតថ្លៃ!", shared: "បានចែករំលែក · ឆ្លើយ 3", order: "ការកម្ម៉ង់ថ្មី", accept: "ទទួល", accepted: "បានទទួល" },
 };
 
 // a fixed 7×7 QR-looking pattern (1 = dark)
@@ -333,7 +333,34 @@ function NoteScene({ w }) {
   );
 }
 
-const SCENES = { digital_note: NoteScene, stamp_card: StampCardScene, debt_book: DebtBook, website: Website, namecard: NameCard, menu_qr: MenuQr, flipbook: FlipBook, qr_gen: QrGen, restaurant: Restaurant, attendance: Attendance, guest_house: GuestHouse, mart: Mart };
+// Telegram Store: an order lands in the staff group with buttons; Accept is pressed
+function TgStoreScene({ w }) {
+  return (
+    <div className="bs-row">
+      <div className="bs-tgchat">
+        <span className="bs-tgmsg">
+          <b>
+            🆕 {w.order} #12
+          </b>
+          <i />
+          <i className="short" />
+          <em>$4.50 · KHQR</em>
+        </span>
+        <span className="bs-tgkeys">
+          <span className="k1">
+            <Check size={10} /> {w.accept}
+          </span>
+          <span>15′</span>
+        </span>
+      </div>
+      <span className="bs-publish">
+        <Send size={14} /> {w.accepted}
+      </span>
+    </div>
+  );
+}
+
+const SCENES = { tg_store: TgStoreScene, digital_note: NoteScene, stamp_card: StampCardScene, debt_book: DebtBook, website: Website, namecard: NameCard, menu_qr: MenuQr, flipbook: FlipBook, qr_gen: QrGen, restaurant: Restaurant, attendance: Attendance, guest_house: GuestHouse, mart: Mart };
 
 export default function BizTypeScene({ type, lang }) {
   const Scene = SCENES[type] || Generic;

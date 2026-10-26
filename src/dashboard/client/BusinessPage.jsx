@@ -22,6 +22,7 @@ const DebtDashboard = lazy(PAGES.debt);
 const NoteDashboard = lazy(PAGES.note);
 const StampDashboard = lazy(PAGES.stamp);
 const EventDashboard = lazy(PAGES.event);
+const TgStoreDashboard = lazy(PAGES.tgStore);
 
 const sharedOf = (id) => (memo.get("sharedBusinesses") || []).find((b) => b._id === id && b.team_on);
 
@@ -96,6 +97,8 @@ export default function BusinessPage() {
         <StampDashboard key={id} />
       ) : category === "event" ? (
         <EventDashboard key={id} />
+      ) : category === "tg_store" ? (
+        <TgStoreDashboard key={id} />
       ) : (
         <NameCardEditor key={id} />
       )}

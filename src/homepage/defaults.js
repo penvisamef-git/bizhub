@@ -120,6 +120,7 @@ export const DEFAULT_HOMEPAGE = {
     note_voice: 5,
     note_pdf: 5,
     stamp_card: 40,
+    tg_store: 45,
     event: 75,
     ev_doors: 50,
     ev_team: 30,
@@ -218,11 +219,11 @@ export const DEFAULT_HOMEPAGE = {
   // service groups (Super admin → Business groups): website tabs + "Add business" list. Keys = homepage service keys
   groups: [
     { key: "online", en: "Online & QR", km: "អនឡាញ & QR", types: ["namecard", "website", "menu_qr", "qr_gen", "stamp_card"] },
-    { key: "system", en: "Management systems", km: "ប្រព័ន្ធគ្រប់គ្រង", types: ["restaurant", "mart", "guest", "attend", "event"] },
+    { key: "system", en: "Management systems", km: "ប្រព័ន្ធគ្រប់គ្រង", types: ["restaurant", "mart", "guest", "tg_store", "attend", "event"] },
     { key: "personal", en: "Personal", km: "ផ្ទាល់ខ្លួន", types: ["flipbook", "debt_book", "digital_note"] },
   ],
-  services: ["namecard", "website", "menu_qr", "flipbook", "qr_gen", "restaurant", "mart", "guest", "attend", "event", "debt_book", "digital_note", "stamp_card"].map((key) => ({ key, enabled: true, coming_soon: false })),
+  services: ["namecard", "website", "menu_qr", "flipbook", "qr_gen", "restaurant", "mart", "guest", "tg_store", "attend", "event", "debt_book", "digital_note", "stamp_card"].map((key) => ({ key, enabled: true, coming_soon: false })),
   // business types paid every year (the API sends the real list)
-  yearly: ["restaurant", "attendance", "guest_house", "menu_qr", "website", "mart", "stamp_card", "event", "digital_note"],
+  yearly: ["restaurant", "attendance", "guest_house", "menu_qr", "website", "mart", "stamp_card", "event", "digital_note", "tg_store"],
   texts: { en: {}, km: {} },
 };

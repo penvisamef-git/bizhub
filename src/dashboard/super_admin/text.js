@@ -148,6 +148,7 @@ const TEXT = {
       digital_note: "Digital Note",
       stamp_card: "Loyalty Stamp Card",
       event: "Event Tickets",
+      tg_store: "Telegram Store",
       guest_house: "Guest House Management System",
       shop: "Shop",
       beauty: "Beauty / salon",
@@ -307,6 +308,7 @@ const TEXT = {
       digital_note: "កំណត់ត្រាឌីជីថល",
       stamp_card: "កាតប្រមូលត្រា",
       event: "សំបុត្រកម្មវិធី",
+      tg_store: "ហាង Telegram",
       guest_house: "ប្រព័ន្ធគ្រប់គ្រងផ្ទះសំណាក់",
       shop: "ហាង",
       beauty: "សម្ផស្ស / សាឡន",
@@ -326,7 +328,7 @@ const TEXT = {
 };
 
 // Business types we offer now (start with these two)
-export const CATEGORY_KEYS = ["namecard", "menu_qr", "flipbook", "qr_gen", "website", "restaurant", "attendance", "guest_house", "mart", "debt_book", "digital_note", "stamp_card", "event"];
+export const CATEGORY_KEYS = ["namecard", "menu_qr", "flipbook", "qr_gen", "website", "restaurant", "attendance", "guest_house", "mart", "tg_store", "debt_book", "digital_note", "stamp_card", "event"];
 export const SERVICE_KEYS = Object.keys(TEXT.en.serviceNames);
 
 export function useSaText() {

@@ -1,0 +1,616 @@
+/* Telegram Store (v2.0) — the owner's dashboard. Builds on the restaurant / menu QR shells. */
+.ts-logo {
+  color: #fff;
+}
+.ts-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--warn);
+  margin-left: auto;
+}
+.ts-h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  margin: 0;
+}
+.ts-two {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.ts-three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .ts-two,
+  .ts-three {
+    grid-template-columns: 1fr;
+  }
+}
+.ts-sub {
+  margin: -2px 0 6px 48px;
+  display: grid;
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .ts-sub {
+    margin-left: 0;
+  }
+}
+.ts-switches {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+.ts-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.ts-pill.st-new {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--onbrand);
+}
+.ts-pill.st-accepted,
+.ts-pill.st-ready,
+.ts-pill.st-on_way {
+  background: var(--warnbg);
+  border-color: transparent;
+  color: var(--warn);
+}
+.ts-pill.st-done,
+.ts-pill.pay-paid {
+  background: var(--goodbg);
+  border-color: transparent;
+  color: var(--good);
+}
+.ts-pill.st-cancelled {
+  background: var(--dangerbg);
+  border-color: transparent;
+  color: var(--danger);
+}
+.ts-pill.pay-proof {
+  background: var(--warnbg);
+  border-color: transparent;
+  color: var(--warn);
+}
+
+/* ---------- orders ---------- */
+.ts-today {
+  display: grid;
+  text-align: right;
+  gap: 2px;
+}
+.ts-today span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.ts-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ts-filters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+}
+.ts-filters button.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.ts-order-list,
+.ts-order-skels {
+  display: grid;
+  gap: 12px;
+}
+.ts-skel {
+  min-height: 150px;
+  background: linear-gradient(90deg, var(--chip) 25%, var(--bg2) 45%, var(--chip) 65%);
+  background-size: 300% 100%;
+  animation: skShine 1.4s ease-in-out infinite;
+}
+.ts-order {
+  display: grid;
+  gap: 10px;
+  border-left: 4px solid var(--line);
+}
+.ts-order.s-new {
+  border-left-color: var(--brand);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--brand) 25%, transparent);
+}
+.ts-order.s-accepted,
+.ts-order.s-ready,
+.ts-order.s-on_way {
+  border-left-color: var(--warn);
+}
+.ts-order.s-done {
+  border-left-color: var(--good);
+}
+.ts-order.s-cancelled {
+  border-left-color: var(--danger);
+  opacity: 0.85;
+}
+.ts-order-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ts-order-no {
+  font-size: 18px;
+}
+.ts-order-time {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+.ts-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.ts-lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ts-lines small,
+.ts-lines em {
+  color: var(--muted);
+}
+.ts-line-fee {
+  color: var(--muted);
+}
+.ts-line-total {
+  border-top: 1px dashed var(--line-strong);
+  padding-top: 6px;
+  margin-top: 2px;
+  font-weight: 700;
+}
+.ts-order-who {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: center;
+  font-size: 14px;
+}
+.ts-order-who a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--brand);
+  text-decoration: none;
+}
+.ts-order-line {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 0;
+  font-size: 14px;
+}
+.ts-order-line svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--muted);
+}
+.ts-order-line.bad {
+  color: var(--danger);
+}
+.ts-order-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.ts-reject {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--dangerbg);
+}
+.ts-reject label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.ts-reject input {
+  font: inherit;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+}
+
+/* ---------- products ---------- */
+.ts-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.ts-cats-label {
+  font-weight: 700;
+  margin-right: 4px;
+}
+.ts-cat {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  gap: 4px;
+}
+span.ts-cat {
+  padding: 0;
+}
+span.ts-cat > button:first-child {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  padding: 6px 4px 6px 12px;
+}
+.ts-cat.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.ts-cat.add {
+  border-style: dashed;
+  color: var(--brand);
+}
+.ts-cat-x {
+  border: 0;
+  background: none;
+  color: inherit;
+  opacity: 0.6;
+  padding: 6px 10px 6px 2px;
+  display: grid;
+  place-items: center;
+}
+.ts-cat-x:hover {
+  opacity: 1;
+}
+.ts-cat-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.ts-cat-form input {
+  flex: 1 1 160px;
+  font: inherit;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+}
+.ts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.ts-grid .ts-skel {
+  min-height: 92px;
+}
+.ts-product {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+}
+.ts-product.is-hidden {
+  opacity: 0.6;
+}
+.ts-product-pic {
+  flex: none;
+  width: 68px;
+  height: 68px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--chip);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+}
+.ts-product-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ts-product-body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+.ts-product-body > b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ts-price {
+  color: var(--brand);
+  font-weight: 700;
+}
+.ts-product-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.ts-product-meta .ts-pill {
+  font-size: 11.5px;
+  padding: 1px 8px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ts-product-acts {
+  display: grid;
+  gap: 4px;
+}
+.ts-photo-row {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+@media (max-width: 640px) {
+  .ts-photo-row {
+    flex-direction: column;
+  }
+  .ts-photo-row > .ts-two {
+    width: 100%;
+  }
+}
+.ts-photo {
+  flex: none;
+  width: 92px;
+  height: 92px;
+  border-radius: 18px;
+  border: 1.5px dashed var(--line-strong);
+  background: var(--bg2);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0;
+}
+.ts-photo.round {
+  border-radius: 22px;
+  border-style: solid;
+  border-color: transparent;
+}
+.ts-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ts-opts {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--bg2);
+}
+.ts-opts-head {
+  display: grid;
+  gap: 2px;
+}
+.ts-opt {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.ts-opt-top,
+.ts-choice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+}
+.ts-opt input,
+.ts-choice input {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+  min-width: 0;
+}
+.ts-opt-top > input {
+  flex: 1 1 140px;
+  font-weight: 700;
+}
+.ts-choice {
+  padding-left: 14px;
+  flex-wrap: nowrap;
+}
+.ts-choice input:first-child {
+  flex: 1;
+}
+.ts-choice input:nth-child(2) {
+  width: 92px;
+}
+.ts-opt-top .md-icon-btn {
+  margin-left: auto;
+}
+
+/* ---------- customers ---------- */
+.ts-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--muted);
+}
+.ts-search input {
+  flex: 1;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  padding: 10px 0;
+  outline: none;
+}
+.ts-customers {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+}
+.ts-customers li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ts-av {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--active);
+  color: var(--brand);
+  font-weight: 700;
+}
+.ts-who,
+.ts-cust-stats {
+  display: grid;
+  min-width: 0;
+}
+.ts-who {
+  flex: 1;
+}
+.ts-who small,
+.ts-cust-stats small {
+  color: var(--muted);
+}
+.ts-cust-stats {
+  text-align: right;
+}
+
+/* ---------- settings + share ---------- */
+.ts-color {
+  width: 88px !important;
+  height: 42px;
+  padding: 4px !important;
+  cursor: pointer;
+}
+.ts-share {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+@media (max-width: 720px) {
+  .ts-share {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ts-share > .ts-qr {
+    align-self: center;
+  }
+}
+.ts-qr {
+  flex: none;
+  padding: 8px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+.ts-qr svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ts-share-links {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+}
+.ts-link {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.ts-link-label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.ts-link code {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.ts-channel {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  font: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ts-tables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ts-tables figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  font-weight: 600;
+  font-size: 13px;
+}

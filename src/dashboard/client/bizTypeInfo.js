@@ -1,6 +1,20 @@
 // What each business type gives — shown in "Add business" before paying
 export const BIZ_INFO = {
   en: {
+    tg_store: {
+      tagline: "Your shop inside Telegram. Customers open it from your link, channel or table QR, pick, and order — every order lands in your Telegram group with Accept · Ready · Done buttons.",
+      best: "Cafés, bubble tea, bakeries, restaurants with delivery, home cooks, small online shops that sell on Telegram",
+      included: [
+        "A store that opens inside Telegram (and in any browser)",
+        "Unlimited products, categories, photos and choices (size, sugar, toppings…)",
+        "Delivery, pickup, and order-from-the-table QRs",
+        "KHQR with the exact amount for each order, or cash",
+        "Orders in your staff Telegram group with buttons",
+        "The customer follows the order live — and gets Telegram updates",
+        "Customers list, today's sales, stock and sold-out",
+      ],
+      later: ["Promo codes", "Broadcast to your customers", "Several shops"],
+    },
     event: {
       tagline: "Sell tickets for concerts, shows and workshops — or free registration. Buyers pay with your KHQR, you approve, each person gets a ticket QR that works once at the door.",
       best: "Concerts, TV shows, festivals, workshops, seminars, halls, sport events",
@@ -134,6 +148,20 @@ export const BIZ_INFO = {
     },
   },
   km: {
+    tg_store: {
+      tagline: "ហាងរបស់អ្នកនៅក្នុង Telegram។ អតិថិជនបើកពីតំណ ឆានែល ឬ QR លើតុ ជ្រើស ហើយកម្ម៉ង់ — ការកម្ម៉ង់នីមួយៗចូលក្រុម Telegram របស់អ្នក មានប៊ូតុង ទទួល · រួចរាល់ · បានបញ្ចប់។",
+      best: "ហាងកាហ្វេ តែគុជ នំបុ័ង ភោជនីយដ្ឋានដែលដឹកជញ្ជូន អ្នកធ្វើម្ហូបនៅផ្ទះ ហាងអនឡាញតូចៗដែលលក់លើ Telegram",
+      included: [
+        "ហាងដែលបើកក្នុង Telegram (និងកម្មវិធីរុករកណាក៏បាន)",
+        "ទំនិញ ប្រភេទ រូបភាព និងជម្រើស (ទំហំ ស្ករ ថែម…) គ្មានកំណត់",
+        "ដឹកជញ្ជូន មកយក និង QR កម្ម៉ង់ពីតុ",
+        "KHQR ចំនួនពិតប្រាកដសម្រាប់ការកម្ម៉ង់នីមួយៗ ឬសាច់ប្រាក់",
+        "ការកម្ម៉ង់ចូលក្រុម Telegram បុគ្គលិក មានប៊ូតុង",
+        "អតិថិជនតាមដានការកម្ម៉ង់ផ្ទាល់ — និងទទួលដំណឹងក្នុង Telegram",
+        "បញ្ជីអតិថិជន ការលក់ថ្ងៃនេះ ស្តុក និងអស់",
+      ],
+      later: ["កូដបញ្ចុះតម្លៃ", "ផ្ញើសារទៅអតិថិជន", "ហាងច្រើន"],
+    },
     event: {
       tagline: "លក់សំបុត្រកម្មវិធីតន្ត្រី កម្មវិធីទូរទស្សន៍ សិក្ខាសាលា — ឬចុះឈ្មោះឥតគិតថ្លៃ។ អ្នកទិញបង់តាម KHQR របស់អ្នក អ្នកអនុម័ត ម្នាក់ៗទទួល QR សំបុត្រប្រើបានតែម្តងនៅច្រកចូល។",
       best: "តន្ត្រី កម្មវិធីទូរទស្សន៍ ពិធីបុណ្យ សិក្ខាសាលា សន្និសីទ សាល ព្រឹត្តិការណ៍កីឡា",

@@ -36,6 +36,8 @@ import {
   Gift,
   Stamp,
   Ticket,
+  Send,
+  ShoppingBag,
 } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 
@@ -55,6 +57,7 @@ const ART = {
   digital_note: { Main: StickyNote, chips: [Share2, MessageSquareText, Paperclip] },
   stamp_card: { Main: Stamp, chips: [QrCode, Gift, Bell] },
   event: { Main: Ticket, chips: [QrCode, ScanLine, BarChart3] },
+  tg_store: { Main: Send, chips: [ShoppingBag, QrCode, Bell] },
 };
 const FALLBACK = { Main: Store, chips: [Star, BarChart3, Sparkles] };
 const SOON = { en: "Coming soon", km: "ឆាប់ៗនេះ" };

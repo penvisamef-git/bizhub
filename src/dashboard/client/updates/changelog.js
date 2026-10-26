@@ -3,6 +3,26 @@
 // kind: "new" | "better" | "fix" | "safe"
 export const CHANGELOG = [
   {
+    version: "2.0.0",
+    status: "testing",
+    date: "2026-10",
+    title: { en: "Telegram Store", km: "ហាង Telegram" },
+    sub: {
+      en: "A new business type: your shop inside Telegram. Customers order in Telegram, your staff get every order in a Telegram group.",
+      km: "ប្រភេទអាជីវកម្មថ្មី៖ ហាងរបស់អ្នកនៅក្នុង Telegram។ អតិថិជនកម្ម៉ង់ក្នុង Telegram ហើយបុគ្គលិកទទួលការកម្ម៉ង់ទាំងអស់ក្នុងក្រុម Telegram។",
+    },
+    items: [
+      { kind: "new", en: "Telegram Store under Management systems — 45 coins per year.", km: "ហាង Telegram នៅក្រោម ប្រព័ន្ធគ្រប់គ្រង — 45 កាក់ ក្នុងមួយឆ្នាំ។" },
+      { kind: "new", en: "Products with photos, categories and choices (size, sugar, toppings…), stock and Sold out.", km: "ទំនិញមានរូបភាព ប្រភេទ និងជម្រើស (ទំហំ ស្ករ ថែម…) ស្តុក និង អស់។" },
+      { kind: "new", en: "Customers open the store from your Telegram link, your channel or a QR on the table — no app to install. It works in any browser too.", km: "អតិថិជនបើកហាងពីតំណ Telegram ឆានែល ឬ QR លើតុ — មិនចាំបាច់ដំឡើងកម្មវិធី។ បើកក្នុងកម្មវិធីរុករកណាក៏បាន។" },
+      { kind: "new", en: "Delivery (fee, free from an amount, smallest order), pickup, and order from the table.", km: "ដឹកជញ្ជូន (ថ្លៃដឹក ដឹកឥតគិតថ្លៃចាប់ពីចំនួន ការកម្ម៉ង់អប្បបរមា) មកយក និងកម្ម៉ង់ពីតុ។" },
+      { kind: "new", en: "Pay with KHQR — each order gets a QR with the exact amount — or cash.", km: "បង់ដោយ KHQR — ការកម្ម៉ង់នីមួយៗមាន QR ចំនួនពិតប្រាកដ — ឬសាច់ប្រាក់។" },
+      { kind: "new", en: "Every order arrives in your staff Telegram group with Accept · 15 min · Reject · Ready · Done · Paid buttons.", km: "ការកម្ម៉ង់នីមួយៗចូលក្រុម Telegram បុគ្គលិក មានប៊ូតុង ទទួល · 15 នាទី · បដិសេធ · រួចរាល់ · បានបញ្ចប់ · បានបង់។" },
+      { kind: "new", en: "Customers follow their order live and get Telegram messages when it changes.", km: "អតិថិជនតាមដានការកម្ម៉ង់ផ្ទាល់ ហើយទទួលសារ Telegram ពេលមានការផ្លាស់ប្តូរ។" },
+      { kind: "new", en: "Orders, today's sales and the customer list on the website.", km: "ការកម្ម៉ង់ ការលក់ថ្ងៃនេះ និងបញ្ជីអតិថិជន នៅលើគេហទំព័រ។" },
+    ],
+  },
+  {
     version: "1.5.5",
     status: "testing",
     date: "2026-10",

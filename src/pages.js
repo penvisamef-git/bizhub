@@ -35,6 +35,9 @@ export const PAGES = {
   note: () => import("./dashboard/client/note/NoteDashboard"),
   stamp: () => import("./dashboard/client/stamp/StampDashboard"),
   event: () => import("./dashboard/client/event/EventDashboard"),
+  tgStore: () => import("./dashboard/client/tgstore/TgStoreDashboard"), // v2.0 Telegram Store
+  publicTgStore: () => import("./tgstore/StorePage"),
+  publicTgOrder: () => import("./tgstore/OrderPage"),
   publicEvent: () => import("./evpub/EventPage"),
   publicEvOrder: () => import("./evpub/OrderPage"),
   publicEvTicket: () => import("./evpub/TicketPage"),
@@ -102,7 +105,7 @@ const GROUPS = {
 };
 
 // business type → its dashboard (big files: only downloaded for the types the owner has)
-const BIZ_PAGE = { namecard: "nameCardEditor", restaurant: "restaurant", attendance: "attendance", guest_house: "guestHouse", mart: "mart", menu_qr: "menuQr", flipbook: "flipbook", qr_gen: "qrGen", website: "website", debt_book: "debt", digital_note: "note", stamp_card: "stamp", event: "event" };
+const BIZ_PAGE = { namecard: "nameCardEditor", restaurant: "restaurant", attendance: "attendance", guest_house: "guestHouse", mart: "mart", menu_qr: "menuQr", flipbook: "flipbook", qr_gen: "qrGen", website: "website", debt_book: "debt", digital_note: "note", stamp_card: "stamp", event: "event", tg_store: "tgStore" };
 const bizDone = new Set();
 export function prefetchBizTypes(categories = []) {
   const todo = [...new Set(categories)].map((c) => BIZ_PAGE[c]).filter((n) => n && !bizDone.has(n));

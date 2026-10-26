@@ -1,0 +1,251 @@
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
+import { AlertTriangle, ArrowLeft, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Package, ReceiptText, Send, Settings, Share2, Users, X } from "lucide-react";
+import "../../admin/master_data/masterdata.css";
+import "../../super_admin/super-admin.css";
+import "../restaurant/restaurant.css";
+import "../menuqr/menuqr.css";
+import "../qrgen/qrgen.css";
+import "../website/website.css";
+import "./tgstore.css";
+import { licenseService, tgStoreApi } from "../../../api/services";
+import { useNotice } from "../../super_admin/parts";
+import { BusinessSkeleton, TabSkeleton } from "../../../components/skeleton/Skeleton";
+import PurchaseModal from "../../../components/purchase/PurchaseModal";
+import MyBusinesses from "../../../components/MyBusinesses";
+import CoinIcon from "../../../components/CoinIcon";
+import { memo } from "../../../lib/memo";
+import { OrdersTab } from "./TsOrders";
+import { fmtDate, fmtNum, useTsText } from "./text";
+
+const LOAD = { setup: () => import("./TsSetup") };
+const later = (name) => lazy(() => LOAD.setup().then((x) => ({ default: x[name] })));
+const ProductsTab = later("ProductsTab");
+const CustomersTab = later("CustomersTab");
+const StoreTab = later("StoreTab");
+const ShareTab = later("ShareTab");
+
+const TABS = [
+  ["orders", ReceiptText, OrdersTab],
+  ["products", Package, ProductsTab],
+  ["customers", Users, CustomersTab],
+  ["store", Settings, StoreTab],
+  ["share", Share2, ShareTab],
+];
+const GROUPS = [
+  ["sell", ["orders", "products", "customers"]],
+  ["setup", ["store", "share"]],
+];
+const GRACE_DAYS = 7;
+
+// Telegram Store: a shop inside Telegram — orders, products, customers, settings, links + the staff's Telegram group
+export default function TgStoreDashboard() {
+  const { id } = useParams();
+  const { x, lang } = useTsText();
+  const [params, setParams] = useSearchParams();
+  const current = TABS.some(([k]) => k === params.get("tab")) ? params.get("tab") : "orders";
+  const [data, setData] = useState(() => memo.get(`tgstore:${id}`) || null);
+  const [error, setError] = useState("");
+  const [buying, setBuying] = useState(false); // renew
+  const [notice, setNotice] = useNotice();
+  const [navOpen, setNavOpen] = useState(false);
+  const api = useMemo(() => tgStoreApi({ id }), [id]);
+
+  const reload = useCallback(
+    () =>
+      api
+        .get()
+        .then((r) => {
+          memo.set(`tgstore:${id}`, r.data);
+          setData(r.data);
+          setError("");
+        })
+        .catch((e) => setError(e.message || x.loadFail)),
+    [api, id, x.loadFail],
+  );
+  useEffect(() => {
+    reload();
+    const t = setTimeout(() => Object.values(LOAD).forEach((l) => l().catch(() => {})), 400);
+    return () => clearTimeout(t);
+  }, [reload]);
+
+  const go = (key) => {
+    setParams(key === "orders" ? {} : { tab: key }, { replace: false });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const ctx = useMemo(() => {
+    if (!data) return null;
+    const put = (patch) =>
+      setData((d) => {
+        const next = { ...d, ...(typeof patch === "function" ? patch(d) : patch) };
+        memo.set(`tgstore:${id}`, next);
+        return next;
+      });
+    return { id, x, lang, api, data, put, reload, notify: setNotice, go, readOnly: !data.business.status || !!data.license.read_only, cur: data.store.currency };
+  }, [data, id, x, lang, api, reload, setNotice]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (error && !data)
+    return (
+      <div className="panel-card sa-empty-state">
+        <p>{error}</p>
+        <button type="button" className="md-btn md-btn-primary" onClick={reload}>
+          {x.retry}
+        </button>
+        <Link to="/app/businesses" className="sa-link">
+          <ArrowLeft size={14} /> <MyBusinesses />
+        </Link>
+      </div>
+    );
+  if (!ctx) return <BusinessSkeleton />;
+
+  const s = data.store;
+  const lic = data.license;
+  const link = data.links.telegram || data.links.web;
+  const graceLeft = lic.expires_at ? Math.max(0, GRACE_DAYS - Math.floor((Date.now() - new Date(lic.expires_at).getTime()) / 86400000)) : 0;
+  const [, CurrentIcon, Current] = TABS.find(([k]) => k === current);
+  const navList = GROUPS.map(([group, keys]) => (
+    <div key={group} className="rs-nav-group">
+      <span className="rs-nav-label">{x.groups[group]}</span>
+      {keys.map((key) => {
+        const Icon = TABS.find(([k]) => k === key)[1];
+        return (
+          <button
+            key={key}
+            type="button"
+            className={current === key ? "on" : ""}
+            onClick={() => {
+              setNavOpen(false);
+              go(key);
+            }}
+            aria-current={current === key ? "page" : undefined}
+            data-testid={`ts-tab-${key}`}
+          >
+            <Icon size={17} />
+            <span className="rs-nav-text">{x.tabs[key]}</span>
+            {key === "orders" && data.counts.new > 0 && <span className="rs-badge">{data.counts.new}</span>}
+            {key === "products" && <small className="rs-nav-count">{fmtNum(data.counts.products)}</small>}
+            {key === "customers" && <small className="rs-nav-count">{fmtNum(data.counts.customers)}</small>}
+            {key === "share" && !data.telegram.connected && <span className="ts-dot" aria-hidden="true" />}
+          </button>
+        );
+      })}
+    </div>
+  ));
+
+  return (
+    <div className="md-page rs-page mq-page qg-page ws-page ts-page">
+      {notice}
+      <div className="rs-top">
+        <Link to="/app/businesses" className="sa-link">
+          <ArrowLeft size={14} /> <MyBusinesses />
+        </Link>
+        <div className="rs-head">
+          <span className="rs-logo ts-logo" style={{ background: s.logo ? undefined : s.color }}>
+            {s.logo ? <img src={s.logo} alt="" /> : <Send size={24} color="#FFFFFF" />}
+          </span>
+          <div className="rs-head-text">
+            <h2>{s.shop_name || data.business.name}</h2>
+            <div className="rs-head-meta">
+              <span className="rs-chip">{x.badge}</span>
+              {lic.expires_at && (
+                <span className={`rs-chip s-${lic.locked ? "expired" : lic.status}`}>
+                  <CalendarClock size={13} /> {x.endsOn.replace("{date}", fmtDate(lic.expires_at, lang))}
+                </span>
+              )}
+              {!s.open && <span className="rs-chip s-expiring">{x.isOpen}: ✕</span>}
+            </div>
+          </div>
+          <div className="mq-head-acts">
+            <a className="md-btn md-btn-ghost sa-btn-sm" href={data.links.web} target="_blank" rel="noreferrer" data-testid="ts-open-store">
+              <ExternalLink size={14} /> {x.openStore}
+            </a>
+            <button
+              type="button"
+              className="md-btn md-btn-ghost sa-btn-sm"
+              onClick={() => {
+                navigator.clipboard?.writeText(link).catch(() => {});
+                setNotice({ type: "success", text: x.copied });
+              }}
+            >
+              <Copy size={14} /> {x.copyLink}
+            </button>
+            {(lic.status === "expiring" || lic.in_grace || lic.locked) && (
+              <button type="button" className="md-btn md-btn-primary rs-gold-btn sa-btn-sm" onClick={() => setBuying(true)} disabled={!data.business.status}>
+                <CoinIcon size={15} /> {x.renewFor.replace("{coins}", fmtNum(lic.price))}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+      {!data.business.status && <div className="md-notice md-notice-error">{x.suspended}</div>}
+      {lic.in_grace && (
+        <div className="rs-banner warn">
+          <AlertTriangle size={18} />
+          <span>
+            <b>{x.graceTitle}</b> {x.graceSub.replace("{n}", graceLeft)}
+          </span>
+        </div>
+      )}
+      {lic.locked && (
+        <div className="rs-banner bad">
+          <Lock size={18} />
+          <span>
+            <b>{x.lockedTitle}</b> {x.lockedSub}
+          </span>
+        </div>
+      )}
+      <div className="rs-body">
+        <nav className="rs-nav" aria-label={x.badge}>
+          {navList}
+        </nav>
+        <button type="button" className="rs-nav-btn" onClick={() => setNavOpen(true)} aria-haspopup="dialog">
+          <CurrentIcon size={17} /> <b>{x.tabs[current]}</b>
+          <span className="rs-nav-btn-all">
+            {x.allSections} <ChevronDown size={16} />
+          </span>
+        </button>
+        <main className="rs-main">
+          <Suspense fallback={<TabSkeleton />}>
+            <Current ctx={ctx} key={current} />
+          </Suspense>
+        </main>
+      </div>
+      {navOpen && (
+        <div className="rs-sheet-back" onMouseDown={(e) => e.target === e.currentTarget && setNavOpen(false)}>
+          <div className="rs-sheet" role="dialog" aria-modal="true" aria-label={x.allSections}>
+            <div className="rs-sheet-head">
+              <b>{x.allSections}</b>
+              <button type="button" className="md-icon-btn" onClick={() => setNavOpen(false)} aria-label={x.close}>
+                <X size={18} />
+              </button>
+            </div>
+            <nav className="rs-nav in-sheet">{navList}</nav>
+          </div>
+        </div>
+      )}
+      {buying && (
+        <PurchaseModal
+          stage={
+            <div className="rs-stage">
+              <Send size={60} />
+              <b>{x.renewTitle}</b>
+              <small>{s.shop_name || data.business.name}</small>
+            </div>
+          }
+          badge={x.badge}
+          title={x.renewTitle}
+          sub={x.renewSub}
+          perks={[`${fmtNum(lic.price)} ${x.coins} ${x.perYear}`]}
+          price={lic.price}
+          buyLabel={x.renewFor.replace("{coins}", fmtNum(lic.price))}
+          buy={() => licenseService.buy(id, "tg_store", lic.expires_at ?? null)}
+          onDone={(res) => {
+            reload();
+            if (res?.data) setNotice({ type: "success", text: x.renewDone.replace("{date}", fmtDate(res.data.expires_at, lang)) });
+          }}
+          onClose={() => setBuying(false)}
+        />
+      )}
+    </div>
+  );
+}

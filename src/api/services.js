@@ -1392,3 +1392,70 @@ export const evPublic = {
     return json;
   },
 };
+
+// ---------------------------------------------------------------- Telegram Store (v2.0)
+const ts = (id, p = "") => `/businesses/${id}/tgstore${p}`;
+export function tgStoreApi({ id }) {
+  const get = (p, params) => userApiClient.get(ts(id, p), params);
+  const post = (p, body) => userApiClient.post(ts(id, p), body);
+  const put = (p, body) => userApiClient.put(ts(id, p), body);
+  const del = (p) => userApiClient.delete(ts(id, p));
+  const image = (p, field, file) => {
+    const fd = new FormData();
+    fd.append(field, file);
+    return post(p, fd);
+  };
+  return {
+    get: () => get(""),
+    save: (body) => put("/settings", body),
+    logo: (file) => image("/logo", "logo", file),
+    removeLogo: () => del("/logo"),
+    categories: () => get("/categories"),
+    addCategory: (body) => post("/categories", body),
+    saveCategory: (cid, body) => put(`/categories/${cid}`, body),
+    removeCategory: (cid) => del(`/categories/${cid}`),
+    orderCategories: (ids) => put("/categories-order", { ids }),
+    products: () => get("/products"),
+    addProduct: (body) => post("/products", body),
+    saveProduct: (pid, body) => put(`/products/${pid}`, body),
+    removeProduct: (pid) => del(`/products/${pid}`),
+    productPhoto: (pid, file) => image(`/products/${pid}/photo`, "photo", file),
+    removeProductPhoto: (pid) => del(`/products/${pid}/photo`),
+    orders: (params) => get("/orders", params),
+    order: (oid) => get(`/orders/${oid}`),
+    move: (oid, status, extra = {}) => post(`/orders/${oid}/status`, { status, ...extra }),
+    paid: (oid) => post(`/orders/${oid}/paid`),
+    customers: (params) => get("/customers", params),
+    tgLink: () => post("/telegram/link"),
+    tgTest: () => post("/telegram/test"),
+    tgOff: () => del("/telegram"),
+  };
+}
+// the customer's side: inside Telegram every call carries the signed Telegram data (who is ordering)
+const tgInit = () => (typeof window !== "undefined" && window.Telegram?.WebApp?.initData) || "";
+async function tgCall(path, { method = "GET", body } = {}) {
+  const isForm = typeof FormData !== "undefined" && body instanceof FormData;
+  const headers = {};
+  if (!isForm && body !== undefined) headers["Content-Type"] = "application/json";
+  if (tgInit()) headers["x-tg-init-data"] = tgInit();
+  let res;
+  try {
+    res = await fetch(`${PUBLIC_API_BASE}/tgstore${path}`, { method, headers, body: body === undefined ? undefined : isForm ? body : JSON.stringify(body), cache: "no-store" });
+  } catch {
+    throw Object.assign(new Error("network"), { code: "NETWORK" });
+  }
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok || json.success === false) throw Object.assign(new Error(json.message || `Request failed (${res.status})`), { status: res.status, body: json });
+  return json;
+}
+export const tgStorePublic = {
+  store: (slug) => tgCall(`/${encodeURIComponent(slug)}`),
+  me: (slug) => tgCall(`/${encodeURIComponent(slug)}/me`),
+  order: (slug, body) => tgCall(`/${encodeURIComponent(slug)}/orders`, { method: "POST", body }),
+  follow: (token) => tgCall(`/order/${encodeURIComponent(token)}`),
+  proof: (token, file) => {
+    const fd = new FormData();
+    fd.append("photo", file);
+    return tgCall(`/order/${encodeURIComponent(token)}/proof`, { method: "POST", body: fd });
+  },
+};

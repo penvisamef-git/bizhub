@@ -1334,6 +1334,9 @@
 .g-event {
   background: linear-gradient(135deg, #9d174d, #f0662b);
 }
+.g-tg_store {
+  background: linear-gradient(135deg, #0b77c2, #2aabee);
+}
 .svc-group + .svc-group {
   margin-top: 44px;
 }

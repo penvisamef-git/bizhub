@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { BookOpen, BedDouble, Coins, Fingerprint, Globe, IdCard, NotebookPen, StickyNote, QrCode, RotateCcw, ScanLine, Search, ShoppingBasket, Stamp, UtensilsCrossed } from "lucide-react";
+import { BookOpen, BedDouble, Coins, Fingerprint, Globe, IdCard, NotebookPen, StickyNote, QrCode, RotateCcw, ScanLine, Search, Send, ShoppingBasket, Stamp, UtensilsCrossed } from "lucide-react";
 import "../master_data/masterdata.css";
 import "../../client/namecard/namecard-editor.css";
 import "./prices.css";
@@ -10,7 +10,7 @@ import { PageSkeleton } from "../../../components/skeleton/Skeleton";
 import { PRICE_GROUPS } from "./catalog";
 import { BizTypeChips } from "../../super_admin/BizTypes";
 
-const ICONS = { IdCard, UtensilsCrossed, Fingerprint, BedDouble, ShoppingBasket, QrCode, BookOpen, ScanLine, Globe, NotebookPen, Stamp, StickyNote };
+const ICONS = { IdCard, UtensilsCrossed, Fingerprint, BedDouble, ShoppingBasket, QrCode, BookOpen, ScanLine, Globe, NotebookPen, Stamp, StickyNote, Send };
 const TEXT = {
   en: {
     title: "Prices",

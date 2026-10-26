@@ -57,6 +57,8 @@ const NoteGroupPublic = lazy(PAGES.publicNoteGroup);
 const StampShop = lazy(PAGES.publicStampShop);
 const StampCardPage = lazy(PAGES.publicStampCard);
 const StampDesk = lazy(PAGES.stampDesk);
+const TgStorePage = lazy(PAGES.publicTgStore);
+const TgOrderPage = lazy(PAGES.publicTgOrder);
 const QrRedeemPage = lazy(PAGES.publicQrRedeem);
 const MartAccount = lazy(PAGES.publicMartAccount);
 const PosApp = lazy(PAGES.pos);
@@ -432,6 +434,9 @@ export default function App() {
           <Route path="/stamp/c/:token" element={<StampCardPage />} />
           <Route path="/stamp/desk/:slug" element={<StampDesk />} />
           <Route path="/stamp/:slug" element={<StampShop />} />
+          {/* Telegram Store: the shop (inside Telegram or any browser) and a customer's order */}
+          <Route path="/t/o/:token" element={<TgOrderPage />} />
+          <Route path="/t/:slug" element={<TgStorePage />} />
           <Route path="/x/:slug" element={<QrPage />} />
           <Route path="/x/:slug/r/:code" element={<QrRedeemPage />} />
           <Route path="/m/:slug" element={<MartSitePage />} />

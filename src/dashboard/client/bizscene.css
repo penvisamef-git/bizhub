@@ -1126,6 +1126,94 @@
   animation: bs-pulse 2s ease-in-out infinite;
 }
 
+/* Telegram Store: a staff-group message with order buttons */
+.bs-tg_store {
+  --sc: #229ed9;
+}
+.bs-tgchat {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: bs-tg-in 4.4s ease-out infinite;
+}
+.bs-tgmsg {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 12px 12px 12px 4px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 24px -16px rgba(0, 0, 0, 0.45);
+  font-size: 11px;
+}
+.bs-tgmsg b {
+  font-size: 11px;
+}
+.bs-tgmsg i {
+  display: block;
+  height: 5px;
+  width: 90%;
+  border-radius: 3px;
+  background: var(--line-strong);
+}
+.bs-tgmsg i.short {
+  width: 60%;
+}
+.bs-tgmsg em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--sc);
+}
+.bs-tgkeys {
+  display: flex;
+  gap: 4px;
+}
+.bs-tgkeys span {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 4px 0;
+  border-radius: 7px;
+  font-size: 10px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--sc) 14%, var(--card));
+  color: var(--sc);
+}
+.bs-tgkeys .k1 {
+  animation: bs-tg-press 4.4s ease-out infinite;
+}
+@keyframes bs-tg-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  12%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes bs-tg-press {
+  0%,
+  40% {
+    transform: none;
+  }
+  46% {
+    transform: scale(0.9);
+    background: var(--sc);
+    color: #fff;
+  }
+  52%,
+  100% {
+    background: var(--sc);
+    color: #fff;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bs,
   .bs * {

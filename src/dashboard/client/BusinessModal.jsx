@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { BedDouble, BookOpen, CalendarClock, Camera, Check, Fingerprint, Globe, IdCard, Infinity as Forever, NotebookPen, Plus, StickyNote, QrCode, ScanLine, Search, ShoppingBasket, Stamp, Ticket, Trash2, UtensilsCrossed, X } from "lucide-react";
+import { BedDouble, BookOpen, CalendarClock, Camera, Check, Fingerprint, Globe, IdCard, Infinity as Forever, NotebookPen, Plus, StickyNote, QrCode, ScanLine, Search, Send, ShoppingBasket, Stamp, Ticket, Trash2, UtensilsCrossed, X } from "lucide-react";
 import { myBusinessService, stampApi } from "../../api/services";
 import { useI18n } from "../../i18n/I18nProvider";
 import { CATEGORY_KEYS, useSaText } from "../super_admin/text";
@@ -16,7 +16,7 @@ import BizTypeScene from "./BizTypeScene";
 import "./client.css";
 import { usePayConfirm } from "../../components/purchase/PayConfirm";
 
-const TYPE_ICONS = { namecard: IdCard, menu_qr: QrCode, flipbook: BookOpen, qr_gen: ScanLine, website: Globe, debt_book: NotebookPen, digital_note: StickyNote, stamp_card: Stamp, event: Ticket, restaurant: UtensilsCrossed, attendance: Fingerprint, guest_house: BedDouble, mart: ShoppingBasket };
+const TYPE_ICONS = { namecard: IdCard, menu_qr: QrCode, flipbook: BookOpen, qr_gen: ScanLine, website: Globe, debt_book: NotebookPen, digital_note: StickyNote, stamp_card: Stamp, event: Ticket, restaurant: UtensilsCrossed, attendance: Fingerprint, guest_house: BedDouble, mart: ShoppingBasket, tg_store: Send };
 const fmt = (n) => new Intl.NumberFormat("en-US").format(Number(n) || 0);
 
 // Create or edit one of my businesses

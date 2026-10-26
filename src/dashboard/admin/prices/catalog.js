@@ -197,6 +197,22 @@ export const PRICE_GROUPS = [
     ],
   },
   {
+    key: "tg_store",
+    icon: "Send",
+    en: "Telegram Store",
+    km: "ហាង Telegram",
+    items: [
+      {
+        key: "tg_store",
+        unit: "year",
+        en: "Telegram Store (shop inside Telegram, orders to your group, KHQR — per year)",
+        km: "ហាង Telegram (ហាងក្នុង Telegram ការកម្ម៉ង់ចូលក្រុម KHQR — ក្នុងមួយឆ្នាំ)",
+        d_en: "Paid when the business is added, then every year",
+        d_km: "បង់ពេលបន្ថែមអាជីវកម្ម បន្ទាប់មករៀងរាល់ឆ្នាំ",
+      },
+    ],
+  },
+  {
     key: "stamp_card",
     icon: "Stamp",
     en: "Loyalty Stamp Card",

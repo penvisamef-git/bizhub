@@ -35,6 +35,7 @@ const CARD_KEYS = {
   digital_note: { title: "cNote", bullets: ["dn1", "dn2", "dn3"] },
   stamp_card: { title: "cStamp", bullets: ["sc1", "sc2", "sc3"] },
   event: { title: "cEvent", bullets: ["ev1", "ev2", "ev3"] },
+  tg_store: { title: "cTgStore", bullets: ["ts1", "ts2", "ts3"] },
 };
 
 function SiteHeader({ t }) {

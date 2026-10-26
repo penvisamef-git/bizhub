@@ -38,6 +38,7 @@ import {
   X,
   Stamp,
   Ticket,
+  Send,
 } from "lucide-react";
 import "../admin/master_data/masterdata.css";
 import { BIZ_TYPES, bizTypeName } from "../super_admin/BizTypes";
@@ -640,6 +641,8 @@ function BizRow({ b, per, d, s, t, lang, onOpen, onEdit, grid, arrange }) {
               <Stamp size={18} />
             ) : b.category === "event" ? (
               <Ticket size={18} />
+            ) : b.category === "tg_store" ? (
+              <Send size={18} />
             ) : (
               <Initial name={b.name} />
             )}

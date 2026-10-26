@@ -162,6 +162,10 @@ export const HOME_TEXT = {
     ev1: "Sell tickets or free registration",
     ev2: "Buyers pay with your KHQR",
     ev3: "Ticket QR, scanned once at the door",
+    cTgStore: "Telegram Store",
+    ts1: "Your shop inside Telegram — no app",
+    ts2: "Orders come to your Telegram group",
+    ts3: "KHQR or cash, delivery or table QR",
     coins: "coins",
     perYear: "/ year",
     oneTime: "one time",
@@ -352,6 +356,10 @@ export const HOME_TEXT = {
     ev1: "លក់សំបុត្រ ឬចុះឈ្មោះឥតគិតថ្លៃ",
     ev2: "អ្នកទិញបង់តាម KHQR របស់អ្នក",
     ev3: "QR សំបុត្រ ស្កេនតែម្តងនៅច្រកចូល",
+    cTgStore: "ហាង Telegram",
+    ts1: "ហាងរបស់អ្នកក្នុង Telegram — មិនចាំបាច់មានកម្មវិធី",
+    ts2: "ការកម្ម៉ង់ចូលក្រុម Telegram របស់អ្នក",
+    ts3: "KHQR ឬសាច់ប្រាក់ ដឹកជញ្ជូន ឬ QR លើតុ",
     coins: "កាក់",
     perYear: "/ ឆ្នាំ",
     oneTime: "បង់ម្តង",
@@ -435,18 +443,31 @@ export const HERO_ICONS = {
   debt_book: "M4 4a2 2 0 0 1 2-2h12v20H6a2 2 0 0 1-2-2zM8 7h6M8 11h6M17 14l-3 3-1.5-1.5",
   digital_note: "M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8ZM15 3v4a2 2 0 0 0 2 2h4M7 13h7M7 17h4",
   stamp_card: "M5 22h14M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13",
+  tg_store: "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11zM21.854 2.147l-10.94 10.939",
   event: "M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2ZM13 5v2M13 17v2M13 11v2",
   attend: "M9 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M2 21a7 7 0 0 1 11.5-5.4M18 21a4 4 0 1 0 0-8 4 4 0 0 0 0 8M18 15v2l1.3 1.3",
 };
 
 // Service order on the homepage (Digital Name Card first)
-export const SERVICE_ORDER = ["namecard", "website", "menu_qr", "flipbook", "qr_gen", "restaurant", "mart", "guest", "attend", "event", "debt_book", "digital_note", "stamp_card"];
+export const SERVICE_ORDER = ["namecard", "website", "menu_qr", "flipbook", "qr_gen", "restaurant", "mart", "guest", "tg_store", "attend", "event", "debt_book", "digital_note", "stamp_card"];
 // homepage key → business type (prices, info). Groups: Super admin → Business groups (defaults.js groups)
 export const SERVICE_TYPE = { guest: "guest_house", attend: "attendance" };
 export const typeOf = (key) => SERVICE_TYPE[key] || key;
 
 export const SERVICE_DETAILS = {
   en: {
+    tg_store: {
+      title: "Telegram Store",
+      tag: "A shop that opens inside Telegram. Customers pick and order — every order lands in your Telegram group with buttons for your staff.",
+      f: [
+        ["plane", "Inside Telegram", "Share one link, post it in your channel or print a QR — it opens right in Telegram, no app to install."],
+        ["list", "Products and choices", "Photos, categories, sizes, sugar, toppings — and stock that shows Sold out by itself."],
+        ["bell", "Orders to your group", "Accept · 15 min · Reject · Ready · Done · Paid — anyone in your staff group can press."],
+        ["coin", "KHQR or cash", "Each order gets a KHQR with the exact amount. Any Cambodian bank app can pay it."],
+        ["truck", "Delivery, pickup or table", "Delivery fee, free from an amount, smallest order — and a QR on each table."],
+        ["users", "Customers follow live", "They see Accepted → Ready → Done and get Telegram messages. You keep the customer list."],
+      ],
+    },
     website: {
       title: "Website Builder",
       tag: "Build your own website with ready-made blocks — no coding. Edit, press Publish and share your link.",
@@ -617,6 +638,18 @@ export const SERVICE_DETAILS = {
     },
   },
   km: {
+    tg_store: {
+      title: "ហាង Telegram",
+      tag: "ហាងដែលបើកក្នុង Telegram។ អតិថិជនជ្រើស ហើយកម្ម៉ង់ — ការកម្ម៉ង់នីមួយៗចូលក្រុម Telegram របស់អ្នក មានប៊ូតុងសម្រាប់បុគ្គលិក។",
+      f: [
+        ["plane", "ក្នុង Telegram", "ចែករំលែកតំណមួយ ប្រកាសក្នុងឆានែល ឬបោះពុម្ព QR — បើកក្នុង Telegram ផ្ទាល់ មិនចាំបាច់ដំឡើងកម្មវិធី។"],
+        ["list", "ទំនិញ និងជម្រើស", "រូបភាព ប្រភេទ ទំហំ ស្ករ ថែម — និងស្តុកដែលបង្ហាញ អស់ ដោយខ្លួនឯង។"],
+        ["bell", "ការកម្ម៉ង់ចូលក្រុម", "ទទួល · 15 នាទី · បដិសេធ · រួចរាល់ · បានបញ្ចប់ · បានបង់ — អ្នកណាក្នុងក្រុមក៏ចុចបាន។"],
+        ["coin", "KHQR ឬសាច់ប្រាក់", "ការកម្ម៉ង់នីមួយៗមាន KHQR ចំនួនពិតប្រាកដ។ កម្មវិធីធនាគារណាក៏បង់បាន។"],
+        ["truck", "ដឹក មកយក ឬនៅតុ", "ថ្លៃដឹក ដឹកឥតគិតថ្លៃចាប់ពីចំនួន ការកម្ម៉ង់អប្បបរមា — និង QR លើតុនីមួយៗ។"],
+        ["users", "អតិថិជនតាមដានផ្ទាល់", "គេឃើញ បានទទួល → រួចរាល់ → បានបញ្ចប់ និងទទួលសារ Telegram។ អ្នករក្សាបញ្ជីអតិថិជន។"],
+      ],
+    },
     website: {
       title: "បង្កើតគេហទំព័រ",
       tag: "បង្កើតគេហទំព័រផ្ទាល់ខ្លួនដោយប្លុករួចរាល់ — មិនចាំបាច់សរសេរកូដ។ កែ ចុចផ្សព្វផ្សាយ ហើយចែករំលែកតំណ។",

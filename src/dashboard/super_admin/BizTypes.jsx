@@ -1,10 +1,10 @@
-import { BedDouble, BookOpen, Ticket, Fingerprint, NotebookPen, StickyNote, Stamp, Globe, IdCard, LayoutGrid, QrCode, ScanLine, ShoppingBasket, UtensilsCrossed } from "lucide-react";
+import { BedDouble, BookOpen, Ticket, Fingerprint, NotebookPen, StickyNote, Stamp, Globe, IdCard, LayoutGrid, QrCode, ScanLine, Send, ShoppingBasket, UtensilsCrossed } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import "./biztypes.css";
 
 // business types (the same keys as the license "category"): one row of big chips to filter a page by type
-export const BIZ_TYPES = ["restaurant", "mart", "guest_house", "website", "debt_book", "digital_note", "stamp_card", "event", "menu_qr", "flipbook", "qr_gen", "attendance", "namecard"];
-const ICON = { "": LayoutGrid, restaurant: UtensilsCrossed, mart: ShoppingBasket, guest_house: BedDouble, attendance: Fingerprint, namecard: IdCard, menu_qr: QrCode, flipbook: BookOpen, qr_gen: ScanLine, website: Globe, debt_book: NotebookPen, digital_note: StickyNote, stamp_card: Stamp, event: Ticket };
+export const BIZ_TYPES = ["restaurant", "mart", "guest_house", "tg_store", "website", "debt_book", "digital_note", "stamp_card", "event", "menu_qr", "flipbook", "qr_gen", "attendance", "namecard"];
+const ICON = { "": LayoutGrid, restaurant: UtensilsCrossed, mart: ShoppingBasket, guest_house: BedDouble, attendance: Fingerprint, namecard: IdCard, menu_qr: QrCode, flipbook: BookOpen, qr_gen: ScanLine, website: Globe, debt_book: NotebookPen, digital_note: StickyNote, stamp_card: Stamp, event: Ticket, tg_store: Send };
 const TEXT = {
   en: {
     "": "All types",
@@ -21,6 +21,7 @@ const TEXT = {
     digital_note: "Digital Note",
     stamp_card: "Loyalty Stamp Card",
     event: "Event Tickets",
+    tg_store: "Telegram Store",
   },
   km: {
     "": "គ្រប់ប្រភេទ",
@@ -37,6 +38,7 @@ const TEXT = {
     digital_note: "កំណត់ត្រាឌីជីថល",
     stamp_card: "កាតប្រមូលត្រា",
     event: "សំបុត្រកម្មវិធី",
+    tg_store: "ហាង Telegram",
   },
 };
 export const bizTypeName = (k, lang) => (TEXT[lang] || TEXT.en)[k] || k;

@@ -139,7 +139,7 @@ export default function HomepageSettingsPage() {
   }
 
   const phonesText = Array.isArray(form.contact.phones) ? form.contact.phones.join("\n") : form.contact.phones;
-  const names = { namecard: "cCard", restaurant: "cRestaurant", mart: "cMart", guest: "cGuest", warehouse: "cWarehouse", attend: "cAttend", website: "cWeb", menu_qr: "cMenuQr", flipbook: "cFlip", qr_gen: "cQr", debt_book: "cDebt", digital_note: "cNote", stamp_card: "cStamp", event: "cEvent" };
+  const names = { namecard: "cCard", restaurant: "cRestaurant", mart: "cMart", guest: "cGuest", warehouse: "cWarehouse", attend: "cAttend", website: "cWeb", menu_qr: "cMenuQr", flipbook: "cFlip", qr_gen: "cQr", debt_book: "cDebt", digital_note: "cNote", stamp_card: "cStamp", event: "cEvent", tg_store: "cTgStore" };
   const serviceName = (key) => HOME_TEXT[lang][names[key]] || SERVICE_DETAILS[lang][key]?.title || key;
 
   const moveService = (i, dir) =>
