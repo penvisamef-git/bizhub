@@ -1,6 +1,6 @@
 // App information. To release a new version, change only this file.
 export const APP_NAME = "BizHub";
-export const APP_VERSION = "1.0.0";
+export const APP_VERSION = "2.0.0"; // the same as the newest System activity entry (dashboard/client/updates/changelog.js) and both apps
 
 // The API address comes only from .env (VITE_API_HOST), exactly as written there — e.g. https://bizhub-api-eight.vercel.app
 // or, for local work, http://localhost:<port>. Nothing is added or changed here.
