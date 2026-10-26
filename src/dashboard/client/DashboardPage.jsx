@@ -58,6 +58,7 @@ import CoinIcon from "../../components/CoinIcon";
 import { fmtDay } from "../../namecard/portfolioText";
 import { useLicenseText } from "./licenses/text";
 import { useDashText } from "./dash-text";
+import SharedSection from "./team/SharedSection";
 
 const fmt = (n) => new Intl.NumberFormat("en-US").format(Number(n) || 0);
 const money = (n, c) => (c === "KHR" ? `${fmt(Math.round(n))}៛` : `$${new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(n) || 0)}`);
@@ -313,6 +314,7 @@ export default function DashboardPage({ only }) {
         {notice}
         {error && !data && <div className="md-form-error">{error}</div>}
         {bizList}
+        <SharedSection />
         {modal}
       </div>
     );

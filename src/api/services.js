@@ -109,6 +109,23 @@ export const myBusinessService = {
   order: (ids) => userApiClient.put("/businesses-order", { ids }), // the owner's own order, top → bottom
 };
 
+// Team access (v1.5): Admin / View only members of a business, invite by BizHub ID or link
+export const teamService = {
+  myId: () => userApiClient.get("/team/my-id"), // { bizhub_id }
+  shared: () => userApiClient.get("/team/shared"), // { businesses, invites }
+  answer: (memberId, accept) => userApiClient.post(`/team/invites/${memberId}/${accept ? "accept" : "decline"}`, {}),
+  leave: (businessId) => userApiClient.post(`/team/shared/${businessId}/leave`, {}),
+  joinInfo: (code) => userApiClient.get(`/team/join/${encodeURIComponent(code)}`),
+  join: (code) => userApiClient.post(`/team/join/${encodeURIComponent(code)}`, {}),
+  // owner
+  get: (businessId) => userApiClient.get(`/businesses/${businessId}/team`),
+  invite: (businessId, bizhubId, role) => userApiClient.post(`/businesses/${businessId}/team/members`, { bizhub_id: bizhubId, role }),
+  setRole: (businessId, memberId, role) => userApiClient.patch(`/businesses/${businessId}/team/members/${memberId}`, { role }),
+  remove: (businessId, memberId) => userApiClient.delete(`/businesses/${businessId}/team/members/${memberId}`),
+  makeLink: (businessId, role) => userApiClient.post(`/businesses/${businessId}/team/links`, { role }),
+  cancelLink: (businessId, linkId) => userApiClient.delete(`/businesses/${businessId}/team/links/${linkId}`),
+};
+
 // Digital name card of one of my businesses
 export const namecardService = {
   get: (businessId) => userApiClient.get(`/businesses/${businessId}/namecard`),

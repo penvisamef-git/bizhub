@@ -9,6 +9,7 @@ import "./account.css";
 import ChangeEmail from "./ChangeEmail";
 import AppQrLogin from "./AppQrLogin";
 import DeleteAccount from "./DeleteAccount";
+import MyIdCard from "../team/MyIdCard";
 
 function InfoRow({ icon, label, value, tone = "" }) {
   return (
@@ -284,6 +285,9 @@ function AccountPage() {
             </div>
           </form>
         </section>
+
+        {/* ---------- my BizHub ID: a business owner adds me to their team with it (v1.5) ---------- */}
+        {customer && <MyIdCard />}
 
         {/* ---------- log in on the BizHub app (owners + super admin: the app is for them) ---------- */}
         {(customer || me.is_super_admin) && <AppQrLogin service={service} />}

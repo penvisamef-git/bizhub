@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { auth } from "./lib/auth";
 import { ACCESS, canAccess, homeFor } from "./lib/permission";
 import { ROUTES } from "./config";
@@ -25,6 +25,8 @@ const MyBusinessesPage = lazy(PAGES.myBusinesses);
 const DashboardPage = lazy(PAGES.dashboard);
 const WalletPage = lazy(PAGES.wallet);
 const BusinessPage = lazy(PAGES.businessPage);
+const TeamPage = lazy(PAGES.teamPage);
+const JoinPage = lazy(PAGES.joinPage);
 const MenuPage = lazy(PAGES.publicMenu);
 const OrderPage = lazy(PAGES.publicOrder);
 const MemberPage = lazy(PAGES.publicMember);
@@ -99,6 +101,12 @@ function GuestOnly({ children }) {
 }
 
 // /app → the right first screen for this account
+// a short invite link (bizhubcambodia.com/join/AB12CD) → the join screen inside the app (sign in first)
+function JoinRedirect() {
+  const { code } = useParams();
+  return <Navigate to={`/app/join/${encodeURIComponent(code || "")}`} replace />;
+}
+
 function AppHome() {
   return <Navigate to={homeFor(auth.getClientLogin())} replace />;
 }
@@ -158,6 +166,7 @@ export default function App() {
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/delete-account" element={<DeleteAccountPage />} />
+          <Route path="/join/:code" element={<JoinRedirect />} />
           {SMS_ON && (
             <Route
               path="/sign-up/phone"
@@ -219,6 +228,22 @@ export default function App() {
               element={
                 <Guard access={ACCESS.CUSTOMER}>
                   <BusinessPage />
+                </Guard>
+              }
+            />
+            <Route
+              path="business/:id/team"
+              element={
+                <Guard access={ACCESS.CUSTOMER}>
+                  <TeamPage />
+                </Guard>
+              }
+            />
+            <Route
+              path="join/:code"
+              element={
+                <Guard access={ACCESS.CUSTOMER}>
+                  <JoinPage />
                 </Guard>
               }
             />
