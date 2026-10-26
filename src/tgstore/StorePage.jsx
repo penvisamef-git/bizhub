@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Bike, Check, ChevronLeft, Clock, Image as ImageIcon, Loader2, MapPin, Minus, Phone, Plus, ReceiptText, ShoppingBag, Store, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, ChevronLeft, Clock, Tag, Image as ImageIcon, Loader2, MapPin, Minus, Phone, Plus, ReceiptText, ShoppingBag, Store, UtensilsCrossed, X } from "lucide-react";
 import { tgStorePublic } from "../api/services";
 import { fill, money, round, useTgText } from "./text";
 import { askWrite, haptic, loadTelegram, store as keep, telegramTheme } from "./tg";
@@ -97,10 +97,25 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
   }));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [promo, setPromo] = useState(null); // { code, kind, value, min_order }
+  const [promoErr, setPromoErr] = useState("");
   const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
   const sub = round(cart.reduce((a, l) => a + l.unit * l.qty, 0), cur);
   const fee = f.mode === "delivery" && s.delivery ? (s.delivery.free_from && sub >= s.delivery.free_from ? 0 : s.delivery.fee) : 0;
-  const total = round(sub + fee, cur);
+  const promoShort = promo && promo.min_order && sub < promo.min_order;
+  const off = !promo || promoShort ? 0 : Math.min(sub, round(promo.kind === "percent" ? (sub * promo.value) / 100 : promo.value, cur));
+  const total = round(Math.max(0, sub - off) + fee, cur);
+  const applyPromo = async () => {
+    setPromoErr("");
+    try {
+      const r = await tgStorePublic.promo(s.slug, code.trim(), sub);
+      setPromo(r.data);
+    } catch (err) {
+      setPromo(null);
+      setPromoErr(err.message);
+    }
+  };
   const short = f.mode === "delivery" && s.delivery?.min_order && sub < s.delivery.min_order;
   const qty = (k, dlt) => setCart((c) => c.map((l) => (lineKey(l) === k ? { ...l, qty: Math.max(0, Math.min(99, l.qty + dlt)) } : l)).filter((l) => l.qty > 0));
 
@@ -120,6 +135,7 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
         phone: f.phone,
         note: f.note,
         pay: f.pay,
+        promo: promo && !promoShort ? promo.code : "",
         can_message: can,
       });
       keep.set("tsp_me", { name: f.name, phone: f.phone, address: f.address || last.address || "" });
@@ -221,10 +237,39 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
             ))}
           </div>
           {f.pay === "cash" && <p className="tsp-hint">{t.cashHint[f.mode]}</p>}
+          {s.promo && (
+            <div className="tsp-promo">
+              <label className="tsp-field">
+                <span>
+                  <Tag size={13} /> {t.promoCode}
+                </span>
+                <span className="tsp-promo-row">
+                  <input value={promo ? promo.code : code} maxLength={20} onChange={(e) => setCode(e.target.value.toUpperCase())} disabled={!!promo} placeholder="SAVE10" data-testid="tsp-promo" />
+                  {promo ? (
+                    <button type="button" className="tsp-btn ghost sm" onClick={() => (setPromo(null), setCode(""))}>
+                      {t.remove}
+                    </button>
+                  ) : (
+                    <button type="button" className="tsp-btn sm" onClick={applyPromo} disabled={code.trim().length < 3} data-testid="tsp-promo-apply">
+                      {t.apply}
+                    </button>
+                  )}
+                </span>
+              </label>
+              {promoErr && <p className="tsp-error">{promoErr}</p>}
+              {promoShort && <p className="tsp-error">{fill(t.promoFrom, { amount: money(promo.min_order, cur) })}</p>}
+            </div>
+          )}
 
           <div className="tsp-sum">
             <span>{t.subtotal}</span>
             <span>{money(sub, cur)}</span>
+            {off > 0 && (
+              <>
+                <span className="tsp-off">{fill(t.promoLine, { code: promo.code })}</span>
+                <span className="tsp-off">−{money(off, cur)}</span>
+              </>
+            )}
             {f.mode === "delivery" && (
               <>
                 <span>{t.fee}</span>
@@ -244,6 +289,15 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
         </div>
       </form>
     </div>
+  );
+}
+
+// "Made with BizHub" at the bottom (gone with the No BizHub name add-on)
+export function Brand({ t }) {
+  return (
+    <a className="tsp-brand" href="https://bizhubcambodia.com" target="_blank" rel="noreferrer">
+      {t.madeWith} <b>BizHub</b>
+    </a>
   );
 }
 
@@ -387,7 +441,11 @@ export default function StorePage() {
       </header>
       {!s.open && (
         <div className="tsp-closed">
-          <Clock size={16} /> {t.closed}
+          <Clock size={16} />
+          <span>
+            {t.closed}
+            {s.opens && <b> {fill(t.opensAt, { when: s.opens.in_days === 0 ? t.today : s.opens.in_days === 1 ? t.tomorrow : t.days[s.opens.day], time: s.opens.time })}</b>}
+          </span>
         </div>
       )}
       {recent.length > 0 && (
@@ -457,6 +515,22 @@ export default function StorePage() {
           </button>
         </div>
       )}
+      {s.hours && (
+        <details className="tsp-hours">
+          <summary>
+            <Clock size={14} /> {t.hoursTitle}
+          </summary>
+          <ul>
+            {[1, 2, 3, 4, 5, 6, 0].map((i) => (
+              <li key={i} className={new Date().getDay() === i ? "on" : ""}>
+                <span>{t.days[i]}</span>
+                <b>{s.hours.days[i].closed ? t.closedDay : `${s.hours.days[i].open} – ${s.hours.days[i].close}`}</b>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {s.brand && <Brand t={t} />}
       {item && <ItemSheet p={item} cur={cur} lang={lang} t={t} closed={!s.open} onAdd={add} onClose={() => setItem(null)} />}
       {checkout && (
         <Checkout

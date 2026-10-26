@@ -13,7 +13,7 @@ export const BIZ_INFO = {
         "The customer follows the order live — and gets Telegram updates",
         "Customers list, today's sales, stock and sold-out",
       ],
-      later: ["Promo codes", "Broadcast to your customers", "Several shops"],
+      later: ["Promo codes", "Message your customers in Telegram", "Sales report + Excel", "Opening hours", "No BizHub name"],
     },
     event: {
       tagline: "Sell tickets for concerts, shows and workshops — or free registration. Buyers pay with your KHQR, you approve, each person gets a ticket QR that works once at the door.",
@@ -160,7 +160,7 @@ export const BIZ_INFO = {
         "អតិថិជនតាមដានការកម្ម៉ង់ផ្ទាល់ — និងទទួលដំណឹងក្នុង Telegram",
         "បញ្ជីអតិថិជន ការលក់ថ្ងៃនេះ ស្តុក និងអស់",
       ],
-      later: ["កូដបញ្ចុះតម្លៃ", "ផ្ញើសារទៅអតិថិជន", "ហាងច្រើន"],
+      later: ["កូដបញ្ចុះតម្លៃ", "ផ្ញើសារទៅអតិថិជនក្នុង Telegram", "របាយការណ៍លក់ + Excel", "ម៉ោងបើក", "គ្មានឈ្មោះ BizHub"],
     },
     event: {
       tagline: "លក់សំបុត្រកម្មវិធីតន្ត្រី កម្មវិធីទូរទស្សន៍ សិក្ខាសាលា — ឬចុះឈ្មោះឥតគិតថ្លៃ។ អ្នកទិញបង់តាម KHQR របស់អ្នក អ្នកអនុម័ត ម្នាក់ៗទទួល QR សំបុត្រប្រើបានតែម្តងនៅច្រកចូល។",

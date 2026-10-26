@@ -4,6 +4,7 @@ import { Bike, Check, CircleDollarSign, Clock, Download, Loader2, MapPin, Phone,
 import { tgStorePublic } from "../api/services";
 import { fill, fmtTime, money, useTgText } from "./text";
 import { loadTelegram, telegramTheme } from "./tg";
+import { Brand } from "./StorePage";
 import "./tgstore-public.css";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
@@ -191,6 +192,12 @@ export default function OrderPage() {
             ))}
           </ul>
           <div className="tsp-sum">
+            {o.discount > 0 && (
+              <>
+                <span className="tsp-off">{fill(t.promoLine, { code: o.promo })}</span>
+                <span className="tsp-off">−{money(o.discount, cur)}</span>
+              </>
+            )}
             {o.fee > 0 && (
               <>
                 <span>{t.fee}</span>
@@ -218,6 +225,7 @@ export default function OrderPage() {
             </a>
           )}
         </div>
+        {s.brand && <Brand t={t} />}
       </main>
     </div>
   );

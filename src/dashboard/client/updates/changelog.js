@@ -20,6 +20,7 @@ export const CHANGELOG = [
       { kind: "new", en: "Every order arrives in your staff Telegram group with Accept · 15 min · Reject · Ready · Done · Paid buttons.", km: "ការកម្ម៉ង់នីមួយៗចូលក្រុម Telegram បុគ្គលិក មានប៊ូតុង ទទួល · 15 នាទី · បដិសេធ · រួចរាល់ · បានបញ្ចប់ · បានបង់។" },
       { kind: "new", en: "Customers follow their order live and get Telegram messages when it changes.", km: "អតិថិជនតាមដានការកម្ម៉ង់ផ្ទាល់ ហើយទទួលសារ Telegram ពេលមានការផ្លាស់ប្តូរ។" },
       { kind: "new", en: "Orders, today's sales and the customer list on the website.", km: "ការកម្ម៉ង់ ការលក់ថ្ងៃនេះ និងបញ្ជីអតិថិជន នៅលើគេហទំព័រ។" },
+      { kind: "new", en: "Add-ons: Promo codes, Message your customers in Telegram, Sales report with Excel, Opening hours, No BizHub name.", km: "មុខងារបន្ថែម៖ កូដបញ្ចុះតម្លៃ ផ្ញើសារទៅអតិថិជនក្នុង Telegram របាយការណ៍លក់ជាមួយ Excel ម៉ោងបើក និងគ្មានឈ្មោះ BizHub។" },
     ],
   },
   {

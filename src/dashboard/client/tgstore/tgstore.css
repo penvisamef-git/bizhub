@@ -614,3 +614,287 @@ span.ts-cat > button:first-child {
   font-weight: 600;
   font-size: 13px;
 }
+
+/* ---------- v2.0 shell: same look as the other businesses ---------- */
+.ts-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 760px) {
+  .ts-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.ts-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  min-height: 74px;
+}
+.ts-kpi small {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.ts-kpi b {
+  font-size: 24px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.ts-kpi.hot {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--brand) 55%, transparent);
+}
+.ts-kpi.hot b {
+  color: var(--brand);
+}
+.ts-kpi.ts-skel {
+  min-height: 74px;
+}
+.ts-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+.ts-empty p {
+  margin: 0;
+  max-width: 420px;
+}
+.ts-grow {
+  flex: 1;
+}
+.ts-locked-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--warnbg);
+  color: var(--warn);
+  font-size: 14px;
+}
+.ts-locked-row span {
+  flex: 1 1 220px;
+}
+.ts-seg {
+  display: flex;
+  gap: 8px;
+}
+.ts-seg button {
+  flex: 1;
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+}
+.ts-seg button.on {
+  border-color: var(--brand);
+  background: var(--active);
+  color: var(--brand);
+}
+.ts-code-input {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace !important;
+  letter-spacing: 0.08em;
+  font-weight: 700 !important;
+}
+
+/* promo codes */
+.ts-promos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+}
+.ts-promo {
+  display: grid;
+  gap: 10px;
+}
+.ts-promo.is-off {
+  opacity: 0.62;
+}
+.ts-promo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.ts-ticket {
+  position: relative;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px dashed var(--brand);
+  background: var(--active);
+  color: var(--brand);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.ts-promo-value {
+  font-size: 22px;
+}
+.ts-promo-foot {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+}
+
+/* messages */
+.ts-reach {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ts-reach > span:nth-child(2) {
+  flex: 1 1 220px;
+  display: grid;
+}
+.ts-reach-ic {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: #e6f4fc;
+  color: #229ed9;
+}
+:root[data-theme="dark"] .ts-reach-ic {
+  background: #0f2a3a;
+}
+.ts-sent {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+}
+.ts-sent li {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 4px;
+}
+.ts-sent p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* report */
+.ts-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 170px;
+  margin-top: 12px;
+  padding-bottom: 18px;
+}
+.ts-bar {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.ts-bar i,
+.ts-hours-chart i {
+  display: block;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--brand);
+}
+.ts-bar i.zero,
+.ts-hours-chart i.zero {
+  background: var(--line);
+}
+.ts-bar small,
+.ts-hours-chart small {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--muted);
+}
+.ts-best {
+  margin: 10px 0 0;
+  padding: 0 0 0 20px;
+  display: grid;
+  gap: 8px;
+}
+.ts-best li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: baseline;
+}
+.ts-hours-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 90px;
+  margin-top: 10px;
+  padding-bottom: 18px;
+}
+.ts-hours-chart > div {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.ts-share-row {
+  display: grid;
+  grid-template-columns: 16px 1fr 2fr 28px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+.ts-share-row i {
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand) var(--w), var(--line) var(--w));
+}
+
+/* opening hours */
+.ts-days {
+  display: grid;
+  gap: 8px;
+}
+.ts-day {
+  display: grid;
+  grid-template-columns: 120px auto auto auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.ts-day input[type="time"] {
+  font: inherit;
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+}
+.ts-day.is-closed input[type="time"] {
+  opacity: 0.4;
+}
+.ts-day .md-switch {
+  justify-self: end;
+}
+@media (max-width: 640px) {
+  .ts-day {
+    grid-template-columns: 1fr auto auto auto;
+  }
+  .ts-day b {
+    grid-column: 1 / -1;
+  }
+}

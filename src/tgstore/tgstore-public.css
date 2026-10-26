@@ -920,3 +920,86 @@
 .tsp-follow-acts .tsp-btn:only-child {
   grid-column: 1 / -1;
 }
+
+/* ---------- v2.0 add-ons: promo code, opening hours, brand ---------- */
+.tsp-promo {
+  display: grid;
+  gap: 6px;
+}
+.tsp-promo .tsp-field > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.tsp-promo-row {
+  display: flex;
+  gap: 8px;
+}
+.tsp-promo-row input {
+  flex: 1;
+  min-width: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+.tsp-btn.sm {
+  min-height: 44px;
+  padding: 0 16px;
+}
+.tsp-off {
+  color: var(--ts-ok);
+  font-weight: 600;
+}
+.tsp-closed span b {
+  font-weight: 800;
+}
+.tsp-hours {
+  max-width: 980px;
+  margin: 4px auto 0;
+  padding: 0 16px;
+}
+.tsp-hours summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  color: var(--ts-muted);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 0;
+}
+.tsp-hours ul {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--ts-bg);
+  border: 1px solid var(--ts-line);
+  display: grid;
+  gap: 4px;
+  max-width: 360px;
+}
+.tsp-hours li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+}
+.tsp-hours li.on {
+  color: var(--ts-accent);
+}
+.tsp-brand {
+  display: block;
+  width: max-content;
+  margin: 24px auto 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--ts-muted) !important;
+  text-decoration: none;
+  border: 1px solid var(--ts-line);
+  background: var(--ts-bg);
+}
+.tsp-brand b {
+  color: var(--ts-ink);
+}

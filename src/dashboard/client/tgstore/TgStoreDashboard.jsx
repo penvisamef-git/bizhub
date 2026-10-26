@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Package, ReceiptText, Send, Settings, Share2, Users, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Puzzle, ReceiptText, Send, Settings, Share2, Tag, Users, X } from "lucide-react";
 import "../../admin/master_data/masterdata.css";
 import "../../super_admin/super-admin.css";
 import "../restaurant/restaurant.css";
@@ -16,25 +16,36 @@ import MyBusinesses from "../../../components/MyBusinesses";
 import CoinIcon from "../../../components/CoinIcon";
 import { memo } from "../../../lib/memo";
 import { OrdersTab } from "./TsOrders";
+import { ADDON_ICON } from "./TsGrow";
 import { fmtDate, fmtNum, useTsText } from "./text";
 
-const LOAD = { setup: () => import("./TsSetup") };
-const later = (name) => lazy(() => LOAD.setup().then((x) => ({ default: x[name] })));
-const ProductsTab = later("ProductsTab");
-const CustomersTab = later("CustomersTab");
-const StoreTab = later("StoreTab");
-const ShareTab = later("ShareTab");
+const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow") };
+const later = (file, name) => lazy(() => LOAD[file]().then((x) => ({ default: x[name] })));
+const ProductsTab = later("setup", "ProductsTab");
+const CustomersTab = later("setup", "CustomersTab");
+const StoreTab = later("setup", "StoreTab");
+const ShareTab = later("setup", "ShareTab");
+const PromosTab = later("grow", "PromosTab");
+const MessagesTab = later("grow", "MessagesTab");
+const ReportTab = later("grow", "ReportTab");
+const AddonsTab = later("grow", "AddonsTab");
 
 const TABS = [
   ["orders", ReceiptText, OrdersTab],
   ["products", Package, ProductsTab],
   ["customers", Users, CustomersTab],
+  ["promos", Tag, PromosTab],
+  ["messages", Megaphone, MessagesTab],
+  ["report", BarChart3, ReportTab],
   ["store", Settings, StoreTab],
   ["share", Share2, ShareTab],
+  ["addons", Puzzle, AddonsTab],
 ];
+const NEEDS = { promos: "ts_promos", messages: "ts_broadcast", report: "ts_reports" };
 const GROUPS = [
   ["sell", ["orders", "products", "customers"]],
-  ["setup", ["store", "share"]],
+  ["grow", ["promos", "messages", "report"]],
+  ["setup", ["store", "share", "addons"]],
 ];
 const GRACE_DAYS = 7;
 
@@ -46,7 +57,7 @@ export default function TgStoreDashboard() {
   const current = TABS.some(([k]) => k === params.get("tab")) ? params.get("tab") : "orders";
   const [data, setData] = useState(() => memo.get(`tgstore:${id}`) || null);
   const [error, setError] = useState("");
-  const [buying, setBuying] = useState(false); // renew
+  const [buying, setBuying] = useState(null); // "renew" | { addon }
   const [notice, setNotice] = useNotice();
   const [navOpen, setNavOpen] = useState(false);
   const api = useMemo(() => tgStoreApi({ id }), [id]);
@@ -81,7 +92,7 @@ export default function TgStoreDashboard() {
         memo.set(`tgstore:${id}`, next);
         return next;
       });
-    return { id, x, lang, api, data, put, reload, notify: setNotice, go, readOnly: !data.business.status || !!data.license.read_only, cur: data.store.currency };
+    return { id, x, lang, api, data, put, reload, notify: setNotice, go, askBuy: setBuying, on: (key) => !!data.addons?.[key]?.active, readOnly: !data.business.status || !!data.license.read_only, cur: data.store.currency };
   }, [data, id, x, lang, api, reload, setNotice]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (error && !data)
@@ -108,6 +119,7 @@ export default function TgStoreDashboard() {
       <span className="rs-nav-label">{x.groups[group]}</span>
       {keys.map((key) => {
         const Icon = TABS.find(([k]) => k === key)[1];
+        const locked = NEEDS[key] && !ctx.on(NEEDS[key]);
         return (
           <button
             key={key}
@@ -126,11 +138,32 @@ export default function TgStoreDashboard() {
             {key === "products" && <small className="rs-nav-count">{fmtNum(data.counts.products)}</small>}
             {key === "customers" && <small className="rs-nav-count">{fmtNum(data.counts.customers)}</small>}
             {key === "share" && !data.telegram.connected && <span className="ts-dot" aria-hidden="true" />}
+            {locked && <Lock size={13} className="rs-nav-lock" />}
           </button>
         );
       })}
     </div>
   ));
+
+  let sell = null;
+  if (buying === "renew")
+    sell = { icon: Send, name: x.renewTitle, title: x.renewTitle, sub: x.renewSub, perks: [`${fmtNum(lic.price)} ${x.coins} ${x.perYear}`], price: lic.price, label: x.renewFor.replace("{coins}", fmtNum(lic.price)), buy: () => licenseService.buy(id, "tg_store", lic.expires_at ?? null) };
+  else if (buying?.addon && data.addons?.[buying.addon]) {
+    const a = data.addons[buying.addon];
+    const name = x.addonNames[buying.addon];
+    sell = {
+      icon: ADDON_ICON[buying.addon] || Puzzle,
+      name,
+      title: x.unlockTitle.replace("{name}", name),
+      sub: x.addonWhat[buying.addon],
+      perks: [...(x.perks[buying.addon] || []), a.days ? `${fmtNum(a.price)} ${x.coins} ${x.perYear}` : `${x.oneTime} · ${x.forever}`],
+      price: a.price,
+      label: x.buy.replace("{coins}", fmtNum(a.price)),
+      buy: () => licenseService.buy(id, buying.addon, a.days ? (a.expires_at ?? null) : null),
+      done: x.unlockDone.replace("{name}", name),
+    };
+  }
+  const SellIcon = sell?.icon;
 
   return (
     <div className="md-page rs-page mq-page qg-page ws-page ts-page">
@@ -140,9 +173,7 @@ export default function TgStoreDashboard() {
           <ArrowLeft size={14} /> <MyBusinesses />
         </Link>
         <div className="rs-head">
-          <span className="rs-logo ts-logo" style={{ background: s.logo ? undefined : s.color }}>
-            {s.logo ? <img src={s.logo} alt="" /> : <Send size={24} color="#FFFFFF" />}
-          </span>
+          <span className="rs-logo">{s.logo ? <img src={s.logo} alt="" /> : <Send size={26} />}</span>
           <div className="rs-head-text">
             <h2>{s.shop_name || data.business.name}</h2>
             <div className="rs-head-meta">
@@ -152,7 +183,10 @@ export default function TgStoreDashboard() {
                   <CalendarClock size={13} /> {x.endsOn.replace("{date}", fmtDate(lic.expires_at, lang))}
                 </span>
               )}
-              {!s.open && <span className="rs-chip s-expiring">{x.isOpen}: ✕</span>}
+              <span className="rs-chip">
+                <Package size={13} /> {fmtNum(data.counts.products)}
+              </span>
+              <span className={`rs-chip ${data.open_now?.open ? "s-active" : "s-expiring"}`}>{data.open_now?.open ? x.openNowChip : x.closedNowChip}</span>
             </div>
           </div>
           <div className="mq-head-acts">
@@ -170,7 +204,7 @@ export default function TgStoreDashboard() {
               <Copy size={14} /> {x.copyLink}
             </button>
             {(lic.status === "expiring" || lic.in_grace || lic.locked) && (
-              <button type="button" className="md-btn md-btn-primary rs-gold-btn sa-btn-sm" onClick={() => setBuying(true)} disabled={!data.business.status}>
+              <button type="button" className="md-btn md-btn-primary rs-gold-btn sa-btn-sm" onClick={() => setBuying("renew")} disabled={!data.business.status}>
                 <CoinIcon size={15} /> {x.renewFor.replace("{coins}", fmtNum(lic.price))}
               </button>
             )}
@@ -223,27 +257,28 @@ export default function TgStoreDashboard() {
           </div>
         </div>
       )}
-      {buying && (
+      {sell && (
         <PurchaseModal
           stage={
             <div className="rs-stage">
-              <Send size={60} />
-              <b>{x.renewTitle}</b>
+              <SellIcon size={60} />
+              <b>{sell.name}</b>
               <small>{s.shop_name || data.business.name}</small>
             </div>
           }
           badge={x.badge}
-          title={x.renewTitle}
-          sub={x.renewSub}
-          perks={[`${fmtNum(lic.price)} ${x.coins} ${x.perYear}`]}
-          price={lic.price}
-          buyLabel={x.renewFor.replace("{coins}", fmtNum(lic.price))}
-          buy={() => licenseService.buy(id, "tg_store", lic.expires_at ?? null)}
+          title={sell.title}
+          sub={sell.sub}
+          perks={sell.perks}
+          price={sell.price}
+          buyLabel={sell.label}
+          buy={sell.buy}
+          doneSub={sell.done || null}
           onDone={(res) => {
             reload();
-            if (res?.data) setNotice({ type: "success", text: x.renewDone.replace("{date}", fmtDate(res.data.expires_at, lang)) });
+            if (buying === "renew" && res?.data) setNotice({ type: "success", text: x.renewDone.replace("{date}", fmtDate(res.data.expires_at, lang)) });
           }}
-          onClose={() => setBuying(false)}
+          onClose={() => setBuying(null)}
         />
       )}
     </div>

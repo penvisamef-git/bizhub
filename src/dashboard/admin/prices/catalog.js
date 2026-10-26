@@ -210,6 +210,11 @@ export const PRICE_GROUPS = [
         d_en: "Paid when the business is added, then every year",
         d_km: "បង់ពេលបន្ថែមអាជីវកម្ម បន្ទាប់មករៀងរាល់ឆ្នាំ",
       },
+      { key: "ts_promos", unit: "year", en: "Promo codes — % or money off at checkout (per year)", km: "កូដបញ្ចុះតម្លៃ — បញ្ចុះ % ឬលុយពេលកម្ម៉ង់ (ក្នុងមួយឆ្នាំ)" },
+      { key: "ts_broadcast", unit: "year", en: "Message your customers in Telegram — 3 a day (per year)", km: "ផ្ញើសារទៅអតិថិជនក្នុង Telegram — 3 ក្នុងមួយថ្ងៃ (ក្នុងមួយឆ្នាំ)" },
+      { key: "ts_reports", unit: "year", en: "Sales report — best sellers, busy hours, Excel (per year)", km: "របាយការណ៍លក់ — ទំនិញលក់ដាច់ ម៉ោងមមាញឹក Excel (ក្នុងមួយឆ្នាំ)" },
+      { key: "ts_hours", unit: "once", en: "Opening hours — opens and closes by itself (forever)", km: "ម៉ោងបើក — បើក និងបិទដោយខ្លួនឯង (ជារៀងរហូត)" },
+      { key: "ts_nobrand", unit: "once", en: "No “Made with BizHub” on the store (forever)", km: "គ្មាន “បង្កើតដោយ BizHub” លើហាង (ជារៀងរហូត)" },
     ],
   },
   {

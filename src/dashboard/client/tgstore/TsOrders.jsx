@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bike, Check, CircleDollarSign, Clock, Image as ImageIcon, MapPin, MessageSquareText, Phone, ReceiptText, ShoppingBag, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, CircleDollarSign, Clock, Image as ImageIcon, MapPin, MessageSquareText, Package, Phone, ReceiptText, Share2, ShoppingBag, Tag, UtensilsCrossed, X } from "lucide-react";
 import { Head } from "../menuqr/parts";
-import { ago, fill, fmtTime, money } from "./text";
+import { ago, fill, fmtNum, fmtTime, money } from "./text";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
 
@@ -44,6 +44,14 @@ function OrderCard({ ctx, o, busy, act }) {
             <span>{money(l.total, o.currency)}</span>
           </li>
         ))}
+        {o.discount > 0 && (
+          <li className="ts-line-fee">
+            <span>
+              <Tag size={12} /> {fill(x.discount, { code: o.promo })}
+            </span>
+            <span>−{money(o.discount, o.currency)}</span>
+          </li>
+        )}
         {o.fee > 0 && (
           <li className="ts-line-fee">
             <span>{x.deliveryFee}</span>
@@ -181,14 +189,23 @@ export function OrdersTab({ ctx }) {
   };
 
   const c = data.counts;
+  const noProducts = !data.counts.products;
   return (
-    <div className="rs-tab ts-orders">
-      <Head icon={ReceiptText} title={x.tabs.orders} sub={x.ordersSub}>
-        <div className="ts-today">
-          <b>{x.today}</b>
-          <span>{fill(x.todaySub, { n: c.today_orders, total: money(c.today_total, cur) })}</span>
-        </div>
-      </Head>
+    <div className="rs-col ts-orders">
+      <Head icon={ReceiptText} title={x.tabs.orders} sub={x.ordersSub} />
+      <div className="ts-kpis">
+        {[
+          [x.todayOrders, fmtNum(c.today_orders)],
+          [x.todaySales, money(c.today_total, cur)],
+          [x.openOrders, fmtNum(c.open)],
+          [x.waiting, fmtNum(c.new)],
+        ].map(([k, v], i) => (
+          <div key={k} className={`panel-card ts-kpi ${i === 3 && c.new > 0 ? "hot" : ""}`}>
+            <small>{k}</small>
+            <b>{v}</b>
+          </div>
+        ))}
+      </div>
       <div className="ts-filters" role="tablist">
         {["open", "done", "cancelled"].map((k) => (
           <button key={k} type="button" role="tab" aria-selected={filter === k} className={filter === k ? "on" : ""} onClick={() => setFilter(k)} data-testid={`ts-filter-${k}`}>
@@ -205,9 +222,14 @@ export function OrdersTab({ ctx }) {
           ))}
         </div>
       ) : rows.length === 0 ? (
-        <section className="panel-card sa-empty-state">
-          <ReceiptText size={26} />
+        <section className="panel-card ts-empty">
+          <ReceiptText size={30} />
           <p>{filter === "open" ? x.noOpen : x.noOrders}</p>
+          {filter === "open" && (
+            <button type="button" className="md-btn md-btn-primary" onClick={() => ctx.go(noProducts ? "products" : "share")}>
+              {noProducts ? <Package size={15} /> : <Share2 size={15} />} {noProducts ? x.addFirst : x.shareStore}
+            </button>
+          )}
         </section>
       ) : (
         <div className="ts-order-list">

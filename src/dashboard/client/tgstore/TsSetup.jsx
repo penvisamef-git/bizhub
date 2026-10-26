@@ -3,6 +3,7 @@ import { Camera, Copy, Download, ExternalLink, ImagePlus, MessageSquare, Package
 import { Modal } from "../../super_admin/parts";
 import { Head, Switch } from "../menuqr/parts";
 import { ago, fill, fmtNum, money } from "./text";
+import { HoursCard } from "./TsGrow";
 
 const copy = (ctx, text) => {
   navigator.clipboard?.writeText(text).catch(() => {});
@@ -204,7 +205,7 @@ export function ProductsTab({ ctx }) {
   const catName = (c) => (lang === "km" && c.name_km) || c.name;
 
   return (
-    <div className="rs-tab">
+    <div className="rs-col">
       <Head icon={Package} title={x.tabs.products} sub={x.productsSub}>
         <button type="button" className="md-btn md-btn-primary sa-btn-sm" onClick={() => setEditing(null)} disabled={readOnly} data-testid="ts-add-product">
           <Plus size={15} /> {x.addProduct}
@@ -266,9 +267,12 @@ export function ProductsTab({ ctx }) {
           ))}
         </div>
       ) : shown.length === 0 ? (
-        <section className="panel-card sa-empty-state">
-          <Package size={26} />
+        <section className="panel-card ts-empty">
+          <Package size={30} />
           <p>{x.noProducts}</p>
+          <button type="button" className="md-btn md-btn-primary" onClick={() => setEditing(null)} disabled={readOnly}>
+            <Plus size={15} /> {x.addProduct}
+          </button>
         </section>
       ) : (
         <div className="ts-grid">
@@ -324,7 +328,7 @@ export function CustomersTab({ ctx }) {
     return () => clearTimeout(t);
   }, [api, q]);
   return (
-    <div className="rs-tab">
+    <div className="rs-col">
       <Head icon={Users} title={x.tabs.customers} sub={x.customersSub} />
       <section className="panel-card">
         <label className="ts-search">
@@ -362,7 +366,7 @@ export function CustomersTab({ ctx }) {
 export function StoreTab({ ctx }) {
   const { x, api, data, put, readOnly } = ctx;
   const s = data.store;
-  const [f, setF] = useState(() => JSON.parse(JSON.stringify({ shop_name: s.shop_name, phone: s.phone, address: s.address, about: s.about, color: s.color, currency: s.currency, open: s.open, delivery: s.delivery, pickup: s.pickup, dine_in: s.dine_in, pay: s.pay })));
+  const [f, setF] = useState(() => JSON.parse(JSON.stringify({ shop_name: s.shop_name, phone: s.phone, address: s.address, about: s.about, color: s.color, currency: s.currency, open: s.open, delivery: s.delivery, pickup: s.pickup, dine_in: s.dine_in, pay: s.pay, hours: s.hours || { on: false, days: Array.from({ length: 7 }, () => ({ open: "07:00", close: "21:00", closed: false })) } })));
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const logoPick = useRef(null);
@@ -381,9 +385,10 @@ export function StoreTab({ ctx }) {
     setBusy("save");
     setError("");
     try {
-      const body = { ...f, delivery: { ...f.delivery, fee: Number(f.delivery.fee) || 0, free_from: Number(f.delivery.free_from) || 0, min_order: Number(f.delivery.min_order) || 0 }, dine_in: { ...f.dine_in, tables: Number(f.dine_in.tables) || 1 } };
+      const { hours, ...rest } = f;
+      const body = { ...rest, ...(ctx.on("ts_hours") ? { hours } : {}), delivery: { ...f.delivery, fee: Number(f.delivery.fee) || 0, free_from: Number(f.delivery.free_from) || 0, min_order: Number(f.delivery.min_order) || 0 }, dine_in: { ...f.dine_in, tables: Number(f.dine_in.tables) || 1 } };
       const r = await api.save(body);
-      put({ store: r.data.store });
+      put({ store: r.data.store, open_now: r.data.open_now });
       ctx.notify({ type: "success", text: x.saved });
     } catch (err) {
       setError(err.message);
@@ -404,7 +409,7 @@ export function StoreTab({ ctx }) {
   };
   const cur = f.currency === "KHR" ? "៛" : "$";
   return (
-    <form className="rs-tab" onSubmit={save}>
+    <form className="rs-col" onSubmit={save}>
       <Head icon={Settings} title={x.tabs.store} sub={x.storeSub}>
         <button type="submit" className="md-btn md-btn-primary sa-btn-sm" disabled={readOnly || busy === "save"} data-testid="ts-store-save">
           {x.save}
@@ -524,6 +529,7 @@ export function StoreTab({ ctx }) {
         )}
         <Switch checked={f.pay.cash.on} onChange={(v) => set("pay.cash.on", v)} label={x.cash} />
       </section>
+      <HoursCard ctx={ctx} hours={f.hours} setHours={(h) => setF((o) => ({ ...o, hours: h }))} />
     </form>
   );
 }
@@ -571,7 +577,7 @@ export function ShareTab({ ctx }) {
       }),
     );
   return (
-    <div className="rs-tab">
+    <div className="rs-col">
       <Head icon={Share2} title={x.tabs.share} sub={x.shareSub} />
       <section className="panel-card ts-share">
         <Qr text={main} />

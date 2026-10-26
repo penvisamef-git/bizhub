@@ -93,6 +93,7 @@ import {
   Rocket,
   Folders,
   Signature,
+  Clock,
 } from "lucide-react";
 import { themeName as evThemeName } from "../../../evpub/themes";
 import { themeName as noteThemeName } from "../../../note/themes";
@@ -239,6 +240,11 @@ const ICONS = {
   debt_nobrand: EyeOff,
   digital_note: StickyNote,
   tg_store: Send,
+  ts_promos: Tag,
+  ts_broadcast: Megaphone,
+  ts_reports: BarChart3,
+  ts_hours: Clock,
+  ts_nobrand: EyeOff,
   note_storage: HardDrive,
   note_group: Folders,
   note_sign: Signature,
@@ -452,7 +458,7 @@ export default function LicensesPage() {
                 : r.business?.category === "event"
                   ? `/app/business/${r.business._id}${{ ev_doors: "?tab=team", ev_team: "?tab=team", ev_cashier: "?tab=team", ev_invites: "?tab=guests", ev_export: "?tab=guests", ev_nobrand: "?tab=addons", ev_theme: "?tab=design", ev_page_theme: "?tab=design&kind=page", ev_telegram: "?tab=telegram", ev_guest_tg: "?tab=telegram", ev_seats: "", ev_shows: "", ev_promos: "?tab=promos", ev_questions: "", ev_autopay: "?tab=payment", ev_certs: "?tab=certs", ev_cert_theme: "?tab=certs", ev_waitlist: "?tab=waitlist", ev_pricing: "?tab=events", ev_referrals: "?tab=promoters", ev_bundles: "?tab=events", ev_feedback: "?tab=feedback", ev_sponsors: "?tab=events", ev_feature: "?tab=events" }[r.product] || ""}`
                 : r.business?.category === "tg_store"
-                  ? `/app/business/${r.business._id}`
+                  ? `/app/business/${r.business._id}${{ ts_promos: "?tab=promos", ts_broadcast: "?tab=messages", ts_reports: "?tab=report", ts_hours: "?tab=store", ts_nobrand: "?tab=addons" }[r.product] || ""}`
                 : r.business?.category === "digital_note"
                   ? `/app/business/${r.business._id}${{ note_storage: "?tab=addons", note_sign: "?tab=addons", note_style: "?tab=addons", note_media: "?tab=media", note_link: "?tab=addons", note_theme: "?tab=addons", note_telegram: "?tab=alerts", note_ack: "?tab=addons", note_form: "?tab=addons", note_voice: "?tab=addons", note_pdf: "?tab=addons", note_group_icon: r.item ? `?tab=groups&group=${r.item}` : "?tab=groups", note_group: groupNames.__deleted?.has(String(r.item)) ? "?tab=groups" : `?tab=groups&group=${r.item}` }[r.product] || ""}`
                 : r.business?.category === "debt_book"
