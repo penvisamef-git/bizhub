@@ -1520,3 +1520,198 @@ a.ts-pill {
 .tsm-shelf .tsm-head {
   border-bottom: 3px solid var(--ts-accent);
 }
+
+/* ---------- the mini store: the same design layers as the real store ---------- */
+.tsm-h-band .tsm-head,
+.tsm-h-wave .tsm-head,
+.tsm-h-cover .tsm-head {
+  background: var(--ts-accent);
+  color: #fff;
+}
+.tsm-h-band .tsm-logo,
+.tsm-h-wave .tsm-logo,
+.tsm-h-cover .tsm-logo {
+  background: #fff;
+}
+.tsm-h-center .tsm-head,
+.tsm-h-cover .tsm-head {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.tsm-h-center .tsm-head {
+  background: var(--ts-bg);
+}
+.tsm-h-center .tsm-logo {
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+}
+.tsm-h-split .tsm-head {
+  background: var(--ts-bg);
+  border-left: 5px solid var(--ts-accent);
+}
+.tsm-h-split .tsm-title {
+  color: var(--ts-accent);
+}
+.tsm-h-wave .tsm-head {
+  position: relative;
+  padding-bottom: 16px;
+}
+.tsm-h-wave .tsm-head::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 9px;
+  background: var(--ts-page);
+  -webkit-mask: radial-gradient(9px 6px at 50% 100%, #000 98%, transparent) 0 0 / 18px 9px repeat-x;
+  mask: radial-gradient(9px 6px at 50% 100%, #000 98%, transparent) 0 0 / 18px 9px repeat-x;
+}
+.tsm-h-cover .tsm-head {
+  background: linear-gradient(135deg, var(--ts-accent), color-mix(in srgb, var(--ts-accent) 55%, #000));
+  padding: 18px 10px;
+}
+.tsm-h-cover .tsm-logo {
+  width: 28px;
+  height: 28px;
+}
+.tsm:not(.tsm-menu):not(.tsm-bubble).tsm-c-shadow .tsm-item {
+  border-color: transparent;
+  box-shadow: 0 4px 10px -6px color-mix(in srgb, var(--ts-ink) 55%, transparent);
+}
+.tsm:not(.tsm-menu):not(.tsm-bubble).tsm-c-flat .tsm-item {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--ts-accent) 9%, var(--ts-bg));
+}
+.tsm:not(.tsm-menu):not(.tsm-bubble).tsm-c-glass .tsm-item {
+  background: color-mix(in srgb, var(--ts-bg) 60%, transparent);
+  border-color: color-mix(in srgb, #fff 50%, transparent);
+}
+.tsm:not(.tsm-menu):not(.tsm-bubble).tsm-c-bold .tsm-item {
+  border: 1.5px solid var(--ts-ink);
+  box-shadow: 2px 2px 0 var(--ts-ink);
+}
+.tsm-b-round .tsm-plus {
+  border-radius: 999px;
+}
+.tsm-b-pill .tsm-plus {
+  width: 18px;
+  border-radius: 999px;
+}
+.tsm-b-outline .tsm-plus {
+  background: transparent;
+  border: 1.5px solid var(--ts-accent);
+}
+.tsm-b-square .tsm-plus {
+  border-radius: 2px;
+}
+.tsm-p-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--ts-ink) 12%, transparent) 0.8px, transparent 1px);
+  background-size: 8px 8px;
+}
+.tsm-p-grid {
+  background-image: linear-gradient(color-mix(in srgb, var(--ts-ink) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ts-ink) 8%, transparent) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+.tsm-p-stripes {
+  background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ts-accent) 10%, transparent) 0 5px, transparent 5px 11px);
+}
+.tsm-p-waves {
+  background-image: radial-gradient(circle at 50% 120%, transparent 7px, color-mix(in srgb, var(--ts-ink) 9%, transparent) 7.5px, color-mix(in srgb, var(--ts-ink) 9%, transparent) 8.5px, transparent 9px);
+  background-size: 18px 11px;
+}
+.tsm-p-paper {
+  background-image: radial-gradient(color-mix(in srgb, var(--ts-ink) 7%, transparent) 0.6px, transparent 0.8px);
+  background-size: 4px 4px;
+}
+.tsm-r-sharp .tsm-item,
+.tsm-r-sharp .tsm-logo {
+  border-radius: 2px;
+}
+.tsm-r-sharp.tsm {
+  border-radius: 6px;
+}
+.tsm-r-round:not(.tsm-menu) .tsm-item {
+  border-radius: 14px;
+}
+
+/* ---------- Design tab: pick on the left, the real store on the right ---------- */
+.ts-design-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .ts-design-wrap {
+    grid-template-columns: 1fr;
+  }
+  .ts-phone-col {
+    order: -1;
+  }
+}
+.ts-phone-col {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 12px;
+}
+.ts-phone {
+  width: 300px;
+  height: 610px;
+  margin: 0 auto;
+  border-radius: 42px;
+  padding: 12px;
+  background: #111;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6), inset 0 0 0 2px #333;
+  position: relative;
+}
+.ts-phone::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  border-radius: 999px;
+  background: #111;
+  z-index: 2;
+}
+.ts-phone iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 32px;
+  background: #fff;
+}
+.ts-phone-info {
+  display: grid;
+  gap: 8px;
+  text-align: center;
+}
+.ts-phone-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.ts-phone-info small {
+  color: var(--muted);
+}
+.ts-phone-info .ts-order-acts {
+  justify-content: center;
+}
+.ts-design {
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.ts-design:hover {
+  transform: translateY(-2px);
+}
+.ts-design.is-picked {
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.ts-design.is-using {
+  box-shadow: inset 0 0 0 2px var(--brand);
+}

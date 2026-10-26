@@ -4,7 +4,7 @@ import { Bike, Check, CircleDollarSign, Clock, Download, Loader2, MapPin, Phone,
 import { tgStorePublic } from "../api/services";
 import { fill, fmtTime, money, useTgText } from "./text";
 import { loadTelegram } from "./tg";
-import { loadThemeFont, themeOf, themeVars } from "./themes";
+import { loadThemeFont, themeClass, themeVars } from "./themes";
 import { Brand } from "./StorePage";
 import "./tgstore-public.css";
 
@@ -116,11 +116,10 @@ export default function OrderPage() {
   const Icon = MODE_ICON[o.mode] || ShoppingBag;
   loadThemeFont(s.theme);
   const theme = themeVars(s.theme, s.color);
-  const dark = themeOf(s.theme).palette.dark;
   const ownPay = o.pay.method === "custom" ? o.pay.custom : null;
 
   return (
-    <div className={`tsp-page tsp-follow ${dark ? "is-dark" : ""} ${wa ? "in-tg" : ""}`} style={theme}>
+    <div className={`tsp-page tsp-follow ${themeClass(s.theme)} ${wa ? "in-tg" : ""}`} style={theme}>
       <header className="tsp-follow-head">
         <span className="tsp-logo sm">{s.logo ? <img src={s.logo} alt="" /> : <Store size={20} />}</span>
         <b>{s.name}</b>

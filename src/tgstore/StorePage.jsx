@@ -4,7 +4,7 @@ import { Bike, Check, ChevronLeft, Clock, Tag, Image as ImageIcon, Loader2, MapP
 import { tgStorePublic } from "../api/services";
 import { fill, money, round, useTgText } from "./text";
 import { askWrite, haptic, loadTelegram, store as keep } from "./tg";
-import { loadThemeFont, themeOf, themeVars } from "./themes";
+import { loadThemeFont, themeClass, themeKind, themeName, themeOf, themeVars } from "./themes";
 import "./tgstore-public.css";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
@@ -408,8 +408,12 @@ export default function StorePage() {
   const recent = me?.orders?.length ? me.orders : keep.get(`tsp_orders:${slug}`, []);
 
   return (
-    <div className={`tsp-page tsp-l-${th.layout.key} ${th.palette.dark ? "is-dark" : ""} ${wa ? "in-tg" : ""}`} style={theme}>
-      {s.preview && <div className="tsp-preview">Preview · {th.layout.en} · {th.palette.en}</div>}
+    <div className={`tsp-page ${themeClass(s.theme)} ${wa ? "in-tg" : ""}`} style={theme}>
+      {s.preview && !params.get("embed") && (
+        <div className="tsp-preview">
+          {themeName(s.theme, lang)} · {themeKind(s.theme, lang)}
+        </div>
+      )}
       <header className="tsp-hero">
         <span className="tsp-logo">{s.logo ? <img src={s.logo} alt="" /> : <Store size={26} />}</span>
         <div className="tsp-hero-text">

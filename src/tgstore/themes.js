@@ -39,11 +39,50 @@ export const PALETTES = [
 ];
 export const FREE = ["grid-cream", "list-snow", "menu-paper"];
 export const DEFAULT = "grid-cream";
-export const THEMES = LAYOUTS.flatMap((l) => PALETTES.map((p) => ({ key: `${l.key}-${p.key}`, layout: l, palette: p })));
+// besides the layout and the colours, every design gets its own top, cards, buttons, background and corners,
+// spread so that no two designs (and no two next to each other) look the same
+export const HEADS = ["soft", "band", "center", "split", "wave", "cover"]; // how the top looks
+export const CARDS = ["shadow", "outline", "flat", "glass", "bold"]; // how a product sits
+export const BUTTONS = ["square", "round", "pill", "outline"]; // the + button
+export const PATTERNS = ["none", "dots", "grid", "stripes", "waves", "paper"]; // behind everything
+export const RADII = ["sharp", "soft", "round"]; // corners
+// a name for each design: the colours + what the layout is like
+const NOUN = {
+  grid: { en: "Market", km: "ផ្សារ" },
+  list: { en: "Diary", km: "កំណត់ហេតុ" },
+  big: { en: "Gallery", km: "វិចិត្រសាល" },
+  compact: { en: "Pocket", km: "ហោប៉ៅ" },
+  menu: { en: "Bistro", km: "ហាងម្ហូប" },
+  magazine: { en: "Journal", km: "ទស្សនាវដ្តី" },
+  bubble: { en: "Candy", km: "ស្ករគ្រាប់" },
+  shelf: { en: "Boutique", km: "បូទិក" },
+};
+export const THEMES = LAYOUTS.flatMap((l, li) =>
+  PALETTES.map((p, pi) => ({
+    key: `${l.key}-${p.key}`,
+    layout: l,
+    palette: p,
+    head: HEADS[(li * 2 + pi) % HEADS.length],
+    card: CARDS[(li + pi * 2) % CARDS.length],
+    button: BUTTONS[(li * 3 + pi) % BUTTONS.length],
+    pattern: PATTERNS[(li + pi * 5) % PATTERNS.length],
+    radius: RADII[(li * 2 + pi) % RADII.length],
+    name: { en: `${p.en} ${NOUN[l.key].en}`, km: `${NOUN[l.key].km}${p.km}` },
+  })),
+);
 export const themeOf = (key) => THEMES.find((t) => t.key === key) || THEMES.find((t) => t.key === DEFAULT);
 export const themeName = (key, lang) => {
   const t = themeOf(key);
+  return t.name[lang] || t.name.en;
+};
+export const themeKind = (key, lang) => {
+  const t = themeOf(key);
   return `${t.layout[lang] || t.layout.en} · ${t.palette[lang] || t.palette.en}`;
+};
+// the classes a design puts on the page (and on its small picture, with the "tsm" prefix)
+export const themeClass = (key, prefix = "tsp") => {
+  const t = themeOf(key);
+  return [`${prefix}-l-${t.layout.key}`, `${prefix}-h-${t.head}`, `${prefix}-c-${t.card}`, `${prefix}-b-${t.button}`, `${prefix}-p-${t.pattern}`, `${prefix}-r-${t.radius}`, t.palette.dark ? "is-dark" : ""].join(" ");
 };
 // the CSS variables of a design (+ the shop colour when the owner set one)
 export function themeVars(key, color) {

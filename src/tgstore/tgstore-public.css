@@ -1113,33 +1113,7 @@
 .tsp-l-big .tsp-card-body > b {
   font-size: 17px;
 }
-.tsp-l-big .tsp-hero,
-.tsp-l-bubble .tsp-hero,
-.tsp-l-menu .tsp-hero {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-top: 28px;
-}
-.tsp-l-big .tsp-hero-text,
-.tsp-l-bubble .tsp-hero-text,
-.tsp-l-menu .tsp-hero-text {
-  padding-right: 0;
-}
-.tsp-l-big .tsp-tags,
-.tsp-l-bubble .tsp-tags,
-.tsp-l-menu .tsp-tags,
-.tsp-l-big .tsp-addr,
-.tsp-l-bubble .tsp-addr,
-.tsp-l-menu .tsp-addr {
-  justify-content: center;
-}
-.tsp-l-big .tsp-logo,
-.tsp-l-bubble .tsp-logo {
-  width: 76px;
-  height: 76px;
-  border-radius: 999px;
-}
+
 .tsp-l-big .tsp-cats,
 .tsp-l-bubble .tsp-cats,
 .tsp-l-menu .tsp-cats {
@@ -1177,36 +1151,7 @@
   height: 28px;
   border-radius: 9px;
 }
-.tsp-l-compact .tsp-hero,
-.tsp-l-magazine .tsp-hero {
-  background: var(--ts-accent);
-  color: #fff;
-  border-bottom: 0;
-}
-.tsp-l-compact .tsp-hero p,
-.tsp-l-compact .tsp-addr,
-.tsp-l-magazine .tsp-hero p,
-.tsp-l-magazine .tsp-addr {
-  color: rgba(255, 255, 255, 0.82);
-}
-.tsp-l-compact .tsp-logo,
-.tsp-l-magazine .tsp-logo {
-  background: #fff;
-  color: var(--ts-accent);
-  box-shadow: none;
-}
-.tsp-l-compact .tsp-tag,
-.tsp-l-magazine .tsp-tag {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-}
-.tsp-l-compact .tsp-lang,
-.tsp-l-magazine .tsp-lang {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-}
+
 
 /* menu: a printed menu — names, dotted line, price */
 .tsp-l-menu .tsp-grid {
@@ -1252,19 +1197,6 @@
 }
 
 /* magazine: the first of each group is big */
-.tsp-l-magazine .tsp-hero {
-  background: color-mix(in srgb, var(--ts-accent) 62%, #000);
-  color: #fff;
-  padding-top: 30px;
-  padding-bottom: 24px;
-}
-.tsp-l-magazine .tsp-hero h1 {
-  font-size: 28px;
-}
-.tsp-l-magazine .tsp-logo {
-  background: var(--ts-accent);
-  color: #fff;
-}
 .tsp-l-magazine .tsp-section h2 {
   font-size: 22px;
   text-transform: uppercase;
@@ -1331,9 +1263,6 @@
 .tsp-l-shelf .tsp-card {
   scroll-snap-align: start;
 }
-.tsp-l-shelf .tsp-hero {
-  border-bottom: 4px solid var(--ts-accent);
-}
 .tsp-l-shelf .tsp-section h2 {
   display: flex;
   align-items: center;
@@ -1345,4 +1274,218 @@
   height: 20px;
   border-radius: 3px;
   background: var(--ts-accent);
+}
+
+/* ================= design layers: top · cards · + button · background · corners ================= */
+/* --- the top --- */
+.tsp-h-band .tsp-hero,
+.tsp-h-wave .tsp-hero,
+.tsp-h-cover .tsp-hero {
+  background: var(--ts-accent);
+  color: #fff;
+  border-bottom: 0;
+}
+.tsp-h-band .tsp-hero p,
+.tsp-h-band .tsp-addr,
+.tsp-h-wave .tsp-hero p,
+.tsp-h-wave .tsp-addr,
+.tsp-h-cover .tsp-hero p,
+.tsp-h-cover .tsp-addr {
+  color: rgba(255, 255, 255, 0.85);
+}
+.tsp-h-band .tsp-tag,
+.tsp-h-band .tsp-lang,
+.tsp-h-wave .tsp-tag,
+.tsp-h-wave .tsp-lang,
+.tsp-h-cover .tsp-tag,
+.tsp-h-cover .tsp-lang {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #fff;
+}
+.tsp-h-band .tsp-tag.on,
+.tsp-h-wave .tsp-tag.on,
+.tsp-h-cover .tsp-tag.on {
+  background: #fff;
+  color: var(--ts-accent);
+}
+.tsp-h-band .tsp-logo,
+.tsp-h-wave .tsp-logo,
+.tsp-h-cover .tsp-logo {
+  background: #fff;
+  color: var(--ts-accent);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+.tsp-h-center .tsp-hero,
+.tsp-h-cover .tsp-hero {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 30px;
+}
+.tsp-h-center .tsp-hero-text,
+.tsp-h-cover .tsp-hero-text {
+  padding-right: 0;
+}
+.tsp-h-center .tsp-tags,
+.tsp-h-center .tsp-addr,
+.tsp-h-cover .tsp-tags,
+.tsp-h-cover .tsp-addr,
+.tsp-h-center .tsp-cats,
+.tsp-h-cover .tsp-cats {
+  justify-content: center;
+}
+.tsp-h-center .tsp-hero {
+  background: var(--ts-bg);
+}
+.tsp-h-center .tsp-logo {
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  outline: 4px solid color-mix(in srgb, var(--ts-accent) 25%, transparent);
+  outline-offset: 3px;
+}
+.tsp-h-split .tsp-hero {
+  background: var(--ts-bg);
+  border-left: 8px solid var(--ts-accent);
+  padding-left: 14px;
+}
+.tsp-h-split .tsp-hero h1 {
+  color: var(--ts-accent);
+}
+.tsp-h-wave .tsp-hero {
+  padding-bottom: 34px;
+}
+.tsp-h-wave .tsp-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 22px;
+  background: var(--ts-page);
+  -webkit-mask: radial-gradient(22px 14px at 50% 100%, #000 98%, transparent) 0 0 / 44px 22px repeat-x;
+  mask: radial-gradient(22px 14px at 50% 100%, #000 98%, transparent) 0 0 / 44px 22px repeat-x;
+}
+.tsp-h-cover .tsp-hero {
+  background: linear-gradient(135deg, var(--ts-accent), color-mix(in srgb, var(--ts-accent) 55%, #000));
+  padding-top: 44px;
+  padding-bottom: 30px;
+}
+.tsp-h-cover .tsp-hero h1 {
+  font-size: 28px;
+  letter-spacing: -0.01em;
+}
+.tsp-h-cover .tsp-logo {
+  width: 84px;
+  height: 84px;
+  border-radius: 26px;
+}
+
+/* --- the product cards (menu and bubble keep their own) --- */
+.tsp-c-shadow:not(.tsp-l-menu):not(.tsp-l-bubble) .tsp-card {
+  border-color: transparent;
+  box-shadow: 0 10px 26px -14px color-mix(in srgb, var(--ts-ink) 45%, transparent);
+}
+.tsp-c-outline:not(.tsp-l-menu):not(.tsp-l-bubble) .tsp-card {
+  border: 1.5px solid color-mix(in srgb, var(--ts-ink) 16%, transparent);
+  box-shadow: none;
+}
+.tsp-c-flat:not(.tsp-l-menu):not(.tsp-l-bubble) .tsp-card {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--ts-accent) 8%, var(--ts-bg));
+}
+.tsp-c-glass:not(.tsp-l-menu):not(.tsp-l-bubble) .tsp-card {
+  background: color-mix(in srgb, var(--ts-bg) 62%, transparent);
+  border: 1px solid color-mix(in srgb, #fff 45%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.tsp-c-bold:not(.tsp-l-menu):not(.tsp-l-bubble) .tsp-card {
+  border: 2px solid var(--ts-ink);
+  box-shadow: 4px 4px 0 var(--ts-ink);
+}
+.tsp-c-bold .tsp-cats button.on,
+.tsp-c-bold .tsp-btn {
+  box-shadow: 3px 3px 0 var(--ts-ink);
+}
+
+/* --- the + button --- */
+.tsp-b-round .tsp-plus {
+  border-radius: 999px;
+}
+.tsp-b-pill .tsp-plus {
+  width: 58px;
+  border-radius: 999px;
+}
+.tsp-b-outline .tsp-plus {
+  background: transparent;
+  color: var(--ts-accent) !important;
+  border: 2px solid var(--ts-accent);
+}
+.tsp-b-outline .tsp-plus:disabled {
+  border-color: var(--ts-line);
+  color: var(--ts-muted) !important;
+}
+.tsp-b-square .tsp-plus {
+  border-radius: 8px;
+}
+
+/* --- the background --- */
+.tsp-p-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--ts-ink) 9%, transparent) 1.2px, transparent 1.4px);
+  background-size: 16px 16px;
+}
+.tsp-p-grid {
+  background-image: linear-gradient(color-mix(in srgb, var(--ts-ink) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ts-ink) 6%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.tsp-p-stripes {
+  background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ts-accent) 7%, transparent) 0 10px, transparent 10px 22px);
+}
+.tsp-p-waves {
+  background-image: radial-gradient(circle at 50% 120%, transparent 14px, color-mix(in srgb, var(--ts-ink) 6%, transparent) 15px, color-mix(in srgb, var(--ts-ink) 6%, transparent) 16px, transparent 17px);
+  background-size: 36px 22px;
+}
+.tsp-p-paper {
+  background-image: radial-gradient(color-mix(in srgb, var(--ts-ink) 5%, transparent) 0.8px, transparent 1px), radial-gradient(color-mix(in srgb, var(--ts-ink) 4%, transparent) 0.8px, transparent 1px);
+  background-size: 7px 7px, 11px 11px;
+  background-position: 0 0, 3px 5px;
+}
+.tsp-page[class*="tsp-p-"]:not(.tsp-p-none) .tsp-cats {
+  background: color-mix(in srgb, var(--ts-page) 85%, transparent);
+}
+
+/* --- corners --- */
+.tsp-r-sharp .tsp-card,
+.tsp-r-sharp .tsp-panel,
+.tsp-r-sharp .tsp-btn,
+.tsp-r-sharp .tsp-cats button,
+.tsp-r-sharp .tsp-tag,
+.tsp-r-sharp .tsp-logo,
+.tsp-r-sharp .tsp-seg button,
+.tsp-r-sharp .tsp-field input,
+.tsp-r-sharp .tsp-field textarea {
+  border-radius: 4px;
+}
+.tsp-r-sharp .tsp-sheet {
+  border-radius: 10px 10px 0 0;
+}
+.tsp-r-round:not(.tsp-l-menu) .tsp-card {
+  border-radius: 26px;
+}
+.tsp-r-round .tsp-panel,
+.tsp-r-round .tsp-btn,
+.tsp-r-round .tsp-seg button,
+.tsp-r-round .tsp-field input,
+.tsp-r-round .tsp-field textarea {
+  border-radius: 999px;
+}
+.tsp-r-round .tsp-field textarea,
+.tsp-r-round .tsp-panel {
+  border-radius: 26px;
+}
+.tsp-r-round .tsp-l-list .tsp-card-pic,
+.tsp-r-round.tsp-l-list .tsp-card-pic {
+  border-radius: 20px;
 }
