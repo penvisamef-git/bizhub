@@ -16,7 +16,9 @@ import { onCoinsChanged } from "../../lib/events";
 import { useAppAccent } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
 import { ROUTES } from "../../config";
-import { ACCOUNT_NAV, ALL_NAV, CLIENT_NAV, SETTINGS_NAV, SUPER_NAV, SUPPORT_NAV, TEAM_NAV } from "./nav";
+import { ACCOUNT_NAV, ALL_NAV, CLIENT_NAV, SETTINGS_NAV, SUPER_NAV, SUPPORT_NAV, TEAM_NAV, UPDATES_NAV } from "./nav";
+import { JoinRouteSkeleton, TeamRouteSkeleton } from "../client/team/TeamSkeleton";
+import { UpdatesSkeleton } from "../client/updates/UpdatesSkeleton";
 import { ChatPageSkeleton, CoinOrdersPageSkeleton, CoinShopSkeleton, InboxPageSkeleton, PageSkeleton } from "../../components/skeleton/Skeleton";
 import { useConfirmSignOut } from "../../components/ConfirmSignOut";
 import { DeletionBanner } from "../client/account/DeleteAccount";
@@ -52,7 +54,7 @@ export default function AppLayout() {
 
   const customer = isCustomer(user);
   const role = roleOf(user);
-  const mainNav = [...(customer ? CLIENT_NAV : SUPER_NAV).filter((n) => canAccess(user, n.access)), SETTINGS_NAV, ...(customer ? [SUPPORT_NAV] : [])];
+  const mainNav = [...(customer ? CLIENT_NAV : SUPER_NAV).filter((n) => canAccess(user, n.access)), SETTINGS_NAV, ...(customer ? [SUPPORT_NAV] : []), UPDATES_NAV];
   // badges: unread replies (customers), coin orders + chats waiting (super admin) — checked every 30 s and when the tab comes back
   const [badges, setBadges] = useState({});
   useEffect(() => {
@@ -313,6 +315,9 @@ export default function AppLayout() {
 // while a page downloads: a skeleton that looks like that page
 function RouteSkeleton({ path, search }) {
   if (path.startsWith("/app/support")) return <ChatPageSkeleton />;
+  if (/^\/app\/business\/[^/]+\/team/.test(path)) return <TeamRouteSkeleton />;
+  if (path.startsWith("/app/join/")) return <JoinRouteSkeleton />;
+  if (path.startsWith("/app/updates")) return <UpdatesSkeleton />;
   if (path.startsWith("/app/super-admin/inbox")) return <InboxPageSkeleton />;
   if (path.startsWith("/app/super-admin/coin-orders")) return <CoinOrdersPageSkeleton />;
   if (path.startsWith("/app/licenses") && /tab=coins/.test(search)) return <CoinShopSkeleton />;

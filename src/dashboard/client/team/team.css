@@ -80,7 +80,7 @@
 .tm-paused { color: #a8400e; }
 
 /* join */
-.tm-join { max-width: 460px; margin: 24px auto; text-align: center; display: grid; gap: 16px; }
+.tm-join { width: 100%; max-width: 460px; margin: 24px auto; text-align: center; display: grid; gap: 16px; }
 .tm-join .tm-card { padding: 26px 22px; display: grid; gap: 14px; justify-items: center; }
 .tm-join h2 { margin: 0; font-size: 24px; }
 .tm-join .tm-list { justify-self: stretch; text-align: left; display: grid; gap: 8px; padding: 14px 16px; border-radius: 14px; background: var(--chip); }

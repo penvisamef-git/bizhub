@@ -27,6 +27,7 @@ const WalletPage = lazy(PAGES.wallet);
 const BusinessPage = lazy(PAGES.businessPage);
 const TeamPage = lazy(PAGES.teamPage);
 const JoinPage = lazy(PAGES.joinPage);
+const UpdatesPage = lazy(PAGES.updates);
 const MenuPage = lazy(PAGES.publicMenu);
 const OrderPage = lazy(PAGES.publicOrder);
 const MemberPage = lazy(PAGES.publicMember);
@@ -281,6 +282,7 @@ export default function App() {
               }
             />
             <Route path="account" element={<AccountPage />} />
+            <Route path="updates" element={<UpdatesPage />} />
             <Route path="super-admin" element={<Navigate to="dashboard" replace />} />
             <Route
               path="super-admin/dashboard"

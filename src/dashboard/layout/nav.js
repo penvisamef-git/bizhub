@@ -1,4 +1,4 @@
-import { Activity, Store, BadgeCheck, Building2, CalendarHeart, Coins, Globe, Inbox, Layers, LayoutDashboard, MessageCircle, ReceiptText, Settings, Tags, Users, UsersRound, Wallet, UserRound } from "lucide-react";
+import { Activity, History, Store, BadgeCheck, Building2, CalendarHeart, Coins, Globe, Inbox, Layers, LayoutDashboard, MessageCircle, ReceiptText, Settings, Tags, Users, UsersRound, Wallet, UserRound } from "lucide-react";
 import { ACCESS } from "../../lib/permission";
 
 // Menus after login. `label` is a key in i18n/messages.js. `tab: true` = phone bottom bar.
@@ -36,7 +36,9 @@ export const TEAM_NAV = [
 export const SETTINGS_NAV = { to: "/app/settings", label: "navSettings", icon: Settings, access: ACCESS.ALL };
 // "Chat with BizHub" (customers), under Settings
 export const SUPPORT_NAV = { to: "/app/support", label: "navSupport", icon: MessageCircle, access: ACCESS.CUSTOMER, badge: "support" };
+// "System activity": what changed in each version (everyone)
+export const UPDATES_NAV = { to: "/app/updates", label: "navUpdates", icon: History, access: ACCESS.ALL };
 export const ACCOUNT_NAV = { to: "/app/account", label: "navAccount", icon: UserRound, access: ACCESS.ALL };
 
 // page title for the header
-export const ALL_NAV = [...CLIENT_NAV, ...SUPER_NAV, ...TEAM_NAV, SETTINGS_NAV, SUPPORT_NAV, ACCOUNT_NAV];
+export const ALL_NAV = [...CLIENT_NAV, ...SUPER_NAV, ...TEAM_NAV, SETTINGS_NAV, SUPPORT_NAV, UPDATES_NAV, ACCOUNT_NAV];

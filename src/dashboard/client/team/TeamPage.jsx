@@ -7,6 +7,7 @@ import { memo } from "../../../lib/memo";
 import { useNotice } from "../../super_admin/parts";
 import PurchaseModal from "../../../components/purchase/PurchaseModal";
 import AddMemberModal from "./AddMemberModal";
+import { TeamSkeleton } from "./TeamSkeleton";
 import { day, fill, useTeamText } from "./team-text";
 import "../../super_admin/super-admin.css";
 import "./team.css";
@@ -109,7 +110,7 @@ export default function TeamPage() {
       </div>
       <p className="tm-sub">{tt.teamSub}</p>
       {error && <div className="md-form-error">{error}</div>}
-      {!data && !error && <p className="tm-sub">{tt.loading}</p>}
+      {!data && !error && <TeamSkeleton />}
 
       {data && !on && (
         <section className="tm-card tm-lock" data-testid="team-locked">

@@ -1,0 +1,47 @@
+// System activity: what changed in each BizHub version (newest first), EN / KM.
+// To publish a new version: add one entry on top. status: "live" (on bizhubcambodia.com) | "testing" (UAT only, coming soon)
+// kind: "new" | "better" | "fix" | "safe"
+export const CHANGELOG = [
+  {
+    version: "1.5.0",
+    status: "testing",
+    date: "2026-10",
+    title: { en: "Work as a team", km: "ធ្វើការជាក្រុម" },
+    sub: {
+      en: "Let your manager, partner or accountant into one business with their own BizHub account.",
+      km: "អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រង ដៃគូ ឬគណនេយ្យករ ចូលអាជីវកម្មរបស់អ្នក ដោយប្រើគណនី BizHub ផ្ទាល់ខ្លួន។",
+    },
+    items: [
+      { kind: "new", en: "Team for every business type: add people as Admin (can do everything) or View only (sees everything, changes nothing).", km: "ក្រុមការងារសម្រាប់គ្រប់ប្រភេទអាជីវកម្ម៖ បន្ថែមមនុស្សជា អ្នកគ្រប់គ្រង (ធ្វើបានគ្រប់យ៉ាង) ឬ មើលតែប៉ុណ្ណោះ (មើលឃើញទាំងអស់ មិនកែអ្វីទេ)។" },
+      { kind: "new", en: "Add a member by their BizHub ID, or send an invite link (QR code, copy, or Telegram). A link works for one person and ends after 7 days.", km: "បន្ថែមសមាជិកតាមលេខ BizHub ID ឬផ្ញើតំណអញ្ជើញ (កូដ QR ចម្លង ឬ Telegram)។ តំណមួយប្រើបានតែម្នាក់ ហើយផុតកំណត់ក្រោយ 7 ថ្ងៃ។" },
+      { kind: "new", en: "Team costs 5 coins per business per year. No limit on members, no cost per person.", km: "ក្រុមការងារតម្លៃ 5 កាក់ ក្នុងមួយអាជីវកម្ម ក្នុងមួយឆ្នាំ។ សមាជិកមិនកំណត់ ហើយមិនគិតថ្លៃតាមមនុស្សទេ។" },
+      { kind: "new", en: "My BizHub ID on the Account page, with a QR code and a copy button.", km: "លេខ BizHub ID របស់ខ្ញុំ នៅទំព័រគណនី មានកូដ QR និងប៊ូតុងចម្លង។" },
+      { kind: "new", en: "Businesses → Shared with me: accept or decline invites, open shared businesses, or leave a team.", km: "អាជីវកម្ម → ចែករំលែកជាមួយខ្ញុំ៖ ទទួល ឬបដិសេធការអញ្ជើញ បើកអាជីវកម្មដែលបានចែករំលែក ឬចាកចេញពីក្រុម។" },
+      { kind: "new", en: "System activity (this page): what changed in each version.", km: "សកម្មភាពក្នុងប្រព័ន្ធ (ទំព័រនេះ)៖ អ្វីដែលបានផ្លាស់ប្តូរក្នុងកំណែនីមួយៗ។" },
+      { kind: "safe", en: "Only the owner can buy coins, add-ons and themes for a business. Team members never pay.", km: "មានតែម្ចាស់ទេ ដែលអាចទិញកាក់ មុខងារបន្ថែម និងរចនាប័ទ្ម សម្រាប់អាជីវកម្ម។ សមាជិកក្រុមមិនដែលបង់ទេ។" },
+      { kind: "better", en: "Every button and link on the website shows the hand when you point at it.", km: "រាល់ប៊ូតុង និងតំណនៅលើគេហទំព័រ បង្ហាញរូបដៃ ពេលអ្នកដាក់កណ្ដុរលើវា។" },
+      { kind: "better", en: "Grey loading shapes on the new screens instead of a blank page.", km: "រូបរាងពណ៌ប្រផេះពេលកំពុងផ្ទុក នៅលើអេក្រង់ថ្មីៗ ជំនួសទំព័រទទេ។" },
+    ],
+  },
+  {
+    version: "1.0.0",
+    status: "live",
+    date: "2026-10",
+    title: { en: "BizHub launch", km: "ការដាក់ឱ្យប្រើ BizHub" },
+    sub: {
+      en: "One account for all your businesses, on the web, Android and the POS apps.",
+      km: "គណនីតែមួយសម្រាប់អាជីវកម្មទាំងអស់របស់អ្នក នៅលើគេហទំព័រ Android និងកម្មវិធី POS។",
+    },
+    items: [
+      { kind: "new", en: "13 business types: Restaurant, Mini Mart, Guest House, Attendance, Website Builder, Debt Book, Digital Note, Loyalty Stamp Card, Event Tickets, Menu QR Code, Flip Book PDF, QR Generator and Name card.", km: "ប្រភេទអាជីវកម្ម 13៖ ភោជនីយដ្ឋាន ម៉ាតតូច ផ្ទះសំណាក់ វត្តមាន បង្កើតគេហទំព័រ សៀវភៅបំណុល កំណត់ត្រាឌីជីថល កាតប្រមូលត្រា សំបុត្រកម្មវិធី ម៉ឺនុយកូដ QR សៀវភៅត្រឡប់ PDF បង្កើតកូដ QR និងនាមប័ណ្ណ។" },
+      { kind: "new", en: "Dashboard with today's sales, the week's chart and best sellers across your businesses.", km: "ផ្ទាំងគ្រប់គ្រង បង្ហាញការលក់ថ្ងៃនេះ ក្រាហ្វប្រចាំសប្តាហ៍ និងទំនិញលក់ដាច់ ពីអាជីវកម្មទាំងអស់។" },
+      { kind: "new", en: "Coins wallet: top up with KHQR on the website or Google Play in the app, then unlock business types, add-ons and themes.", km: "កាបូបកាក់៖ បញ្ចូលកាក់តាម KHQR នៅលើគេហទំព័រ ឬ Google Play ក្នុងកម្មវិធី រួចបើកប្រភេទអាជីវកម្ម មុខងារបន្ថែម និងរចនាប័ទ្ម។" },
+      { kind: "new", en: "BizHub owner app on Google Play (iPhone version coming soon).", km: "កម្មវិធី BizHub សម្រាប់ម្ចាស់ នៅលើ Google Play (កំណែ iPhone ឆាប់ៗនេះ)។" },
+      { kind: "new", en: "BizHub POS for staff: Android, Mac and Windows — download it from the BizHub website.", km: "BizHub POS សម្រាប់បុគ្គលិក៖ Android, Mac និង Windows — ទាញយកពីគេហទំព័រ BizHub។" },
+      { kind: "new", en: "Sign up with email or phone, and log in on the app by scanning a QR code from your Account page.", km: "ចុះឈ្មោះដោយអ៊ីមែល ឬលេខទូរស័ព្ទ ហើយចូលកម្មវិធីដោយស្កេនកូដ QR ពីទំព័រគណនី។" },
+      { kind: "new", en: "Chat with BizHub: ask our team anything from inside the app.", km: "ជជែកជាមួយ BizHub៖ សួរក្រុមការងាររបស់យើងបានគ្រប់យ៉ាង ពីក្នុងកម្មវិធី។" },
+      { kind: "new", en: "Khmer and English, light and dark mode.", km: "ភាសាខ្មែរ និងអង់គ្លេស ពន្លឺភ្លឺ និងងងឹត។" },
+      { kind: "safe", en: "Delete my account at any time from the Account page.", km: "លុបគណនីរបស់ខ្ញុំបានគ្រប់ពេល ពីទំព័រគណនី។" },
+    ],
+  },
+];

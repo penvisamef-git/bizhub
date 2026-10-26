@@ -22,6 +22,7 @@ export const PAGES = {
   businessPage: () => import("./dashboard/client/BusinessPage"),
   teamPage: () => import("./dashboard/client/team/TeamPage"), // v1.5 Team access
   joinPage: () => import("./dashboard/client/team/JoinPage"),
+  updates: () => import("./dashboard/client/updates/UpdatesPage"), // System activity (changelog)
   restaurant: () => import("./dashboard/client/restaurant/RestaurantDashboard"),
   attendance: () => import("./dashboard/client/attendance/AttendanceDashboard"),
   guestHouse: () => import("./dashboard/client/guesthouse/GuestHouseDashboard"),
@@ -95,7 +96,7 @@ export const PAGES = {
 };
 
 const GROUPS = {
-  customer: ["dashboard", "myBusinesses", "wallet", "businessPage", "licenses", "settings", "support", "account"],
+  customer: ["dashboard", "myBusinesses", "wallet", "businessPage", "licenses", "settings", "support", "account", "updates"],
   super: ["superDashboard", "customers", "businesses", "coins", "superCoinOrders", "superInbox", "superLicenses", "homepageSettings", "users", "activityLog", "settings", "account"],
   team: ["users", "activityLog", "settings", "account"],
 };

@@ -7,6 +7,7 @@ import { bizTypeName } from "../../super_admin/BizTypes";
 import { loadShared } from "./SharedSection";
 import { fill, useTeamText } from "./team-text";
 import { RoleBadge } from "./TeamPage";
+import { JoinSkeleton } from "./TeamSkeleton";
 import "./team.css";
 
 // /app/join/:code — someone opened an invite link (logged in first; RequireAuth brings them back here)
@@ -45,7 +46,7 @@ export default function JoinPage() {
       <div className="tm-join">
         <h2>{tt.joinTitle}</h2>
         {error && <div className="md-form-error">{error}</div>}
-        {!info && !error && <p className="tm-sub">{tt.loading}</p>}
+        {!info && !error && <JoinSkeleton />}
         {info && (
           <div className="tm-card" data-testid="team-join">
             <span className="tm-logo">{info.business.logo_url ? <img src={info.business.logo_url} alt="" /> : <Store size={34} />}</span>

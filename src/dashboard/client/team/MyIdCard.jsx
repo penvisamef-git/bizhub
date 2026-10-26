@@ -4,6 +4,7 @@ import { teamService } from "../../../api/services";
 import { auth } from "../../../lib/auth";
 import { QrSvg } from "./AddMemberModal";
 import { useTeamText } from "./team-text";
+import { IdSkeleton } from "./TeamSkeleton";
 import "./team.css";
 
 // Account → My BizHub ID: what a business owner types to add me to their team
@@ -41,10 +42,13 @@ export default function MyIdCard() {
           <h3>{tt.myId}</h3>
         </div>
       </header>
+      {!id ? (
+        <IdSkeleton />
+      ) : (
       <div className="tm-id">
-        {id && <QrSvg text={id} />}
+        <QrSvg text={id} />
         <div style={{ display: "grid", gap: 8, flex: 1, minWidth: 200 }}>
-          <span className="tm-id-num">{id || "…"}</span>
+          <span className="tm-id-num">{id}</span>
           <span className="md-hint">{tt.myIdSub}</span>
           <div>
             <button type="button" className="ac-btn ac-btn-ghost" onClick={copy} disabled={!id}>
@@ -53,6 +57,7 @@ export default function MyIdCard() {
           </div>
         </div>
       </div>
+      )}
     </section>
   );
 }

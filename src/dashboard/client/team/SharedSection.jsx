@@ -6,6 +6,7 @@ import { memo } from "../../../lib/memo";
 import { bizTypeName } from "../../super_admin/BizTypes";
 import { fill, useTeamText } from "./team-text";
 import { RoleBadge } from "./TeamPage";
+import { SharedSkeleton } from "./TeamSkeleton";
 import "./team.css";
 
 // the shared list, kept for BusinessPage (which screen to open, the banner)
@@ -47,7 +48,9 @@ export default function SharedSection() {
     }
   };
 
-  if (!data || (!data.businesses.length && !data.invites.length)) return null;
+  // the skeleton only when this person had shared businesses last time (most people have none: show nothing)
+  if (!data) return (memo.get("sharedBusinesses") || []).length ? <SharedSkeleton /> : null;
+  if (!data.businesses.length && !data.invites.length) return null;
   return (
     <section className="panel-card tm-shared" data-testid="team-shared">
       <div className="db-sec-head">
