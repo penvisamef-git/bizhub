@@ -3,6 +3,20 @@
 // kind: "new" | "better" | "fix" | "safe"
 export const CHANGELOG = [
   {
+    version: "1.5.5",
+    status: "testing",
+    date: "2026-10",
+    title: { en: "Lower Flip Book prices", km: "តម្លៃសៀវភៅត្រឡប់ PDF ថោកជាងមុន" },
+    sub: {
+      en: "Two Flip Book PDF extras cost less.",
+      km: "មុខងារបន្ថែមពីររបស់សៀវភៅត្រឡប់ PDF មានតម្លៃថោកជាងមុន។",
+    },
+    items: [
+      { kind: "better", en: "More book places: 1 coin per book — 5 more books for 5 coins (was 25).", km: "កន្លែងសៀវភៅបន្ថែម៖ 1 កាក់ ក្នុងមួយក្បាល — សៀវភៅ 5 ក្បាលបន្ថែម 5 កាក់ (ពីមុន 25)។" },
+      { kind: "better", en: "Clickable pages: 25 coins, once, forever (was 60).", km: "ទំព័រចុចបាន៖ 25 កាក់ ម្តង ជារៀងរហូត (ពីមុន 60)។" },
+    ],
+  },
+  {
     version: "1.5.0",
     status: "testing",
     date: "2026-10",
