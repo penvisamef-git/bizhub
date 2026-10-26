@@ -387,7 +387,7 @@ const TEXT = {
     deleted: "Removed.",
     // delivery zones + riders + cart reminder
     zonesInUse: "Delivery zones set the fee →",
-    zonesTry: "A fee per area or by km? Delivery zones →",
+    zonesTry: "Fee by area or by km →",
     deliverySub: "Delivery fees by area or distance, and your riders' Telegram group.",
     deliveryOff: "Delivery is off in Store settings — turn it on so customers can choose it.",
     zonesSub: "When this is on, it replaces the one delivery fee in Store settings. “Free delivery from” still works.",
@@ -813,7 +813,7 @@ const TEXT = {
     deleted: "បានដកចេញ។",
     // delivery zones + riders + cart reminder
     zonesInUse: "តំបន់ដឹកជញ្ជូនកំណត់ថ្លៃ →",
-    zonesTry: "ថ្លៃតាមតំបន់ ឬគីឡូម៉ែត្រ? តំបន់ដឹកជញ្ជូន →",
+    zonesTry: "ថ្លៃតាមតំបន់ ឬគីឡូម៉ែត្រ →",
     deliverySub: "ថ្លៃដឹកតាមតំបន់ ឬចម្ងាយ និងក្រុម Telegram អ្នកដឹករបស់អ្នក។",
     deliveryOff: "ការដឹកជញ្ជូនបិទក្នុងការកំណត់ហាង — សូមបើកដើម្បីឲ្យអតិថិជនអាចជ្រើស។",
     zonesSub: "ពេលបើក វាជំនួសថ្លៃដឹកតែមួយក្នុងការកំណត់ហាង។ “ដឹកឥតគិតថ្លៃចាប់ពី” នៅតែដំណើរការ។",

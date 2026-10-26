@@ -426,7 +426,7 @@ export function StoreTab({ ctx }) {
                 </label>
                 <input id="ts-fee" value={f.delivery.fee} inputMode="decimal" onChange={(e) => set("delivery.fee", num(e.target.value))} disabled={ctx.on("ts_zones") && s.zones?.on} />
                 <span className="md-hint">
-                  <button type="button" className="sa-link" onClick={() => ctx.go("delivery")}>
+                  <button type="button" className="ts-text-link" onClick={() => ctx.go("delivery")} data-testid="ts-zones-link">
                     {ctx.on("ts_zones") && s.zones?.on ? x.zonesInUse : x.zonesTry}
                   </button>
                 </span>

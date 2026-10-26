@@ -1920,3 +1920,26 @@ a.ts-pill {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* a button that looks like a link (inside hints) */
+.ts-text-link {
+  white-space: nowrap;
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 700;
+  color: var(--md-primary, var(--brand));
+  text-align: left;
+  cursor: pointer;
+}
+.ts-text-link:hover {
+  text-decoration: underline;
+}
+.ts-text-link:focus-visible {
+  outline: 2px solid var(--md-primary, var(--brand));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
