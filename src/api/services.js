@@ -1453,6 +1453,12 @@ export function tgStoreApi({ id }) {
     ridersOff: () => del("/riders"),
     toRiders: (oid) => post(`/orders/${oid}/riders`),
     carts: () => get("/carts"),
+    pos: () => get("/pos"),
+    addPosStaff: (body) => post("/pos/staff", body),
+    savePosStaff: (sid, body) => put(`/pos/staff/${sid}`, body),
+    removePosStaff: (sid) => del(`/pos/staff/${sid}`),
+    posPair: () => post("/pos/pair-code"),
+    removePosDevice: (did) => del(`/pos/devices/${did}`),
   };
 }
 // the customer's side: inside Telegram every call carries the signed Telegram data (who is ordering)

@@ -1856,3 +1856,67 @@ a.ts-pill {
     gap: 6px;
   }
 }
+
+/* ---------- staff screen (POS) ---------- */
+.ts-pair {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--chip);
+}
+.ts-pair-text {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+.ts-pair-code {
+  font: 800 40px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.12em;
+}
+.ts-devices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.ts-devices li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.ts-devices li > span:nth-child(2) {
+  flex: 1;
+  display: grid;
+  min-width: 0;
+}
+.ts-devices li.is-off {
+  opacity: 0.6;
+}
+.ts-staff-add {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.ts-staff-add input,
+.ts-staff-add select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--md-border);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font: inherit;
+  color: var(--md-text);
+  background: var(--card);
+}
+@media (max-width: 640px) {
+  .ts-staff-add {
+    grid-template-columns: 1fr 1fr;
+  }
+}

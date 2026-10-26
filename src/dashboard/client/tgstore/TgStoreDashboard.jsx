@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Palette, Puzzle, ReceiptText, Send, Settings, Share2, ShoppingCart, Tag, Truck, Users, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, MonitorSmartphone, Package, Palette, Puzzle, ReceiptText, Send, Settings, Share2, ShoppingCart, Tag, Truck, Users, X } from "lucide-react";
 import "../../admin/master_data/masterdata.css";
 import "../../super_admin/super-admin.css";
 import "../restaurant/restaurant.css";
@@ -22,7 +22,7 @@ import { themeName } from "../../../tgstore/themes";
 import TeamNavLink from "../team/TeamNavLink";
 import { fill, fmtDate, fmtNum, useTsText } from "./text";
 
-const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign"), more: () => import("./TsMore") };
+const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign"), more: () => import("./TsMore"), staff: () => import("./TsStaff") };
 const later = (file, name) => lazy(() => LOAD[file]().then((x) => ({ default: x[name] })));
 const ProductsTab = later("setup", "ProductsTab");
 const CustomersTab = later("people", "CustomersTab");
@@ -35,11 +35,13 @@ const ReportTab = later("grow", "ReportTab");
 const AddonsTab = later("grow", "AddonsTab");
 const DeliveryTab = later("more", "DeliveryTab");
 const RemindTab = later("more", "RemindTab");
+const StaffTab = later("staff", "StaffTab");
 
 const TABS = [
   ["orders", ReceiptText, OrdersTab],
   ["products", Package, ProductsTab],
   ["customers", Users, CustomersTab],
+  ["staff", MonitorSmartphone, StaffTab],
   ["promos", Tag, PromosTab],
   ["messages", Megaphone, MessagesTab],
   ["remind", ShoppingCart, RemindTab],
@@ -52,7 +54,7 @@ const TABS = [
 ];
 const NEEDS = { promos: "ts_promos", messages: "ts_broadcast", remind: "ts_remind", report: "ts_reports" };
 const GROUPS = [
-  ["sell", ["orders", "products", "customers"]],
+  ["sell", ["orders", "products", "customers", "staff"]],
   ["grow", ["promos", "messages", "remind", "report"]],
   ["setup", ["store", "delivery", "design", "share", "addons"]],
 ];

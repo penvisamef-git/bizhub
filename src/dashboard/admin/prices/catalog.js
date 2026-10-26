@@ -221,6 +221,7 @@ export const PRICE_GROUPS = [
       { key: "ts_remind", unit: "year", en: "Cart reminder in Telegram + Order again (per year)", km: "រំលឹកកន្ត្រកក្នុង Telegram + កម្ម៉ង់ម្តងទៀត (ក្នុងមួយឆ្នាំ)" },
       { key: "ts_zones", unit: "year", en: "Delivery zones — fee by area or by km from the shop (per year)", km: "តំបន់ដឹកជញ្ជូន — ថ្លៃតាមតំបន់ ឬគីឡូម៉ែត្រពីហាង (ក្នុងមួយឆ្នាំ)" },
       { key: "ts_riders", unit: "year", en: "Riders group — Take it · Picked up · Delivered in Telegram (per year)", km: "ក្រុមអ្នកដឹក — យក · បានយក · ដឹករួច ក្នុង Telegram (ក្នុងមួយឆ្នាំ)" },
+      { key: "ts_pos", unit: "year", en: "More staff screens — up to 10 screens + 50 staff PINs (1 + 2 free, per year)", km: "អេក្រង់បុគ្គលិកបន្ថែម — រហូតដល់ 10 អេក្រង់ + PIN 50 (1 + 2 ឥតគិតថ្លៃ ក្នុងមួយឆ្នាំ)" },
       { key: "ts_theme", unit: "each", en: "One store design (each, forever) — 117 to choose from", km: "រចនាហាងមួយ (មួយៗ ជារៀងរហូត) — 117 ជម្រើស" },
     ],
   },

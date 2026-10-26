@@ -44,6 +44,7 @@ export const PAGES = {
   publicEvCert: () => import("./evpub/Certificate"),
   publicEvMore: () => import("./evpub/MorePages"),
   evDoor: () => import("./pos/event/EvDoorApp"),
+  tsPos: () => import("./pos/tgstore/TsPosApp"), // v2.0 Telegram Store staff screen
   publicWebsite: () => import("./wsite/WsPage"),
   publicDebt: () => import("./debt/StatementPage"),
   publicNote: () => import("./note/NotePage"),

@@ -49,6 +49,7 @@ const EvMyPage = lazy(() => PAGES.publicEvMore().then((m) => ({ default: m.MyTic
 const EvFeedbackPage = lazy(() => PAGES.publicEvMore().then((m) => ({ default: m.FeedbackPage })));
 const EvDiscoverPage = lazy(() => PAGES.publicEvMore().then((m) => ({ default: m.DiscoverPage })));
 const EvDoorApp = lazy(PAGES.evDoor);
+const TsPosApp = lazy(PAGES.tsPos);
 const QrPage = lazy(PAGES.publicQr);
 const WebsitePage = lazy(PAGES.publicWebsite);
 const DebtStatement = lazy(PAGES.publicDebt);
@@ -397,6 +398,7 @@ export default function App() {
           <Route path="/pos/mini-mart" element={<MartPosApp />} />
           <Route path="/pos/mini-mart/display" element={<MartDisplay />} />
           <Route path="/pos/event" element={<EvDoorApp />} />
+          <Route path="/pos/tg-store" element={<TsPosApp />} />
           <Route path="/pos/*" element={<Navigate to="/pos/restaurant" replace />} />
           {/* attendance: staff clock in / out on their own phone */}
           <Route path="/a/:code" element={<AttendStaffApp />} />

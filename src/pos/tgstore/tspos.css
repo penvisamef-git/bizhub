@@ -1,0 +1,644 @@
+/* Telegram Store staff screen (/pos/tg-store) — a tablet / phone at the counter */
+.tsx {
+  --tsx-accent: #c4470f;
+  /* the dashboard's order cards + buttons, outside the dashboard */
+  --md-primary: var(--tsx-accent);
+  --md-primary-hover: color-mix(in srgb, var(--tsx-accent) 85%, #000);
+  --md-soft: color-mix(in srgb, var(--tsx-accent) 15%, transparent);
+  --md-border: var(--line);
+  --md-text: var(--ink);
+  --md-muted: var(--muted);
+  --md-danger: var(--danger);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--app-bg, #f6f4f0);
+  color: var(--ink);
+  font-family: var(--font);
+}
+.tsx *,
+.tsx *::before,
+.tsx *::after {
+  box-sizing: border-box;
+}
+.tsx .panel-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.tsx .md-btn-primary {
+  background: var(--tsx-accent);
+  border-color: var(--tsx-accent);
+  color: #fff;
+}
+.tsx-muted {
+  color: var(--muted);
+}
+.tsx-center {
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  position: relative;
+}
+.tsx-corner {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.tsx-lang {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.tsx-box {
+  width: min(380px, 100%);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px 24px;
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.tsx-box h1 {
+  margin: 4px 0 0;
+  font-size: 22px;
+}
+.tsx-box p {
+  margin: 0;
+}
+.tsx-box-ic,
+.tsx-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  background: var(--tsx-accent);
+  color: #fff;
+  overflow: hidden;
+}
+.tsx-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tsx-logo.sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  flex: none;
+}
+.tsx-code {
+  width: 100%;
+  text-align: center;
+  font: 700 32px/1 ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: 0.3em;
+  padding: 14px 10px;
+  border: 2px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--bg2);
+  color: var(--ink);
+}
+.tsx-input {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+}
+.tsx-code:focus,
+.tsx-input:focus {
+  outline: none;
+  border-color: var(--tsx-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tsx-accent) 25%, transparent);
+}
+.tsx-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 14px;
+  background: var(--tsx-accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.tsx-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.tsx-err {
+  width: 100%;
+  background: var(--dangerbg);
+  color: var(--danger);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+}
+.tsx-link {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.tsx-dots {
+  display: flex;
+  gap: 14px;
+  margin: 6px 0;
+}
+.tsx-dots i {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 2px solid var(--line-strong);
+}
+.tsx-dots i.on {
+  background: var(--tsx-accent);
+  border-color: var(--tsx-accent);
+}
+.tsx-dots.bad i {
+  border-color: var(--danger);
+  animation: tsx-shake 0.3s;
+}
+@keyframes tsx-shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+.tsx-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 76px);
+  gap: 12px;
+  margin-top: 6px;
+}
+.tsx-pad button {
+  height: 64px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  color: var(--ink);
+  font: 700 24px/1 var(--font);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.tsx-pad button:active {
+  background: color-mix(in srgb, var(--tsx-accent) 15%, var(--bg2));
+}
+
+/* ---------- the main screen ---------- */
+.tsx-main {
+  display: flex;
+  flex-direction: column;
+}
+.tsx-top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.tsx-top-name {
+  display: grid;
+  min-width: 0;
+}
+.tsx-top-name b {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tsx-top-name small {
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tsx-state {
+  margin-left: 8px;
+  border: 0;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.tsx-state:not(:disabled) {
+  cursor: pointer;
+}
+.tsx-state.s-on {
+  background: var(--goodbg);
+  color: var(--good);
+}
+.tsx-state.s-paused,
+.tsx-state.s-hours {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.tsx-top-acts {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tsx-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.tsx-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px 0;
+  overflow-x: auto;
+}
+.tsx-tabs button {
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tsx-tabs button.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.tsx-badge {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+  padding: 0 6px;
+  animation: tsx-pulse 1.2s infinite;
+}
+@keyframes tsx-pulse {
+  50% {
+    transform: scale(1.15);
+  }
+}
+.tsx-updated {
+  margin-left: auto;
+  color: var(--muted);
+  white-space: nowrap;
+  font-size: 12px;
+}
+.tsx-bar {
+  margin: 10px 16px 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.tsx-bar.bad {
+  background: var(--dangerbg);
+  color: var(--danger);
+}
+.tsx-bar.warn {
+  background: var(--warnbg);
+  color: var(--warn);
+}
+.tsx-flash {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: var(--tsx-accent);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 18px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  animation: tsx-drop 0.35s ease-out;
+}
+@keyframes tsx-drop {
+  from {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+  }
+}
+
+/* the board: New · Making · Ready */
+.tsx-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 14px 16px 30px;
+  align-items: start;
+}
+.tsx-colpick {
+  display: none;
+}
+.tsx-col {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.tsx-col h2 {
+  margin: 0;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 4px 2px;
+}
+.tsx-col h2 span {
+  background: var(--chip);
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 13px;
+}
+.tsx-col.c-new h2 span {
+  background: var(--tsx-accent);
+  color: #fff;
+}
+.tsx-col.c-new .ts-order {
+  border: 2px solid var(--tsx-accent);
+}
+.tsx-empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 26px 10px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 16px;
+  margin: 0;
+}
+.tsx-card {
+  position: relative;
+}
+.tsx-print {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.tsx-card .ts-order-head {
+  padding-right: 80px;
+}
+.tsx-card .ts-order-time {
+  margin-left: 0;
+  flex-basis: 100%;
+}
+.tsx-list {
+  padding: 14px 16px 30px;
+  display: grid;
+  gap: 12px;
+  max-width: 980px;
+  width: 100%;
+}
+
+/* products */
+.tsx-prod-bar {
+  display: grid;
+  gap: 10px;
+}
+.tsx-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 12px;
+}
+.tsx-search input {
+  flex: 1;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  padding: 11px 0;
+  color: var(--ink);
+  outline: none;
+}
+.tsx-prods {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+.tsx-prod {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px !important;
+}
+.tsx-prod.is-out {
+  opacity: 0.75;
+}
+.tsx-prod-pic {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--chip);
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--muted);
+}
+.tsx-prod-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tsx-prod.is-out .tsx-prod-pic img {
+  filter: grayscale(1);
+}
+.tsx-prod-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+.tsx-prod-text b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tsx-prod-text small {
+  color: var(--muted);
+}
+.tsx-toggle {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.tsx-toggle.on {
+  background: var(--goodbg);
+  color: var(--good);
+}
+.tsx-toggle.out {
+  background: var(--dangerbg);
+  color: var(--danger);
+}
+
+/* today */
+.tsx-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.tsx-sums {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.tsx-sums li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 6px;
+}
+
+@media (max-width: 980px) {
+  .tsx-board {
+    grid-template-columns: 1fr;
+  }
+  .tsx-colpick {
+    display: flex;
+    gap: 6px;
+  }
+  .tsx-colpick button {
+    flex: 1;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: 12px;
+    padding: 9px 6px;
+    font: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .tsx-colpick button b {
+    margin-left: 4px;
+  }
+  .tsx-colpick button.on {
+    border-color: var(--tsx-accent);
+    background: color-mix(in srgb, var(--tsx-accent) 12%, var(--card));
+    color: var(--tsx-accent);
+  }
+  .tsx-col {
+    display: none;
+  }
+  .tsx-col.is-on {
+    display: grid;
+  }
+  .tsx-col h2 {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .tsx-top {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+  }
+  .tsx-top-name {
+    flex: 1;
+  }
+  .tsx-top-acts {
+    margin-left: 0;
+    order: 2;
+  }
+  .tsx-top::after {
+    content: "";
+    order: 2;
+    flex-basis: 100%;
+    height: 0;
+  }
+  .tsx-state {
+    order: 3;
+    margin: -4px 0 0 52px;
+  }
+  .tsx-two {
+    grid-template-columns: 1fr;
+  }
+  .tsx-board,
+  .tsx-list {
+    padding: 12px 12px 30px;
+  }
+  .tsx-updated {
+    display: none;
+  }
+}
