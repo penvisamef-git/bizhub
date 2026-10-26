@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { BedDouble, BookOpen, CalendarClock, Camera, Check, Fingerprint, Globe, IdCard, Infinity as Forever, NotebookPen, Plus, StickyNote, QrCode, ScanLine, Search, Send, ShoppingBasket, Stamp, Ticket, Trash2, UtensilsCrossed, X } from "lucide-react";
-import { myBusinessService, stampApi } from "../../api/services";
+import { myBusinessService, stampApi, tgStoreApi } from "../../api/services";
 import { useI18n } from "../../i18n/I18nProvider";
 import { CATEGORY_KEYS, useSaText } from "../super_admin/text";
 
@@ -38,7 +38,8 @@ export default function BusinessModal({ business, onClose, onSaved }) {
   const [days, setDays] = useState({}); // { restaurant: 365 } = paid per year
   const [noCoins, setNoCoins] = useState(false);
   const [logo, setLogo] = useState(null); // stamp card: { file, url } (shown on the card + the dashboard)
-  const withLogo = form.category === "stamp_card";
+  const withLogo = form.category === "stamp_card" || form.category === "tg_store";
+  const logoApi = (bid) => (form.category === "tg_store" ? tgStoreApi({ id: bid }) : stampApi({ id: bid }));
   const logoText = lang === "km" ? { title: "ឡូហ្គោហាង", hint: "បង្ហាញលើកាត និងផ្ទាំងគ្រប់គ្រង", pick: "ជ្រើសរូប", change: "ប្តូរ", big: "រូបធំពេក (អតិបរមា 5MB)" } : { title: "Shop logo", hint: "Shown on the card and on your dashboard", pick: "Choose picture", change: "Change", big: "Picture is too big (max 5MB)" };
   const pickLogo = (e) => {
     const file = e.target.files?.[0];
@@ -107,7 +108,7 @@ export default function BusinessModal({ business, onClose, onSaved }) {
         const { category, ...rest } = data; // the type can't change after paying
         await myBusinessService.update(business._id, rest);
         if (withLogo) {
-          const sc = stampApi({ id: business._id });
+          const sc = logoApi(business._id);
           await sc.save({ shop_name: rest.name }).catch(() => {});
           if (logo?.file) await sc.logo(logo.file);
         }
@@ -117,7 +118,7 @@ export default function BusinessModal({ business, onClose, onSaved }) {
         if (r.balance !== undefined) auth.setClientLogin({ ...auth.getClientLogin(), coin_balance: r.balance });
         if (r.charged) coinsChanged();
         if (withLogo && logo?.file && r.data?._id) {
-          const up = await stampApi({ id: r.data._id })
+          const up = await logoApi(r.data._id)
             .logo(logo.file)
             .catch(() => null);
           if (up?.data?.logo) r.data.photo = up.data.logo;
@@ -340,7 +341,7 @@ export default function BusinessModal({ business, onClose, onSaved }) {
           <div className="md-field">
             <label>{logoText.title}</label>
             <div className="cl-logo-pick">
-              <span className="cl-logo-prev">{logo?.url || business?.photo ? <img src={logo?.url || business.photo} alt="" /> : <Stamp size={22} />}</span>
+              <span className="cl-logo-prev">{logo?.url || business?.photo ? <img src={logo?.url || business.photo} alt="" /> : form.category === "tg_store" ? <Send size={22} /> : <Stamp size={22} />}</span>
               <label className="md-btn md-btn-ghost sa-btn-sm">
                 <Camera size={14} /> {logo?.url || business?.photo ? logoText.change : logoText.pick}
                 <input type="file" accept="image/png,image/jpeg,image/webp" hidden onChange={pickLogo} data-testid="biz-logo" />

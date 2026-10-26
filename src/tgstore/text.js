@@ -89,6 +89,7 @@ const TEXT = {
     hoursTitle: "Opening hours",
     closedDay: "Closed",
     madeWith: "Made with",
+    payWith: "Pay with {name}",
   },
   km: {
     loading: "កំពុងផ្ទុក…",
@@ -171,6 +172,7 @@ const TEXT = {
     hoursTitle: "ម៉ោងបើក",
     closedDay: "បិទ",
     madeWith: "បង្កើតដោយ",
+    payWith: "បង់តាម {name}",
   },
 };
 

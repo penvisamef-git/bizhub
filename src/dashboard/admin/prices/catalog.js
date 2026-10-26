@@ -215,6 +215,10 @@ export const PRICE_GROUPS = [
       { key: "ts_reports", unit: "year", en: "Sales report — best sellers, busy hours, Excel (per year)", km: "របាយការណ៍លក់ — ទំនិញលក់ដាច់ ម៉ោងមមាញឹក Excel (ក្នុងមួយឆ្នាំ)" },
       { key: "ts_hours", unit: "once", en: "Opening hours — opens and closes by itself (forever)", km: "ម៉ោងបើក — បើក និងបិទដោយខ្លួនឯង (ជារៀងរហូត)" },
       { key: "ts_nobrand", unit: "once", en: "No “Made with BizHub” on the store (forever)", km: "គ្មាន “បង្កើតដោយ BizHub” លើហាង (ជារៀងរហូត)" },
+      { key: "ts_history", unit: "once", en: "Full order history — not only the last 60 days (forever)", km: "ប្រវត្តិការកម្ម៉ង់ទាំងអស់ — មិនមែនតែ 60 ថ្ងៃ (ជារៀងរហូត)" },
+      { key: "ts_pay", unit: "once", en: "More ways to pay + a QR picture for each (forever)", km: "វិធីបង់ប្រាក់បន្ថែម + រូប QR (ជារៀងរហូត)" },
+      { key: "ts_link", unit: "once", en: "Own link name + QR colours and logo (forever)", km: "ឈ្មោះតំណផ្ទាល់ខ្លួន + ពណ៌ QR និងឡូហ្គោ (ជារៀងរហូត)" },
+      { key: "ts_theme", unit: "each", en: "One store design (each, forever) — 117 to choose from", km: "រចនាហាងមួយ (មួយៗ ជារៀងរហូត) — 117 ជម្រើស" },
     ],
   },
   {

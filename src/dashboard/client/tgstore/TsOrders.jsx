@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Bike, Check, CircleDollarSign, Clock, Image as ImageIcon, MapPin, MessageSquareText, Package, Phone, ReceiptText, Share2, ShoppingBag, Tag, UtensilsCrossed, X } from "lucide-react";
+import { Bike, Check, ChevronLeft, ChevronRight, CircleDollarSign, Clock, History, Image as ImageIcon, Lock, MapPin, MessageSquareText, Package, Phone, ReceiptText, Search, Share2, ShoppingBag, Tag, UtensilsCrossed, X } from "lucide-react";
+import { Modal } from "../../super_admin/parts";
 import { Head } from "../menuqr/parts";
+import CoinIcon from "../../../components/CoinIcon";
 import { ago, fill, fmtNum, fmtTime, money } from "./text";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
+const payName = (o, x) => (o.pay.method === "custom" ? o.pay.custom?.name || "" : x.payMethods[o.pay.method]);
 
-// one order card: what, who, where, how paid + the buttons for its next step
-function OrderCard({ ctx, o, busy, act }) {
+// one order: what, who, where, how paid + the buttons for its next step
+export function OrderCard({ ctx, o, busy, act, plain = false }) {
   const { x, readOnly } = ctx;
   const [rejecting, setRejecting] = useState(false);
   const [reason, setReason] = useState("");
@@ -18,7 +21,7 @@ function OrderCard({ ctx, o, busy, act }) {
     </button>
   );
   return (
-    <article className={`panel-card ts-order s-${o.status}`} data-testid={`ts-order-${o.no}`}>
+    <article className={`${plain ? "" : "panel-card"} ts-order s-${o.status} ${plain ? "is-plain" : ""}`} data-testid={`ts-order-${o.no}`}>
       <header className="ts-order-head">
         <b className="ts-order-no">#{o.no}</b>
         <span className={`ts-pill st-${o.status}`}>{x.statuses[o.status]}</span>
@@ -27,7 +30,7 @@ function OrderCard({ ctx, o, busy, act }) {
           {o.mode === "dine_in" && o.table ? ` ${o.table}` : ""}
         </span>
         <span className={`ts-pill pay-${o.pay.status}`}>
-          <CircleDollarSign size={13} /> {x.payMethods[o.pay.method]} · {x.payStates[o.pay.status]}
+          <CircleDollarSign size={13} /> {payName(o, x)} · {x.payStates[o.pay.status]}
         </span>
         <span className="ts-order-time" title={new Date(o.created_date).toLocaleString()}>
           {fmtTime(o.created_date)} · {ago(o.created_date, x)}
@@ -97,7 +100,7 @@ function OrderCard({ ctx, o, busy, act }) {
           <X size={14} /> {o.reason}
         </p>
       )}
-      {open && !rejecting && (
+      {!rejecting && (open || o.pay.proof || o.pay.status !== "paid") && (
         <div className="ts-order-acts">
           {o.status === "new" && (
             <>
@@ -110,7 +113,7 @@ function OrderCard({ ctx, o, busy, act }) {
           {o.status === "accepted" && o.mode !== "delivery" && b("ready", x.ready, () => act(o, "ready"), "primary")}
           {o.status === "accepted" && o.mode === "delivery" && b("on_way", x.onWay, () => act(o, "on_way"), "primary", <Bike size={14} />)}
           {["accepted", "ready", "on_way"].includes(o.status) && b("done", x.doneBtn, () => act(o, "done"), o.status === "accepted" ? "ghost" : "primary", <Check size={14} />)}
-          {o.pay.status !== "paid" && b("paid", x.markPaid, () => act(o, "paid"), "ghost", <CircleDollarSign size={14} />)}
+          {o.pay.status !== "paid" && o.status !== "cancelled" && b("paid", x.markPaid, () => act(o, "paid"), "ghost", <CircleDollarSign size={14} />)}
           {o.pay.proof && (
             <a className="md-btn md-btn-ghost sa-btn-sm" href={o.pay.proof} target="_blank" rel="noreferrer">
               <ImageIcon size={14} /> {x.seeProof}
@@ -142,18 +145,48 @@ function OrderCard({ ctx, o, busy, act }) {
   );
 }
 
-// Orders: open ones first (oldest on top), refreshed every 12 s; Done / Cancelled lists
-export function OrdersTab({ ctx }) {
-  const { x, api, data, put, cur } = ctx;
-  const [filter, setFilter] = useState("open");
-  const [rows, setRows] = useState(null);
+// moving an order on (shared by the live board, the history and a customer's page)
+export function useOrderActs(ctx, after) {
   const [busy, setBusy] = useState("");
+  const act = async (o, status, extra = {}) => {
+    setBusy(o._id);
+    try {
+      const r = status === "paid" ? await ctx.api.paid(o._id) : await ctx.api.move(o._id, status, extra);
+      await after?.(r?.data);
+    } catch (e) {
+      ctx.notify({ type: "error", text: e.message });
+      await after?.();
+    } finally {
+      setBusy("");
+    }
+  };
+  return { busy, act };
+}
+
+// one order in a window (from the history or a customer)
+export function OrderModal({ ctx, order, onClose, onChanged }) {
+  const [o, setO] = useState(order);
+  const { busy, act } = useOrderActs(ctx, async (fresh) => {
+    if (fresh) setO(fresh);
+    onChanged?.();
+  });
+  return (
+    <Modal title={fill(ctx.x.orderTitle, { n: o.no })} onClose={onClose} size="md-modal-lg">
+      <OrderCard ctx={ctx} o={o} busy={busy === o._id} act={act} plain />
+    </Modal>
+  );
+}
+
+// ---------------------------------------------------------------- live board
+function LiveView({ ctx }) {
+  const { x, api, data, put, cur } = ctx;
+  const [rows, setRows] = useState(null);
   const [error, setError] = useState("");
   const live = useRef(true);
   const load = useCallback(
     () =>
       api
-        .orders({ status: filter })
+        .orders({ status: "open" })
         .then((r) => {
           if (!live.current) return;
           setRows(r.data);
@@ -161,11 +194,10 @@ export function OrdersTab({ ctx }) {
           if (r.counts) put((d) => ({ counts: { ...d.counts, ...r.counts } }));
         })
         .catch((e) => live.current && setError(e.message)),
-    [api, filter], // eslint-disable-line react-hooks/exhaustive-deps
+    [api], // eslint-disable-line react-hooks/exhaustive-deps
   );
   useEffect(() => {
     live.current = true;
-    setRows(null);
     load();
     const t = setInterval(() => document.visibilityState === "visible" && load(), 12000);
     return () => {
@@ -173,26 +205,11 @@ export function OrdersTab({ ctx }) {
       clearInterval(t);
     };
   }, [load]);
-
-  const act = async (o, status, extra = {}) => {
-    setBusy(o._id);
-    try {
-      if (status === "paid") await api.paid(o._id);
-      else await api.move(o._id, status, extra);
-      await load();
-    } catch (e) {
-      ctx.notify({ type: "error", text: e.message });
-      load();
-    } finally {
-      setBusy("");
-    }
-  };
-
+  const { busy, act } = useOrderActs(ctx, load);
   const c = data.counts;
-  const noProducts = !data.counts.products;
+  const noProducts = !c.products;
   return (
-    <div className="rs-col ts-orders">
-      <Head icon={ReceiptText} title={x.tabs.orders} sub={x.ordersSub} />
+    <>
       <div className="ts-kpis">
         {[
           [x.todayOrders, fmtNum(c.today_orders)],
@@ -206,14 +223,6 @@ export function OrdersTab({ ctx }) {
           </div>
         ))}
       </div>
-      <div className="ts-filters" role="tablist">
-        {["open", "done", "cancelled"].map((k) => (
-          <button key={k} type="button" role="tab" aria-selected={filter === k} className={filter === k ? "on" : ""} onClick={() => setFilter(k)} data-testid={`ts-filter-${k}`}>
-            {x.filters[k]}
-            {k === "open" && c.open > 0 && <span className="rs-badge">{c.open}</span>}
-          </button>
-        ))}
-      </div>
       {error && <div className="md-form-error">{error}</div>}
       {rows === null ? (
         <div className="ts-order-skels">
@@ -224,12 +233,10 @@ export function OrdersTab({ ctx }) {
       ) : rows.length === 0 ? (
         <section className="panel-card ts-empty">
           <ReceiptText size={30} />
-          <p>{filter === "open" ? x.noOpen : x.noOrders}</p>
-          {filter === "open" && (
-            <button type="button" className="md-btn md-btn-primary" onClick={() => ctx.go(noProducts ? "products" : "share")}>
-              {noProducts ? <Package size={15} /> : <Share2 size={15} />} {noProducts ? x.addFirst : x.shareStore}
-            </button>
-          )}
+          <p>{x.noOpen}</p>
+          <button type="button" className="md-btn md-btn-primary" onClick={() => ctx.go(noProducts ? "products" : "share")}>
+            {noProducts ? <Package size={15} /> : <Share2 size={15} />} {noProducts ? x.addFirst : x.shareStore}
+          </button>
         </section>
       ) : (
         <div className="ts-order-list">
@@ -238,6 +245,199 @@ export function OrdersTab({ ctx }) {
           ))}
         </div>
       )}
+    </>
+  );
+}
+
+// ---------------------------------------------------------------- the history: a table with filters
+const NONE = { q: "", status: "", mode: "", pay: "", paid: "", from: "", to: "" };
+export function OrderTable({ ctx, rows, onOpen, hideWho = false }) {
+  const { x, lang } = ctx;
+  return (
+    <div className="ts-table-wrap">
+      <table className="ts-table">
+        <thead>
+          <tr>
+            <th>{x.cols.no}</th>
+            <th>{x.cols.when}</th>
+            {!hideWho && <th>{x.cols.who}</th>}
+            <th>{x.cols.items}</th>
+            <th>{x.cols.how}</th>
+            <th>{x.cols.pay}</th>
+            <th className="num">{x.cols.total}</th>
+            <th>{x.cols.status}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((o) => {
+            const Icon = MODE_ICON[o.mode] || ShoppingBag;
+            const items = o.items.map((l) => `${l.qty}× ${l.name}`).join(", ");
+            return (
+              <tr key={o._id} onClick={() => onOpen(o)} tabIndex={0} onKeyDown={(e) => e.key === "Enter" && onOpen(o)} data-testid={`ts-row-${o.no}`}>
+                <td className="ts-td-no">#{o.no}</td>
+                <td>
+                  <span className="ts-td-main">{new Date(o.created_date).toLocaleDateString(lang === "km" ? "km-KH" : "en-GB", { day: "numeric", month: "short" })}</span>
+                  <small>{fmtTime(o.created_date)}</small>
+                </td>
+                {!hideWho && (
+                  <td>
+                    <span className="ts-td-main">{o.customer?.name || "—"}</span>
+                    <small>{o.customer?.phone || (o.customer?.username ? `@${o.customer.username}` : "")}</small>
+                  </td>
+                )}
+                <td className="ts-td-items" title={items}>
+                  {items}
+                </td>
+                <td>
+                  <span className="ts-pill">
+                    <Icon size={12} /> {x.modes[o.mode]}
+                    {o.mode === "dine_in" && o.table ? ` ${o.table}` : ""}
+                  </span>
+                </td>
+                <td>
+                  <span className={`ts-pill pay-${o.pay.status}`}>
+                    {payName(o, x)} · {x.payStates[o.pay.status]}
+                  </span>
+                </td>
+                <td className="num">
+                  <b>{money(o.total, o.currency)}</b>
+                  {o.discount > 0 && <small>−{money(o.discount, o.currency)}</small>}
+                </td>
+                <td>
+                  <span className={`ts-pill st-${o.status}`}>{x.statuses[o.status]}</span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+function HistoryView({ ctx }) {
+  const { x, api, cur, data } = ctx;
+  const [f, setF] = useState(NONE);
+  const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
+  const [r, setR] = useState(null);
+  const [open, setOpen] = useState(null);
+  const load = useCallback(() => {
+    const params = Object.fromEntries(Object.entries({ ...f, q, status: f.status || "all", page }).filter(([, v]) => v !== ""));
+    return api
+      .orders(params)
+      .then((res) => setR(res))
+      .catch((e) => ctx.notify({ type: "error", text: e.message }));
+  }, [api, f, q, page]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const t = setTimeout(load, q ? 300 : 0);
+    return () => clearTimeout(t);
+  }, [load, q]);
+  const set = (k, v) => {
+    setPage(1);
+    setF((o) => ({ ...o, [k]: v }));
+  };
+  const pages = r ? Math.max(1, Math.ceil(r.pagination.total / r.pagination.limit)) : 1;
+  const h = r?.history;
+  const filtered = Object.values(f).some(Boolean) || q;
+  const sel = (k, opts, all) => (
+    <select value={f[k]} onChange={(e) => set(k, e.target.value)} aria-label={all}>
+      <option value="">{all}</option>
+      {opts.map(([v, l]) => (
+        <option key={v} value={v}>
+          {l}
+        </option>
+      ))}
+    </select>
+  );
+  return (
+    <>
+      {h && !h.all && (
+        <div className="ts-locked-row ts-history-note">
+          <Lock size={15} />
+          <span>
+            {fill(x.historyLimited, { n: h.days })} {h.hidden > 0 && fill(x.historyHidden, { n: fmtNum(h.hidden) })}
+          </span>
+          <button type="button" className="md-btn md-btn-primary rs-gold-btn sa-btn-sm" onClick={() => ctx.askBuy({ addon: "ts_history" })} disabled={ctx.readOnly} data-testid="ts-unlock-ts_history">
+            <CoinIcon size={14} /> {x.historyAll} · {fmtNum(data.addons.ts_history?.price)}
+          </button>
+        </div>
+      )}
+      <section className="panel-card ts-filters-card">
+        <label className="ts-search">
+          <Search size={16} />
+          <input value={q} onChange={(e) => (setPage(1), setQ(e.target.value))} placeholder={x.searchOrders} aria-label={x.searchOrders} data-testid="ts-hist-q" />
+        </label>
+        <div className="ts-filter-row">
+          {sel("status", ["new", "accepted", "ready", "on_way", "done", "cancelled"].map((k) => [k, x.statuses[k]]), x.allStatus)}
+          {sel("mode", ["delivery", "pickup", "dine_in"].map((k) => [k, x.modes[k]]), x.allModes)}
+          {sel("pay", [["khqr", "KHQR"], ["cash", x.payMethods.cash], ["custom", x.ownPay]], x.allPay)}
+          {sel("paid", [["yes", x.paidYes], ["no", x.paidNo]], `${x.paidYes} / ${x.paidNo}`)}
+          <label className="ts-date">
+            <span>{x.fromDate}</span>
+            <input type="date" value={f.from} onChange={(e) => set("from", e.target.value)} />
+          </label>
+          <label className="ts-date">
+            <span>{x.toDate}</span>
+            <input type="date" value={f.to} onChange={(e) => set("to", e.target.value)} />
+          </label>
+          {filtered && (
+            <button type="button" className="md-btn md-btn-ghost sa-btn-sm" onClick={() => (setF(NONE), setQ(""), setPage(1))}>
+              <X size={14} /> {x.clear}
+            </button>
+          )}
+        </div>
+      </section>
+      <section className="panel-card ts-table-card">
+        {!r ? (
+          <div className="ts-skel" style={{ minHeight: 240 }} />
+        ) : r.data.length === 0 ? (
+          <div className="ts-empty">
+            <History size={28} />
+            <p>{x.noOrders}</p>
+          </div>
+        ) : (
+          <>
+            <div className="ts-table-top">
+              <b>{fill(x.foundN, { n: fmtNum(r.pagination.total), total: money(r.sum, cur) })}</b>
+            </div>
+            <OrderTable ctx={ctx} rows={r.data} onOpen={setOpen} />
+            {pages > 1 && (
+              <div className="ts-pager">
+                <button type="button" className="md-btn md-btn-ghost sa-btn-sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
+                  <ChevronLeft size={14} /> {x.prev}
+                </button>
+                <span>{fill(x.pageOf, { p: page, n: pages })}</span>
+                <button type="button" className="md-btn md-btn-ghost sa-btn-sm" disabled={page >= pages} onClick={() => setPage((p) => p + 1)}>
+                  {x.next} <ChevronRight size={14} />
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </section>
+      {open && <OrderModal ctx={ctx} order={open} onClose={() => setOpen(null)} onChanged={load} />}
+    </>
+  );
+}
+
+export function OrdersTab({ ctx }) {
+  const { x, data } = ctx;
+  const [view, setView] = useState("live");
+  return (
+    <div className="rs-col ts-orders">
+      <Head icon={ReceiptText} title={x.tabs.orders} sub={x.ordersSub} />
+      <div className="ts-filters" role="tablist">
+        {[
+          ["live", x.live, data.counts.open],
+          ["history", x.history, 0],
+        ].map(([k, label, n]) => (
+          <button key={k} type="button" role="tab" aria-selected={view === k} className={view === k ? "on" : ""} onClick={() => setView(k)} data-testid={`ts-view-${k}`}>
+            {k === "history" && <History size={14} />} {label}
+            {n > 0 && <span className="rs-badge">{n}</span>}
+          </button>
+        ))}
+      </div>
+      {view === "live" ? <LiveView ctx={ctx} /> : <HistoryView ctx={ctx} />}
     </div>
   );
 }

@@ -21,6 +21,11 @@ export const CHANGELOG = [
       { kind: "new", en: "Customers follow their order live and get Telegram messages when it changes.", km: "អតិថិជនតាមដានការកម្ម៉ង់ផ្ទាល់ ហើយទទួលសារ Telegram ពេលមានការផ្លាស់ប្តូរ។" },
       { kind: "new", en: "Orders, today's sales and the customer list on the website.", km: "ការកម្ម៉ង់ ការលក់ថ្ងៃនេះ និងបញ្ជីអតិថិជន នៅលើគេហទំព័រ។" },
       { kind: "new", en: "Add-ons: Promo codes, Message your customers in Telegram, Sales report with Excel, Opening hours, No BizHub name.", km: "មុខងារបន្ថែម៖ កូដបញ្ចុះតម្លៃ ផ្ញើសារទៅអតិថិជនក្នុង Telegram របាយការណ៍លក់ជាមួយ Excel ម៉ោងបើក និងគ្មានឈ្មោះ BizHub។" },
+      { kind: "new", en: "120 store designs (8 layouts × 15 colours): 3 free, the others 15 coins each, plus your own shop colour.", km: "រចនាហាង 120 (ប្លង់ 8 × ពណ៌ 15)៖ 3 ឥតគិតថ្លៃ ផ្សេងទៀត 15 កាក់មួយ និងពណ៌ហាងផ្ទាល់ខ្លួន។" },
+      { kind: "new", en: "Orders: live board + all orders with search and filters (last 60 days; Full history 45 coins forever).", km: "ការកម្ម៉ង់៖ ផ្ទាំងផ្ទាល់ + ការកម្ម៉ង់ទាំងអស់ ជាមួយការស្វែងរក និងតម្រង (60 ថ្ងៃចុងក្រោយ; ប្រវត្តិទាំងអស់ 45 កាក់ ជារៀងរហូត)។" },
+      { kind: "new", en: "Customers: totals, filters, sort, each customer's orders, favourites and your note.", km: "អតិថិជន៖ សរុប តម្រង តម្រៀប ការកម្ម៉ង់របស់អតិថិជននីមួយៗ អ្វីដែលចូលចិត្ត និងកំណត់ចំណាំ។" },
+      { kind: "new", en: "Your own ways to pay (ABA, Wing…): 3 ways free; more + a QR picture for each 10 coins forever.", km: "វិធីបង់ប្រាក់ផ្ទាល់ខ្លួន (ABA, Wing…)៖ 3 ឥតគិតថ្លៃ; បន្ថែម + រូប QR 10 កាក់ ជារៀងរហូត។" },
+      { kind: "new", en: "Write your own channel post; own link name and QR colours with your logo (20 coins forever).", km: "សរសេរការប្រកាសឆានែលដោយខ្លួនឯង; ឈ្មោះតំណ និងពណ៌ QR ជាមួយឡូហ្គោ (20 កាក់ ជារៀងរហូត)។" },
     ],
   },
   {

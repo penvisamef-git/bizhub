@@ -4,6 +4,7 @@ import { Modal } from "../../super_admin/parts";
 import { Head, Switch } from "../menuqr/parts";
 import { ago, fill, fmtNum, money } from "./text";
 import { HoursCard } from "./TsGrow";
+import { ChannelCard, LinkCard, PayMethods, StyledQr, downloadStyledQr } from "./TsPay";
 
 const copy = (ctx, text) => {
   navigator.clipboard?.writeText(text).catch(() => {});
@@ -318,50 +319,6 @@ export function ProductsTab({ ctx }) {
   );
 }
 
-// ---------------------------------------------------------------- Customers
-export function CustomersTab({ ctx }) {
-  const { x, api, cur } = ctx;
-  const [q, setQ] = useState("");
-  const [rows, setRows] = useState(null);
-  useEffect(() => {
-    const t = setTimeout(() => api.customers({ q }).then((r) => setRows(r.data)).catch(() => setRows([])), q ? 300 : 0);
-    return () => clearTimeout(t);
-  }, [api, q]);
-  return (
-    <div className="rs-col">
-      <Head icon={Users} title={x.tabs.customers} sub={x.customersSub} />
-      <section className="panel-card">
-        <label className="ts-search">
-          <Search size={16} />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={x.search} aria-label={x.search} />
-        </label>
-        {rows === null ? null : rows.length === 0 ? (
-          <p className="rs-muted">{x.noCustomers}</p>
-        ) : (
-          <ul className="ts-customers">
-            {rows.map((c) => (
-              <li key={c._id}>
-                <span className="ts-av">{(c.name || "?").slice(0, 1).toUpperCase()}</span>
-                <span className="ts-who">
-                  <b>{c.name || c.phone}</b>
-                  <small>{[c.phone, c.username && `@${c.username}`, c.telegram ? "Telegram" : ""].filter(Boolean).join(" · ")}</small>
-                </span>
-                <span className="ts-cust-stats">
-                  <b>{fill(x.ordersN, { n: c.orders })}</b>
-                  <small>
-                    {fill(x.spent, { total: money(c.spent, cur) })}
-                    {c.last_order_at ? ` · ${ago(c.last_order_at, x)}` : ""}
-                  </small>
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-    </div>
-  );
-}
-
 // ---------------------------------------------------------------- Store settings
 export function StoreTab({ ctx }) {
   const { x, api, data, put, readOnly } = ctx;
@@ -385,7 +342,7 @@ export function StoreTab({ ctx }) {
     setBusy("save");
     setError("");
     try {
-      const { hours, ...rest } = f;
+      const { hours, color, ...rest } = f; // eslint-disable-line no-unused-vars
       const body = { ...rest, ...(ctx.on("ts_hours") ? { hours } : {}), delivery: { ...f.delivery, fee: Number(f.delivery.fee) || 0, free_from: Number(f.delivery.free_from) || 0, min_order: Number(f.delivery.min_order) || 0 }, dine_in: { ...f.dine_in, tables: Number(f.dine_in.tables) || 1 } };
       const r = await api.save(body);
       put({ store: r.data.store, open_now: r.data.open_now });
@@ -421,7 +378,7 @@ export function StoreTab({ ctx }) {
           <Store size={17} /> {x.shop}
         </h3>
         <div className="ts-photo-row">
-          <button type="button" className="ts-photo round" onClick={() => logoPick.current?.click()} disabled={readOnly || busy === "logo"} aria-label={x.addLogo} style={{ background: s.logo ? undefined : f.color }}>
+          <button type="button" className="ts-photo round" onClick={() => logoPick.current?.click()} disabled={readOnly || busy === "logo"} aria-label={x.addLogo}>
             {s.logo ? <img src={s.logo} alt="" /> : <Send size={24} color="#FFFFFF" />}
           </button>
           <input ref={logoPick} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={(e) => e.target.files?.[0] && logo(e.target.files[0])} />
@@ -445,10 +402,6 @@ export function StoreTab({ ctx }) {
           <input id="ts-addr" value={f.address} maxLength={200} onChange={(e) => set("address", e.target.value)} />
         </div>
         <div className="ts-two">
-          <div className="md-field">
-            <label htmlFor="ts-color">{x.color}</label>
-            <input id="ts-color" type="color" value={f.color || "#C4470F"} onChange={(e) => set("color", e.target.value.toUpperCase())} className="ts-color" />
-          </div>
           <div className="md-field">
             <label htmlFor="ts-cur">{x.currency}</label>
             <select id="ts-cur" value={f.currency} onChange={(e) => set("currency", e.target.value)}>
@@ -529,6 +482,7 @@ export function StoreTab({ ctx }) {
         )}
         <Switch checked={f.pay.cash.on} onChange={(v) => set("pay.cash.on", v)} label={x.cash} />
       </section>
+      <PayMethods ctx={ctx} />
       <HoursCard ctx={ctx} hours={f.hours} setHours={(h) => setF((o) => ({ ...o, hours: h }))} />
     </form>
   );
@@ -553,7 +507,6 @@ export function ShareTab({ ctx }) {
   const main = data.links.telegram || data.links.web;
   const [link, setLink] = useState(null);
   const [busy, setBusy] = useState("");
-  const channel = fill(x.channelText, { name: s.shop_name, link: main });
   const run = async (key, fn, ok) => {
     setBusy(key);
     try {
@@ -567,20 +520,13 @@ export function ShareTab({ ctx }) {
       setBusy("");
     }
   };
-  const downloadQr = () =>
-    import("qrcode").then((m) =>
-      m.default.toDataURL(main, { width: 1024, margin: 2 }).then((url) => {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${s.slug}-qr.png`;
-        a.click();
-      }),
-    );
+  const qrStyle = ctx.on("ts_link") ? s.qr : null;
+  const downloadQr = () => downloadStyledQr(main, qrStyle, s.logo, `${s.slug}-qr.png`);
   return (
     <div className="rs-col">
       <Head icon={Share2} title={x.tabs.share} sub={x.shareSub} />
       <section className="panel-card ts-share">
-        <Qr text={main} />
+        <StyledQr text={main} style={qrStyle} logo={s.logo} />
         <div className="ts-share-links">
           {data.links.telegram ? (
             <div className="ts-link">
@@ -670,18 +616,8 @@ export function ShareTab({ ctx }) {
         )}
       </section>
 
-      <section className="panel-card md-fields">
-        <h3 className="ts-h3">
-          <Send size={17} /> {x.channel}
-        </h3>
-        <p className="rs-muted">{x.channelSub}</p>
-        <pre className="ts-channel">{channel}</pre>
-        <div>
-          <button type="button" className="md-btn md-btn-ghost sa-btn-sm" onClick={() => copy(ctx, channel)}>
-            <Copy size={14} /> {x.copyText}
-          </button>
-        </div>
-      </section>
+      <ChannelCard ctx={ctx} link={main} />
+      <LinkCard ctx={ctx} />
 
       {s.dine_in?.on && (
         <section className="panel-card md-fields">

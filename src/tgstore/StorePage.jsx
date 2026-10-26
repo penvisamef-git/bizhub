@@ -3,7 +3,8 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Bike, Check, ChevronLeft, Clock, Tag, Image as ImageIcon, Loader2, MapPin, Minus, Phone, Plus, ReceiptText, ShoppingBag, Store, UtensilsCrossed, X } from "lucide-react";
 import { tgStorePublic } from "../api/services";
 import { fill, money, round, useTgText } from "./text";
-import { askWrite, haptic, loadTelegram, store as keep, telegramTheme } from "./tg";
+import { askWrite, haptic, loadTelegram, store as keep } from "./tg";
+import { loadThemeFont, themeOf, themeVars } from "./themes";
 import "./tgstore-public.css";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
@@ -84,7 +85,7 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
   const s = d.store;
   const cur = s.currency;
   const modes = ["dine_in", "delivery", "pickup"].filter((m) => s[m]);
-  const pays = ["khqr", "cash"].filter((m) => s.pay[m]);
+  const pays = [...["khqr", "cash"].filter((m) => s.pay[m]).map((m) => ({ key: m, name: t.payMethods[m] })), ...(s.pay.custom || []).map((m) => ({ key: `custom:${m._id}`, name: m.name, info: m.info }))];
   const last = keep.get("tsp_me", {});
   const [f, setF] = useState(() => ({
     mode: table && s.dine_in ? "dine_in" : modes.find((m) => m !== "dine_in") || modes[0],
@@ -93,7 +94,7 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
     phone: me?.phone || last.phone || "",
     address: me?.address || last.address || "",
     note: "",
-    pay: pays[0],
+    pay: pays[0]?.key,
   }));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -101,6 +102,7 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
   const [promo, setPromo] = useState(null); // { code, kind, value, min_order }
   const [promoErr, setPromoErr] = useState("");
   const set = (k, v) => setF((o) => ({ ...o, [k]: v }));
+  const own = pays.find((m) => m.key === f.pay && m.info);
   const sub = round(cart.reduce((a, l) => a + l.unit * l.qty, 0), cur);
   const fee = f.mode === "delivery" && s.delivery ? (s.delivery.free_from && sub >= s.delivery.free_from ? 0 : s.delivery.fee) : 0;
   const promoShort = promo && promo.min_order && sub < promo.min_order;
@@ -231,12 +233,13 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
           <h3>{t.pay}</h3>
           <div className="tsp-seg">
             {pays.map((m) => (
-              <button key={m} type="button" className={f.pay === m ? "on" : ""} onClick={() => set("pay", m)} aria-pressed={f.pay === m} data-testid={`tsp-pay-${m}`}>
-                {t.payMethods[m]}
+              <button key={m.key} type="button" className={f.pay === m.key ? "on" : ""} onClick={() => set("pay", m.key)} aria-pressed={f.pay === m.key} data-testid={`tsp-pay-${m.key.startsWith("custom:") ? m.name : m.key}`}>
+                {m.name}
               </button>
             ))}
           </div>
           {f.pay === "cash" && <p className="tsp-hint">{t.cashHint[f.mode]}</p>}
+          {own && <p className="tsp-hint">{own.info}</p>}
           {s.promo && (
             <div className="tsp-promo">
               <label className="tsp-field">
@@ -336,7 +339,7 @@ export default function StorePage() {
         setWa(w);
         if (w.initDataUnsafe?.user?.language_code === "km") setLang("km");
       }
-      Promise.all([tgStorePublic.store(slug), w?.initData ? tgStorePublic.me(slug).catch(() => null) : null])
+      Promise.all([tgStorePublic.store(slug, params.get("theme") || ""), w?.initData ? tgStorePublic.me(slug).catch(() => null) : null])
         .then(([r, m]) => {
           if (!on) return;
           setD(r.data);
@@ -346,7 +349,9 @@ export default function StorePage() {
           const ok = new Map(r.data.products.filter((p) => !p.sold_out).map((p) => [String(p._id), p]));
           setCart((c) => c.filter((l) => ok.has(String(l.product_id))));
           try {
-            w?.setHeaderColor?.(r.data.store.color);
+            const look = themeOf(r.data.store.theme).palette;
+            w?.setHeaderColor?.(look.bg);
+            w?.setBackgroundColor?.(look.page);
           } catch {
             /* old Telegram */
           }
@@ -397,11 +402,14 @@ export default function StorePage() {
     setItem(null);
   };
   const quick = (p) => (p.options.length ? setItem(p) : add({ product_id: p._id, options: [], note: "", qty: 1, unit: p.price, name: pName(p, lang) }));
-  const theme = { "--ts-accent": s.color, ...telegramTheme(wa) };
+  const th = themeOf(s.theme);
+  loadThemeFont(s.theme);
+  const theme = themeVars(s.theme, s.color);
   const recent = me?.orders?.length ? me.orders : keep.get(`tsp_orders:${slug}`, []);
 
   return (
-    <div className={`tsp-page ${wa ? "in-tg" : ""}`} style={theme}>
+    <div className={`tsp-page tsp-l-${th.layout.key} ${th.palette.dark ? "is-dark" : ""} ${wa ? "in-tg" : ""}`} style={theme}>
+      {s.preview && <div className="tsp-preview">Preview · {th.layout.en} · {th.palette.en}</div>}
       <header className="tsp-hero">
         <span className="tsp-logo">{s.logo ? <img src={s.logo} alt="" /> : <Store size={26} />}</span>
         <div className="tsp-hero-text">
@@ -492,6 +500,7 @@ export default function StorePage() {
                     </button>
                     <div className="tsp-card-body">
                       <b onClick={() => setItem(p)}>{pName(p, lang)}</b>
+                      {p.about && <small className="tsp-card-about">{p.about}</small>}
                       <div className="tsp-card-foot">
                         <span className="tsp-price">{money(p.price, cur)}</span>
                         <button type="button" className="tsp-plus" onClick={() => quick(p)} disabled={p.sold_out || !s.open} aria-label={`${t.add} ${pName(p, lang)}`} data-testid="tsp-plus">

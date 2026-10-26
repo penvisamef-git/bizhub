@@ -3,7 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { Bike, Check, CircleDollarSign, Clock, Download, Loader2, MapPin, Phone, ShoppingBag, Store, Upload, UtensilsCrossed, X } from "lucide-react";
 import { tgStorePublic } from "../api/services";
 import { fill, fmtTime, money, useTgText } from "./text";
-import { loadTelegram, telegramTheme } from "./tg";
+import { loadTelegram } from "./tg";
+import { loadThemeFont, themeOf, themeVars } from "./themes";
 import { Brand } from "./StorePage";
 import "./tgstore-public.css";
 
@@ -113,10 +114,13 @@ export default function OrderPage() {
   const steps = STEPS[o.mode] || STEPS.pickup;
   const at = o.status === "cancelled" ? -1 : steps.indexOf(o.status);
   const Icon = MODE_ICON[o.mode] || ShoppingBag;
-  const theme = { "--ts-accent": s.color, ...telegramTheme(wa) };
+  loadThemeFont(s.theme);
+  const theme = themeVars(s.theme, s.color);
+  const dark = themeOf(s.theme).palette.dark;
+  const ownPay = o.pay.method === "custom" ? o.pay.custom : null;
 
   return (
-    <div className={`tsp-page tsp-follow ${wa ? "in-tg" : ""}`} style={theme}>
+    <div className={`tsp-page tsp-follow ${dark ? "is-dark" : ""} ${wa ? "in-tg" : ""}`} style={theme}>
       <header className="tsp-follow-head">
         <span className="tsp-logo sm">{s.logo ? <img src={s.logo} alt="" /> : <Store size={20} />}</span>
         <b>{s.name}</b>
@@ -148,12 +152,22 @@ export default function OrderPage() {
           {!finished && o.status !== "cancelled" && <small className="tsp-muted">{t.keepPage}</small>}
         </section>
 
-        {o.status !== "cancelled" && o.pay.status !== "paid" && o.pay.method === "khqr" && d.khqr && (
+        {o.status !== "cancelled" && o.pay.status !== "paid" && ((o.pay.method === "khqr" && d.khqr) || ownPay) && (
           <section className="tsp-panel">
-            <h2>{t.payNow}</h2>
-            <p className="tsp-muted">{t.payNowSub}</p>
-            <KhqrCard k={d.khqr} cur={cur} t={t} name={d.khqr.name} />
-            <p className="tsp-hint">{d.khqr.auto ? t.payAuto : t.payManual}</p>
+            <h2>{ownPay ? fill(t.payWith, { name: ownPay.name }) : t.payNow}</h2>
+            {ownPay ? (
+              <div className="tsp-ownpay" data-testid="tsp-ownpay">
+                {ownPay.image && <img src={ownPay.image} alt="" />}
+                <b>{money(o.total, cur)}</b>
+                {ownPay.info && <p>{ownPay.info}</p>}
+              </div>
+            ) : (
+              <>
+                <p className="tsp-muted">{t.payNowSub}</p>
+                <KhqrCard k={d.khqr} cur={cur} t={t} name={d.khqr.name} />
+              </>
+            )}
+            <p className="tsp-hint">{!ownPay && d.khqr?.auto ? t.payAuto : t.payManual}</p>
             {o.pay.status === "proof" ? (
               <p className="tsp-ok">
                 <Check size={15} /> {t.proofSent}
@@ -174,7 +188,7 @@ export default function OrderPage() {
               {o.mode === "dine_in" && o.table ? ` ${o.table}` : ""}
             </span>
             <span className={`tsp-tag ${o.pay.status === "paid" ? "paid" : ""}`}>
-              <CircleDollarSign size={13} /> {o.pay.method === "khqr" ? "KHQR" : t.payMethods.cash} · {o.pay.status === "paid" ? t.paid : t.unpaid}
+              <CircleDollarSign size={13} /> {o.pay.method === "khqr" ? "KHQR" : ownPay ? ownPay.name : t.payMethods.cash} · {o.pay.status === "paid" ? t.paid : t.unpaid}
             </span>
           </div>
           <ul className="tsp-lines read">

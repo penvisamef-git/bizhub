@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Puzzle, ReceiptText, Send, Settings, Share2, Tag, Users, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, BarChart3, CalendarClock, ChevronDown, Copy, ExternalLink, Lock, Megaphone, Package, Palette, Puzzle, ReceiptText, Send, Settings, Share2, Tag, Users, X } from "lucide-react";
 import "../../admin/master_data/masterdata.css";
 import "../../super_admin/super-admin.css";
 import "../restaurant/restaurant.css";
@@ -17,12 +17,15 @@ import CoinIcon from "../../../components/CoinIcon";
 import { memo } from "../../../lib/memo";
 import { OrdersTab } from "./TsOrders";
 import { ADDON_ICON } from "./TsGrow";
-import { fmtDate, fmtNum, useTsText } from "./text";
+import { MiniStore } from "./TsDesign";
+import { themeName } from "../../../tgstore/themes";
+import { fill, fmtDate, fmtNum, useTsText } from "./text";
 
-const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow") };
+const LOAD = { setup: () => import("./TsSetup"), grow: () => import("./TsGrow"), people: () => import("./TsCustomers"), design: () => import("./TsDesign") };
 const later = (file, name) => lazy(() => LOAD[file]().then((x) => ({ default: x[name] })));
 const ProductsTab = later("setup", "ProductsTab");
-const CustomersTab = later("setup", "CustomersTab");
+const CustomersTab = later("people", "CustomersTab");
+const DesignTab = later("design", "DesignTab");
 const StoreTab = later("setup", "StoreTab");
 const ShareTab = later("setup", "ShareTab");
 const PromosTab = later("grow", "PromosTab");
@@ -38,6 +41,7 @@ const TABS = [
   ["messages", Megaphone, MessagesTab],
   ["report", BarChart3, ReportTab],
   ["store", Settings, StoreTab],
+  ["design", Palette, DesignTab],
   ["share", Share2, ShareTab],
   ["addons", Puzzle, AddonsTab],
 ];
@@ -45,7 +49,7 @@ const NEEDS = { promos: "ts_promos", messages: "ts_broadcast", report: "ts_repor
 const GROUPS = [
   ["sell", ["orders", "products", "customers"]],
   ["grow", ["promos", "messages", "report"]],
-  ["setup", ["store", "share", "addons"]],
+  ["setup", ["store", "design", "share", "addons"]],
 ];
 const GRACE_DAYS = 7;
 
@@ -163,6 +167,21 @@ export default function TgStoreDashboard() {
       done: x.unlockDone.replace("{name}", name),
     };
   }
+  else if (buying?.theme) {
+    const name = themeName(buying.theme, lang);
+    sell = {
+      theme: buying.theme,
+      icon: Palette,
+      name,
+      title: x.unlockTitle.replace("{name}", name),
+      sub: x.designWhat,
+      perks: [`${x.oneTime} · ${x.forever}`],
+      price: data.themes.price,
+      label: x.buy.replace("{coins}", fmtNum(data.themes.price)),
+      buy: () => api.useTheme(buying.theme),
+      done: fill(x.designBought, { name }),
+    };
+  }
   const SellIcon = sell?.icon;
 
   return (
@@ -260,11 +279,17 @@ export default function TgStoreDashboard() {
       {sell && (
         <PurchaseModal
           stage={
-            <div className="rs-stage">
-              <SellIcon size={60} />
-              <b>{sell.name}</b>
-              <small>{s.shop_name || data.business.name}</small>
-            </div>
+            sell.theme ? (
+              <div className="rs-stage ts-buy-stage">
+                <MiniStore themeKey={sell.theme} color={s.color} name={s.shop_name} logo={s.logo} />
+              </div>
+            ) : (
+              <div className="rs-stage">
+                <SellIcon size={60} />
+                <b>{sell.name}</b>
+                <small>{s.shop_name || data.business.name}</small>
+              </div>
+            )
           }
           badge={x.badge}
           title={sell.title}

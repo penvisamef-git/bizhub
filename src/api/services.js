@@ -1438,6 +1438,15 @@ export function tgStoreApi({ id }) {
     broadcast: (text) => post("/broadcasts", { text }),
     report: (days) => get("/report", { days }),
     reportOrders: (days) => get("/report/orders", { days }),
+    customer: (cid) => get(`/customers/${cid}`),
+    saveCustomer: (cid, body) => put(`/customers/${cid}`, body),
+    addPay: (body) => post("/pay-methods", body),
+    savePay: (mid, body) => put(`/pay-methods/${mid}`, body),
+    removePay: (mid) => del(`/pay-methods/${mid}`),
+    payImage: (mid, file) => image(`/pay-methods/${mid}/image`, "image", file),
+    removePayImage: (mid) => del(`/pay-methods/${mid}/image`),
+    useTheme: (key) => post(`/themes/${key}`),
+    setLink: (slug) => put("/link", { slug }),
   };
 }
 // the customer's side: inside Telegram every call carries the signed Telegram data (who is ordering)
@@ -1458,7 +1467,7 @@ async function tgCall(path, { method = "GET", body } = {}) {
   return json;
 }
 export const tgStorePublic = {
-  store: (slug) => tgCall(`/${encodeURIComponent(slug)}`),
+  store: (slug, theme) => tgCall(`/${encodeURIComponent(slug)}${theme ? `?theme=${encodeURIComponent(theme)}` : ""}`),
   me: (slug) => tgCall(`/${encodeURIComponent(slug)}/me`),
   order: (slug, body) => tgCall(`/${encodeURIComponent(slug)}/orders`, { method: "POST", body }),
   promo: (slug, code, subtotal) => tgCall(`/${encodeURIComponent(slug)}/promo`, { method: "POST", body: { code, subtotal } }),

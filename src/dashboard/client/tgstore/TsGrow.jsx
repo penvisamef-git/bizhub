@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { BarChart3, Bike, Check, CircleDollarSign, Clock, Download, EyeOff, Loader2, Lock, Megaphone, Pencil, Plus, Puzzle, Send, ShoppingBag, Tag, Trash2, UtensilsCrossed } from "lucide-react";
+import { BarChart3, Bike, Check, CircleDollarSign, Clock, CreditCard, History, Link2, Download, EyeOff, Loader2, Lock, Megaphone, Pencil, Plus, Puzzle, Send, ShoppingBag, Tag, Trash2, UtensilsCrossed } from "lucide-react";
 import { Modal } from "../../super_admin/parts";
 import { Head, Switch } from "../menuqr/parts";
 import CoinIcon from "../../../components/CoinIcon";
 import { ago, fill, fmtDate, fmtNum, money } from "./text";
 
-export const ADDON_ICON = { ts_promos: Tag, ts_broadcast: Megaphone, ts_reports: BarChart3, ts_hours: Clock, ts_nobrand: EyeOff };
+export const ADDON_ICON = { ts_promos: Tag, ts_broadcast: Megaphone, ts_reports: BarChart3, ts_hours: Clock, ts_nobrand: EyeOff, ts_history: History, ts_pay: CreditCard, ts_link: Link2 };
 
 // an add-on that isn't bought yet: what it does + the Unlock button
 export function Locked({ ctx, addon, small }) {
