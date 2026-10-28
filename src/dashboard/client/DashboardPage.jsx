@@ -584,7 +584,7 @@ function TopItems({ items, d, lang, currency, many }) {
                   {d.sold.replace("{n}", fmt(x.qty))}
                   {many && x.business ? (
                     <em className={`db-item-biz k-${x.kind || "restaurant"}`}>
-                      {x.kind === "mart" ? <ShoppingBasket size={11} /> : <ChefHat size={11} />} {x.business}
+                      {x.kind === "mart" ? <ShoppingBasket size={11} /> : x.kind === "tg_store" ? <Send size={11} /> : <ChefHat size={11} />} {x.business}
                     </em>
                   ) : null}
                 </small>
@@ -662,7 +662,7 @@ function BizRow({ b, per, d, s, t, lang, onOpen, onEdit, grid, arrange }) {
             )}
           </small>
         </span>
-        {(rest || b.category === "guest_house" || b.category === "mart") && per && (
+        {(rest || b.category === "guest_house" || b.category === "mart" || b.category === "tg_store") && per && (
           <span className="db-biz-num">
             <b>{money(per.today, per.currency)}</b>
             <small>
@@ -703,7 +703,7 @@ function BizRow({ b, per, d, s, t, lang, onOpen, onEdit, grid, arrange }) {
 }
 
 const NOW_ICON = { waiting: BellRing, in_house: BedDouble, open_bills: ChefHat, staff_in: Fingerprint, messages: Inbox, stock: PackageX, new_customers: UserPlus, renewals: CalendarClock };
-const KIND_ICON = { restaurant: ChefHat, mart: ShoppingBasket, guest_house: BedDouble, attendance: Fingerprint, namecard: Contact };
+const KIND_ICON = { restaurant: ChefHat, mart: ShoppingBasket, guest_house: BedDouble, attendance: Fingerprint, namecard: Contact, tg_store: Send };
 
 // right now across all businesses: tiles with something to do first (a tap opens that business);
 // the quiet ones ("nothing now") shrink to small chips underneath
