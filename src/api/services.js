@@ -100,6 +100,11 @@ export const dashboardService = {
   get: (fresh) => userApiClient.get(`/dashboard${fresh ? "?fresh=1" : ""}`),
 };
 
+// Bizi search (v3.0.0): everything in all my businesses (own + team-shared)
+export const searchService = {
+  find: (q) => userApiClient.get("/search", { q }),
+};
+
 export const myBusinessService = {
   list: () => userApiClient.get("/businesses"),
   prices: () => userApiClient.get("/businesses-prices"), // { namecard: 5, restaurant: 100 } (restaurant = per year)

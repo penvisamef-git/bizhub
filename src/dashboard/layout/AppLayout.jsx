@@ -22,6 +22,7 @@ import { UpdatesSkeleton } from "../client/updates/UpdatesSkeleton";
 import { ChatPageSkeleton, CoinOrdersPageSkeleton, CoinShopSkeleton, InboxPageSkeleton, PageSkeleton } from "../../components/skeleton/Skeleton";
 import { useConfirmSignOut } from "../../components/ConfirmSignOut";
 import { DeletionBanner } from "../client/account/DeleteAccount";
+import Bizi from "../bizi/Bizi";
 
 const fmtCoins = (n) => new Intl.NumberFormat("en-US").format(Number(n) || 0);
 
@@ -177,6 +178,8 @@ export default function AppLayout() {
   return (
     <div className="app">
       {logoutDialog}
+      {/* Bizi (v3.0.0): the helper bubble + ⌘K search, on every owner page */}
+      {customer && <Bizi />}
       <aside className="sidebar">
         <Link to={ROUTES.home} className="side-card logo-card" aria-label="BizHub home">
           <span className="logo">

@@ -1,0 +1,98 @@
+/* Bizi — the BizHub helper (v3.0.0): the character, the corner bubble and the ⌘K search box */
+
+/* ---------- the character ---------- */
+.bizi-face { display: block; overflow: visible; }
+.bizi-face .bizi-bob { transform-origin: 100px 180px; animation: bizi-bob 3.2s ease-in-out infinite; }
+.bizi-face .bizi-eyes { transform-origin: 100px 107px; animation: bizi-blink 4.8s infinite; }
+.bizi-face .bizi-wave { animation: bizi-pulse 1.1s ease-in-out infinite; }
+.bizi-face .bizi-wave.w2 { animation-delay: 0.25s; }
+.bizi-face .bizi-dot { animation: bizi-pulse 1.2s ease-in-out infinite; }
+.bizi-face .bizi-dot.d2 { animation-delay: 0.2s; }
+.bizi-face .bizi-dot.d3 { animation-delay: 0.4s; }
+.bizi-face .bizi-mouth { transform-origin: 100px 125px; animation: bizi-talk 0.32s ease-in-out infinite alternate; }
+.bizi-face .bizi-spark { transform-box: fill-box; transform-origin: center; animation: bizi-spark 1.4s ease-in-out infinite; }
+.bizi-face .bizi-spark.s2 { animation-delay: 0.5s; }
+@keyframes bizi-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes bizi-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes bizi-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+@keyframes bizi-talk { from { transform: scaleY(0.45); } to { transform: scaleY(1); } }
+@keyframes bizi-spark { 0%, 100% { transform: scale(0.7); opacity: 0.6; } 50% { transform: scale(1.1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .bizi-face * { animation: none !important; }
+}
+
+/* ---------- the corner bubble (every owner page) ---------- */
+.bizi-corner { position: fixed; right: 24px; bottom: 24px; z-index: 35; display: flex; align-items: flex-end; gap: 10px; pointer-events: none; }
+.bizi-corner > * { pointer-events: auto; }
+.bizi-corner.is-open { visibility: hidden; }
+.bizi-bubble {
+  width: 64px; height: 64px; border-radius: 50%; border: 3px solid var(--card); padding: 0; cursor: pointer;
+  background: #fff7ef; display: grid; place-items: center; box-shadow: var(--orange-shadow), var(--card-shadow);
+  transition: transform 0.15s ease;
+}
+.bizi-bubble:hover { transform: translateY(-2px) scale(1.04); }
+.bizi-bubble:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
+.bizi-tip {
+  display: flex; flex-direction: column; gap: 2px; text-align: left; max-width: 230px; cursor: pointer;
+  padding: 10px 14px; border: 0; border-radius: 18px 18px 4px 18px; background: var(--solid); color: var(--on-solid);
+  box-shadow: var(--pop-shadow); font: inherit; animation: bizi-in 0.25s ease-out;
+}
+.bizi-tip b { font-size: 14px; }
+.bizi-tip span { font-size: 12.5px; opacity: 0.85; line-height: 1.4; }
+@keyframes bizi-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 760px) {
+  .bizi-corner { right: 16px; bottom: calc(max(12px, env(safe-area-inset-bottom)) + 84px); }
+  .bizi-bubble { width: 56px; height: 56px; }
+  .bizi-bubble svg { width: 46px; height: 46px; }
+}
+@media print { .bizi-corner { display: none; } }
+
+/* ---------- the ⌘K box ---------- */
+.bizi-layer {
+  position: fixed; inset: 0; z-index: 60; background: rgba(22, 23, 27, 0.45); display: flex; justify-content: center;
+  align-items: flex-start; padding: 9vh 16px 16px; animation: bizi-fade 0.12s ease-out;
+}
+@keyframes bizi-fade { from { opacity: 0; } to { opacity: 1; } }
+.bizi-box {
+  width: 100%; max-width: 720px; max-height: min(640px, 82vh); display: flex; flex-direction: column; overflow: hidden;
+  background: var(--card); color: var(--ink); border-radius: 22px; box-shadow: var(--pop-shadow);
+}
+.bizi-top { display: flex; align-items: center; gap: 10px; padding: 12px 12px 12px 14px; border-bottom: 1px solid var(--line); }
+.bizi-top-face { width: 46px; height: 46px; border-radius: 50%; background: #fff7ef; display: grid; place-items: center; flex-shrink: 0; }
+.bizi-field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; color: var(--muted); }
+.bizi-field input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: inherit; font-size: 17px; font-weight: 600; padding: 10px 0; }
+.bizi-field input::placeholder { color: var(--muted); font-weight: 500; }
+.bizi-x { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--chip); color: var(--ink); display: grid; place-items: center; cursor: pointer; flex-shrink: 0; }
+.bizi-list { overflow-y: auto; padding: 6px 0 8px; overscroll-behavior: contain; }
+.bizi-head { padding: 12px 18px 6px; font-size: 11.5px; font-weight: 800; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.bizi-row { display: flex; align-items: center; gap: 12px; padding: 9px 18px; color: var(--ink); text-decoration: none; min-height: 44px; }
+.bizi-row.on { background: var(--active); }
+.bizi-ic { width: 34px; height: 34px; border-radius: 10px; background: var(--chip); color: var(--brand-ink); display: grid; place-items: center; flex-shrink: 0; overflow: hidden; }
+.bizi-ic img { width: 100%; height: 100%; object-fit: cover; }
+.bizi-ic.k-order, .bizi-ic.k-stay { background: var(--active); }
+.bizi-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.bizi-txt b { font-size: 14.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bizi-txt small { font-size: 12.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bizi-chip { flex-shrink: 0; padding: 3px 9px; border-radius: 999px; background: var(--chip); color: var(--muted); font-size: 12px; font-weight: 700; }
+.bizi-chip.warn { background: #fce9d6; color: #8a4b0e; }
+.bizi-money { flex-shrink: 0; font-size: 13.5px; font-weight: 800; }
+.bizi-kbd, .bizi-foot kbd { font: inherit; font-size: 11.5px; font-weight: 700; padding: 1px 6px; border-radius: 6px; border: 1px solid var(--line-strong); color: var(--muted); background: var(--card); }
+.bizi-note { margin: 0; padding: 14px 18px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.bizi-note.busy { padding-top: 6px; }
+.bizi-none { display: flex; flex-direction: column; gap: 4px; padding: 22px 18px; text-align: center; }
+.bizi-none b { font-size: 15px; }
+.bizi-none span { color: var(--muted); font-size: 13.5px; }
+.bizi-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 18px; border-top: 1px solid var(--line); background: var(--bg2); font-size: 12.5px; color: var(--muted); }
+.bizi-foot kbd { margin-right: 2px; }
+.bizi-soon { flex-basis: 100%; font-size: 12px; }
+@media (max-width: 760px) {
+  .bizi-layer { padding: 0; align-items: stretch; }
+  .bizi-box { max-width: none; max-height: none; height: 100%; border-radius: 0; }
+  .bizi-foot span:not(.bizi-soon) { display: none; }
+}
+/* the page's own input look (border, focus ring) stays out of the search line */
+.bizi-box .bizi-field input,
+.bizi-box .bizi-field input:focus,
+.bizi-box .bizi-field input:focus-visible { border: 0; outline: 0; box-shadow: none; background: transparent; border-radius: 0; height: auto; }
+.bizi-box:focus-within .bizi-top { box-shadow: inset 0 -2px 0 var(--brand); }
+.bizi-list { flex: 1 1 auto; }
