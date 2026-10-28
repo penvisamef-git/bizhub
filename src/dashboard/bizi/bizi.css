@@ -121,3 +121,17 @@
 .bizi-tip.k-day span + span { margin-top: 1px; }
 .bizi-ic.k-alert { background: var(--active); }
 .bizi-ic.k-alert.warn { background: #fde4e1; color: #b42318; }
+
+/* layer 6: how-tos */
+.bizi-ic.k-help { background: #e8f1ff; color: #1d4ed8; }
+.bizi-row.is-open { background: var(--active); }
+.bizi-help { margin: 0 18px 8px 64px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); }
+.bizi-help ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.5; color: var(--ink); }
+.bizi-help-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 12px; }
+.bizi-help-go { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; min-height: 36px; border-radius: 999px; background: var(--brand); color: #fff; font-size: 13.5px; font-weight: 700; text-decoration: none; }
+.bizi-help-go small { font-weight: 600; opacity: 0.85; }
+.bizi-help-go:focus-visible, .bizi-help-ask:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.bizi-help-ask { display: inline-flex; align-items: center; gap: 6px; color: var(--brand-ink); font-size: 13px; font-weight: 700; text-decoration: none; }
+.bizi-none .bizi-help-ask { justify-content: center; margin-top: 8px; }
+@media (max-width: 760px) { .bizi-help { margin-left: 18px; } }
+html[data-theme="dark"] .bizi-ic.k-help { background: rgba(59, 130, 246, 0.18); color: #93c5fd; }

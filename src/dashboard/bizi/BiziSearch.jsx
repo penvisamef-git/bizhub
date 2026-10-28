@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, BellRing, BedDouble, BookOpen, Clock, FileText, Languages, LayoutGrid, Moon, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
+import { ArrowUpRight, BellRing, BedDouble, BookOpen, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import { useTheme } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
@@ -9,6 +9,8 @@ import { bizTypeName } from "../super_admin/BizTypes";
 import BiziFace from "./BiziFace";
 import { BIZI_PAGES } from "./pages.gen";
 import { GLOBAL_PAGES, SUGGEST, TAB_WORDS, hit, pageName } from "./smart";
+import { HELP } from "./help";
+import { findHelp, isQuestion, targetOf } from "./help-find";
 import { biziText } from "./text";
 
 // Bizi search (v3.0.0): ⌘K / Ctrl K or the corner bubble.
@@ -16,8 +18,10 @@ import { biziText } from "./text";
 //   for each, small typing mistakes), the BizHub pages (wallet, buy coins…), dark mode / language, my recent picks
 //   the server (GET /api/user/search): products, orders, bookings, people, events, notes… in all my businesses,
 //   and the smart words ("new", "unpaid orders today", "sold out", "ការកម្ម៉ង់ថ្មី")
-const GROUPS = ["smart", "pages", "businesses", "products", "orders", "people", "other"];
-const KIND_ICON = { alert: BellRing,  product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+//   how-tos (help.js): "how do I pair a POS?" → the steps + a button to that page (a question → the answers first)
+const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "people", "other"];
+const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
+const KIND_ICON = { alert: BellRing, help: LifeBuoy, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
 // the words of a status, wherever it comes from (orders, bills, stays, events)
 const STATUS = {
   en: { new: "New", accepted: "Making", ready: "Ready", on_way: "On the way", done: "Done", cancelled: "Cancelled", open: "Open", paid: "Paid", void: "Void", booked: "Booked", in: "Staying", out: "Checked out", no_show: "No-show", pending: "Waiting", review: "To check", rejected: "Rejected", expired: "Expired", published: "On sale", draft: "Draft", closed: "Closed" },
@@ -139,6 +143,7 @@ export default function BiziSearch({ onClose, brief }) {
   const [typing, setTyping] = useState(false);
   const [active, setActive] = useState(0);
   const [recent] = useState(readRecent);
+  const [helpOpen, setHelpOpen] = useState(null); // { q, id } — the how-to opened (or closed: id "") for these words
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const ask = useRef(0);
@@ -196,6 +201,11 @@ export default function BiziSearch({ onClose, brief }) {
     return acts.filter((a) => ws.every((w) => hit(w, `${a.title} ${a.words}`.toLowerCase()))).map((a) => ({ ...a, group: "pages", sub: x.action }));
   }, [term, theme, lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const asked = isQuestion(term);
+  const help = useMemo(() => findHelp(term).map(({ a }) => ({ group: "help", kind: "help", id: a.id, title: a[lang]?.q || a.en.q, sub: x.helpSub, a })), [term, lang]); // eslint-disable-line react-hooks/exhaustive-deps
+  // a question opens the best answer by itself
+  const openId = helpOpen?.q === term ? helpOpen.id : asked ? help[0]?.id || "" : "";
+
   const rows = useMemo(() => {
     if (!term) {
       // what Bizi has to say (the brief), then my recent picks, then my businesses
@@ -214,11 +224,15 @@ export default function BiziSearch({ onClose, brief }) {
       return [...says, ...recent.map((r, i) => ({ ...r, group: "recent", id: `r${i}` })), ...list.slice(0, 8).map(asBiz)];
     }
     const fromApi = api.q === term ? api.results : [];
-    const all = [...pages, ...actions, ...businesses.map(asBiz), ...fromApi];
-    return GROUPS.flatMap((g) => all.filter((it) => it.group === g));
-  }, [term, pages, actions, businesses, api, list, lang, recent, brief]); // eslint-disable-line react-hooks/exhaustive-deps
+    const all = [...pages, ...actions, ...help, ...businesses.map(asBiz), ...fromApi];
+    return (asked ? GROUPS_ASKED : GROUPS).flatMap((g) => all.filter((it) => it.group === g));
+  }, [term, pages, actions, help, businesses, api, list, lang, recent, brief]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (it) => {
+    if (it.kind === "help") {
+      setHelpOpen({ q: term, id: openId === it.id ? "" : it.id });
+      return;
+    }
     if (it.run) {
       it.run();
       return;
@@ -250,6 +264,7 @@ export default function BiziSearch({ onClose, brief }) {
   const mood = !term ? "idle" : waiting ? "thinking" : rows.length ? "happy" : "worried";
   const smartHead = `${x.groups.smart} · ${(api.q === term ? api.smart : []).map((k) => x.smart[k] || k).join(" · ")}`;
   const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
+  const popular = HELP.filter((a) => a.popular).slice(0, 4);
   const markWs = ws.filter((w) => w.length > 1);
   let lastGroup = "";
 
@@ -297,6 +312,16 @@ export default function BiziSearch({ onClose, brief }) {
                   </button>
                 ))}
               </div>
+              <div className="bizi-sugg" role="group" aria-label={x.questions}>
+                <span>
+                  <LifeBuoy size={14} aria-hidden="true" /> {x.questions}
+                </span>
+                {popular.map((a) => (
+                  <button key={a.id} type="button" onClick={() => setQ(a[lang]?.q || a.en.q)} data-testid="bizi-ask">
+                    {a[lang]?.q || a.en.q}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
           {term && !waiting && api.fuzzy && api.q === term && <p className="bizi-note fuzzy">{x.fuzzy.replace("{q}", term)}</p>}
@@ -309,14 +334,15 @@ export default function BiziSearch({ onClose, brief }) {
             const sub = [it.kind === "business" || it.kind === "app" || it.kind === "action" || it.kind === "alert" ? "" : it.business, it.sub, it.shared ? x.shared : ""].filter(Boolean).join(" · ");
             return (
               <div key={`${it.group}:${it.id}:${i}`}>
-                {head && <div className={`bizi-head${it.group === "smart" || it.group === "says" ? " smart" : ""}`}>{head}</div>}
+                {head && <div className={`bizi-head${it.group === "smart" || it.group === "says" || it.group === "help" ? " smart" : ""}`}>{head}</div>}
                 <Link
                   to={it.run ? "#" : linkOf(it)}
                   id={`bizi-o-${i}`}
                   role="option"
                   aria-selected={i === active}
                   data-i={i}
-                  className={`bizi-row${i === active ? " on" : ""}`}
+                  className={`bizi-row${i === active ? " on" : ""}${it.kind === "help" && openId === it.id ? " is-open" : ""}`}
+                  aria-expanded={it.kind === "help" ? openId === it.id : undefined}
                   onMouseMove={() => i !== active && setActive(i)}
                   onClick={(e) => {
                     if (!it.run && (e.metaKey || e.ctrlKey)) return; // a new tab: leave it to the browser
@@ -343,6 +369,7 @@ export default function BiziSearch({ onClose, brief }) {
                     </kbd>
                   )}
                 </Link>
+                {it.kind === "help" && openId === it.id && <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} />}
               </div>
             );
           })}
@@ -351,7 +378,12 @@ export default function BiziSearch({ onClose, brief }) {
           {term && !waiting && !offline && rows.length === 0 && (
             <div className="bizi-none">
               <b>{x.empty.replace("{q}", term)}</b>
-              <span>{x.emptySub}</span>
+              <span>{asked ? x.helpNone : x.emptySub}</span>
+              {asked && (
+                <Link to="/app/support" className="bizi-help-ask" onClick={onClose}>
+                  <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
+                </Link>
+              )}
             </div>
           )}
         </div>
@@ -372,6 +404,33 @@ export default function BiziSearch({ onClose, brief }) {
           </span>
           <span className="bizi-soon">{x.soon}</span>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// the answer under a how-to: the steps, a button to that page (in my first business of that type), and the team
+function HelpAnswer({ a, lang, x, list, onGo }) {
+  const t = a[lang] || a.en;
+  const to = targetOf(a, list);
+  return (
+    <div className="bizi-help" data-testid="bizi-help">
+      <ol>
+        {t.steps.map((step) => (
+          <li key={step}>{step}</li>
+        ))}
+      </ol>
+      <div className="bizi-help-acts">
+        {to && (
+          <Link to={to.href} className="bizi-help-go" onClick={onGo} data-testid="bizi-help-go">
+            {to.add ? x.helpAdd : t.open || x.helpGo}
+            {to.business ? <small> · {to.business}</small> : null}
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </Link>
+        )}
+        <Link to="/app/support" className="bizi-help-ask" onClick={onGo}>
+          <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
+        </Link>
       </div>
     </div>
   );
