@@ -22,11 +22,6 @@ import { biziText } from "./text";
 const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "people", "other"];
 const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
 const KIND_ICON = { alert: BellRing, help: LifeBuoy, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
-// the words of a status, wherever it comes from (orders, bills, stays, events)
-const STATUS = {
-  en: { new: "New", accepted: "Making", ready: "Ready", on_way: "On the way", done: "Done", cancelled: "Cancelled", open: "Open", paid: "Paid", void: "Void", booked: "Booked", in: "Staying", out: "Checked out", no_show: "No-show", pending: "Waiting", review: "To check", rejected: "Rejected", expired: "Expired", published: "On sale", draft: "Draft", closed: "Closed" },
-  km: { new: "ថ្មី", accepted: "កំពុងធ្វើ", ready: "រួចរាល់", on_way: "កំពុងដឹក", done: "បានបញ្ចប់", cancelled: "បានបោះបង់", open: "បើក", paid: "បានបង់", void: "បានលុប", booked: "បានកក់", in: "កំពុងស្នាក់", out: "បានចេញ", no_show: "មិនមក", pending: "កំពុងរង់ចាំ", review: "ត្រូវពិនិត្យ", rejected: "បានបដិសេធ", expired: "ផុតកំណត់", published: "កំពុងលក់", draft: "ព្រាង", closed: "បានបិទ" },
-};
 const RECENT_KEY = "bizi_recent";
 const money = (v, cur) => (v === undefined || v === null || v === "" ? "" : cur === "KHR" ? `${new Intl.NumberFormat("en-US").format(Math.round(Number(v) || 0))}៛` : `$${(Number(v) || 0).toFixed(2)}`);
 const words = (q) => q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -133,7 +128,7 @@ export default function BiziSearch({ onClose, brief }) {
   const { lang, toggleLang } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const x = biziText(lang);
-  const st = STATUS[lang] || STATUS.en;
+  const st = x.status || {};
   const navigate = useNavigate();
   const list = useMyBusinesses();
   const [q, setQ] = useState("");

@@ -69,6 +69,8 @@ const TEXT = {
     helpAdd: "Add that business first",
     helpAsk: "Still stuck? Chat with the BizHub team",
     helpNone: "I don't know that one yet — the BizHub team can help.",
+    // the words of a status, wherever it comes from (orders, bills, stays, events)
+    status: { new: "New", accepted: "Making", ready: "Ready", on_way: "On the way", done: "Done", cancelled: "Cancelled", open: "Open", paid: "Paid", void: "Void", booked: "Booked", in: "Staying", out: "Checked out", no_show: "No-show", pending: "Waiting", review: "To check", rejected: "Rejected", expired: "Expired", published: "On sale", draft: "Draft", closed: "Closed" },
     smart: { new: "New", unpaid: "Not paid yet", sold_out: "Sold out", low_stock: "Low stock", today: "Today", yesterday: "Yesterday", staying: "Staying now", orders: "Orders", people: "People" },
   },
   km: {
@@ -127,6 +129,7 @@ const TEXT = {
     helpAdd: "បន្ថែមអាជីវកម្មនោះជាមុនសិន",
     helpAsk: "នៅតែពិបាក? ជជែកជាមួយក្រុម BizHub",
     helpNone: "ខ្ញុំមិនទាន់ដឹងរឿងនេះទេ — ក្រុម BizHub អាចជួយបាន។",
+    status: { new: "ថ្មី", accepted: "កំពុងធ្វើ", ready: "រួចរាល់", on_way: "កំពុងដឹក", done: "បានបញ្ចប់", cancelled: "បានបោះបង់", open: "បើក", paid: "បានបង់", void: "បានលុប", booked: "បានកក់", in: "កំពុងស្នាក់", out: "បានចេញ", no_show: "មិនមក", pending: "កំពុងរង់ចាំ", review: "ត្រូវពិនិត្យ", rejected: "បានបដិសេធ", expired: "ផុតកំណត់", published: "កំពុងលក់", draft: "ព្រាង", closed: "បានបិទ" },
     smart: { new: "ថ្មី", unpaid: "មិនទាន់បង់", sold_out: "អស់ស្តុក", low_stock: "ស្តុកតិច", today: "ថ្ងៃនេះ", yesterday: "ម្សិលមិញ", staying: "កំពុងស្នាក់", orders: "ការកម្ម៉ង់", people: "មនុស្ស" },
   },
 };
