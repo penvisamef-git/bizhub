@@ -3,6 +3,20 @@
 // kind: "new" | "better" | "fix" | "safe"
 export const CHANGELOG = [
   {
+    version: "3.0.0",
+    status: "testing",
+    date: "2026-10",
+    title: { en: "Bizi — your BizHub helper", km: "Bizi — ជំនួយការ BizHub របស់អ្នក" },
+    sub: {
+      en: "One box that finds everything in all your businesses, and a small helper in the corner of every page.",
+      km: "ប្រអប់តែមួយដែលរកឃើញគ្រប់យ៉ាងក្នុងអាជីវកម្មទាំងអស់របស់អ្នក និងជំនួយការតូចមួយនៅជ្រុងនៃគ្រប់ទំព័រ។",
+    },
+    items: [
+      { kind: "new", en: "Search everything: press ⌘K / Ctrl K, or tap Bizi, to find pages and settings, products, orders and customers across all your businesses.", km: "ស្វែងរកគ្រប់យ៉ាង៖ ចុច ⌘K / Ctrl K ឬចុចលើ Bizi ដើម្បីរកទំព័រ ការកំណត់ ទំនិញ ការកម្ម៉ង់ និងអតិថិជន ក្នុងអាជីវកម្មទាំងអស់របស់អ្នក។" },
+      { kind: "new", en: "Bizi, the BizHub helper, waits in the corner of every page of the website.", km: "Bizi ជំនួយការ BizHub រង់ចាំនៅជ្រុងនៃគ្រប់ទំព័រលើគេហទំព័រ។" },
+    ],
+  },
+  {
     version: "2.0.0",
     status: "testing",
     date: "2026-10",
