@@ -96,3 +96,18 @@
 .bizi-box .bizi-field input:focus-visible { border: 0; outline: 0; box-shadow: none; background: transparent; border-radius: 0; height: auto; }
 .bizi-box:focus-within .bizi-top { box-shadow: inset 0 -2px 0 var(--brand); }
 .bizi-list { flex: 1 1 auto; }
+
+/* v3.0.0 b: drag Bizi anywhere, smarter search */
+.bizi-bubble { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.bizi-bubble.is-dragging { cursor: grabbing; transform: scale(1.1); box-shadow: var(--pop-shadow); transition: none; }
+.bizi-corner.is-placed { right: auto; bottom: auto; }
+.bizi-start { padding-bottom: 6px; }
+.bizi-start .bizi-note { padding-bottom: 8px; }
+.bizi-sugg { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 0 18px 8px; }
+.bizi-sugg > span { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 700; color: var(--brand-ink); }
+.bizi-sugg button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; min-height: 32px; }
+.bizi-sugg button:hover, .bizi-sugg button:focus-visible { border-color: var(--brand); color: var(--brand-ink); outline: 0; }
+.bizi-head.smart { color: var(--brand-ink); }
+.bizi-row mark { background: transparent; color: var(--brand-ink); font-weight: 800; }
+.bizi-note.fuzzy { padding: 10px 18px 0; font-weight: 600; }
+.bizi-ic.k-action, .bizi-ic.k-app { background: var(--active); }

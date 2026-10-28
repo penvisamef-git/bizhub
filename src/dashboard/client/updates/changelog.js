@@ -13,7 +13,9 @@ export const CHANGELOG = [
     },
     items: [
       { kind: "new", en: "Search everything: press ⌘K / Ctrl K, or tap Bizi, to find pages and settings, products, orders and customers across all your businesses.", km: "ស្វែងរកគ្រប់យ៉ាង៖ ចុច ⌘K / Ctrl K ឬចុចលើ Bizi ដើម្បីរកទំព័រ ការកំណត់ ទំនិញ ការកម្ម៉ង់ និងអតិថិជន ក្នុងអាជីវកម្មទាំងអស់របស់អ្នក។" },
-      { kind: "new", en: "Bizi, the BizHub helper, waits in the corner of every page of the website.", km: "Bizi ជំនួយការ BizHub រង់ចាំនៅជ្រុងនៃគ្រប់ទំព័រលើគេហទំព័រ។" },
+      { kind: "new", en: "Bizi, the BizHub helper, waits on every page of the website — hold and drag it anywhere, it stays there.", km: "Bizi ជំនួយការ BizHub នៅលើគ្រប់ទំព័រនៃគេហទំព័រ — ចុចឱ្យជាប់ ហើយអូសទៅកន្លែងណាក៏បាន វានៅទីនោះ។" },
+      { kind: "new", en: "Smart words: “new”, “unpaid orders today”, “sold out”, “low stock”, “guests staying” (or ការកម្ម៉ង់ថ្មី, មិនទាន់បង់, អស់ស្តុក…) list them across all your businesses.", km: "ពាក្យឆ្លាតវៃ៖ “ការកម្ម៉ង់ថ្មី” “មិនទាន់បង់ ថ្ងៃនេះ” “អស់ស្តុក” “ស្តុកតិច” “ភ្ញៀវកំពុងស្នាក់” បង្ហាញពីអាជីវកម្មទាំងអស់របស់អ្នក។" },
+      { kind: "better", en: "Search understands words in any order, more words for each page (“fee”, “printer”, “top up”), small typing mistakes (“cofee”), and shows your recent picks.", km: "ការស្វែងរកយល់ពាក្យតាមលំដាប់ណាក៏បាន ពាក្យបន្ថែមសម្រាប់ទំព័រនីមួយៗ (“ថ្លៃដឹក” “ម៉ាស៊ីនបោះពុម្ព” “បញ្ចូលកាក់”) កំហុសវាយតូចៗ និងបង្ហាញអ្វីដែលអ្នកបានបើកថ្មីៗ។" },
     ],
   },
   {
