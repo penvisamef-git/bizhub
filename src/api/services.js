@@ -103,6 +103,7 @@ export const dashboardService = {
 // Bizi search (v3.0.0): everything in all my businesses (own + team-shared)
 export const searchService = {
   find: (q) => userApiClient.get("/search", { q }),
+  brief: () => userApiClient.get("/bizi/brief"), // summary + what needs me now (no AI)
 };
 
 export const myBusinessService = {

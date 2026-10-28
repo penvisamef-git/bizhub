@@ -111,3 +111,13 @@
 .bizi-row mark { background: transparent; color: var(--brand-ink); font-weight: 800; }
 .bizi-note.fuzzy { padding: 10px 18px 0; font-weight: 600; }
 .bizi-ic.k-action, .bizi-ic.k-app { background: var(--active); }
+
+/* layer 1: the dot, the notes */
+.bizi-bubble { position: relative; }
+.bizi-dot { position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #b42318; color: #fff; font-style: normal; font-size: 12px; font-weight: 800; display: grid; place-items: center; border: 2px solid var(--card); }
+.bizi-dot.soft { min-width: 14px; width: 14px; height: 14px; padding: 0; background: var(--brand); top: -1px; right: -1px; }
+.bizi-tip.k-sale { background: var(--grad); color: #fff; }
+.bizi-tip.k-day { max-width: 260px; }
+.bizi-tip.k-day span + span { margin-top: 1px; }
+.bizi-ic.k-alert { background: var(--active); }
+.bizi-ic.k-alert.warn { background: #fde4e1; color: #b42318; }

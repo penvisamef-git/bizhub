@@ -1,6 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "../../i18n/I18nProvider";
+import { searchService } from "../../api/services";
 import BiziFace from "./BiziFace";
 import { biziText } from "./text";
 import "./bizi.css";
@@ -8,6 +9,11 @@ import "./bizi.css";
 // the search box downloads the first time it opens (the bubble itself is tiny)
 const BiziSearch = lazy(() => import("./BiziSearch"));
 const TIP_KEY = "bizi_tip_seen";
+const DAY_KEY = "bizi_brief_day"; // the Cambodia day the morning summary was shown
+const khDay = () => new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10);
+const khHour = () => new Date(Date.now() + 7 * 3600e3).getUTCHours();
+const fmtMoney = (v, cur) => (cur === "KHR" ? `${new Intl.NumberFormat("en-US").format(Math.round(Number(v) || 0))}៛` : `$${(Number(v) || 0).toFixed(2)}`);
+const POLL = 60000;
 const POS_KEY = "bizi_pos"; // where the person put Bizi: { x, y } as parts of the window (0–1), so it survives a resize
 const SIZE = 64;
 const EDGE = 8;
@@ -27,6 +33,9 @@ const toPx = (p) => ({ left: clamp(p.x * window.innerWidth, EDGE, window.innerWi
 // Bizi (v3.0.0): the helper in the corner of every owner page. Tap it, or press ⌘K / Ctrl K anywhere, to search
 // everything in all my businesses. Hold and drag it anywhere on the screen (it stays there next time); the first
 // time, a small "Ask me anything" note says what it is.
+// Layer 1 (no AI): every minute it reads GET /api/user/bizi/brief — worried + a red dot when something waits
+// (new orders, guests past check-out, payments to check, sold out…), happy for a moment when a new sale / order
+// comes in, and once a day a short summary (yesterday's money, this week vs last week, what needs you).
 export default function Bizi() {
   const { lang } = useI18n();
   const x = biziText(lang);
@@ -35,6 +44,10 @@ export default function Bizi() {
   const [pos, setPos] = useState(readPos);
   const [, setTick] = useState(0); // re-place on a window resize
   const [dragging, setDragging] = useState(false);
+  const [brief, setBrief] = useState(null);
+  const [note, setNote] = useState(null); // { kind: "sale" | "day", lines }
+  const [happy, setHappy] = useState(false);
+  const pulse = useRef(null);
   const drag = useRef(null); // { id, sx, sy, left, top, moved }
   const [tip, setTip] = useState(() => {
     try {
@@ -53,6 +66,7 @@ export default function Bizi() {
   }, []);
   const show = useCallback(() => {
     hideTip();
+    setNote(null);
     setOpen(true);
   }, [hideTip]);
 
@@ -81,6 +95,70 @@ export default function Bizi() {
   }, [tip, hideTip]);
   // a new page closes the box
   useEffect(() => setOpen(false), [location.pathname, location.search]);
+
+  // the brief: now, every minute while the page is in front, and when it comes back
+  useEffect(() => {
+    let live = true;
+    const load = () => {
+      if (document.visibilityState === "hidden") return;
+      searchService
+        .brief()
+        .then((r) => live && setBrief(r.data || null))
+        .catch(() => {});
+    };
+    load();
+    const t = setInterval(load, POLL);
+    document.addEventListener("visibilitychange", load);
+    return () => {
+      live = false;
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", load);
+    };
+  }, []);
+  // a new sale / order since the last look → happy for a moment
+  useEffect(() => {
+    if (!brief) return undefined;
+    const before = pulse.current;
+    pulse.current = brief.pulse;
+    if (before === null || brief.pulse <= before) return undefined;
+    setHappy(true);
+    setNote({ kind: "sale", lines: [x.newSale] });
+    const tm = setTimeout(() => {
+      setHappy(false);
+      setNote((n) => (n?.kind === "sale" ? null : n));
+    }, 6000);
+    return () => clearTimeout(tm);
+  }, [brief]); // eslint-disable-line react-hooks/exhaustive-deps
+  // once a day: the summary
+  useEffect(() => {
+    if (!brief) return;
+    let seen = "";
+    try {
+      seen = localStorage.getItem(DAY_KEY) || "";
+    } catch {
+      /* private window */
+    }
+    if (seen === khDay()) return;
+    const s = brief.summary || {};
+    const h = khHour();
+    const warn = (brief.alerts || []).filter((a) => a.level === "warn").length;
+    const lines = [x.hello[h < 12 ? "morning" : h < 17 ? "afternoon" : "evening"]];
+    if (s.yesterday > 0) lines.push(x.yesterday.replace("{money}", fmtMoney(s.yesterday, s.currency)));
+    else if (s.today > 0) lines.push(x.todaySoFar.replace("{money}", fmtMoney(s.today, s.currency)));
+    if (s.change_pct !== null && s.change_pct !== undefined) lines.push(x.week.replace("{pct}", `${s.change_pct > 0 ? "+" : ""}${s.change_pct}%`));
+    const n = (brief.alerts || []).length;
+    lines.push(n === 1 && x.needYou1 ? x.needYou1 : n ? x.needYou.replace("{n}", n) : x.allGood);
+    setTip(false);
+    setNote({ kind: "day", lines, warn });
+    try {
+      localStorage.setItem(DAY_KEY, khDay());
+      localStorage.setItem(TIP_KEY, "1");
+    } catch {
+      /* private window */
+    }
+    const tm = setTimeout(() => setNote((v) => (v?.kind === "day" ? null : v)), 15000);
+    return () => clearTimeout(tm);
+  }, [brief]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // hold + move = drag (a small move still counts as a tap)
   const onDown = (e) => {
@@ -151,6 +229,7 @@ export default function Bizi() {
     }
   };
 
+  const warnN = (brief?.alerts || []).filter((a) => a.level === "warn").length;
   const px = pos ? toPx(pos) : null;
   // the note sits on the side with more room
   const tipLeft = px && px.left > window.innerWidth / 2;
@@ -159,7 +238,15 @@ export default function Bizi() {
   return (
     <>
       <div className={`bizi-corner${open ? " is-open" : ""}${px ? " is-placed" : ""}`}>
-        {tip && !open && !dragging && (
+        {!open && !dragging && note && (
+          <button type="button" className={`bizi-tip k-${note.kind}`} onClick={show} style={tipStyle} data-testid="bizi-note">
+            <b>{note.lines[0]}</b>
+            {note.lines.slice(1).map((l) => (
+              <span key={l}>{l}</span>
+            ))}
+          </button>
+        )}
+        {tip && !note && !open && !dragging && (
           <button type="button" className="bizi-tip" onClick={show} style={tipStyle}>
             <b>{x.tipTitle}</b>
             <span>{x.tipSub}</span>
@@ -179,12 +266,19 @@ export default function Bizi() {
           title={`${x.open} · ${x.keys} · ${x.dragHint}`}
           data-testid="bizi-bubble"
         >
-          <BiziFace mood={dragging ? "happy" : "idle"} size={52} title="Bizi" />
+          <BiziFace mood={dragging || happy ? "happy" : brief?.mood === "worried" ? "worried" : "idle"} size={52} title="Bizi" />
+          {warnN > 0 ? (
+            <em className="bizi-dot" aria-label={x.needYou.replace("{n}", warnN)}>
+              {warnN > 9 ? "9+" : warnN}
+            </em>
+          ) : (brief?.alerts || []).length > 0 ? (
+            <em className="bizi-dot soft" aria-hidden="true" />
+          ) : null}
         </button>
       </div>
       {open && (
         <Suspense fallback={null}>
-          <BiziSearch onClose={() => setOpen(false)} />
+          <BiziSearch onClose={() => setOpen(false)} brief={brief} />
         </Suspense>
       )}
     </>

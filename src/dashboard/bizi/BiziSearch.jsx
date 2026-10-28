@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, BedDouble, BookOpen, Clock, FileText, Languages, LayoutGrid, Moon, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
+import { ArrowUpRight, BellRing, BedDouble, BookOpen, Clock, FileText, Languages, LayoutGrid, Moon, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import { useTheme } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
@@ -17,7 +17,7 @@ import { biziText } from "./text";
 //   the server (GET /api/user/search): products, orders, bookings, people, events, notes… in all my businesses,
 //   and the smart words ("new", "unpaid orders today", "sold out", "ការកម្ម៉ង់ថ្មី")
 const GROUPS = ["smart", "pages", "businesses", "products", "orders", "people", "other"];
-const KIND_ICON = { product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+const KIND_ICON = { alert: BellRing,  product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
 // the words of a status, wherever it comes from (orders, bills, stays, events)
 const STATUS = {
   en: { new: "New", accepted: "Making", ready: "Ready", on_way: "On the way", done: "Done", cancelled: "Cancelled", open: "Open", paid: "Paid", void: "Void", booked: "Booked", in: "Staying", out: "Checked out", no_show: "No-show", pending: "Waiting", review: "To check", rejected: "Rejected", expired: "Expired", published: "On sale", draft: "Draft", closed: "Closed" },
@@ -125,7 +125,7 @@ function findPages(list, q, lang) {
   return out.sort((a, b) => b.score - a.score).slice(0, 8);
 }
 
-export default function BiziSearch({ onClose }) {
+export default function BiziSearch({ onClose, brief }) {
   const { lang, toggleLang } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const x = biziText(lang);
@@ -197,11 +197,26 @@ export default function BiziSearch({ onClose }) {
   }, [term, theme, lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const rows = useMemo(() => {
-    if (!term) return [...recent.map((r, i) => ({ ...r, group: "recent", id: `r${i}` })), ...list.slice(0, 8).map(asBiz)];
+    if (!term) {
+      // what Bizi has to say (the brief), then my recent picks, then my businesses
+      const says = (brief?.alerts || []).map((a, i) => ({
+        group: "says",
+        kind: "alert",
+        level: a.level,
+        id: `a${i}`,
+        title: ((a.n === 1 && x.alerts1?.[a.key]) || x.alerts[a.key] || a.key).replace("{n}", a.n),
+        sub: a.business || "",
+        business_id: a.business_id,
+        business: "",
+        tab: a.tab,
+        href: a.href || (a.business_id ? "" : "/app/dashboard"),
+      }));
+      return [...says, ...recent.map((r, i) => ({ ...r, group: "recent", id: `r${i}` })), ...list.slice(0, 8).map(asBiz)];
+    }
     const fromApi = api.q === term ? api.results : [];
     const all = [...pages, ...actions, ...businesses.map(asBiz), ...fromApi];
     return GROUPS.flatMap((g) => all.filter((it) => it.group === g));
-  }, [term, pages, actions, businesses, api, list, lang, recent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [term, pages, actions, businesses, api, list, lang, recent, brief]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (it) => {
     if (it.run) {
@@ -234,7 +249,7 @@ export default function BiziSearch({ onClose }) {
   const waiting = typing || busy;
   const mood = !term ? "idle" : waiting ? "thinking" : rows.length ? "happy" : "worried";
   const smartHead = `${x.groups.smart} · ${(api.q === term ? api.smart : []).map((k) => x.smart[k] || k).join(" · ")}`;
-  const headOf = (g) => (g === "smart" ? smartHead : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
+  const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
   const markWs = ws.filter((w) => w.length > 1);
   let lastGroup = "";
 
@@ -291,10 +306,10 @@ export default function BiziSearch({ onClose }) {
             const Ic = it.icon || KIND_ICON[it.group === "recent" ? "recent" : it.kind] || ArrowUpRight;
             const flag = it.flag ? x[it.flag] : "";
             const right = it.status ? st[it.status] || it.status : "";
-            const sub = [it.kind === "business" || it.kind === "app" || it.kind === "action" ? "" : it.business, it.sub, it.shared ? x.shared : ""].filter(Boolean).join(" · ");
+            const sub = [it.kind === "business" || it.kind === "app" || it.kind === "action" || it.kind === "alert" ? "" : it.business, it.sub, it.shared ? x.shared : ""].filter(Boolean).join(" · ");
             return (
               <div key={`${it.group}:${it.id}:${i}`}>
-                {head && <div className={`bizi-head${it.group === "smart" ? " smart" : ""}`}>{head}</div>}
+                {head && <div className={`bizi-head${it.group === "smart" || it.group === "says" ? " smart" : ""}`}>{head}</div>}
                 <Link
                   to={it.run ? "#" : linkOf(it)}
                   id={`bizi-o-${i}`}
@@ -310,7 +325,7 @@ export default function BiziSearch({ onClose }) {
                   }}
                   data-testid="bizi-row"
                 >
-                  <span className={`bizi-ic k-${it.kind}`}>{it.logo ? <img src={it.logo} alt="" /> : <Ic size={17} aria-hidden="true" />}</span>
+                  <span className={`bizi-ic k-${it.kind}${it.level === "warn" ? " warn" : ""}`}>{it.logo ? <img src={it.logo} alt="" /> : <Ic size={17} aria-hidden="true" />}</span>
                   <span className="bizi-txt">
                     <b>
                       <Marked text={it.title} ws={markWs} />
