@@ -3,6 +3,22 @@
 // kind: "new" | "better" | "fix" | "safe"
 export const CHANGELOG = [
   {
+    version: "3.3.0",
+    status: "testing",
+    date: "2026-10",
+    title: { en: "Powered by Cyber Tech System", km: "ដំណើរការដោយ Cyber Tech System" },
+    sub: {
+      en: "BizHub is made and supported by Cyber Tech System — now shown at the bottom of BizHub's screens.",
+      km: "BizHub ត្រូវបានបង្កើត និងគាំទ្រដោយ Cyber Tech System — ឥឡូវបង្ហាញនៅខាងក្រោមអេក្រង់របស់ BizHub។",
+    },
+    items: [
+      { kind: "new", en: "“Powered by Cyber Tech System” at the bottom of the homepage, log in and sign up, the dashboard menu, Super admin and System activity — tap the name to visit ctscambodia.com.", km: "“ដំណើរការដោយ Cyber Tech System” នៅខាងក្រោមគេហទំព័រដើម ការចូល និងការចុះឈ្មោះ ម៉ឺនុយផ្ទាំងគ្រប់គ្រង Super admin និងសកម្មភាពក្នុងប្រព័ន្ធ — ចុចលើឈ្មោះដើម្បីចូលទៅ ctscambodia.com។" },
+      { kind: "new", en: "In the BizHub app (More, log in, System activity) and the BizHub POS — phones, tablets, Mac and Windows: under the PIN pad, the link screen and the POS menu.", km: "ក្នុងកម្មវិធី BizHub (ច្រើនទៀត ការចូល សកម្មភាពក្នុងប្រព័ន្ធ) និង BizHub POS — ទូរស័ព្ទ ថេប្លេត Mac និង Windows៖ ខាងក្រោមបន្ទះ PIN អេក្រង់ភ្ជាប់ និងម៉ឺនុយ POS។" },
+      { kind: "better", en: "On customers' pages it sits under “Made with BizHub” — a business that removed the BizHub name (the “no BizHub name” add-ons) shows neither.", km: "លើទំព័ររបស់អតិថិជន វានៅខាងក្រោម “បង្កើតដោយ BizHub” — អាជីវកម្មដែលបានដកឈ្មោះ BizHub ចេញ (កម្មវិធីបន្ថែម “គ្មានឈ្មោះ BizHub”) មិនបង្ហាញទាំងពីរ។" },
+      { kind: "better", en: "Super admin: the company name and link are in Homepage settings (or turn the line off).", km: "Super admin៖ ឈ្មោះក្រុមហ៊ុន និងតំណ នៅក្នុងការកំណត់គេហទំព័រដើម (ឬបិទបន្ទាត់នេះ)។" },
+    ],
+  },
+  {
     version: "3.2.0",
     status: "testing",
     date: "2026-10",

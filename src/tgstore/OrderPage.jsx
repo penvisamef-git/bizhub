@@ -281,7 +281,7 @@ export default function OrderPage() {
             </a>
           )}
         </div>
-        {s.brand && <Brand t={t} />}
+        {s.brand && <Brand t={t} lang={lang} />}
       </main>
     </div>
   );

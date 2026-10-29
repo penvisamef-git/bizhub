@@ -7,6 +7,7 @@ import "./qpthemes.css";
 import { themeOf } from "./themes";
 import { LINK_META, linkHref } from "./linkKinds";
 import { qrSvg } from "../dashboard/client/menuqr/qrArt";
+import PoweredBy from "../components/PoweredBy";
 
 const TEXT = {
   km: {
@@ -276,9 +277,12 @@ export default function QrPage({ preview: pv = null, lang: forceLang }) {
         {p.footer && <footer className="qp-foot">{p.footer}</footer>}
       </div>
       {data.brand !== false && (
-        <a className="qp-made" href={pv ? undefined : "/"} target="_blank" rel="noreferrer">
-          {t.made}
-        </a>
+        <>
+          <a className="qp-made" href={pv ? undefined : "/"} target="_blank" rel="noreferrer">
+            {t.made}
+          </a>
+          <PoweredBy lang={lang} className="qp-powered" />
+        </>
       )}
     </div>
   );

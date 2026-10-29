@@ -17,6 +17,7 @@ function normalize(data) {
   const src = data || {};
   return {
     contact: { ...d.contact, ...(src.contact || {}) },
+    powered_by: { ...d.powered_by, ...(src.powered_by || {}) },
     coin: { ...d.coin, ...(src.coin || {}) },
     prices: { ...d.prices, ...(src.prices || {}) },
     payment_methods: src.payment_methods?.length ? [...src.payment_methods] : [...d.payment_methods],
@@ -102,6 +103,7 @@ export default function HomepageSettingsPage() {
         ...form.contact,
         phones: (Array.isArray(form.contact.phones) ? form.contact.phones : String(form.contact.phones).split("\n")).map((p) => p.trim()).filter(Boolean),
       },
+      powered_by: { name: String(form.powered_by.name || "").trim(), url: String(form.powered_by.url || "").trim(), on: form.powered_by.on !== false },
       payment_methods: form.payment_methods.map((m) => m.trim()).filter(Boolean),
       app: form.app,
       services: form.services.map((s, i) => ({ ...s, sort_order: i })),
@@ -222,6 +224,24 @@ export default function HomepageSettingsPage() {
               {t.navPrices} →
             </Link>
           </p>
+        </section>
+
+        {/* ---------- Powered by (v3.3.0) ---------- */}
+        <section className="panel-card">
+          <h2>{t.hpPowered}</h2>
+          <p className="hp-hint">{t.hpPoweredHint}</p>
+          <div className="hp-fields">
+            <Field label={t.hpPoweredName}>
+              <input value={form.powered_by.name} maxLength={60} onChange={set("powered_by", "name")} data-testid="hp-powered-name" />
+            </Field>
+            <Field label={t.hpPoweredUrl}>
+              <input type="url" placeholder="https://..." value={form.powered_by.url} onChange={set("powered_by", "url")} data-testid="hp-powered-url" />
+            </Field>
+            <label className="hp-check">
+              <input type="checkbox" checked={form.powered_by.on !== false} onChange={(e) => setForm((f) => ({ ...f, powered_by: { ...f.powered_by, on: e.target.checked } }))} data-testid="hp-powered-on" />
+              {t.hpPoweredOn}
+            </label>
+          </div>
         </section>
 
         {/* ---------- app ---------- */}

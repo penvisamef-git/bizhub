@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Clock, Camera, Copy, Globe, MapPin, Music2, ThumbsUp, MessageSquareHeart, Phone, Search, Send, Star, Wifi, X } from "lucide-react";
 import { MQ_THEMES, loadThemeFonts, themeClass, themeVars } from "./themes";
 import "./qmenu.css";
+import PoweredBy from "../components/PoweredBy";
 
 export const QM_TEXT = {
   en: {
@@ -345,6 +346,7 @@ export default function MenuView({ data, theme, lang: startLang, preview = false
       <p className="qm-made">
         {x.made} <b>BizHub</b>
       </p>
+      <PoweredBy lang={lang} className="qm-powered" />
 
       {d.feedback && (
         <button type="button" className="qm-fb-btn" onClick={() => setFb(true)} data-testid="qm-fb">

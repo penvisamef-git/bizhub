@@ -9,6 +9,7 @@ import "./evpub.css";
 import "./cert.css";
 
 import { CERT_FREE, certLook } from "./certThemes";
+import PoweredBy from "../components/PoweredBy";
 
 export const CERT_DESIGNS = CERT_FREE;
 const W = 1123; // A4 landscape at 96 dpi
@@ -169,9 +170,12 @@ export default function CertPage() {
           <p className="evp-muted center">{d.event.title}</p>
         )}
         {d.brand && (
-          <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
-            {t.madeWith}
-          </a>
+          <>
+            <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
+              {t.madeWith}
+            </a>
+            <PoweredBy lang={lang} className="evp-powered" />
+          </>
         )}
       </main>
     </div>

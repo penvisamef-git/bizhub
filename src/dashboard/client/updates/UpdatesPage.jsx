@@ -3,6 +3,7 @@ import { ChevronDown, FlaskConical, Rocket, ShieldCheck, Sparkles, Wrench, Zap }
 import { useI18n } from "../../../i18n/I18nProvider";
 import { CHANGELOG } from "./changelog";
 import "./updates.css";
+import PoweredBy from "../../../components/PoweredBy";
 
 const TEXT = {
   en: {
@@ -97,6 +98,7 @@ export default function UpdatesPage() {
           <Version key={v.version} v={v} first={i === 0} t={t} lang={lang} />
         ))}
       </ol>
+      <PoweredBy lang={lang} className="up-powered" />
     </div>
   );
 }

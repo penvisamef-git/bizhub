@@ -5,6 +5,7 @@ import { FB_TEXT, keepLang, startLang } from "./text";
 import LiveBg from "./LiveBg";
 import LeadForm from "./LeadForm";
 import "./fbook.css";
+import PoweredBy from "../components/PoweredBy";
 
 const tg = (v) => (/^https?:\/\//.test(v) ? v : `https://t.me/${String(v).replace(/^@/, "")}`);
 const web = (v) => (/^https?:\/\//.test(v) ? v : `https://${v}`);
@@ -233,6 +234,7 @@ export default function ShelfView({ data, theme, color, preview = false, onOpen,
         <a href={preview ? undefined : "/"} target="_blank" rel="noreferrer">
           {t.madeWith}
         </a>
+        <PoweredBy lang={lang} className="fl-powered" />
       </footer>
       {contact && data.lead && (
         <div className="fl-modal">

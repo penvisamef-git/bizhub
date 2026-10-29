@@ -6,6 +6,7 @@ import { fill, money, round, useTgText } from "./text";
 import { askWrite, getLocation, haptic, loadTelegram, store as keep } from "./tg";
 import { loadThemeFont, themeClass, themeKind, themeName, themeOf, themeVars } from "./themes";
 import "./tgstore-public.css";
+import PoweredBy from "../components/PoweredBy";
 
 const MODE_ICON = { delivery: Bike, pickup: ShoppingBag, dine_in: UtensilsCrossed };
 const lineKey = (l) => `${l.product_id}|${JSON.stringify(l.options)}|${l.note || ""}`;
@@ -423,11 +424,14 @@ function Checkout({ d, cart, setCart, t, lang, table, me, wa, onClose, onPlaced 
 }
 
 // "Made with BizHub" at the bottom (gone with the No BizHub name add-on)
-export function Brand({ t }) {
+export function Brand({ t, lang }) {
   return (
-    <a className="tsp-brand" href="https://bizhubcambodia.com" target="_blank" rel="noreferrer">
-      {t.madeWith} <b>BizHub</b>
-    </a>
+    <>
+      <a className="tsp-brand" href="https://bizhubcambodia.com" target="_blank" rel="noreferrer">
+        {t.madeWith} <b>BizHub</b>
+      </a>
+      <PoweredBy lang={lang} className="tsp-powered" />
+    </>
   );
 }
 
@@ -732,7 +736,7 @@ export default function StorePage() {
           </ul>
         </details>
       )}
-      {s.brand && <Brand t={t} />}
+      {s.brand && <Brand t={t} lang={lang} />}
       {item && <ItemSheet p={item} cur={cur} lang={lang} t={t} closed={!s.open} onAdd={add} onClose={() => setItem(null)} />}
       {checkout && (
         <Checkout

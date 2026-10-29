@@ -7,6 +7,7 @@ import { pageClass, pageStyle } from "./pageThemes";
 import "./pagethemes.css";
 import { useEvPubText } from "./text";
 import "./evpub.css";
+import PoweredBy from "../components/PoweredBy";
 
 // /ev/t/:code — one ticket (the QR on the ticket opens this page when scanned with a normal camera)
 export default function TicketPage() {
@@ -55,9 +56,12 @@ export default function TicketPage() {
           </Link>
         )}
         {d.brand && (
-          <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
-            {t.madeWith}
-          </a>
+          <>
+            <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
+              {t.madeWith}
+            </a>
+            <PoweredBy lang={lang} className="evp-powered" />
+          </>
         )}
       </main>
     </div>

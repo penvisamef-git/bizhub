@@ -11,6 +11,7 @@ import "./pagethemes.css";
 import { evPublic } from "../api/services";
 import { timeOf, usd, useEvPubText, whenOf } from "./text";
 import "./evpub.css";
+import PoweredBy from "../components/PoweredBy";
 
 export { TicketCard } from "./TicketCard";
 
@@ -353,9 +354,12 @@ export default function OrderPage() {
           </section>
         )}
         {d.brand && (
-          <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
-            {t.madeWith}
-          </a>
+          <>
+            <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
+              {t.madeWith}
+            </a>
+            <PoweredBy lang={lang} className="evp-powered" />
+          </>
         )}
       </main>
       {view &&

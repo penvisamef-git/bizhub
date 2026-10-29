@@ -1,0 +1,88 @@
+/* "Powered by Cyber Tech System" — small and quiet; it takes the colour of where it sits */
+.powered-by {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.4;
+  opacity: 0.78;
+  color: inherit;
+}
+.powered-by a,
+.powered-by b {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+.powered-by a:hover,
+.powered-by a:focus-visible {
+  color: var(--accent, var(--brand, #e0581a));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.powered-by a::after {
+  content: " ↗";
+  font-weight: 400;
+}
+
+/* where it sits */
+.hx-powered {
+  display: block;
+  margin-top: 4px;
+}
+.side-powered {
+  margin-top: auto;
+  padding: 0 14px 4px;
+  color: var(--muted);
+}
+.more-powered {
+  padding: 12px 10px 4px;
+  color: var(--muted);
+  text-align: center;
+}
+.auth-powered {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--muted);
+}
+.up-powered {
+  margin-top: 28px;
+  text-align: center;
+  color: var(--muted);
+}
+/* the icon-only sidebar (tablets) has no room for a sentence */
+@media (max-width: 1100px) {
+  .side-powered {
+    display: none;
+  }
+}
+/* the POS: under the PIN pad / the link form */
+.pos-powered {
+  margin-top: 14px;
+  text-align: center;
+  color: var(--muted, #6b7280);
+}
+/* customers' pages: under "Made with BizHub" (both go with the "no BizHub name" add-ons) */
+.tsp-powered,
+.qp-powered,
+.evp-powered,
+.qm-powered {
+  display: block;
+  margin: -6px auto 18px;
+  text-align: center;
+  color: inherit;
+}
+.ms-made,
+.ws-made-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.ms-powered,
+.ws-powered,
+.fl-powered {
+  font-size: 11.5px;
+}
+.fl-powered {
+  display: block;
+  margin-top: 4px;
+}

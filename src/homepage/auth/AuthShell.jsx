@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PoweredBy from "../../components/PoweredBy";
 import "./auth.css";
 import Logo from "../../components/Logo";
 import LangSwitch from "../../components/LangSwitch";
@@ -34,6 +35,7 @@ export default function AuthShell({ children }) {
           </div>
         </div>
         <div className="auth-form-wrap">{children}</div>
+        <PoweredBy className="auth-powered" />
       </main>
     </div>
   );

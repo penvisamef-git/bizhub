@@ -4,6 +4,7 @@ import { tx } from "./blocks";
 import { Block, Paras, Pic, PostCard, socialLinks } from "./SiteBlocks";
 import { loadWsFont, wsLook } from "./themes";
 import "./wsite.css";
+import PoweredBy from "../components/PoweredBy";
 
 // A whole website: header + the page's blocks (or the blog) + footer. Used by the public pages (/site/…)
 // and by the editor's live preview (preview = true: links switch pages inside the editor, the form doesn't send).
@@ -156,9 +157,12 @@ export default function SiteView({ site, pages, view = { kind: "page" }, lang, s
             {tx(site.footer, lang) ? ` · ${tx(site.footer, lang)}` : ""}
           </span>
           {branding && (
-            <a href="/" target="_blank" rel="noopener" className="ws-made" data-testid="ws-made">
-              {k ? "បង្កើតដោយ BizHub" : "Made with BizHub"}
-            </a>
+            <span className="ws-made-wrap">
+              <a href="/" target="_blank" rel="noopener" className="ws-made" data-testid="ws-made">
+                {k ? "បង្កើតដោយ BizHub" : "Made with BizHub"}
+              </a>
+              <PoweredBy as="span" lang={k ? "km" : "en"} className="ws-powered" />
+            </span>
           )}
         </div>
       </footer>

@@ -7,6 +7,7 @@ import { LookButton, LookSheet, useLook } from "./doorLook";
 import LiveTab, { remember } from "./LiveTab";
 import { useDoorText } from "./doorText";
 import "./door.css";
+import PoweredBy from "../../components/PoweredBy";
 
 const usd = (n) => `$${new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(Number(n) || 0)}`;
 const when = (d, lang) => (d ? new Date(d).toLocaleString(lang === "km" ? "km-KH" : "en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "");
@@ -181,6 +182,7 @@ export default function EvDoorApp() {
           <button type="button" className="evd-link" onClick={unpair}>
             <Unlink size={14} /> {t.unpair}
           </button>
+          <PoweredBy className="pos-powered" />
         </main>
       </div>
     );

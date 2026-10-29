@@ -7,6 +7,7 @@ import { getPos, init, lock, loginPin, money, pair, startShift, usePos } from ".
 import { fmtMoney, nameOf } from "../util";
 import Keypad, { PinDots } from "./Keypad";
 import UnlinkSheet from "./Unlink";
+import PoweredBy from "../../components/PoweredBy";
 
 export function Splash({ text }) {
   return (
@@ -67,6 +68,7 @@ export function Pair() {
         <button type="button" className="pos-btn primary big" onClick={submit} disabled={busy || code.length !== 6}>
           {busy ? t.linking : t.link}
         </button>
+        <PoweredBy className="pos-powered" />
       </div>
     </div>
   );
@@ -99,6 +101,7 @@ export function NoSetup() {
         <button type="button" className="pos-link-btn" onClick={() => setUnlinking(true)}>
           <Unplug size={15} /> {t.unlink}
         </button>
+        <PoweredBy className="pos-powered" />
       </div>
       {unlinking && <UnlinkSheet onClose={() => setUnlinking(false)} />}
     </div>
@@ -145,6 +148,7 @@ export function PinLock() {
         <button type="button" className="pos-link-btn" onClick={() => setUnlinking(true)}>
           <Unplug size={15} /> {t.unlink}
         </button>
+        <PoweredBy className="pos-powered" />
       </div>
       {unlinking && <UnlinkSheet onClose={() => setUnlinking(false)} />}
     </div>

@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useRef, useState } from "react";
+import PoweredBy from "../../components/PoweredBy";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ChevronDown, LogOut, MoreHorizontal } from "lucide-react";
 import CoinIcon from "../../components/CoinIcon";
@@ -209,6 +210,7 @@ export default function AppLayout() {
             </nav>
           )}
         </div>
+        <PoweredBy className="side-powered" />
       </aside>
 
       <div className="app-main">
@@ -308,6 +310,7 @@ export default function AppLayout() {
             >
               <LogOut size={20} /> {t.logout}
             </button>
+            <PoweredBy className="more-powered" />
           </div>
         </>
       )}

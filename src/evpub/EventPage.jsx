@@ -8,6 +8,7 @@ import { NewsAndDocs, PromoField, QuestionsForm, SeatPicker, ShowPicker, seatLab
 import { BundleChips, CalendarLinks, MapCard, Sponsors, TypePrice, WaitlistBox, bundleCost, useRef_ } from "./EvGrowPub";
 import "./pagethemes.css";
 import "./evpub.css";
+import PoweredBy from "../components/PoweredBy";
 
 // /ev/:slug — an event: (pick a showtime) pick tickets (or seats), give your name + phone (+ answers, promo code)
 //             → the order page (pay + screenshot, or free tickets at once)
@@ -355,9 +356,12 @@ export default function EventPage() {
           </section>
         )}
         {ev.brand && (
-          <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
-            {t.madeWith}
-          </a>
+          <>
+            <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
+              {t.madeWith}
+            </a>
+            <PoweredBy lang={lang} className="evp-powered" />
+          </>
         )}
       </main>
 

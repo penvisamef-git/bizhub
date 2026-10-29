@@ -28,6 +28,7 @@ import { CloseShiftSheet, OpenShiftScreen, ShiftDoneScreen } from "./MartShift";
 import { OrderAlertBar, PosOrdersTab, useOrderAlert } from "../../dashboard/client/mart/MartOrders";
 import { wText } from "../../dashboard/client/mart/wtext";
 import { loadPosFont, posLookClass, posVars } from "./posThemes";
+import PoweredBy from "../../components/PoweredBy";
 
 // keep the POS opening with no internet (same worker as the other POS kinds)
 function registerOffline() {
@@ -453,6 +454,7 @@ function Pin({ p, lang, toggleLang, notice, business, onDone, onUnlink }) {
             <LogOut size={14} /> {p.unlink}
           </button>
         )}
+        <PoweredBy className="pos-powered" />
       </div>
     </div>
   );

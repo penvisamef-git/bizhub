@@ -5,6 +5,7 @@ import { evPublic } from "../api/services";
 import { forgetOrder, myTokens } from "./EvGrowPub";
 import { timeOf, usd, useEvPubText, whenOf } from "./text";
 import "./evpub.css";
+import PoweredBy from "../components/PoweredBy";
 
 const LangBtn = ({ lang, setLang, dark }) => (
   <button type="button" className={`evp-lang ${dark ? "dark" : ""}`} onClick={() => setLang(lang === "km" ? "en" : "km")}>
@@ -342,9 +343,12 @@ export function DiscoverPage() {
             {more ? <Loader2 size={17} className="evp-spin" /> : null} {t.discMore}
           </button>
         )}
-        <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
-          {t.madeWith}
-        </a>
+        <>
+          <a className="evp-brand" href="/" target="_blank" rel="noreferrer">
+            {t.madeWith}
+          </a>
+          <PoweredBy lang={lang} className="evp-powered" />
+        </>
       </main>
     </div>
   );

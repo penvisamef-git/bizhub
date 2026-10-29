@@ -21,6 +21,7 @@ import PriceTag from "./PriceTag";
 import FollowUs, { FootSocials } from "./FollowUs";
 import MeetBizi from "./MeetBizi";
 import BiziGuide from "./BiziGuide";
+import PoweredBy from "../components/PoweredBy";
 
 // Card title + bullet keys for each service (text lives in content.js)
 const CARD_KEYS = {
@@ -332,7 +333,10 @@ function SiteFooter({ t, settings }) {
           <Link to={ROUTES.login}>{t.login}</Link>
         </nav>
         <FootSocials t={t} settings={settings} />
-        <small className="hx-copy">{t.copy}</small>
+        <small className="hx-copy">
+          {t.copy}
+          <PoweredBy as="span" value={settings.powered_by} className="hx-powered" />
+        </small>
       </div>
     </footer>
   );

@@ -4,6 +4,7 @@ import { MS_LOOKS, loadFonts, msClass, msVars } from "./looks";
 import { MS_TEXT, cartStore, msMoney, unitOf } from "./text";
 import { publicPost } from "../api/client";
 import "./msite.css";
+import PoweredBy from "../components/PoweredBy";
 
 function Facebook({ size = 18 }) {
   return (
@@ -386,9 +387,12 @@ export default function MsView({ data, lang = "en", preview = false, compact = f
           <span>
             © {new Date().getFullYear()} {data.business?.name}
           </span>
-          <a href={preview ? "#" : "/"} {...link}>
-            {t.madeWith}
-          </a>
+          <span className="ms-made">
+            <a href={preview ? "#" : "/"} {...link}>
+              {t.madeWith}
+            </a>
+            <PoweredBy as="span" lang={lang} className="ms-powered" />
+          </span>
         </div>
       </footer>
 

@@ -32,6 +32,7 @@ function mergeSettings(remote) {
     ...d,
     ...remote,
     contact: { ...d.contact, ...(remote.contact || {}) },
+    powered_by: { ...d.powered_by, ...(remote.powered_by || {}) },
     coin: { ...d.coin, ...(remote.coin || {}) },
     app: { ...d.app, ...(remote.app || {}) },
     payment_methods: remote.payment_methods?.length ? remote.payment_methods : d.payment_methods,

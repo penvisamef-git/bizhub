@@ -16,6 +16,7 @@ import { BookingAlertBar, RequestsSheet, useBookingAlert } from "../../dashboard
 import { device, ghPosApi, session } from "./ghApi";
 import { openDisplayWindow, pictureOf, remoteKey, showOnDisplay } from "./display";
 import { clearAll, dismissFailed, flush, forgetOffline, hasCache, offlineApi, offlineLogin, pull, rememberSession, startSync, subscribe } from "./offline";
+import PoweredBy from "../../components/PoweredBy";
 
 // keep the POS opening with no internet: the browser saves its files the first time (same worker as the Restaurant POS)
 function registerOffline() {
@@ -514,6 +515,7 @@ function Pin({ p, lang, toggleLang, notice, business, onDone, onUnlink }) {
             <LogOut size={14} /> {p.unlink}
           </button>
         )}
+        <PoweredBy className="pos-powered" />
       </div>
     </div>
   );

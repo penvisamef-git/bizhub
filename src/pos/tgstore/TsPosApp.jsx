@@ -11,6 +11,7 @@ import { fmtTime, money, useTsText } from "../../dashboard/client/tgstore/text";
 import { themeOf } from "../../tgstore/themes";
 import { device, pref, session, tsPos } from "./tsPosApi";
 import { posText } from "./tsPosText";
+import PoweredBy from "../../components/PoweredBy";
 
 const fill = (s, v) => String(s).replace(/\{(\w+)\}/g, (_, k) => v[k] ?? "");
 const COLS = [
@@ -230,6 +231,7 @@ function Pin({ t, langBtn, onDone, onUnpair }) {
         <button type="button" className="tsx-link" onClick={() => window.confirm(t.unpairAsk) && onUnpair()}>
           <Unlink size={14} /> {t.unpair}
         </button>
+        <PoweredBy className="pos-powered" />
       </div>
     </div>
   );
