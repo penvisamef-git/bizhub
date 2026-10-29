@@ -12,6 +12,7 @@ import { GLOBAL_PAGES, SUGGEST, TAB_WORDS, hit, pageName } from "./smart";
 import { HELP } from "./help";
 import { findHelp, isQuestion, targetOf } from "./help-find";
 import BiziSettings from "./BiziSettings";
+import BiziTelegram from "./BiziTelegram";
 import { biziText } from "./text";
 
 // Bizi search (v3.0.0): ⌘K / Ctrl K or the corner bubble.
@@ -325,7 +326,11 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
           </button>
         </div>
 
-        {view === "settings" && <BiziSettings x={x} onBack={() => setView("search")} onChanged={() => onBriefChange?.()} />}
+        {view === "settings" && (
+          <BiziSettings x={x} onBack={() => setView("search")} onChanged={() => onBriefChange?.()}>
+            {(k) => <BiziTelegram x={x} lang={lang} {...k} />}
+          </BiziSettings>
+        )}
         <div className="bizi-list" id="bizi-list" role="listbox" ref={listRef} aria-label={x.label} hidden={view === "settings"}>
           {toast && (
             <p className="bizi-note toast" role="status">

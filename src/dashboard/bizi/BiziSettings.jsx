@@ -52,6 +52,7 @@ export default function BiziSettings({ x, onBack, onChanged, children }) {
       {!p && !err && <p className="bizi-note busy">…</p>}
       {p && (
         <>
+          {children ? children({ prefs: p, save, setPrefs: setP }) : null}
           <div className="bizi-head">{x.setTell}</div>
           {(p.keys?.alerts || []).map((k) => (
             <Switch key={k} on={!muted(k)} label={x.alertNames?.[k] || k} onChange={() => toggle(k)} id={`bizi-mute-${k}`} />
@@ -59,7 +60,6 @@ export default function BiziSettings({ x, onBack, onChanged, children }) {
           <Switch on={!muted("tips")} label={x.setTips} onChange={() => toggle("tips")} id="bizi-mute-tips" />
           <Switch on={p.weekly} label={x.setWeekly} onChange={() => save({ weekly: !p.weekly })} id="bizi-weekly" />
           <p className="bizi-note small">{x.setNote}</p>
-          {children ? children({ prefs: p, save, setPrefs: setP }) : null}
         </>
       )}
     </div>

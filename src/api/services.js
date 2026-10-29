@@ -106,6 +106,9 @@ export const searchService = {
   brief: () => userApiClient.get("/bizi/brief"), // summary + what needs me now (no AI)
   prefs: () => userApiClient.get("/bizi/prefs"), // what Bizi tells me about
   savePrefs: (body) => userApiClient.put("/bizi/prefs", body),
+  tgLink: (lang) => userApiClient.post("/bizi/telegram/link", { lang }), // → { url } open it in Telegram, press Start
+  tgTest: () => userApiClient.post("/bizi/telegram/test", {}),
+  tgOff: () => userApiClient.delete("/bizi/telegram"),
   snooze: (key, businessId) => userApiClient.post("/bizi/snooze", { key, business_id: businessId }), // a tip: "Not now" (14 days)
 };
 

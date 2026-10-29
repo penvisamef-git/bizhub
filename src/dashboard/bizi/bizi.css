@@ -161,3 +161,9 @@ html[data-theme="dark"] .bizi-ic.k-tip { background: rgba(234, 179, 8, 0.16); co
 .bizi-switch input:checked + i::after { transform: translateX(16px); }
 .bizi-switch input:focus-visible + i { outline: 2px solid var(--brand); outline-offset: 2px; }
 button.bizi-help-ask { border: 0; background: none; padding: 6px 4px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.bizi-tg { margin-bottom: 4px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.bizi-tg-box { padding: 4px 18px 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.bizi-tg-box p { margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.bizi-tg-on { display: flex; align-items: center; gap: 8px; margin: 0; padding: 4px 18px 6px; font-weight: 700; color: #0369a1; }
+html[data-theme="dark"] .bizi-tg-on { color: #7dd3fc; }
+.bizi-tg-acts { padding: 4px 18px 8px; }
