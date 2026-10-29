@@ -167,3 +167,15 @@ button.bizi-help-ask { border: 0; background: none; padding: 6px 4px; font: inhe
 .bizi-tg-on { display: flex; align-items: center; gap: 8px; margin: 0; padding: 4px 18px 6px; font-weight: 700; color: #0369a1; }
 html[data-theme="dark"] .bizi-tg-on { color: #7dd3fc; }
 .bizi-tg-acts { padding: 4px 18px 8px; }
+
+/* quick actions */
+.bizi-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 0 18px 8px 64px; margin-top: -4px; }
+.bizi-acts.asking { background: var(--active); padding-top: 8px; padding-bottom: 10px; margin-top: 0; }
+.bizi-acts span { font-size: 13.5px; font-weight: 700; margin-right: 4px; }
+.bizi-act { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; min-height: 30px; }
+.bizi-act:hover, .bizi-act:focus-visible { border-color: var(--brand); color: var(--brand-ink); outline: 0; }
+.bizi-act.primary { border-color: var(--brand); color: var(--brand-ink); }
+.bizi-act.yes { background: var(--brand); border-color: var(--brand); color: #fff; }
+.bizi-act:disabled { opacity: 0.6; cursor: default; }
+.bizi-act-hint { padding: 0 18px 6px; }
+@media (max-width: 760px) { .bizi-acts { padding-left: 18px; } }
