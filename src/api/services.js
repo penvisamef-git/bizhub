@@ -113,6 +113,12 @@ export const searchService = {
   snooze: (key, businessId) => userApiClient.post("/bizi/snooze", { key, business_id: businessId }), // a tip: "Not now" (14 days)
 };
 
+// Bizi for the BizHub team (super admin): search + what waits
+export const adminBiziService = {
+  find: (q) => apiClient.get("/bizi/search", { q }),
+  brief: () => apiClient.get("/bizi/brief"),
+};
+
 export const myBusinessService = {
   list: () => userApiClient.get("/businesses"),
   prices: () => userApiClient.get("/businesses-prices"), // { namecard: 5, restaurant: 100 } (restaurant = per year)

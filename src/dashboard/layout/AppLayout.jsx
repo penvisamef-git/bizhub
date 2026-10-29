@@ -178,8 +178,8 @@ export default function AppLayout() {
   return (
     <div className="app">
       {logoutDialog}
-      {/* Bizi (v3.0.0): the helper bubble + ⌘K search, on every owner page */}
-      {customer && <Bizi />}
+      {/* Bizi (v3.0.0): the helper bubble + ⌘K search, on every owner page — and the super admin's own version */}
+      {(customer || role === ROLE.SUPER) && <Bizi admin={!customer} />}
       <aside className="sidebar">
         <Link to={ROUTES.home} className="side-card logo-card" aria-label="BizHub home">
           <span className="logo">

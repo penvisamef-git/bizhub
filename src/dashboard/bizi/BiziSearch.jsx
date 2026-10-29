@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, BellRing, BedDouble, BookOpen, CalendarRange, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Mic, Settings2, Wrench, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
+import { ArrowUpRight, BellRing, BedDouble, BookOpen, CalendarRange, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Bug, Coins, Mic, Settings2, Wrench, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import { useTheme } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
-import { myBusinessService, searchService, teamService } from "../../api/services";
+import { adminBiziService, myBusinessService, searchService, teamService } from "../../api/services";
 import { bizTypeName } from "../super_admin/BizTypes";
 import BiziFace from "./BiziFace";
 import { BIZI_PAGES } from "./pages.gen";
 import { GLOBAL_PAGES, SUGGEST, TAB_WORDS, hit, pageName } from "./smart";
 import { HELP } from "./help";
+import { ADMIN_HELP, ADMIN_PAGES, ADMIN_SUGGEST } from "./admin-help";
 import { findHelp, isQuestion, targetOf } from "./help-find";
 import BiziSettings from "./BiziSettings";
 import BiziTelegram from "./BiziTelegram";
@@ -24,7 +25,10 @@ import { biziText } from "./text";
 //   how-tos (help.js): "how do I pair a POS?" → the steps + a button to that page (a question → the answers first)
 const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "people", "other"];
 const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
-const KIND_ICON = { alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+const KIND_ICON = { coin_order: Coins, chat: MessageCircle, app_error: Bug, alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+const ADMIN_GROUPS = ["smart", "pages", "help", "people", "businesses", "orders", "other"];
+const ADMIN_GROUPS_ASKED = ["help", "smart", "pages", "people", "businesses", "orders", "other"];
+const NONE = [];
 const RECENT_KEY = "bizi_recent";
 // voice search: the browser's own speech-to-text (Chrome, Edge, Safari) — no button where there is none
 const SpeechRec = typeof window !== "undefined" ? window.SpeechRecognition || window.webkitSpeechRecognition : null;
@@ -65,10 +69,10 @@ function Marked({ text, ws }) {
 }
 
 // the businesses I can open (own + shared), from what the dashboard already loaded, else asked once
-function useMyBusinesses() {
+function useMyBusinesses(admin) {
   const [list, setList] = useState(() => [...(memo.get("myBusinesses") || []), ...(memo.get("sharedBusinesses") || []).filter((b) => b.team_on).map((b) => ({ ...b, shared: true }))]);
   useEffect(() => {
-    if (memo.get("myBusinesses")) return;
+    if (admin || memo.get("myBusinesses")) return;
     let live = true;
     Promise.all([myBusinessService.list().catch(() => ({ data: [] })), teamService.shared().catch(() => ({ data: {} }))]).then(([own, sh]) => {
       if (!live) return;
@@ -129,13 +133,37 @@ function findPages(list, q, lang) {
   return out.sort((a, b) => b.score - a.score).slice(0, 8);
 }
 
-export default function BiziSearch({ onClose, brief, onBriefChange }) {
+// the BizHub team's pages whose name (or more words) has the words
+function findAdminPages(q, lang) {
+  const ws = words(q);
+  if (!ws.length) return [];
+  const out = [];
+  for (const [href, en, km, more] of ADMIN_PAGES) {
+    const label = `${en} ${km}`.toLowerCase();
+    let score = 0;
+    for (const w of ws) {
+      const a = hit(w, label);
+      const m = a ? 0 : hit(w, more.toLowerCase());
+      if (!a && !m) {
+        score = -1;
+        break;
+      }
+      score += a ? 5 : 2;
+    }
+    if (score > 0) out.push({ group: "pages", kind: "app", id: `admin:${href}`, href, title: lang === "km" ? km : en, sub: lang === "km" ? en : km, score });
+  }
+  return out.sort((a, b) => b.score - a.score).slice(0, 6);
+}
+
+export default function BiziSearch({ onClose, brief, onBriefChange, admin = false }) {
   const { lang, toggleLang } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const x = biziText(lang);
   const st = x.status || {};
   const navigate = useNavigate();
-  const list = useMyBusinesses();
+  const ownList = useMyBusinesses(admin);
+  const list = admin ? NONE : ownList; // the BizHub team has no businesses of its own
+  const api0 = admin ? adminBiziService : searchService;
   const [q, setQ] = useState("");
   const [api, setApi] = useState({ q: "", results: [], smart: [], fuzzy: false });
   const [busy, setBusy] = useState(false);
@@ -188,13 +216,13 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
     const t = setTimeout(() => {
       setTyping(false);
       setBusy(true);
-      searchService
+      api0
         .find(lookFor)
         .then((r) => {
           if (n !== ask.current) return;
           setOffline(false);
           const d = r.data || {};
-          setApi({ q: term, smart: d.smart || [], fuzzy: !!d.fuzzy, results: (d.results || []).filter((it) => it.group !== "businesses").map((it) => (it.smart ? { ...it, group: "smart" } : it)) });
+          setApi({ q: term, smart: d.smart || [], fuzzy: !!d.fuzzy, results: (d.results || []).filter((it) => admin || it.group !== "businesses").map((it) => (it.smart ? { ...it, group: "smart" } : it)).map((it) => (admin && it.kind === "business" ? { ...it, sub: [it.sub, bizTypeName(it.category, lang)].filter(Boolean).join(" · "), business: "" } : it)) });
         })
         .catch(() => n === ask.current && setOffline(true))
         .finally(() => n === ask.current && setBusy(false));
@@ -206,7 +234,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
   const ws = words(term);
   const asBiz = (b) => ({ group: "businesses", kind: "business", id: b._id, business_id: b._id, business: b.name, category: b.category, title: b.name, sub: bizTypeName(b.category, lang), shared: b.shared, logo: b.photo || b.logo_url });
   const businesses = useMemo(() => (ws.length ? list.filter((b) => ws.every((w) => hit(w, `${b.name} ${bizTypeName(b.category, "en")} ${bizTypeName(b.category, "km")}`.toLowerCase()))).slice(0, 6) : []), [list, term]); // eslint-disable-line react-hooks/exhaustive-deps
-  const pages = useMemo(() => findPages(list, term, lang), [list, term, lang]);
+  const pages = useMemo(() => (admin ? findAdminPages(term, lang) : findPages(list, term, lang)), [list, term, lang, admin]);
   // two actions anyone may want from the box
   const actions = useMemo(() => {
     if (!ws.length) return [];
@@ -218,7 +246,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
   }, [term, theme, lang]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const asked = isQuestion(term);
-  const help = useMemo(() => findHelp(term).map(({ a }) => ({ group: "help", kind: "help", id: a.id, title: a[lang]?.q || a.en.q, sub: x.helpSub, a })), [term, lang]); // eslint-disable-line react-hooks/exhaustive-deps
+  const help = useMemo(() => findHelp(term, 3, admin ? ADMIN_HELP : HELP).map(({ a }) => ({ group: "help", kind: "help", id: a.id, title: a[lang]?.q || a.en.q, sub: x.helpSub, a })), [term, lang]); // eslint-disable-line react-hooks/exhaustive-deps
   // a question opens the best answer by itself
   const openId = helpOpen?.q === term ? helpOpen.id : asked ? help[0]?.id || "" : "";
 
@@ -230,7 +258,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
         kind: "alert",
         level: a.level,
         id: `a${i}`,
-        title: ((a.n === 1 && x.alerts1?.[a.key]) || x.alerts[a.key] || a.key).replace("{n}", a.n),
+        title: (admin ? (a.n === 1 && x.adminAlerts1?.[a.key]) || x.adminAlerts?.[a.key] || a.key : (a.n === 1 && x.alerts1?.[a.key]) || x.alerts[a.key] || a.key).replace("{n}", a.n),
         sub: a.business || "",
         business_id: a.business_id,
         business: "",
@@ -250,7 +278,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
     }
     const fromApi = api.q === term ? api.results : [];
     const all = [...pages, ...actions, ...help, ...businesses.map(asBiz), ...fromApi];
-    return (asked ? GROUPS_ASKED : GROUPS).flatMap((g) => all.filter((it) => it.group === g));
+    return (admin ? (asked ? ADMIN_GROUPS_ASKED : ADMIN_GROUPS) : asked ? GROUPS_ASKED : GROUPS).flatMap((g) => all.filter((it) => it.group === g));
   }, [term, pages, actions, help, businesses, api, list, lang, recent, brief, hidden]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // voice: what the person says goes into the box as it comes (Khmer or English, the page's language)
@@ -354,7 +382,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
   const waiting = typing || busy;
   const mood = !term ? "idle" : waiting ? "thinking" : rows.length ? "happy" : "worried";
   const smartHead = `${x.groups.smart} · ${(api.q === term ? api.smart : []).map((k) => x.smart[k] || k).join(" · ")}`;
-  const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "tips" ? x.tipsHead : g === "week" ? x.weekHead : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
+  const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "tips" ? x.tipsHead : g === "week" ? x.weekHead : g === "recent" ? x.recent : !term ? x.quick : (admin && x.adminGroups?.[g]) || x.groups[g]);
   // "Not now" on a tip: hidden 14 days (on the server), gone from the box at once
   const snooze = (tp) => {
     setHidden((h) => new Set([...h, `${tp.key}:${tp.business_id}`]));
@@ -364,7 +392,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
       .then(() => onBriefChange?.())
       .catch(() => {});
   };
-  const popular = HELP.filter((a) => a.popular).slice(0, 4);
+  const popular = (admin ? ADMIN_HELP : HELP).filter((a) => a.popular).slice(0, 4);
   const markWs = ws.filter((w) => w.length > 1);
   let lastGroup = "";
 
@@ -382,7 +410,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={onKey}
-              placeholder={listening ? x.voiceOn : x.ph}
+              placeholder={listening ? x.voiceOn : admin ? x.adminPh : x.ph}
               aria-label={x.label}
               role="combobox"
               aria-expanded="true"
@@ -398,9 +426,11 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
               <Mic size={18} />
             </button>
           )}
+{!admin && (
           <button type="button" className={`bizi-x bizi-gear${view === "settings" ? " on" : ""}`} onClick={() => setView((v) => (v === "settings" ? "search" : "settings"))} aria-label={x.settings} title={x.settings} data-testid="bizi-gear">
             <Settings2 size={18} />
           </button>
+          )}
           <button type="button" className="bizi-x" onClick={onClose} aria-label={x.close}>
             <X size={18} />
           </button>
@@ -419,18 +449,18 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
           )}
           {!term && (
             <div className="bizi-start">
-              <p className="bizi-note">{x.start}</p>
+              <p className="bizi-note">{admin ? x.adminStart : x.start}</p>
               <div className="bizi-sugg" role="group" aria-label={x.try}>
                 <span>
                   <Sparkles size={14} aria-hidden="true" /> {x.try}
                 </span>
-                {(SUGGEST[lang] || SUGGEST.en).map(([v, label]) => (
+                {((admin ? ADMIN_SUGGEST : SUGGEST)[lang] || (admin ? ADMIN_SUGGEST : SUGGEST).en).map(([v, label]) => (
                   <button key={v} type="button" onClick={() => setQ(v)} data-testid="bizi-sugg">
                     {label}
                   </button>
                 ))}
               </div>
-              <p className="bizi-note small bizi-act-hint">{x.actHint}</p>
+              {!admin && <p className="bizi-note small bizi-act-hint">{x.actHint}</p>}
               <div className="bizi-sugg" role="group" aria-label={x.questions}>
                 <span>
                   <LifeBuoy size={14} aria-hidden="true" /> {x.questions}
@@ -509,7 +539,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
                     )}
                   </div>
                 )}
-                {it.kind === "help" && openId === it.id && <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} />}
+                {it.kind === "help" && openId === it.id && <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} team={admin} />}
                 {it.kind === "tip" && openId === it.id && (
                   <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} to={{ href: `/app/business/${it.tip.business_id}${it.tip.tab ? `?tab=${it.tip.tab}` : ""}`, business: it.tip.business }} onLater={() => snooze(it.tip)} />
                 )}
@@ -522,8 +552,8 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
           {term && !waiting && !offline && rows.length === 0 && (
             <div className="bizi-none">
               <b>{x.empty.replace("{q}", term)}</b>
-              <span>{asked ? x.helpNone : x.emptySub}</span>
-              {asked && (
+              <span>{asked && !admin ? x.helpNone : x.emptySub}</span>
+              {asked && !admin && (
                 <Link to="/app/support" className="bizi-help-ask" onClick={onClose}>
                   <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
                 </Link>
@@ -546,7 +576,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
           <span>
             <kbd>{x.keys}</kbd> {x.hints.anywhere}
           </span>
-          <span className="bizi-soon">{x.soon}</span>
+          {!admin && <span className="bizi-soon">{x.soon}</span>}
         </div>
       </div>
     </div>
@@ -554,7 +584,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
 }
 
 // the answer under a how-to: the steps, a button to that page (in my first business of that type), and the team
-function HelpAnswer({ a, lang, x, list, onGo, to: toGiven, onLater }) {
+function HelpAnswer({ a, lang, x, list, onGo, to: toGiven, onLater, team = false }) {
   const t = (a && (a[lang] || a.en)) || { steps: [] };
   const to = toGiven || (a ? targetOf(a, list) : null);
   return (
@@ -576,7 +606,7 @@ function HelpAnswer({ a, lang, x, list, onGo, to: toGiven, onLater }) {
           <button type="button" className="bizi-help-ask" onClick={onLater} data-testid="bizi-later">
             {x.notNow}
           </button>
-        ) : (
+        ) : team ? null : (
           <Link to="/app/support" className="bizi-help-ask" onClick={onGo}>
             <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
           </Link>

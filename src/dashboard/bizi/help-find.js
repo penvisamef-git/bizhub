@@ -18,7 +18,7 @@ const textOf = (a) => `${a.en.q} ${a.km.q} ${a.words}`.toLowerCase();
 const kmWords = (a) => `${a.km.q} ${a.words}`.split(/[\s·,/()?]+/).filter((w) => isKm(w) && w.length >= 2 && !KM_ASK.includes(w));
 
 // the how-tos for the words, best first (each with its score)
-export function findHelp(raw, max = 3) {
+export function findHelp(raw, max = 3, list = HELP) {
   const q = String(raw || "").toLowerCase().trim();
   if (q.length < 2) return [];
   let rest = q;
@@ -29,7 +29,7 @@ export function findHelp(raw, max = 3) {
     .filter((w) => w && !STOP.has(w));
   const asked = isQuestion(q);
   const out = [];
-  for (const a of HELP) {
+  for (const a of list) {
     const text = textOf(a);
     let score = 0;
     let found = 0;

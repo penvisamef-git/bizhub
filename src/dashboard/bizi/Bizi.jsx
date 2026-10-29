@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useI18n } from "../../i18n/I18nProvider";
-import { searchService } from "../../api/services";
+import { adminBiziService, searchService } from "../../api/services";
 import BiziFace from "./BiziFace";
 import { biziText } from "./text";
 import "./bizi.css";
@@ -37,7 +37,7 @@ const toPx = (p) => ({ left: clamp(p.x * window.innerWidth, EDGE, window.innerWi
 // Layer 1 (no AI): every minute it reads GET /api/user/bizi/brief — worried + a red dot when something waits
 // (new orders, guests past check-out, payments to check, sold out…), happy for a moment when a new sale / order
 // comes in, and once a day a short summary (yesterday's money, this week vs last week, what needs you).
-export default function Bizi() {
+export default function Bizi({ admin = false }) {
   const { lang } = useI18n();
   const x = biziText(lang);
   const location = useLocation();
@@ -101,11 +101,11 @@ export default function Bizi() {
   const live = useRef(true);
   const load = useCallback(() => {
     if (document.visibilityState === "hidden") return;
-    searchService
+    (admin ? adminBiziService : searchService)
       .brief()
       .then((r) => live.current && setBrief(r.data || null))
       .catch(() => {});
-  }, []);
+  }, [admin]);
   useEffect(() => {
     live.current = true;
     load();
@@ -180,7 +180,11 @@ export default function Bizi() {
     const h = khHour();
     const warn = (brief.alerts || []).filter((a) => a.level === "warn").length;
     const lines = [x.hello[h < 12 ? "morning" : h < 17 ? "afternoon" : "evening"]];
-    if (s.yesterday > 0) lines.push(x.yesterday.replace("{money}", fmtMoney(s.yesterday, s.currency)));
+    if (admin) {
+      // the BizHub team: today's new customers / businesses, coins sold
+      lines.push(x.adminToday.replace("{c}", s.new_customers || 0).replace("{b}", s.new_businesses || 0));
+      if (s.sold_usd > 0) lines.push(x.adminSold.replace("{money}", fmtMoney(s.sold_usd, "USD")));
+    } else if (s.yesterday > 0) lines.push(x.yesterday.replace("{money}", fmtMoney(s.yesterday, s.currency)));
     else if (s.today > 0) lines.push(x.todaySoFar.replace("{money}", fmtMoney(s.today, s.currency)));
     if (s.change_pct !== null && s.change_pct !== undefined) lines.push(x.week.replace("{pct}", `${s.change_pct > 0 ? "+" : ""}${s.change_pct}%`));
     const n = (brief.alerts || []).length;
@@ -315,7 +319,7 @@ export default function Bizi() {
       </div>
       {open && (
         <Suspense fallback={null}>
-          <BiziSearch onClose={() => setOpen(false)} brief={brief} onBriefChange={load} />
+          <BiziSearch onClose={() => setOpen(false)} brief={brief} onBriefChange={load} admin={admin} />
         </Suspense>
       )}
     </>
