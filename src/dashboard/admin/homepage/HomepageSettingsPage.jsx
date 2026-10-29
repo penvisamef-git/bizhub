@@ -189,6 +189,21 @@ export default function HomepageSettingsPage() {
             <Field label={t.hpFacebook}>
               <input type="url" placeholder="https://facebook.com/..." value={form.contact.facebook_url} onChange={set("contact", "facebook_url")} />
             </Field>
+            <p className="muted small" style={{ gridColumn: "1 / -1", margin: "8px 0 0" }}>
+              {t.hpFollow}
+            </p>
+            <Field label={t.hpTgChannel}>
+              <input type="url" placeholder="https://t.me/..." value={form.contact.tg_channel_url || ""} onChange={set("contact", "tg_channel_url")} data-testid="hp-tg-channel" />
+            </Field>
+            <Field label={t.hpTiktok}>
+              <input type="url" placeholder="https://www.tiktok.com/@..." value={form.contact.tiktok_url || ""} onChange={set("contact", "tiktok_url")} data-testid="hp-tiktok" />
+            </Field>
+            <Field label={t.hpYoutube}>
+              <input type="url" placeholder="https://www.youtube.com/@..." value={form.contact.youtube_url || ""} onChange={set("contact", "youtube_url")} data-testid="hp-youtube" />
+            </Field>
+            <Field label={t.hpCoolapp}>
+              <input type="url" placeholder="https://channel.coolapp.com.kh/@..." value={form.contact.coolapp_url || ""} onChange={set("contact", "coolapp_url")} data-testid="hp-coolapp" />
+            </Field>
             <Field label={t.hpMap}>
               <input type="url" value={form.contact.map_url} onChange={set("contact", "map_url")} />
             </Field>

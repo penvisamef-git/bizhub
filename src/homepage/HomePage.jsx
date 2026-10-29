@@ -18,6 +18,9 @@ import ServiceSheet from "./ServiceSheet";
 import AppShowcase from "./AppShowcase";
 import PosDownload from "./PosDownload";
 import PriceTag from "./PriceTag";
+import FollowUs, { FootSocials } from "./FollowUs";
+import MeetBizi from "./MeetBizi";
+import BiziGuide from "./BiziGuide";
 
 // Card title + bullet keys for each service (text lives in content.js)
 const CARD_KEYS = {
@@ -54,6 +57,7 @@ function SiteHeader({ t }) {
     ["#coins", t.navPricing],
     ["#app", t.navApp],
     ["#pos", t.navPos],
+    ["#bizi", t.navBizi],
     ["#why", t.navAbout],
     ["#talk", t.navContact],
   ];
@@ -310,7 +314,7 @@ function Talk({ t, settings }) {
   );
 }
 
-function SiteFooter({ t }) {
+function SiteFooter({ t, settings }) {
   const { t: tt } = useI18n(); // app texts (Terms of Service link)
   return (
     <footer className="hx-footer">
@@ -327,6 +331,7 @@ function SiteFooter({ t }) {
           <Link to={ROUTES.deleteAccount}>{tt.deleteAccountLink}</Link>
           <Link to={ROUTES.login}>{t.login}</Link>
         </nav>
+        <FootSocials t={t} settings={settings} />
         <small className="hx-copy">{t.copy}</small>
       </div>
     </footer>
@@ -337,7 +342,9 @@ export default function HomePage() {
   const data = useHomepageData();
   const { t, settings, services, steps, vars, lang } = data;
   const [openKey, setOpenKey] = useState(null);
+  const [guide, setGuide] = useState(false); // Bizi for visitors
   usePageTitle(null);
+  const names = Object.fromEntries(services.map((s) => [s.key, t[CARD_KEYS[s.key]?.title] || s.key]));
 
   return (
     <div className="home hx" lang={lang === "km" ? "km" : "en"}>
@@ -348,11 +355,14 @@ export default function HomePage() {
         <Services t={t} services={services} groups={data.groups} onOpen={setOpenKey} lang={lang} />
         <Coins t={t} settings={settings} />
         <Why t={t} />
+        <MeetBizi t={t} lang={lang} onAsk={() => setGuide(true)} />
         <AppShowcase t={t} settings={settings} />
         <PosDownload t={t} />
         <Talk t={t} settings={settings} />
+        <FollowUs t={t} settings={settings} />
       </main>
-      <SiteFooter t={t} />
+      <SiteFooter t={t} settings={settings} />
+      <BiziGuide t={t} lang={lang} settings={settings} services={services} vars={vars} names={names} open={guide} setOpen={setGuide} onService={(k) => setOpenKey(k)} />
       {openKey && <ServiceSheet t={t} lang={lang} services={services} steps={steps} openKey={openKey} onChange={setOpenKey} onClose={() => setOpenKey(null)} />}
     </div>
   );

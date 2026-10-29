@@ -16,7 +16,7 @@ function joinMethods(list, lang) {
 }
 
 // Replace {pack} {price} {bonus} {payments} in every string (also inside arrays / objects)
-function fill(value, vars) {
+export function fill(value, vars) {
   if (typeof value === "string") return value.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
   if (Array.isArray(value)) return value.map((v) => fill(v, vars));
   if (value && typeof value === "object") {
