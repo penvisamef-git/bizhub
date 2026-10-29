@@ -10,6 +10,7 @@ import "./bizi.css";
 const BiziSearch = lazy(() => import("./BiziSearch"));
 const TIP_KEY = "bizi_tip_seen";
 const DAY_KEY = "bizi_brief_day"; // the Cambodia day the morning summary was shown
+const WEEK_KEY = "bizi_week_seen"; // the Monday of the last weekly report shown
 const khDay = () => new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10);
 const khHour = () => new Date(Date.now() + 7 * 3600e3).getUTCHours();
 const fmtMoney = (v, cur) => (cur === "KHR" ? `${new Intl.NumberFormat("en-US").format(Math.round(Number(v) || 0))}៛` : `$${(Number(v) || 0).toFixed(2)}`);
@@ -96,25 +97,26 @@ export default function Bizi() {
   // a new page closes the box
   useEffect(() => setOpen(false), [location.pathname, location.search]);
 
-  // the brief: now, every minute while the page is in front, and when it comes back
+  // the brief: now, every minute while the page is in front, and when it comes back (and after Bizi settings change)
+  const live = useRef(true);
+  const load = useCallback(() => {
+    if (document.visibilityState === "hidden") return;
+    searchService
+      .brief()
+      .then((r) => live.current && setBrief(r.data || null))
+      .catch(() => {});
+  }, []);
   useEffect(() => {
-    let live = true;
-    const load = () => {
-      if (document.visibilityState === "hidden") return;
-      searchService
-        .brief()
-        .then((r) => live && setBrief(r.data || null))
-        .catch(() => {});
-    };
+    live.current = true;
     load();
     const t = setInterval(load, POLL);
     document.addEventListener("visibilitychange", load);
     return () => {
-      live = false;
+      live.current = false;
       clearInterval(t);
       document.removeEventListener("visibilitychange", load);
     };
-  }, []);
+  }, [load]);
   // a new sale / order since the last look → happy for a moment
   useEffect(() => {
     if (!brief) return undefined;
@@ -129,16 +131,51 @@ export default function Bizi() {
     }, 6000);
     return () => clearTimeout(tm);
   }, [brief]); // eslint-disable-line react-hooks/exhaustive-deps
+  // once a week (the first look in a new week): last week's report — instead of that day's summary
+  useEffect(() => {
+    const wk = brief?.weekly;
+    if (!wk?.week) return undefined;
+    let seen = "";
+    try {
+      seen = localStorage.getItem(WEEK_KEY) || "";
+    } catch {
+      /* private window */
+    }
+    if (seen === wk.week) return undefined;
+    const pct = wk.change_pct;
+    const lines = [x.weekHead, fmtMoney(wk.total, wk.currency) + (pct !== null && pct !== undefined ? ` · ${x.weekChange.replace("{pct}", `${pct > 0 ? "+" : ""}${pct}%`)}` : "")];
+    if (wk.best_day) {
+      const d = new Date(`${wk.best_day.day}T00:00:00Z`);
+      lines.push(x.weekBest.replace("{day}", `${x.days?.[(d.getUTCDay() + 6) % 7] || ""} ${d.getUTCDate()}`).replace("{money}", fmtMoney(wk.best_day.sales, wk.currency)));
+    }
+    if (wk.top?.[0]) lines.push(x.weekTop.replace("{name}", wk.top[0].name).replace("{qty}", wk.top[0].qty));
+    if (wk.down?.[0]) lines.push(x.weekDown.replace("{name}", wk.down[0].name).replace("{pct}", `${wk.down[0].change_pct}%`));
+    else if (wk.up?.[0]) lines.push(x.weekUp.replace("{name}", wk.up[0].name).replace("{pct}", `+${wk.up[0].change_pct}%`));
+    setTip(false);
+    setNote({ kind: "day", lines });
+    try {
+      localStorage.setItem(WEEK_KEY, wk.week);
+      localStorage.setItem(DAY_KEY, khDay()); // the week's report is that day's summary
+      localStorage.setItem(TIP_KEY, "1");
+    } catch {
+      /* private window */
+    }
+    const tm = setTimeout(() => setNote((v) => (v?.kind === "day" ? null : v)), 20000);
+    return () => clearTimeout(tm);
+  }, [brief]); // eslint-disable-line react-hooks/exhaustive-deps
   // once a day: the summary
   useEffect(() => {
     if (!brief) return;
     let seen = "";
+    let week = "";
     try {
       seen = localStorage.getItem(DAY_KEY) || "";
+      week = localStorage.getItem(WEEK_KEY) || "";
     } catch {
       /* private window */
     }
     if (seen === khDay()) return;
+    if (brief.weekly?.week && week !== brief.weekly.week) return; // the weekly report goes first
     const s = brief.summary || {};
     const h = khHour();
     const warn = (brief.alerts || []).filter((a) => a.level === "warn").length;
@@ -278,7 +315,7 @@ export default function Bizi() {
       </div>
       {open && (
         <Suspense fallback={null}>
-          <BiziSearch onClose={() => setOpen(false)} brief={brief} />
+          <BiziSearch onClose={() => setOpen(false)} brief={brief} onBriefChange={load} />
         </Suspense>
       )}
     </>

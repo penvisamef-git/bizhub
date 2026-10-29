@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, BellRing, BedDouble, BookOpen, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
+import { ArrowUpRight, BellRing, BedDouble, BookOpen, CalendarRange, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Settings2, Wrench, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import { useTheme } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
@@ -11,6 +11,7 @@ import { BIZI_PAGES } from "./pages.gen";
 import { GLOBAL_PAGES, SUGGEST, TAB_WORDS, hit, pageName } from "./smart";
 import { HELP } from "./help";
 import { findHelp, isQuestion, targetOf } from "./help-find";
+import BiziSettings from "./BiziSettings";
 import { biziText } from "./text";
 
 // Bizi search (v3.0.0): ⌘K / Ctrl K or the corner bubble.
@@ -21,7 +22,7 @@ import { biziText } from "./text";
 //   how-tos (help.js): "how do I pair a POS?" → the steps + a button to that page (a question → the answers first)
 const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "people", "other"];
 const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
-const KIND_ICON = { alert: BellRing, help: LifeBuoy, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+const KIND_ICON = { alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
 const RECENT_KEY = "bizi_recent";
 const money = (v, cur) => (v === undefined || v === null || v === "" ? "" : cur === "KHR" ? `${new Intl.NumberFormat("en-US").format(Math.round(Number(v) || 0))}៛` : `$${(Number(v) || 0).toFixed(2)}`);
 const words = (q) => q.toLowerCase().split(/\s+/).filter(Boolean);
@@ -124,7 +125,7 @@ function findPages(list, q, lang) {
   return out.sort((a, b) => b.score - a.score).slice(0, 8);
 }
 
-export default function BiziSearch({ onClose, brief }) {
+export default function BiziSearch({ onClose, brief, onBriefChange }) {
   const { lang, toggleLang } = useI18n();
   const { theme, toggleTheme } = useTheme();
   const x = biziText(lang);
@@ -139,6 +140,9 @@ export default function BiziSearch({ onClose, brief }) {
   const [active, setActive] = useState(0);
   const [recent] = useState(readRecent);
   const [helpOpen, setHelpOpen] = useState(null); // { q, id } — the how-to opened (or closed: id "") for these words
+  const [view, setView] = useState("search"); // search | settings
+  const [hidden, setHidden] = useState(() => new Set()); // tips put off ("Not now") while the box is open
+  const [toast, setToast] = useState("");
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const ask = useRef(0);
@@ -216,15 +220,24 @@ export default function BiziSearch({ onClose, brief }) {
         tab: a.tab,
         href: a.href || (a.business_id ? "" : "/app/dashboard"),
       }));
-      return [...says, ...recent.map((r, i) => ({ ...r, group: "recent", id: `r${i}` })), ...list.slice(0, 8).map(asBiz)];
+      // things not set up yet: each opens its how-to, with the right business's section
+      const tips = (brief?.tips || [])
+        .filter((tp) => !hidden.has(`${tp.key}:${tp.business_id}`))
+        .map((tp) => ({ group: "tips", kind: "tip", id: `tip:${tp.key}:${tp.business_id}`, href: `/app/business/${tp.business_id}${tp.tab ? `?tab=${tp.tab}` : ""}`, title: x.tips?.[tp.key] || tp.key, sub: tp.business || "", tip: tp, a: HELP.find((h) => h.id === tp.help) }));
+      // last week's report
+      const wk = brief?.weekly;
+      const week = wk
+        ? [{ group: "week", kind: "week", id: "week", href: "/app/dashboard", title: [x.weekTotal.replace("{money}", money(wk.total, wk.currency)), wk.change_pct !== null && wk.change_pct !== undefined ? x.weekChange.replace("{pct}", pctOf(wk.change_pct)) : ""].filter(Boolean).join(" · "), sub: weekSub(wk, x), wk }]
+        : [];
+      return [...says, ...tips, ...week, ...recent.map((r, i) => ({ ...r, group: "recent", id: `r${i}` })), ...list.slice(0, 8).map(asBiz)];
     }
     const fromApi = api.q === term ? api.results : [];
     const all = [...pages, ...actions, ...help, ...businesses.map(asBiz), ...fromApi];
     return (asked ? GROUPS_ASKED : GROUPS).flatMap((g) => all.filter((it) => it.group === g));
-  }, [term, pages, actions, help, businesses, api, list, lang, recent, brief]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [term, pages, actions, help, businesses, api, list, lang, recent, brief, hidden]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const go = (it) => {
-    if (it.kind === "help") {
+    if (it.kind === "help" || it.kind === "tip" || it.kind === "week") {
       setHelpOpen({ q: term, id: openId === it.id ? "" : it.id });
       return;
     }
@@ -254,11 +267,27 @@ export default function BiziSearch({ onClose, brief }) {
   useEffect(() => {
     listRef.current?.querySelector(`[data-i="${active}"]`)?.scrollIntoView({ block: "nearest" });
   }, [active]);
+  // an answer that opens below the fold comes into view
+  useEffect(() => {
+    if (!openId) return;
+    const t = setTimeout(() => listRef.current?.querySelector(".bizi-help")?.scrollIntoView({ block: "nearest", behavior: "smooth" }), 30);
+    return () => clearTimeout(t);
+  }, [openId]);
 
   const waiting = typing || busy;
   const mood = !term ? "idle" : waiting ? "thinking" : rows.length ? "happy" : "worried";
   const smartHead = `${x.groups.smart} · ${(api.q === term ? api.smart : []).map((k) => x.smart[k] || k).join(" · ")}`;
-  const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
+  const headOf = (g) => (g === "smart" ? smartHead : g === "says" ? x.says : g === "tips" ? x.tipsHead : g === "week" ? x.weekHead : g === "recent" ? x.recent : !term ? x.quick : x.groups[g]);
+  // "Not now" on a tip: hidden 14 days (on the server), gone from the box at once
+  const snooze = (tp) => {
+    setHidden((h) => new Set([...h, `${tp.key}:${tp.business_id}`]));
+    setToast(x.snoozed);
+    setTimeout(() => setToast(""), 3500);
+    searchService
+      .snooze(tp.key, tp.business_id)
+      .then(() => onBriefChange?.())
+      .catch(() => {});
+  };
   const popular = HELP.filter((a) => a.popular).slice(0, 4);
   const markWs = ws.filter((w) => w.length > 1);
   let lastGroup = "";
@@ -288,12 +317,21 @@ export default function BiziSearch({ onClose, brief }) {
               data-testid="bizi-input"
             />
           </label>
+          <button type="button" className={`bizi-x bizi-gear${view === "settings" ? " on" : ""}`} onClick={() => setView((v) => (v === "settings" ? "search" : "settings"))} aria-label={x.settings} title={x.settings} data-testid="bizi-gear">
+            <Settings2 size={18} />
+          </button>
           <button type="button" className="bizi-x" onClick={onClose} aria-label={x.close}>
             <X size={18} />
           </button>
         </div>
 
-        <div className="bizi-list" id="bizi-list" role="listbox" ref={listRef} aria-label={x.label}>
+        {view === "settings" && <BiziSettings x={x} onBack={() => setView("search")} onChanged={() => onBriefChange?.()} />}
+        <div className="bizi-list" id="bizi-list" role="listbox" ref={listRef} aria-label={x.label} hidden={view === "settings"}>
+          {toast && (
+            <p className="bizi-note toast" role="status">
+              {toast}
+            </p>
+          )}
           {!term && (
             <div className="bizi-start">
               <p className="bizi-note">{x.start}</p>
@@ -329,15 +367,15 @@ export default function BiziSearch({ onClose, brief }) {
             const sub = [it.kind === "business" || it.kind === "app" || it.kind === "action" || it.kind === "alert" ? "" : it.business, it.sub, it.shared ? x.shared : ""].filter(Boolean).join(" · ");
             return (
               <div key={`${it.group}:${it.id}:${i}`}>
-                {head && <div className={`bizi-head${it.group === "smart" || it.group === "says" || it.group === "help" ? " smart" : ""}`}>{head}</div>}
+                {head && <div className={`bizi-head${["smart", "says", "help", "tips", "week"].includes(it.group) ? " smart" : ""}`}>{head}</div>}
                 <Link
                   to={it.run ? "#" : linkOf(it)}
                   id={`bizi-o-${i}`}
                   role="option"
                   aria-selected={i === active}
                   data-i={i}
-                  className={`bizi-row${i === active ? " on" : ""}${it.kind === "help" && openId === it.id ? " is-open" : ""}`}
-                  aria-expanded={it.kind === "help" ? openId === it.id : undefined}
+                  className={`bizi-row${i === active ? " on" : ""}${["help", "tip", "week"].includes(it.kind) && openId === it.id ? " is-open" : ""}`}
+                  aria-expanded={["help", "tip", "week"].includes(it.kind) ? openId === it.id : undefined}
                   onMouseMove={() => i !== active && setActive(i)}
                   onClick={(e) => {
                     if (!it.run && (e.metaKey || e.ctrlKey)) return; // a new tab: leave it to the browser
@@ -365,6 +403,10 @@ export default function BiziSearch({ onClose, brief }) {
                   )}
                 </Link>
                 {it.kind === "help" && openId === it.id && <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} />}
+                {it.kind === "tip" && openId === it.id && (
+                  <HelpAnswer a={it.a} lang={lang} x={x} list={list} onGo={onClose} to={{ href: `/app/business/${it.tip.business_id}${it.tip.tab ? `?tab=${it.tip.tab}` : ""}`, business: it.tip.business }} onLater={() => snooze(it.tip)} />
+                )}
+                {it.kind === "week" && openId === it.id && <WeekCard wk={it.wk} x={x} />}
               </div>
             );
           })}
@@ -405,9 +447,9 @@ export default function BiziSearch({ onClose, brief }) {
 }
 
 // the answer under a how-to: the steps, a button to that page (in my first business of that type), and the team
-function HelpAnswer({ a, lang, x, list, onGo }) {
-  const t = a[lang] || a.en;
-  const to = targetOf(a, list);
+function HelpAnswer({ a, lang, x, list, onGo, to: toGiven, onLater }) {
+  const t = (a && (a[lang] || a.en)) || { steps: [] };
+  const to = toGiven || (a ? targetOf(a, list) : null);
   return (
     <div className="bizi-help" data-testid="bizi-help">
       <ol>
@@ -423,10 +465,44 @@ function HelpAnswer({ a, lang, x, list, onGo }) {
             <ArrowUpRight size={15} aria-hidden="true" />
           </Link>
         )}
-        <Link to="/app/support" className="bizi-help-ask" onClick={onGo}>
-          <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
-        </Link>
+        {onLater ? (
+          <button type="button" className="bizi-help-ask" onClick={onLater} data-testid="bizi-later">
+            {x.notNow}
+          </button>
+        ) : (
+          <Link to="/app/support" className="bizi-help-ask" onClick={onGo}>
+            <MessageCircle size={15} aria-hidden="true" /> {x.helpAsk}
+          </Link>
+        )}
       </div>
+    </div>
+  );
+}
+
+const pctOf = (n) => `${n > 0 ? "+" : ""}${n}%`;
+const dayOf = (day, x) => {
+  const d = new Date(`${day}T00:00:00Z`);
+  return `${x.days?.[(d.getUTCDay() + 6) % 7] || ""} ${d.getUTCDate()}`;
+};
+const weekSub = (wk, x) =>
+  [wk.best_day ? x.weekBest.replace("{day}", dayOf(wk.best_day.day, x)).replace("{money}", money(wk.best_day.sales, wk.currency)) : "", wk.top?.[0] ? x.weekTop.replace("{name}", wk.top[0].name).replace("{qty}", wk.top[0].qty) : ""].filter(Boolean).join(" · ");
+
+// last week, opened: the money, the best day, the best sellers, which businesses went up / down
+function WeekCard({ wk, x }) {
+  const lines = [
+    x.weekTotal.replace("{money}", money(wk.total, wk.currency)) + (wk.change_pct !== null && wk.change_pct !== undefined ? ` · ${x.weekChange.replace("{pct}", pctOf(wk.change_pct))}` : ""),
+    wk.best_day ? x.weekBest.replace("{day}", dayOf(wk.best_day.day, x)).replace("{money}", money(wk.best_day.sales, wk.currency)) : "",
+    wk.top?.length ? x.weekTops.replace("{list}", wk.top.map((t) => `${t.name} ×${t.qty}`).join(" · ")) : "",
+    ...(wk.up || []).map((b) => x.weekUp.replace("{name}", b.name).replace("{pct}", pctOf(b.change_pct))),
+    ...(wk.down || []).map((b) => x.weekDown.replace("{name}", b.name).replace("{pct}", pctOf(b.change_pct))),
+  ].filter(Boolean);
+  return (
+    <div className="bizi-help" data-testid="bizi-week">
+      <ul className="bizi-week">
+        {lines.map((l) => (
+          <li key={l}>{l}</li>
+        ))}
+      </ul>
     </div>
   );
 }
