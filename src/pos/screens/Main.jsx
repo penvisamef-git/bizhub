@@ -15,6 +15,7 @@ import MemberSheet from "./MemberSheet";
 import { PUBLIC_SITE_URL } from "../../config";
 import { showOrder } from "../display";
 import { previewDoc, ReceiptDoc } from "./Print";
+import { useCartSplit } from "../CartSplit";
 
 // time at the table: 05:12 → 1:05:12 (ticks every second)
 const elapsed = (d, now) => {
@@ -597,9 +598,11 @@ function OrderScreen({ view, setView, disabled }) {
     else add({ item: i, qty: 1 });
   };
   const back = () => setView(null);
+  // the cashier moves the order panel: wider / narrower, left / right (kept for them in this browser)
+  const split = useCartSplit({ scope: "rest", who: s.staff?._id, whoName: s.staff?.name, thing: "order", normal: 380, lang });
 
   return (
-    <div className={`pos-order tab-${phoneTab}`}>
+    <div className={`pos-order tab-${phoneTab} ${split.className}`} style={split.style}>
       <section className="pos-menu-side">
         <div className="pos-menu-top">
           <button type="button" className="pos-btn small" onClick={back}>
@@ -643,6 +646,7 @@ function OrderScreen({ view, setView, disabled }) {
           })}
         </div>
       </section>
+      {split.handle}
 
       <section className="pos-ticket">
         <div className="pos-ticket-head">

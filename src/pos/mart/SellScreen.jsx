@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BadgePercent, Camera, Check, Gift, Lock, CloudOff, Minus, Package, PackagePlus, PauseCircle, Plus, Printer, ScanBarcode, Search, ShoppingCart, Star, Ticket, Trash2, X } from "lucide-react";
 import { Modal } from "../../dashboard/super_admin/parts";
+import { useCartSplit } from "../CartSplit";
 import { ProductModal } from "../../dashboard/client/mart/MartProducts";
 import { customMethodOf, methodName, money, printOf, riel, unitName } from "../../dashboard/client/mart/text";
 import { ReceiptView, printReceipt } from "./receipt";
@@ -58,6 +59,8 @@ export default function SellScreen({ ctx, p }) {
   const [modal, setModal] = useState(null);
   const [miss, setMiss] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
+  // the cashier moves the cart: wider / narrower, left / right (kept for them in this browser)
+  const split = useCartSplit({ scope: "mart", who: boot.staff?._id, whoName: boot.staff?.name, thing: "cart", normal: 390, lang });
   const [held, setHeld] = useState(readHeld);
   const [payQr, setPayQr] = useState(null); // the QR on the customer screen while paying
   const thanksUntil = useRef(0);
@@ -248,7 +251,7 @@ export default function SellScreen({ ctx, p }) {
   };
 
   return (
-    <div className="mp-sell">
+    <div className={`mp-sell ${split.className}`} style={split.style}>
       <section className="mp-left">
         <div className="mp-scan">
           <label className="mp-scan-box">
@@ -322,6 +325,7 @@ export default function SellScreen({ ctx, p }) {
           )}
         </div>
       </section>
+      {split.handle}
 
       <aside className={`mp-cart ${cartOpen ? "open" : ""}`}>
         <div className="mp-cart-head">
