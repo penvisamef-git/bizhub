@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowUpRight, BellRing, BedDouble, BookOpen, CalendarRange, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Settings2, Wrench, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
+import { ArrowUpRight, BellRing, BedDouble, BookOpen, CalendarRange, Clock, FileText, Languages, LayoutGrid, LifeBuoy, MessageCircle, Moon, Mic, Settings2, Wrench, Package, QrCode, ReceiptText, Search, Sparkles, StickyNote, Store, Sun, Ticket, UserRound, X } from "lucide-react";
 import { useI18n } from "../../i18n/I18nProvider";
 import { useTheme } from "../../theme/ThemeProvider";
 import { memo } from "../../lib/memo";
@@ -26,6 +26,8 @@ const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "p
 const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
 const KIND_ICON = { alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
 const RECENT_KEY = "bizi_recent";
+// voice search: the browser's own speech-to-text (Chrome, Edge, Safari) — no button where there is none
+const SpeechRec = typeof window !== "undefined" ? window.SpeechRecognition || window.webkitSpeechRecognition : null;
 const money = (v, cur) => (v === undefined || v === null || v === "" ? "" : cur === "KHR" ? `${new Intl.NumberFormat("en-US").format(Math.round(Number(v) || 0))}៛` : `$${(Number(v) || 0).toFixed(2)}`);
 const words = (q) => q.toLowerCase().split(/\s+/).filter(Boolean);
 const linkOf = (it) => {
@@ -154,6 +156,8 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
   const [confirm, setConfirm] = useState(null); // { id, a, title } — a quick action waiting for Yes / No
   const [acting, setActing] = useState(false);
   const [again, setAgain] = useState(0); // ask the server again (after an action)
+  const [listening, setListening] = useState(false);
+  const rec = useRef(null);
   const inputRef = useRef(null);
   const listRef = useRef(null);
   const ask = useRef(0);
@@ -249,6 +253,33 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
     return (asked ? GROUPS_ASKED : GROUPS).flatMap((g) => all.filter((it) => it.group === g));
   }, [term, pages, actions, help, businesses, api, list, lang, recent, brief, hidden]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // voice: what the person says goes into the box as it comes (Khmer or English, the page's language)
+  const listen = () => {
+    if (listening) {
+      rec.current?.stop();
+      return;
+    }
+    try {
+      const r = new SpeechRec();
+      r.lang = lang === "km" ? "km-KH" : "en-US";
+      r.interimResults = true;
+      r.maxAlternatives = 1;
+      r.onresult = (e) => setQ(Array.from(e.results).map((res) => res[0]?.transcript || "").join("").trim());
+      r.onerror = (e) => {
+        if (e.error === "not-allowed" || e.error === "service-not-allowed" || e.error === "audio-capture") setToast(x.voiceNo, 5000);
+      };
+      r.onend = () => {
+        setListening(false);
+        inputRef.current?.focus();
+      };
+      rec.current = r;
+      r.start();
+      setListening(true);
+    } catch {
+      setToast(x.voiceNo, 5000);
+    }
+  };
+  useEffect(() => () => rec.current?.abort?.(), []);
   // quick actions: what "#12 paid" asks for, and the actions of each result
   const verb = useMemo(() => verbOf(term), [term]);
   const primaryOf = (it) => (verb ? actionsOf(it).find((a) => a.key === verb.key) : null);
@@ -342,7 +373,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
       <div className="bizi-box" role="dialog" aria-modal="true" aria-label={x.label}>
         <div className="bizi-top">
           <span className="bizi-top-face" aria-hidden="true">
-            <BiziFace mood={typing ? "listening" : mood} size={40} />
+            <BiziFace mood={typing || listening ? "listening" : mood} size={40} />
           </span>
           <label className="bizi-field">
             <Search size={18} aria-hidden="true" />
@@ -351,7 +382,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={onKey}
-              placeholder={x.ph}
+              placeholder={listening ? x.voiceOn : x.ph}
               aria-label={x.label}
               role="combobox"
               aria-expanded="true"
@@ -362,6 +393,11 @@ export default function BiziSearch({ onClose, brief, onBriefChange }) {
               data-testid="bizi-input"
             />
           </label>
+          {SpeechRec && (
+            <button type="button" className={`bizi-x bizi-mic${listening ? " on" : ""}`} onClick={listen} aria-label={x.voice} aria-pressed={listening} title={`${x.voice} · ${x.voiceKmOnly}`} data-testid="bizi-mic">
+              <Mic size={18} />
+            </button>
+          )}
           <button type="button" className={`bizi-x bizi-gear${view === "settings" ? " on" : ""}`} onClick={() => setView((v) => (v === "settings" ? "search" : "settings"))} aria-label={x.settings} title={x.settings} data-testid="bizi-gear">
             <Settings2 size={18} />
           </button>

@@ -179,3 +179,6 @@ html[data-theme="dark"] .bizi-tg-on { color: #7dd3fc; }
 .bizi-act:disabled { opacity: 0.6; cursor: default; }
 .bizi-act-hint { padding: 0 18px 6px; }
 @media (max-width: 760px) { .bizi-acts { padding-left: 18px; } }
+.bizi-mic.on { background: #fde4e1; color: #b42318; animation: bizi-pulse 1.2s ease-in-out infinite; }
+@keyframes bizi-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(180, 35, 24, 0.35); } 50% { box-shadow: 0 0 0 6px rgba(180, 35, 24, 0); } }
+@media (prefers-reduced-motion: reduce) { .bizi-mic.on { animation: none; } }
