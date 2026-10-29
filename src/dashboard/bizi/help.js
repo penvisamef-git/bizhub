@@ -489,6 +489,31 @@ export const HELP = [
     },
   },
   {
+    id: "bizi_do",
+    popular: true,
+    words: "bizi do command control tell quick action what can bizi do change price stock sold out check out paid owes stamp · Bizi ធ្វើ បញ្ជា ប្រាប់ អាចធ្វើអ្វី ប្តូរតម្លៃ ស្តុក អស់ ចាកចេញ បានបង់ ជំពាក់ ត្រា",
+    en: {
+      q: "What can Bizi do for me?",
+      steps: [
+        "Type (or say) what to do and what it is for — Bizi always asks “Yes / No” first.",
+        "Orders: “#12 paid”, “accept #12”, “cancel #12”, “approve #0042”. Products: “sold out iced coffee”, “price coke 1.5”, “hide coke”, “coke +24” (stock in), “stock coke 30”.",
+        "Guest house: “check in Dara”, “check out Dara”, “room 101 clean”. Attendance: “approve leave Sophea”.",
+        "Debt book: “Dara owes 10$”, “Dara paid 5000៛”. Stamp card: “stamp Dara”, “Dara +2”. Telegram store: “close” / “open”. Website: “publish” / “unpublish”.",
+        "Found in several businesses? “Do it for all” does them together. View only team members can look, not change.",
+      ],
+    },
+    km: {
+      q: "តើ Bizi អាចធ្វើអ្វីខ្លះឲ្យខ្ញុំ?",
+      steps: [
+        "វាយ (ឬនិយាយ) អ្វីដែលត្រូវធ្វើ និងសម្រាប់អ្វី — Bizi តែងតែសួរ “បាទ/ចាស / ទេ” ជាមុនសិន។",
+        "ការកម្ម៉ង់៖ “#12 បានបង់” “ទទួល #12” “បោះបង់ #12” “អនុម័ត #0042”។ ទំនិញ៖ “អស់ កាហ្វេទឹកកក” “តម្លៃ កូកា 1.5” “លាក់ កូកា” “កូកា +24” (ចូលស្តុក) “ស្តុក កូកា 30”។",
+        "ផ្ទះសំណាក់៖ “ចូលស្នាក់ ដារ៉ា” “ចាកចេញ ដារ៉ា” “បន្ទប់ 101 ស្អាត”។ វត្តមាន៖ “អនុម័តច្បាប់ សុភា”។",
+        "សៀវភៅបំណុល៖ “ដារ៉ា ជំពាក់ 10$” “ដារ៉ា បានបង់ 5000៛”។ កាតត្រា៖ “ត្រា ដារ៉ា” “ដារ៉ា +2”។ ហាង Telegram៖ “បិទហាង” / “បើកហាង”។ គេហទំព័រ៖ “ផ្សាយ” / “បិទការផ្សាយ”។",
+        "រកឃើញក្នុងអាជីវកម្មច្រើន? “ធ្វើសម្រាប់ទាំងអស់” ធ្វើវាព្រមគ្នា។ សមាជិកក្រុម “មើលប៉ុណ្ណោះ” អាចមើល មិនអាចប្តូរ។",
+      ],
+    },
+  },
+  {
     id: "look",
     href: "/app/settings",
     words: "change dark mode light night language khmer english colour color theme style look · ប្តូរ ម៉ូដងងឹត ភាសា ពណ៌ រចនាប័ទ្ម ភ្លឺ ងងឹត",

@@ -14,7 +14,7 @@ import { ADMIN_HELP, ADMIN_PAGES, ADMIN_SUGGEST } from "./admin-help";
 import { findHelp, isQuestion, targetOf } from "./help-find";
 import BiziSettings from "./BiziSettings";
 import BiziTelegram from "./BiziTelegram";
-import { actionsOf, verbOf } from "./actions";
+import { BIZ_KINDS, actionsOf, bizActionsOf, commandOf, matches } from "./actions";
 import { biziText } from "./text";
 
 // Bizi search (v3.0.0): ⌘K / Ctrl K or the corner bubble.
@@ -25,7 +25,7 @@ import { biziText } from "./text";
 //   how-tos (help.js): "how do I pair a POS?" → the steps + a button to that page (a question → the answers first)
 const GROUPS = ["smart", "pages", "help", "businesses", "products", "orders", "people", "other"];
 const GROUPS_ASKED = ["help", "smart", "pages", "businesses", "products", "orders", "people", "other"];
-const KIND_ICON = { coin_order: Coins, chat: MessageCircle, app_error: Bug, alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
+const KIND_ICON = { coin_order: Coins, chat: MessageCircle, app_error: Bug, alert: BellRing, help: LifeBuoy, tip: Wrench, week: CalendarRange, product: Package, order: ReceiptText, stay: BedDouble, room: BedDouble, person: UserRound, event: Ticket, note: StickyNote, book: BookOpen, qr: QrCode, page: FileText, business: Store, tab: ArrowUpRight, app: LayoutGrid, recent: Clock };
 const ADMIN_GROUPS = ["smart", "pages", "help", "people", "businesses", "orders", "other"];
 const ADMIN_GROUPS_ASKED = ["help", "smart", "pages", "people", "businesses", "orders", "other"];
 const NONE = [];
@@ -181,7 +181,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
     setToastText(text);
     if (text) toastTimer.current = setTimeout(() => setToastText(""), ms);
   };
-  const [confirm, setConfirm] = useState(null); // { id, a, title } — a quick action waiting for Yes / No
+  const [confirm, setConfirm] = useState(null); // { id, a, title } or { id: "all", list: [{ a, title }] } — waiting for Yes / No
   const [acting, setActing] = useState(false);
   const [again, setAgain] = useState(0); // ask the server again (after an action)
   const [listening, setListening] = useState(false);
@@ -203,9 +203,11 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
   // ("#12 paid" looks for "#12" — the words that say what to do are not searched)
   useEffect(() => {
     const term = q.trim();
-    const lookFor = verbOf(term)?.rest || term;
+    const c = isQuestion(term) ? null : commandOf(term);
+    const lookFor = c ? c.rest : term;
     setActive(0);
-    if (term.length < 2 && !/^#?\d+$/.test(term)) {
+    setConfirm(null);
+    if (lookFor.length < 2 && !/^#?\d+$/.test(lookFor)) {
       setApi({ q: term, results: [], smart: [], fuzzy: false });
       setBusy(false);
       setTyping(false);
@@ -232,8 +234,16 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
 
   const term = q.trim();
   const ws = words(term);
-  const asBiz = (b) => ({ group: "businesses", kind: "business", id: b._id, business_id: b._id, business: b.name, category: b.category, title: b.name, sub: bizTypeName(b.category, lang), shared: b.shared, logo: b.photo || b.logo_url });
-  const businesses = useMemo(() => (ws.length ? list.filter((b) => ws.every((w) => hit(w, `${b.name} ${bizTypeName(b.category, "en")} ${bizTypeName(b.category, "km")}`.toLowerCase()))).slice(0, 6) : []), [list, term]); // eslint-disable-line react-hooks/exhaustive-deps
+  // what Bizi is asked to do ("price coke 1.5"): the rest is what to look for
+  const cmd = useMemo(() => (admin || isQuestion(term) ? null : commandOf(term)), [term, admin]);
+  const cws = cmd ? words(cmd.rest) : ws;
+  const asBiz = (b) => ({ group: "businesses", kind: "business", id: b._id, business_id: b._id, business: b.name, category: b.category, title: b.name, sub: bizTypeName(b.category, lang), shared: b.shared, role: b.shared ? b.role || "view" : "owner", logo: b.photo || b.logo_url });
+  const businesses = useMemo(() => {
+    const named = (b) => cws.every((w) => hit(w, `${b.name} ${bizTypeName(b.category, "en")} ${bizTypeName(b.category, "km")}`.toLowerCase()));
+    // "close", "publish": every business it can be for (or the one named)
+    if (cmd && BIZ_KINDS[cmd.key]) return list.filter((b) => BIZ_KINDS[cmd.key].includes(b.category) && (!cws.length || named(b) || cws.every((w) => hit(w, "store shop website site ហាង គេហទំព័រ"))));
+    return cws.length ? list.filter(named).slice(0, 6) : [];
+  }, [list, term, cmd]); // eslint-disable-line react-hooks/exhaustive-deps
   const pages = useMemo(() => (admin ? findAdminPages(term, lang) : findPages(list, term, lang)), [list, term, lang, admin]);
   // two actions anyone may want from the box
   const actions = useMemo(() => {
@@ -308,31 +318,59 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
     }
   };
   useEffect(() => () => rec.current?.abort?.(), []);
-  // quick actions: what "#12 paid" asks for, and the actions of each result
-  const verb = useMemo(() => verbOf(term), [term]);
-  const primaryOf = (it) => (verb ? actionsOf(it).find((a) => a.key === verb.key) : null);
-  const titleOf = (it) => it.title;
-  const runAsk = () => {
+  // Bizi commands: what each result can do (and what "#12 paid" / "price coke 1.5" asks for)
+  const actsOf = (it) => (admin ? [] : it.kind === "business" ? bizActionsOf(it, cmd) : actionsOf(it, cmd));
+  const primaryOf = (it) => (cmd ? actsOf(it).find((a) => matches(a, cmd)) : null);
+  const titleOf = (it) => (it.kind === "room" ? it.title : [it.title, it.business && it.kind !== "business" ? `(${it.business})` : ""].filter(Boolean).join(" "));
+  const valueOf = (a, it) => (a.v === undefined ? "" : a.cur || a.key === "price" ? money(a.v, a.cur || it?.cur) : String(a.v));
+  const fill = (text, a, it) =>
+    String(text || "")
+      .replace("{t}", it.title)
+      .replace("{v}", valueOf(a, it))
+      .replace("{d}", it.leave ? [it.leave.from, it.leave.to].filter((d, i, all) => all.indexOf(d) === i).join(" → ") : "");
+  const askOf = (a, it) => fill(x.actAsk[a.key], a, it);
+  // the same command for several things at once ("coke sold out" in 3 shops)
+  const targets = useMemo(() => {
+    if (!cmd) return [];
+    const seen = new Set();
+    return rows.map((it) => ({ it, a: primaryOf(it) })).filter(({ it, a }) => a && !seen.has(`${it.kind}:${it.id}`) && seen.add(`${it.kind}:${it.id}`));
+  }, [rows, cmd]); // eslint-disable-line react-hooks/exhaustive-deps
+  const errOf = (e) => e?.response?.data?.message || e?.message || "Error";
+  const runAsk = async () => {
     if (!confirm || acting) return;
     setActing(true);
-    searchService
-      .act(confirm.a)
-      .then(() => {
-        setToast(x.actOk[confirm.a.key].replace("{t}", confirm.title));
-        setConfirm(null);
-        setAgain((n) => n + 1);
-        onBriefChange?.();
-      })
-      .catch((e) => {
-        setToast(e.message || "Error");
-        setConfirm(null);
-      })
-      .finally(() => setActing(false));
+    try {
+      if (confirm.id === "all") {
+        let ok = 0;
+        const errs = [];
+        for (const { a, it } of confirm.list) {
+          try {
+            await searchService.act(a);
+            ok += 1;
+          } catch (e) {
+            errs.push(`${titleOf(it)}: ${errOf(e)}`);
+          }
+        }
+        const n = confirm.list.length;
+        setToast(errs.length ? x.actAllSome.replace("{ok}", ok).replace("{n}", n).replace("{err}", errs.join(" · ")) : x.actAllOk.replace("{ok}", ok).replace("{n}", n), errs.length ? 8000 : 3500);
+      } else {
+        await searchService.act(confirm.a);
+        setToast(fill(x.actOk[confirm.a.key], confirm.a, confirm.it));
+      }
+      setAgain((n) => n + 1);
+      onBriefChange?.();
+    } catch (e) {
+      setToast(errOf(e), 6000);
+    } finally {
+      setConfirm(null);
+      setActing(false);
+    }
   };
+  const askAll = () => setConfirm({ id: "all", list: targets.map(({ it, a }) => ({ it, a })) });
   const go = (it) => {
     const primary = primaryOf(it);
     if (primary) {
-      setConfirm({ id: `${it.group}:${it.id}`, a: primary, title: titleOf(it) });
+      setConfirm({ id: `${it.group}:${it.id}`, a: primary, it });
       return;
     }
     if (it.kind === "help" || it.kind === "tip" || it.kind === "week") {
@@ -474,6 +512,30 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
             </div>
           )}
           {term && !waiting && api.fuzzy && api.q === term && <p className="bizi-note fuzzy">{x.fuzzy.replace("{q}", term)}</p>}
+          {targets.length >= 2 && (
+            <div className={`bizi-acts bizi-all${confirm?.id === "all" ? " asking" : ""}`} data-testid="bizi-all">
+              {confirm?.id === "all" ? (
+                <>
+                  <span role="alert">
+                    {x.actAllAsk
+                      .replace("{act}", fill(x.act[confirm.list[0].a.key], confirm.list[0].a, confirm.list[0].it))
+                      .replace("{n}", confirm.list.length)
+                      .replace("{list}", confirm.list.slice(0, 4).map(({ it }) => titleOf(it)).join(", ") + (confirm.list.length > 4 ? "…" : ""))}
+                  </span>
+                  <button type="button" className="bizi-act yes" onClick={runAsk} disabled={acting} data-testid="bizi-yes">
+                    {x.yes}
+                  </button>
+                  <button type="button" className="bizi-act" onClick={() => setConfirm(null)} data-testid="bizi-no">
+                    {x.no}
+                  </button>
+                </>
+              ) : (
+                <button type="button" className="bizi-act primary" onClick={askAll} data-testid="bizi-act-all">
+                  {fill(x.act[targets[0].a.key], targets[0].a, targets[0].it)} · {x.actAll.replace("{n}", targets.length)}
+                </button>
+              )}
+            </div>
+          )}
           {rows.map((it, i) => {
             const head = it.group !== lastGroup ? headOf(it.group) : null;
             lastGroup = it.group;
@@ -518,11 +580,11 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
                     </kbd>
                   )}
                 </Link>
-                {actionsOf(it).length > 0 && (
+                {actsOf(it).length > 0 && (
                   <div className={`bizi-acts${confirm?.id === `${it.group}:${it.id}` ? " asking" : ""}`}>
                     {confirm?.id === `${it.group}:${it.id}` ? (
                       <>
-                        <span role="alert">{x.actAsk[confirm.a.key].replace("{t}", confirm.title)}</span>
+                        <span role="alert">{askOf(confirm.a, confirm.it)}</span>
                         <button type="button" className="bizi-act yes" onClick={runAsk} disabled={acting} data-testid="bizi-yes">
                           {x.yes}
                         </button>
@@ -531,9 +593,9 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
                         </button>
                       </>
                     ) : (
-                      actionsOf(it).map((a) => (
-                        <button key={a.key} type="button" className={`bizi-act${primaryOf(it)?.key === a.key ? " primary" : ""}`} onClick={() => setConfirm({ id: `${it.group}:${it.id}`, a, title: titleOf(it) })} data-testid={`bizi-act-${a.key}`}>
-                          {x.act[a.key]}
+                      actsOf(it).map((a) => (
+                        <button key={a.key} type="button" className={`bizi-act${primaryOf(it)?.key === a.key ? " primary" : ""}`} onClick={() => setConfirm({ id: `${it.group}:${it.id}`, a, it })} data-testid={`bizi-act-${a.key}`}>
+                          {fill(x.act[a.key], a, it)}
                         </button>
                       ))
                     )}
@@ -547,6 +609,7 @@ export default function BiziSearch({ onClose, brief, onBriefChange, admin = fals
               </div>
             );
           })}
+          {cmd && !waiting && api.q === term && rows.length > 0 && targets.length === 0 && <p className="bizi-note">{x.actNone}</p>}
           {term && waiting && <p className="bizi-note busy">{x.busy}</p>}
           {term && !waiting && offline && <p className="bizi-note">{x.offline}</p>}
           {term && !waiting && !offline && rows.length === 0 && (
